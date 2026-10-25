@@ -32,5 +32,6 @@ art/
   manifest.json
   brief/style-lock/   # approved golden references — PNG masters local-only (gitignored), notes.md tracked
   source/             # layered originals + licence snapshots (gitignored)
-  final/              # delivered PNGs/WebP, named by neutral ID
+  enemy/ hero/ tile/ site/ card_motif/ city_plate/ key_art/
+                      # accepted PNG/WebP masters, named by neutral ID
 ```

@@ -10,7 +10,7 @@
 2. **Feed references forward.** ChatGPT and Grok Imagine accept the locked images as style/character references — attach 1–3 of them to every later prompt. Paste the prompt first, then attach references with a line like: *"Match the attached art style, palette and rendering."*
 3. **No negative-prompt field?** Most chat-style image tools ignore separate negatives. Every slot below includes the global **Avoid** list inline — keep it in the same message, after the prompt.
 4. **Aspect ratio:** set it in the tool UI to the slot's `aspect` (square, portrait, landscape, 16:9). Do not let the tool crop heroes/enemies to landscape.
-5. **Save as:** `art/final/<category>/<id>@2x.png` (see `export_hint`), then update `art/manifest.json` (`status: final`, `art_ref`).
+5. **Save as:** `art/<category>/<neutral_id>@2x.png` (use the slot's `export_hint`), then update `art/manifest.json` (`status: final`, `art_ref`).
 6. **Do not AI-generate** the logo slot; use typography/vector instead.
 7. **Never** paste official Mage Knight art as a reference or mention its name/official card names/artists in prompts.
 8. **Consistency repair:** if a piece drifts, re-attach the style-lock images and add: *"same palette, same brushwork, same light direction as the attached references."*
@@ -584,7 +584,7 @@ DO NOT GENERATE THIS SLOT WITH AN IMAGE MODEL. This is a wordmark, not an illust
 2. Remove background where the slot needs transparency (enemies, sites, motifs) — `rembg` or the tool's built-in cutout.
 3. Upscale to the target `size_px` (Real-ESRGAN or the tool's upscaler).
 4. Palette-grade toward the nine-colour palette in `15-retheme-bible.md` §8.
-5. Save to `art/final/<category>/<id>@2x.png` + a ≤512 px WebP.
+5. Save to `art/<category>/<neutral_id>@2x.png` (per `export_hint`) + a ≤512 px WebP.
 6. Update `art/manifest.json` (`status: final`, `art_ref`, note the tool/seed if offered).
 7. Silhouette test before accepting: recognizable in solid black at 48–96 px.
 

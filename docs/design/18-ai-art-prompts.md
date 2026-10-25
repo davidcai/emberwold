@@ -685,7 +685,7 @@ not this file's lane; see §9.1).
 | Style reference | `art/brief/style-lock/token_gutterkin.png` |
 | Licence checked | OpenAI terms, URL, 2026-10-25 |
 | Post | inpaint tail; rembg BiRefNet; Real-ESRGAN ×2; grade LUT `emberwold_v1` |
-| Final | `art/final/enemy/wyrmspawn_cinder@2x.png` (sha256 …) |
+| Final | `art/enemy/wyrmspawn_cinder@2x.png` (sha256 …) |
 | Reviewer / date | owner / 2026-10-25 |
 
 ---
@@ -700,7 +700,7 @@ additive fields once art starts landing:
 | Field | Values | Purpose |
 |---|---|---|
 | `status` | `placeholder` → `wip` → `review` → `final` / `rejected` | Production state (already exists) |
-| `art_ref` | `art/final/<category>/<neutral_id>@2x.png` | Content-pack reference; data-only swap |
+| `art_ref` | `art/<category>/<neutral_id>@2x.png` | Content-pack reference; data-only swap |
 | `source` | `AI-generated (<tool>, <model version>, <date>) — edited by owner` | Credits/disclosure |
 | `ai_tool` / `ai_model` | e.g. `ChatGPT desktop app`, model version if shown | Reproducibility |
 | `ai_prompt_ref` | `art/prompts.json#enemy_slot_05` | Traceability |
@@ -726,7 +726,8 @@ art/
   brief/style-lock/     golden reference images + approval notes (gitignore if large)
   brief/licences/       licence snapshots (name, URL, date, PDF/text)
   source/               working files, layered masters, per-piece generation sets (gitignored)
-  final/                accepted masters, neutral-ID names (commit small; LFS if >50 MB)
+  enemy/ hero/ tile/ site/ card_motif/ city_plate/ key_art/ branding/
+                        # accepted masters, neutral-ID names (commit small; LFS if >50 MB)
   manifest.json         slot state
   prompts.json          this pack's machine-readable prompts
 ```
