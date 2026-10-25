@@ -197,23 +197,27 @@ copy below is the same text (hard-wrapped for reading). Prepend it in tools that
 style field or long prompts.
 
 ```text
-Matte painterly dark folk-fantasy illustration for a hex-and-card board game. A weary,
-mended, hand-made world: patched leather, old iron, charcoal, ember-light; nothing glossy,
-plastic, sci-fi or high-fantasy ornate. Painterly, with visible dry-brush and scumble
-texture, restrained detail, strong value structure: dark ground, mid-value subject, one
-ember-bright accent (about three values per small piece). Silhouette-first: the subject
-reads as a black shape at thumbnail size. A single dominant key light — warm ember
-(#E0662E) for ember/day pieces, or cool gloam (#5B4B8A with #DCE6E8) for gloam/night pieces
-— never both at equal strength. Strict palette: soot #17120F, charcoal #2A221C, bone
-#E7DCC6, ember #E0662E, rime #4FA8B8, root #6E8F4E, gale #DCE6E8, gold #E3B341, gloam
-#5B4B8A. No text, no letters, no numbers, no logo, no signature, no watermark, no border,
-no frame, no UI, no baked hex grid.
+Stylized 2D fantasy illustration for a hex-and-card board game. Hand-inked line art:
+confident warm-umber outlines (#312523) of varying weight that clearly describe every
+shape, with clean interior linework for folds and gear. Smooth cel shading: flat
+mid-tone fills, soft airbrushed transitions in the shadows, one clean highlight per
+form; matte finish, no rendered texture, no gloss, no photographic detail. Stylized
+storybook proportions: oversized expressive head, compact torso, slightly oversized
+hands and feet, rounded appealing silhouette. Muted earthy palette: moss and olive
+greens (#7D8B50, highlights #C4D553), dusty rust and oxblood (#9C5A4E, #7C4B48), ochre
+and dull brass (#AD9A70), worn leather browns (#645146, #7B5749), parchment off-whites
+(#E9E5D9, #E1DFD6); low saturation, no pure black, no neon. Soft, even daylight from the
+upper front with gentle contact shadows; no dramatic chiaroscuro, no coloured rim light.
+Cozy-gritty storybook-adventure mood; clean readable shapes with modest detail that
+survives at 48–96 px. No text, no letters, no numbers, no logo, no signature, no
+watermark, no border, no frame, no UI, no baked hex grid.
 ```
 
-Why these clauses: the palette hexes come from `15` §8 / `16` §2; **"single warm or cool key
-light, never both equally"** is what makes the Ember/Gloam cycle read; **"silhouette-first"**
-and **"three values"** are what keep 48–96 px tokens and card thumbnails legible;
-**"no text/logo/frame"** is non-negotiable because the engine draws all type and frames.
+Why these clauses: the palette hexes are mapped from `15` §8 / `16` §2 (the nine-colour canon
+stays; only the rendering changes); **warm vs cool temperature** keeps the Ember/Gloam cycle
+readable; **ink outlines and flat mid-tones** keep 48–96 px tokens and card thumbnails legible
+in the new style; **"no text/logo/frame"** is non-negotiable because the engine draws all type
+and frames.
 
 ### 3.2 Global negative prompt (canonical text)
 
@@ -224,14 +228,14 @@ the removal in post.
 ```text
 text, letters, words, numbers, captions, typography, watermark, signature, artist name,
 logo, lettered emblem, border, frame, card frame, UI, HUD, interface, buttons, hex grid,
-grid lines, grid overlay, map labels, arrows, annotations, photorealistic, photograph, 3D
-render, CGI, octane render, ray tracing, plastic, glossy, chrome, neon, oversaturated, HDR
-glow, lens flare, bloom, heavy bokeh, motion blur, low contrast, muddy values, flat gray
-lighting, cartoon, anime, manga, chibi, cute, comic book, cel shading, thick outlines,
-sketch, unfinished, concept sketch lines, extra limbs, extra arms, extra fingers, fused
-fingers, deformed hands, malformed hands, duplicate subject, multiple heads, floating
-objects, cluttered background, white background, studio backdrop, official game art, fan
-art, photobash
+grid lines, grid overlay, map labels, arrows, annotations, photorealistic, photograph,
+3D render, CGI, octane render, ray tracing, plastic, glossy, chrome, metallic shine,
+neon, oversaturated, HDR glow, lens flare, bloom, heavy bokeh, motion blur, oil
+painting, impasto, dry-brush texture, canvas texture, painterly, dramatic chiaroscuro,
+low contrast, muddy values, flat gray lighting, sketch, unfinished, concept sketch
+lines, extra limbs, extra arms, extra fingers, fused fingers, deformed hands, malformed
+hands, duplicate subject, multiple heads, floating objects, cluttered background, white
+background, studio backdrop, official game art, fan art, photobash
 ```
 
 Per-slot `negative` entries in `prompts.json` are **additions** to append to the global list
@@ -248,10 +252,10 @@ this order. The order matters: models weight early tokens more heavily.
 | 1. Subject | Who/what, with the family/character signature | "a Gutterkin skirmisher — squat, bandy-legged scavenger kin, scavenged plate lashed on with rope over torn ember-red rags" |
 | 2. Pose & framing | Camera, orientation, fill, crop safety | "full-body, three-quarter view facing slightly left, weapon and feet well inside frame; centred on a flat untextured mid-grey backdrop, subject filling about 80 % of the frame" |
 | 3. Environment / ground | What is behind the subject (or explicitly none) | tokens: "no scenery, no cast shadow"; tiles: "the outer edges darken and fade into heath" |
-| 4. Light | Exactly one dominant key, direction, colour | "single warm ember key light from front-left" / "dominant cool gloam key light from the upper left" |
+| 4. Light | Soft, even direction + warm/cool temperature | "soft, even warm light from front-left" / "soft, even cool light from the upper left" |
 | 5. Palette | Role names + hex codes for this piece | "ember-orange #E0662E rag accents, bone #E7DCC6 teeth highlights, soot-black #17120F shadow core" |
-| 6. Composition | Silhouette, value structure, focal point, UI safe zones | "silhouette-first, three-value contrast, clean strong outer contour, upper third kept dark for UI" |
-| 7. Technical & exclusions | Medium, texture, no text/logo/frame | "matte painterly dark folk-fantasy, dry-brush texture, restrained detail; no text, no letters, no watermark, no logo, no border, no frame" |
+| 6. Composition | Silhouette, flat mid-tones, focal point, UI safe zones | "silhouette-first, flat mid-tones, clean ink contour, upper third kept quiet for UI" |
+| 7. Technical & exclusions | Medium, linework, no text/logo/frame | "stylized 2D illustration, warm ink linework, smooth cel shading, modest detail; no text, no letters, no watermark, no logo, no border, no frame" |
 
 Two category-specific beats override the defaults: **tokens** replace environment with a
 flat backdrop for cut-out and add the "80 % fill / clean contour" rule; **tiles** replace
@@ -274,8 +278,9 @@ the central 80 %".
    motifs (flame-in-ring, crescent, spiral, tally notches) — never letterforms, runes or
    heraldic letters. Models will invent pseudo-text if allowed, so check at 100 % and paint
    it out.
-6. **One piece, one key light.** If a result has two equally strong warm/cool sources, reroll
-   or relight; it breaks the Ember/Gloam read.
+6. **One piece, one temperature.** Soft, even light with a single warm (ember-day) or cool
+   (gloam-night) temperature; if hard chiaroscuro or competing sources appear, reroll or
+   soften — it breaks the Ember/Gloam read.
 7. **Hex codes are intent, not output.** Grade to the palette afterwards (§4.5); do not
    reject a good composition only because #E0662E came out as #D96A31.
 8. **No "no text" in positive prompts for SD.** In SD-style tools those words go in the
@@ -344,7 +349,7 @@ Phase 6  review     acceptance checklist -> manifest update -> content-pack art_
 | Seed | A seed **family**: e.g. hero A = 100001–100020, enemies = 200001–200020, tiles = 300001–300002 | Reproducibility and family resemblance |
 | Style reference | Golden-set image(s) via `--sref` / IP-Adapter / reference-only ControlNet | The strongest consistency lever |
 | Prompt skeleton | `style_block` + the same seven beats + the same no-text tail | Style drift usually starts in wording drift |
-| Negative | Global negative + category additions, unchanged | Prevents photography/3D/cartoon drift |
+| Negative | Global negative + category additions, unchanged | Prevents photography, 3D and painterly drift |
 | Palette | Same palette hex list in every prompt | Keeps the grade honest |
 
 ### 4.4 Phase 4 — the three-round loop
@@ -596,7 +601,8 @@ is the `motif_07_renown` slot.
 - [ ] Reads at target size: tokens 48/96 px, cards 96 px tall thumb, sites 128 px, tiles full map.
 - [ ] Silhouette test: recognisable as a pure black shape on white.
 - [ ] Palette fits the nine colours; element pieces have a non-colour cue (shape/glyph).
-- [ ] One dominant key light; Ember/Gloam read is correct for the piece.
+- [ ] Warm ink linework and smooth cel shading present and consistent with the style block.
+- [ ] Soft, even lighting; Ember/Gloam read is correct for the piece.
 - [ ] No text, letters, numbers, logos, signatures, watermarks or embedded UI.
 - [ ] No baked hex grid / labels / site icons on map tiles.
 - [ ] Transparent assets have clean edges and no halos on dark **and** light backgrounds.
@@ -611,17 +617,18 @@ is the `motif_07_renown` slot.
 |---|---|---|
 | **Gibberish text / letter-like marks** on banners, shields, sigils, carvings | Squint test; zoom 100 %; run OCR or just eyeball | Ratchet up "no text, no letters, no numbers" + negative list; inpaint/erase the marks; prefer abstract shapes; never let the model decide typography. The `logo` slot is exempt-by-route (no AI). |
 | **Extra/fused fingers, hands, limbs** | Count them; look at silhouettes | Generate more candidates (cheap), inpaint the hand with a new hand, or design around hands (armour, wraps, gloves, small token scale). Hero/motif hands are the worst — budget extra attempts. |
-| **Muddy, low-contrast values** | Greyscale view is flat grey | Add "strong value contrast, dark ground, mid-value subject, one ember-bright accent"; reduce "moody/dark" adjectives; grade; if still flat, regenerate — don't fake contrast with a filter. |
+| **Muddy, low-contrast values** | Greyscale view is flat grey | Add "clear flat value structure, dark ground, mid-value subject, one ember-bright accent"; reduce "moody/dark" adjectives; grade; if still flat, regenerate — don't fake contrast with a filter. |
 | **Style drift across slots** | Contact sheet vs golden set | Same checkpoint/version, same style block, style reference, seed families, same negative; reject the outlier; re-run the sheet. |
 | **Tile edge seams / bright rims** | 3-tile adjacency test | Fade/darken edges in post, 2–4 % hex bleed, avoid subject matter touching edges except roads; never a border line. |
 | **Token unreadable at 48 px** | Black-silhouette test at 48 px | Simplify (fewer props, thicker weapon/limbs, closer pose), raise subject fill, remove thin spikes, increase contrast, re-generate; small pieces need *less* detail. |
 | **Halo/fringe after cut-out** | Check alpha on dark and light comps | Generate on mid-grey, not white; use a better matte model (BiRefNet); defringe/contract alpha 1 px; add transparent padding. |
 | **Palette drift** (teal-orange, neon violet, glossy HDR) | Sample the image; compare to swatches | Put the nine hexes in the prompt, add negative "neon, oversaturated, HDR, glossy"; apply the shared grade; avoid "vibrant/cinematic colour grading" words. |
-| **Over-detailed noisy pieces** | Busy at thumbnail size | "Restrained detail"; fewer props; lower resolution/steps for exploration; crop; simplify in post. |
+| **Over-detailed noisy pieces** | Busy at thumbnail size | "Clean simplified detail"; fewer props; lower resolution/steps for exploration; crop; simplify in post. |
 | **Duplicate subjects / split compositions** | Two heroes side by side, mirrored copies | "single subject, centred"; reroll; crop to the better half; avoid prompts that imply multiples ("twins", "group"). |
 | **Wrong perspective on tiles** | Horizon or isometric walls appear | "Top-down, orthographic map view"; negative "isometric, perspective, horizon, building elevation"; reroll. |
 | **Accidental IP imitation** (dragon, helm, armour silhouette, emblem) | Looks familiar; check against known designs | Change the silhouette elements (horn arrangement, wing posture, helm shape, glyph); regenerate; never use official art for reference. |
-| **Two equal key lights** | Both edges rim-lit warm and cool | Force one key in the prompt; relight/grade the cooler source down; reject stage-light looks. |
+| **Dramatic / chiaroscuro lighting** | Hard black shadows, glowing rims, stage-light look | "soft, even daylight from the upper front; no dramatic chiaroscuro, no coloured rim light"; regenerate; keep shadows gentle. |
+| **Painterly or rendered drift** | Brush texture, impasto or 3D gloss appears | Re-prompt with ink linework + flat cel shading; negative "painterly, impasto, 3D render, glossy". |
 | **Letter-like runes** on Shardspire/wight/Sigil pieces | Marks look like a script | "Abstract shapes only, not letters, not readable runes"; negative "runes"; paint them into abstract scratches. |
 | **Upscaler hallucinations** (new rivets, fingers, faces) | 100 % zoom after upscale | Use a conservative upscaler; compare to the pre-upscale; inpaint bad patches; keep the original. |
 | **Baked UI/card frame/hex grid** | Baked borders, panels, labels | Re-prompt with the no-frame/no-UI language; crop; rebuild the asset from the clean area. |
@@ -635,8 +642,8 @@ is the `motif_07_renown` slot.
 1. **Black test:** flatten to pure black, place on white, view at 48 px and 96 px
    (tokens), 96 px (motifs), 128 px (sites), full map (tiles). If it's unrecognisable,
    simplify.
-2. **Greyscale test:** the value structure must hold without colour (dark ground / mid
-   subject / one bright accent). If it collapses, fix values, not hue.
+2. **Greyscale test:** the value structure must hold without colour (flat mid-tones / dark ink
+   contours / one bright accent). If it collapses, fix values, not hue.
 3. **Stranger test:** put it next to the golden set and the other members of its family and
    ask "same game?" A beautiful image that looks like a different game is a failure.
 

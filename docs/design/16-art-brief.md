@@ -44,19 +44,21 @@ small and repeatable. Full MKUE later needs ≈ 150–250 (see `07`).
 
 ## 2. Art direction
 
-**Style:** painterly but disciplined — matte surfaces, visible brush texture, strong value
-contrast, restrained detail. Readable first, beautiful second. Not photoreal, not cartoon, not
-"mobile game glossy".
+**Style:** stylized 2D illustration — warm ink linework, smooth cel shading, flat mid-tones,
+clean readable shapes. A cozy-gritty storybook-adventure look: hand-made gear, mended
+materials, matte finish, no rendered texture or photographic detail. Readable first, beautiful
+second. Not photoreal, not glossy 3D.
 
 **Mood words:** mended, soot, ember, old iron, cold moonlight, quiet dread, stubborn hope.
 
 **Composition rules**
 - **Silhouette-first.** Every enemy/token must be identifiable as a black shape at 48 px.
 - **One focal point**, centred or rule-of-thirds; tokens need a clear centre for the token ring.
-- **Value structure:** dark ground, mid subject, one ember-bright accent. No more than ~3
-  values per small piece.
-- **Lighting:** single warm key (ember) or single cool key (gloam) per piece — never both
-  equally; the day/night cycle reads through light, not hue alone.
+- **Value structure:** flat mid-tone fills with soft shadow transitions; dark ink contours carry
+  the shape; one ember-bright accent per piece. No more than ~3 values per small piece.
+- **Lighting:** soft, even light from the upper front with gentle contact shadows; warm ember
+  temperature for day pieces, cool gloam for night pieces; no dramatic chiaroscuro, no coloured
+  rim lights.
 - **No text, no logos, no UI** inside illustrations. Text is overlaid by the engine.
 - **No existing game's art, creatures-as-copied, or trademarked silhouettes.** Wyrmspawn are
   horned reptiles in *our* world; they must not be drawn as any known game's dragon design.
@@ -79,8 +81,8 @@ Element colours must be paired with a **glyph/shape** in UI (colour-blind safety
 distinct in greyscale.
 
 **References to brief the illustrator** (mood only, never copy): mended-medieval material
-culture; chiaroscuro painting; modern board-game card art where the frame does the ornament
-and the illustration does the story.
+culture; hand-inked storybook and indie tabletop illustration; modern board-game card art
+where the frame does the ornament and the illustration does the story.
 
 ## 3. Deliverables and technical specs
 
@@ -189,8 +191,8 @@ later without hurting the demo.
 1. Budget tier: pilot only, or commit to Balanced after the pilot? *(Owner call; ADR-005 P2.)*
 2. Do we want a distinct UI designer for frames/panels (recommended) or fold it into the
    illustrator's scope?
-3. Portrait style: painterly realism vs. stylised graphic — pick after the pilot's 2
-   sketches.
+3. Portrait style: **resolved — stylized graphic** (v2 direction, 2026-10-25); the first
+   pilot pieces confirm the line weight.
 4. Do we ship art in-repo (small) or via LFS/asset bundle (recommended once > 50 MB)?
 
 ## Sources

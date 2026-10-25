@@ -178,6 +178,8 @@ Specific enemy names are authored per unit in the content pack (e.g. "Gutterkin 
 
 ## 8. Visual identity (feeds `16-art-brief.md`)
 
+* **Rendering (v2, 2026-10-25):** stylized hand-inked linework with smooth cel shading and
+  flat mid-tones; the colour canon below is unchanged.
 * **Materials:** mended leather, brass, charcoal, ember-light. Nothing glossy or sci-fi.
 * **Palette:** soot-black/near-black backgrounds; parchment/bone for card faces; ember orange
   `#E0662E`, rime cyan `#4FA8B8`, root green `#6E8F4E`, gale pale `#DCE6E8`, gold `#E3B341`,
