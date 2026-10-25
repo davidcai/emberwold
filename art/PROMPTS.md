@@ -6,7 +6,7 @@
 
 ## How to use this in the ChatGPT desktop app or Grok Imagine
 
-1. **Style-lock first (4 images):** `hero_emberdrinker`, `enemy_slot_01`, `motif_01_stride`, `tile_countryside_1`. Expect 3–5 rounds each. These 4 become your reference set.
+1. **Style-lock first (4 images):** `hero_emberdrinker`, `enemy_slot_06` (owner pick — rime palette), `motif_01_stride`, `tile_countryside_1`. Expect 3–5 rounds each. These 4 become your reference set.
 2. **Feed references forward.** ChatGPT and Grok Imagine accept the locked images as style/character references — attach 1–3 of them to every later prompt. Paste the prompt first, then attach references with a line like: *"Match the attached art style, palette and rendering."*
 3. **No negative-prompt field?** Most chat-style image tools ignore separate negatives. Every slot below includes the global **Avoid** list inline — keep it in the same message, after the prompt.
 4. **Aspect ratio:** set it in the tool UI to the slot's `aspect` (square, portrait, landscape, 16:9). Do not let the tool crop heroes/enemies to landscape.

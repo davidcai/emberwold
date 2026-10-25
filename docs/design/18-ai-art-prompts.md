@@ -266,13 +266,14 @@ Phase 6  review     acceptance checklist -> manifest update -> content-pack art_
 ### 4.1 Phase 1 — style lock (do this before batching anything)
 
 1. Generate **one of each**: a hero bust (`hero_emberdrinker`), an enemy token
-   (`enemy_slot_01`), a card motif (`motif_01_stride`) and a tile (`tile_countryside_1`).
+   (`enemy_slot_06` — the owner's pick for its rime palette), a card motif
+   (`motif_01_stride`) and a tile (`tile_countryside_1`).
 2. Generate **8–12 variants each** at low cost/resolution. Keep them.
 3. Review against `16` §6 and §7 of this doc: silhouette, palette, value structure, no
    text, no accidental IP, readable at target size.
 4. Pick 3–5 winners as the **golden set** → save to `art/brief/style-lock/` with a short
-   note: tool, model, prompt version, date. Keep oversized originals in `art/source/`
-   (gitignored).
+   note: tool, model, prompt version, date. PNG masters are gitignored (local-only); keep the
+   note tracked.
 5. From now on, every generation should be compared side-by-side with the golden set. If a
    candidate looks like a different game, reject it — even if it is beautiful.
 

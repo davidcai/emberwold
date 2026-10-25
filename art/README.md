@@ -30,7 +30,7 @@ This folder holds the **art production manifest**, not the art itself.
 ```
 art/
   manifest.json
-  brief/style-lock/   # approved golden reference images (regenerate for v2)
+  brief/style-lock/   # approved golden references — PNG masters local-only (gitignored), notes.md tracked
   source/             # layered originals + licence snapshots (gitignored)
   final/              # delivered PNGs/WebP, named by neutral ID
 ```

@@ -69,3 +69,8 @@ reference/
 *.log
 # Art production: layered originals are large; manifest + web finals are committed
 art/source/
+
+# Local-only style-lock reference images (large; tracked note in the same folder)
+art/brief/style-lock/*.png
+art/brief/style-lock/*.webp
+art/brief/style-lock/*.jpg
