@@ -61,9 +61,9 @@ original **name, world, terminology, card text, art and visual identity**.
 
 ---
 
-## ADR-003 — Targets: web first; desktop later — **stack choice open (recommendation below)**
+## ADR-003 — Targets: web first; desktop later — **accepted: web-native stack**
 
-**Date:** 2026-10-24 · **Status:** **proposed — awaiting owner confirmation**
+**Date:** 2026-10-24 · **Status:** **accepted (2026-10-24)** — see the decision at the end of this ADR and `17-platform-analysis.md`
 
 **Context.** Owner wants: web first, and a possible later desktop build "converted to
 Godot". That combination has a hidden trap: **it implies building the game twice** — once in
@@ -115,8 +115,24 @@ stack for v1 on the assumption of web-only delivery.
   milestone structure stays.
 - `13-ai-opponents.md` is unaffected (no opponent AI either way).
 
-**What changes if B (web-native) is chosen:** `12` stands as written; add a short Tauri
-packaging appendix when desktop is scheduled; declare Godot out of scope.
+**What changes if B (web-native) is chosen:** `12` stands, with the board layer changed from
+"PixiJS-first" to "SVG/DOM-first with a renderer interface; PixiJS as the upgrade path". Add a
+short Tauri packaging appendix when desktop is scheduled; declare Godot out of scope.
+
+### Decision taken (2026-10-24): **B — web-native**
+
+After proper analysis (`17-platform-analysis.md`), the owner's goals (web first, desktop
+later, mobile optional) are best served by a single TypeScript/React web app with an SVG/DOM
+board, packaged for desktop with **Tauri v2**. Weighted score: **4.90/5**, ahead of
+TS+Pixi/Phaser (4.65), Defold (3.85) and Godot (3.75). Key evidence: Tauri uses the system
+webview and advertises sub-600 KB minimal apps; Godot's own web-export guidance shows the
+trade-offs (COOP/COEP headers for threaded builds, single-threaded path with historical audio
+caveats, ~40 MB uncompressed / ~5 MB Brotli wasm before assets). Godot remains a good choice
+if a native-engine build becomes a goal in itself; it is **out of scope for v1**.
+
+**Consequences:** Vite + React + TypeScript monorepo (`12` §3 adjusted); Tauri added only at
+the desktop-packaging milestone; mobile stays a PWA/Capacitor question for later; no engine
+import pipeline for AI-generated art.
 
 ---
 
@@ -135,7 +151,7 @@ heroes, 20–30 minutes, tutorial, save/undo. T2 "Classic" is explicitly a later
 
 ---
 
-## ADR-005 — Art: commission early, placeholders must never block
+## ADR-005 — Art: commission early, placeholders must never block *(partly superseded by ADR-006)*
 
 **Date:** 2026-10-24 · **Status:** accepted
 
@@ -154,11 +170,44 @@ playable with programmatic/gray-box art.
 
 ---
 
+## ADR-006 — Art generation: 100% AI-generated (supersedes ADR-005's commissioning plan)
+
+**Date:** 2026-10-24 · **Status:** accepted
+
+**Decision.** All art is generated with AI image tools instead of commissioning an illustrator.
+Budget for art becomes tool subscription/compute only. Placeholder-first still applies: the
+build is fully playable with programmatic placeholders and art drops in by `art_ref`.
+
+**Consequences.**
+- Workflow, per-slot prompts, consistency method, post-processing and acceptance checks:
+  [`18-ai-art-prompts.md`](./18-ai-art-prompts.md) and [`art/prompts.json`](../../art/prompts.json).
+- `16-art-brief.md` remains the spec (style, sizes, palette, acceptance); its commissioning and
+  budget sections become a fallback if AI quality proves insufficient for a given asset.
+- Tool licences/terms must be checked per generator before any public release (some models are
+  non-commercial; terms change). Mark AI use in the project notes.
+- The logo/wordmark is **not** AI-generated: use typography/vector work instead.
+- Legal rules from ADR-002 still apply: no Mage Knight references in prompts, no official art as
+  image input, no living-artist style names.
+
+---
+
+## ADR-007 — Public naming: keep the codename internal until v1
+
+**Date:** 2026-10-24 · **Status:** accepted
+
+**Decision.** "Miniknight" (and "Emberwold") stay internal working names until v1 is playable.
+No public name screening/domain/social reservation work now.
+
+**Consequences.** No public strings, store pages or shared builds under a name; `15` §11's
+screening checklist is a pre-public-release task, not a v1 task. Files/IDs use neutral names.
+
+---
+
 ## Pending decisions
 
 | # | Decision | Needed by | Default if no answer |
 |---|---|---|---|
-| P1 | Stack: Godot vs web-native (ADR-003) | before scaffolding | **Web-native (B)** |
-| P2 | Art budget cap for the pilot | before commissioning | pilot ≤ ~$500, then reassess |
-| P3 | Public name (screen 3 candidates in `15` §3) | before any public build | keep internal codename |
+| P1 | ~~Stack: Godot vs web-native~~ | — | **Decided: web-native (ADR-003)** |
+| P2 | ~~Art budget cap~~ | — | **Decided: AI-generated art (ADR-006)** |
+| P3 | Public name (screen candidates in `15` §3) | before any public build | keep internal codename until v1 (ADR-007) |
 | P4 | Whether the game will ever be shared publicly | before release | private/portfolio only until screened |

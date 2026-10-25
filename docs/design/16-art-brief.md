@@ -3,9 +3,15 @@
 **Status:** v0.1 · **Owner:** Lead · **Decisions:** ADR-005 (commission early; placeholders
 never block), ADR-002 (original IP only), `15-retheme-bible.md` (naming/world)
 
-> **One rule:** an illustrator can start on this brief tomorrow, and engineering can finish
-> v1 even if they never deliver. Every asset exists as a named slot with a programmatic
-> placeholder; finals are a drop-in replacement.
+> **Update 2026-10-24 — ADR-006:** the owner chose **100% AI-generated art**. The primary
+> workflow and per-slot prompts are in [`18-ai-art-prompts.md`](./18-ai-art-prompts.md) +
+> [`art/prompts.json`](../../art/prompts.json). Everything below remains the **specification**
+> (style, palette, sizes, acceptance); the commissioning and budget sections (§4, §6) are kept
+> as a fallback if AI quality is insufficient for a given asset.
+
+> **One rule:** art can arrive in any order, and engineering can finish v1 even if none of it
+> arrives. Every asset exists as a named slot with a programmatic placeholder; finals are a
+> drop-in replacement.
 
 ---
 

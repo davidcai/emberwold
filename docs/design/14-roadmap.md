@@ -11,8 +11,8 @@ main failure mode (see `10` §4.1) is getting deep without ever shipping.
 
 Fixed by the owner on 2026-10-24 (see `00-decisions.md`): personal/educational hobby project;
 **clean-room re-theme** (original name, world, text, art); **web first** (desktop later —
-stack choice pending ADR-003); **First Conquest = v1**; art commissioned early but
-**placeholders never block**. These constrain the roadmap below; tier scope is unchanged.
+stack choice pending ADR-003); **First Conquest = v1**; **web-native stack** (TS/React/SVG + Tauri for desktop —
+ADR-003/`17`); art is **AI-generated** (ADR-006) but **placeholders never block**. These constrain the roadmap below; tier scope is unchanged.
 
 ## 0.1 Tiers at a glance
 

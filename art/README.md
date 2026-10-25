@@ -5,8 +5,10 @@ This folder holds the **art production manifest**, not the art itself.
 * [`manifest.json`](manifest.json) — one slot per asset for the T1 "First Conquest" build
   (41 slots; 19 P0). Every slot starts as a programmatic placeholder and gets a final
   `art_ref` only when a commissioned piece is accepted.
-* Direction, specs, palette, budgets and the commissioning process:
+* Direction, specs, palette, budgets and the commissioning process (fallback):
   [`../docs/design/16-art-brief.md`](../docs/design/16-art-brief.md)
+* **AI workflow + per-slot prompts (primary):** [`../docs/design/18-ai-art-prompts.md`](../docs/design/18-ai-art-prompts.md)
+  and [`prompts.json`](prompts.json)
 * Names, world and visual identity: [`../docs/design/15-retheme-bible.md`](../docs/design/15-retheme-bible.md)
 
 ## Rules

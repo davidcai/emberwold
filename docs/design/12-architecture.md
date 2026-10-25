@@ -8,7 +8,7 @@
 
 ## 1. Executive summary
 
-**Build Miniknight as a TypeScript monorepo with a pure, deterministic rules engine, a React shell, and a PixiJS board canvas.** Ship web-first (desktop via Tauri later). Do not build a Rust engine, Godot project, or Unity project for T1/T2.
+**Build Miniknight as a TypeScript monorepo with a pure, deterministic rules engine, a React shell, and an SVG/DOM hex board (PixiJS as an optional upgrade behind a renderer interface).** Ship web-first; package desktop with Tauri v2 later (ADR-003, `17-platform-analysis.md`). Do not build a Rust engine, Godot project, or Unity project for T1/T2.
 
 Five decisions drive everything else:
 
@@ -62,7 +62,7 @@ Scoring: ◎ strong, ○ adequate, △ weak/expensive, ✕ disqualifying for Min
 
 ### 3.2 Decision and trade-offs
 
-**Choose TS + React/Pixi.** The engine is the risk in this project, not the renderer, and TypeScript gives the cheapest possible loop for rules: edit a card definition, run one test, see the whole game in a headless trace in milliseconds. `game-data/` already ships validated JSON; the codegen/typegen step is ~2 engineer-weeks and eliminates an entire class of "content doesn't match engine" bugs.
+**Choose TS + React with an SVG/DOM board (Pixi optional).** The engine is the risk in this project, not the renderer, and TypeScript gives the cheapest possible loop for rules: edit a card definition, run one test, see the whole game in a headless trace in milliseconds. `game-data/` already ships validated JSON; the codegen/typegen step is ~2 engineer-weeks and eliminates an entire class of "content doesn't match engine" bugs.
 
 The honest cost of this choice: JS performance ceilings, GC pauses, and the need for discipline around determinism (iteration order, floating point). All three are handled by explicit rules in §5.3 and performance budgets in §11; none of them are on the critical path at Miniknight's scale (a turn is tens of actions, not thousands).
 
@@ -81,7 +81,7 @@ The honest cost of this choice: JS performance ceilings, GC pauses, and the need
 | Package manager | pnpm workspaces | matches repo conventions; fast, strict |
 | Bundler | Vite (client), tsup/esbuild (packages) | library builds emit ESM + d.ts |
 | UI | React 19 + Zustand (client-local UI state only) | game state lives in engine, not in React state |
-| Board rendering | PixiJS v8 (WebGL/WebGPU canvas) | tiles, tokens, highlights, camera; not text-heavy UI |
+| Board rendering | **SVG/DOM first** (tiles, tokens, highlights, camera via CSS transforms) | v1 scale is small; `BoardRenderer` interface allows a PixiJS v8 canvas upgrade if profiling demands it |
 | Cards/HUD | React DOM + CSS | crisp text, localization, accessibility; card art via sprite atlas |
 | Content | `game-data/` JSON → validator + typegen → frozen TS/JSON bundle | schema v1.0.0 (`game-data/schema.md`); manifest file hashes → content hash |
 | Validation | zod (schemas), dependency-cruiser (boundaries) | CI gates |
@@ -739,16 +739,16 @@ flowchart LR
 
 ## 9. Presentation architecture: hex board, cards, combat, animation
 
-### 9.1 Split: Pixi board vs DOM cards
+### 9.1 Split: SVG/DOM board vs DOM cards (Pixi optional)
 
 | Layer | Technology | Why |
 |---|---|---|
-| Map, tiles, hero/enemy tokens, highlights, movement path | PixiJS (WebGL) canvas | hundreds of sprites, camera zoom/pan, crisp at fullscreen, 60 fps; avoids SVG DOM churn |
+| Map, tiles, hero/enemy tokens, highlights, movement path | **SVG** (DOM, one node per hex/token) | v1: ~50 hexes + <40 tokens — trivial for SVG; crisp at zoom, fully accessible, CSS transitions. Swap to PixiJS behind `BoardRenderer` if profiling shows SVG churn |
 | Hand, offers, HUD, menus, combat overlay, dialogs | React DOM | text-heavy, localizable, accessible (focus/keyboard/screen readers), easy layout |
 | Card visuals | DOM element with sprite-atlas background | cards are text + art; DOM gives better text rendering and tooltips than Pixi text |
 | Animation of cards (play, discard, gain) | FLIP-style CSS transitions driven by the same cue queue as Pixi | one animation clock for both layers; DOM keeps a11y |
 
-This is the hybrid used in practice by the strongest card-game web clients; a pure-Pixi card game usually pays for it in text quality and accessibility. A pure-DOM board (SVG) is the fallback if Pixi integration slips: its worst case is framerate at full-map zoom on low-end hardware, not rules correctness. Keep `HexRenderer` behind an interface so the fallback is real.
+This is the hybrid used in practice by the strongest card-game web clients; a pure-Pixi card game usually pays for it in text quality and accessibility. The SVG board is the v1 default (ADR-003); PixiJS is the *upgrade* path if full-map zoom framerate on low-end hardware becomes a problem. Keep `BoardRenderer`/`HexRenderer` behind an interface so either can be swapped without touching rules code.
 
 ### 9.2 Event → Cue pipeline
 
@@ -947,7 +947,7 @@ Estimates use 1 engineer-week (ew) = 5 working days of one engineer; they includ
 | **0. Foundations** | pnpm monorepo + CI; `shared` IDs/protocol; RNG + hash; reducer/legal-action skeleton; content schema v0 + compiler; golden-trace runner; `play-cli`; 1 hero, move + end turn | T0*, T1, T2 | 2 | — | random-legal bot plays 1,000 turns with zero invariant failures; determinism test green in Node + browser; content compiles from `game-data/` |
 | **1. Core solo loop** | round/day-night loop + tactics; turn phases incl. movement/action/combat/end; First Conquest setup; fixed authored 4-tile map + explore; core sites (village, monastery, keep, mage tower, mine, glade); 4-phase combat; wounds/rest/heal; level-up; dummy player; scenario end triggers + base scoring; one hero's 16-card deck + first Advanced Actions | T1*, T2 | 5 | P0 | headless First Conquest completes end-to-end from seed; 5 golden traces incl. combat and city assault; T1/T3 tests green |
 | **2. Content: T1 manifest, then T2 Classic** | T1: offers (AA/spell/unit), artifacts, skills, recruitment/activation, site interactions, rewards, city assault, achievements scoring, 1 hero + 2nd as stretch. T2 adds: Classic 11-tile/2-city preset, second hero full content, larger card/enemy pool (~90–110 defs) | T1*, T2 | 4 | P1 | T1 manifest 100% implemented and exercised; Classic preset loads from data; scoring matches rulebook tables on traces |
-| **3. Client board & cards** | React shell + routing; Pixi map/camera/tokens; hand/offers/HUD; action menus driven by legal actions; movement/explore preview; save/load/undo UI; settings; default cue mapping for all events | T1*, T2 | 5 | P1 | browser game playable start-to-finish with placeholder art; Playwright: play turn, save/load, undo, combat |
+| **3. Client board & cards** | React shell + routing; SVG map/camera/tokens; hand/offers/HUD; action menus driven by legal actions; movement/explore preview; save/load/undo UI; settings; default cue mapping for all events | T1*, T2 | 5 | P1 | browser game playable start-to-finish with placeholder art; Playwright: play turn, save/load, undo, combat |
 | **4. Combat & animation polish** | full combat overlay + phase rail; incremental attack/block/damage UX; previews; cue polish (card play, damage, fame, level-up); sound hook points; tutorial scripted trace | T1*, T2 | 3 | P2, P3 | combat understandable without rulebook; tutorial completes; 60 fps target met |
 | **5. Tuning, tutorial, a11y; hotseat** | T1: First Conquest balance/pacing to 20–30 min, tutorial coach marks, accessibility, save/undo hardening. T2/hotseat: 2-seat handoff, localization scaffolding, deeper polish | T1*, T2 | 3 | P3, P4 | tuned T1 scenario within target time; tutorial completes unaided; hotseat only when T2 scope is active |
 | **6. AI (optional, T3)** | combat solver; heuristic planner; arena harness; difficulty knobs; bot UI | T3 | 4–6 | P1 (solver), P2 (economy) | bot completes scenario within budget; arena report vs scripted baselines |

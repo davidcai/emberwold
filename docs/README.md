@@ -23,8 +23,10 @@ This folder is the complete pre-production package for **Miniknight**. It is spl
 | `design/12-architecture.md` | Technical architecture | ✅ v1 | architect | Engine, data pipeline, UI, testing, build plan |
 | `design/13-ai-opponents.md` | AI / opponents | ✅ v1 | architect | Why AI is hard; tiered approach; MVP stance |
 | `design/14-roadmap.md` | Roadmap | ✅ v1 | Lead | Tiers, milestones, gates, next 2 weeks |
+| `design/17-platform-analysis.md` | Platform/framework analysis | ✅ v1 | Lead | Web-native recommendation (accepted), scoring, escape hatches |
 | `design/15-retheme-bible.md` | Re-theme bible | ✅ v0.1 | Lead | Original world, names, terminology map, copy rules |
-| `design/16-art-brief.md` | Art brief | ✅ v0.1 | Lead | Direction, specs, budget tiers, commissioning process |
+| `design/16-art-brief.md` | Art brief | ✅ v0.2 | Lead | Direction, specs, acceptance (commissioning = fallback) |
+| `design/18-ai-art-prompts.md` | AI art prompt pack | ✅ v1 | art-prompt-writer | Tool/licence guidance, consistency workflow, 41 per-slot prompts |
 
 Legend: ✅ complete · ⏳ in progress · ⚠️ has unverified parts (see the doc's own flags)
 

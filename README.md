@@ -52,7 +52,9 @@ Before writing game code, we answered three questions with evidence:
 | 12 | [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) | Tiers, milestones, gates, first two weeks |
 | — | [`docs/design/00-decisions.md`](docs/design/00-decisions.md) | **The decisions log** (purpose, IP, platform, scope, art) |
 | — | [`docs/design/15-retheme-bible.md`](docs/design/15-retheme-bible.md) | Original world, names, terminology, copy rules |
-| — | [`docs/design/16-art-brief.md`](docs/design/16-art-brief.md) | Art direction, specs, budgets, commissioning process |
+| — | [`docs/design/16-art-brief.md`](docs/design/16-art-brief.md) | Art direction, specs, acceptance (commissioning fallback) |
+| — | [`docs/design/17-platform-analysis.md`](docs/design/17-platform-analysis.md) | Platform analysis + recommended stack |
+| — | [`docs/design/18-ai-art-prompts.md`](docs/design/18-ai-art-prompts.md) | AI art workflow + per-slot prompts |
 | — | [`game-data/README.md`](game-data/README.md) | Machine-readable content schema + provenance |
 | — | [`docs/research/08-sources.md`](docs/research/08-sources.md) | Every source, checksum, and retrieval method |
 
@@ -86,8 +88,13 @@ Recorded in [`docs/design/00-decisions.md`](docs/design/00-decisions.md):
 3. **Scope** — First Conquest (T1) is v1 (ADR-004).
 4. **Art** — commission early, starting with a small paid pilot; placeholders never block
    (ADR-005). Brief: [`16-art-brief.md`](docs/design/16-art-brief.md).
-5. **Platform** — web first, desktop later; **stack choice pending** (ADR-003):
-   Godot-from-day-one vs web-native + Tauri. See the ADR's recommendation.
+5. **Platform** — web-first confirmed; **stack decided: web-native** (TypeScript + React + SVG
+   board, Vite; desktop later via Tauri v2), Godot out of scope for v1 (ADR-003,
+   [`17-platform-analysis.md`](docs/design/17-platform-analysis.md)).
+6. **Art** — **100% AI-generated** (ADR-006): workflow and per-slot prompts in
+   [`18-ai-art-prompts.md`](docs/design/18-ai-art-prompts.md) + [`art/prompts.json`](art/prompts.json);
+   no commissioned budget.
+7. **Naming** — codename internal until v1 (ADR-007).
 
 Still open: stack confirmation (ADR-003), pilot art budget cap, public name screening.
 

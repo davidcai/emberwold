@@ -597,5 +597,8 @@
       "source": null,
       "notes": "reused across card families"
     }
-  ]
+  ],
+  "prompt_pack": "art/prompts.json",
+  "prompt_pack_doc": "docs/design/18-ai-art-prompts.md",
+  "art_workflow": "AI-generated (ADR-006); placeholder-first; see prompt pack for tool/licence guidance"
 }
