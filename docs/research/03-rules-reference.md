@@ -1,4 +1,4 @@
-# Miniknight — Rules Reference Tables
+# Emberwold — Rules Reference Tables
 
 **Status:** research draft · **Owner:** rules-analyst · **Last updated:** 2026-10-24
 **Scope:** dense reference data for the MKUE rules engine: terrain/movement, map tiles,

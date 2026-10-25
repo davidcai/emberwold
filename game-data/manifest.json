@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0.0",
-  "project": "Miniknight \u2014 research prototype game data",
+  "project": "Emberwold \u2014 research prototype game data",
   "generated_at": "2026-10-24",
   "owner": "data-extractor",
-  "description": "Top-level index of the machine-readable Mage Knight data set used by the Miniknight feasibility study. Research-only; not a licensed product. See README.md for schema, effect DSL, provenance rules and the coverage table.",
+  "description": "Top-level index of the machine-readable Mage Knight data set used by the Emberwold feasibility study. Research-only; not a licensed product. See README.md for schema, effect DSL, provenance rules and the coverage table.",
   "upstream": {
     "repo": "mage-knight-digital/MageKnight",
     "commit": "d279e8b4069f",
@@ -147,7 +147,7 @@
       "count": 12,
       "source_class": "official",
       "maintainer": "hand-maintained",
-      "sha256": "9edc4df53b27e555"
+      "sha256": "07db0826278c4404"
     },
     {
       "path": "game-data/tactics.json",
@@ -162,7 +162,8 @@
       "domain": "schema",
       "count": null,
       "source_class": "documentation",
-      "maintainer": "hand-maintained"
+      "maintainer": "hand-maintained",
+      "sha256": "c437e9990ac27a2f"
     }
   ],
   "coverage": {

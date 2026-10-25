@@ -1,6 +1,6 @@
 # Documentation Index
 
-This folder is the complete pre-production package for **Miniknight**. It is split into
+This folder is the complete pre-production package for **Emberwold**. It is split into
 **research** (what is true about the game, its digital history, and the law) and **design**
 (what we will build and how). Read `README.md` at the repo root for the executive summary.
 
@@ -9,7 +9,7 @@ This folder is the complete pre-production package for **Miniknight**. It is spl
 | Doc | Title | Status | Owner | Notes |
 |---|---|---|---|---|
 | `research/00-brief.md` | Research & design brief | ✅ v1 | Lead | Mission, sources, toolchain, conventions, ownership |
-| `research/01-game-overview.md` | Game overview & Miniknight thesis | ✅ v1 | Lead | Facts, pillars, reduction axes |
+| `research/01-game-overview.md` | Game overview & Emberwold thesis | ✅ v1 | Lead | Facts, pillars, reduction axes |
 | `research/02-rules-core.md` | Core rules spec | ✅ v1 | rules-analyst | Engine-oriented rules, 372 page citations |
 | `research/03-rules-reference.md` | Rules reference tables | ✅ v1 | rules-analyst | Sites, enemies, cards, heroes, tiles, scenarios |
 | `research/04-faq-clarifications.md` | FAQ & ambiguity register | ✅ v1 | rules-analyst | **Official FAQ recovered** + 48-item decision register |

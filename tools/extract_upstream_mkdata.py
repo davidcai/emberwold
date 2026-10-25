@@ -8,7 +8,7 @@ The official rulebooks in `reference/extracted/` contain *rules*, but they do
 not enumerate per-card effect text, enemy stats or tile layouts.  The upstream
 project's Rust data module (`packages/engine-rs/crates/mk-data`) does encode that
 information structurally.  This script downloads those files to a cache, parses
-the Rust data literals, normalises them into the compact Miniknight data model
+the Rust data literals, normalises them into the compact Emberwold data model
 (see `game-data/README.md`), and writes the generated JSON files under
 `game-data/`.
 
@@ -70,7 +70,7 @@ MANUAL_FILES = [
 ]
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "game-data"
-DEFAULT_CACHE = Path("/tmp/miniknight-upstream-cache")
+DEFAULT_CACHE = Path("/tmp/emberwold-upstream-cache")
 SCHEMA_VERSION = "1.0.0"
 GENERATED_BY = "tools/extract_upstream_mkdata.py"
 
@@ -309,7 +309,7 @@ EFFECT_ENUMS = {"CardEffect", "UnitAbility", "CardEndTurnEffect", "EffectConditi
 
 
 class Normalizer:
-    """Converts parsed Rust expression ASTs into the Miniknight JSON notation."""
+    """Converts parsed Rust expression ASTs into the Emberwold JSON notation."""
 
     def __init__(self, consts: dict | None = None, locals_: dict | None = None):
         self.consts = consts or {}
@@ -457,7 +457,7 @@ def fetch_sources(cache_dir: Path, offline: bool, pinned_commit: str | None, rep
         try:
             req = urllib.request.Request(
                 f"https://api.github.com/repos/{REPO}/commits/{PINNED_REF}",
-                headers={"User-Agent": "miniknight-research/1.0", "Accept": "application/vnd.github+json"},
+                headers={"User-Agent": "emberwold-research/1.0", "Accept": "application/vnd.github+json"},
             )
             with urllib.request.urlopen(req, timeout=30) as r:
                 meta["commit"] = json.load(r).get("sha")
@@ -469,7 +469,7 @@ def fetch_sources(cache_dir: Path, offline: bool, pinned_commit: str | None, rep
     for name in MFILES:
         path = cache_dir / f"{name}.rs"
         if not offline:
-            req = urllib.request.Request(f"{raw_base}/{name}.rs", headers={"User-Agent": "miniknight-research/1.0"})
+            req = urllib.request.Request(f"{raw_base}/{name}.rs", headers={"User-Agent": "emberwold-research/1.0"})
             with urllib.request.urlopen(req, timeout=60) as r:
                 body = r.read()
             path.write_bytes(body)
@@ -625,7 +625,7 @@ HERO_CARD_OWNER = {
 
 
 # ---------------------------------------------------------------------------
-# Miniknight MVP curation (docs/design/11-mvp-scope.md §3)
+# Emberwold MVP curation (docs/design/11-mvp-scope.md §3)
 # ---------------------------------------------------------------------------
 # The v1.0 content targets are 1-2 heroes, 12 advanced actions, 6 spells,
 # 4 artifacts, 6 units, 10+2 enemies, 6 site types and 4 fixed tiles. The

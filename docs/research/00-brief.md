@@ -1,4 +1,4 @@
-# Research & Design Brief — "Miniknight" (working title)
+# Research & Design Brief — "Emberwold" (working title)
 
 **Status:** active · **Owner:** Lead · **Last updated:** 2026-10-24
 
@@ -7,7 +7,7 @@
 Assess the feasibility of — and prepare everything needed before implementing — a
 digital video game adaptation of **Mage Knight Board Game** (Vlaada Chvátil, WizKids,
 2011; **Ultimate Edition**, 2018), scaled down to a smaller, faster, easier-to-learn
-experience we call **Miniknight**.
+experience we call **Emberwold**.
 
 Deliverables are research and design documents plus structured game data. **No game
 implementation yet.** Everything in this repo must be traceable to a source.
@@ -76,9 +76,9 @@ text. Prefer exact quotes for rules that a rules engine must disambiguate.
 | `kevinwurn/MageKnight` | Python, solo | Minimal solo implementation. |
 | Tabletop Simulator / Vassal mods | — | De facto digital versions; UI expectations, IP treatment. |
 
-## 5. Scope framing: what "Miniknight" means here
+## 5. Scope framing: what "Emberwold" means here
 
-Full MKUE is a 2–4 hour, 7-hero (*8 with the 2026 Apocalypse Dragon hero*), 3-expansion monster. Miniknight is a **deliberately
+Full MKUE is a 2–4 hour, 7-hero (*8 with the 2026 Apocalypse Dragon hero*), 3-expansion monster. Emberwold is a **deliberately
 reduced** adaptation. Research must document the **full** rules faithfully; design docs
 then choose a subset. Candidate reduction axes (to be argued in `docs/design/`):
 

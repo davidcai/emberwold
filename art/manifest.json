@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1.0",
-  "project": "Emberwold / Miniknight (working title)",
+  "project": "Emberwold (working title)",
   "purpose": "Art production manifest for the T1 'First Conquest' build. Every slot has a programmatic placeholder; finals swap in via content-pack art_ref only.",
   "policy": "Original art only. Never use official Mage Knight art/scans, even as placeholder. Neutral IDs only; no IP-bearing names in filenames.",
   "palette": {

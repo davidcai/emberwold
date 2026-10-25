@@ -1,4 +1,4 @@
-# 14 · Roadmap — from this research repo to a playable Miniknight
+# 14 · Roadmap — from this research repo to a playable Emberwold
 
 **Status:** v1 (Lead) · **Companions:** `10-feasibility-analysis.md`, `11-mvp-scope.md`,
 `12-architecture.md`, `13-ai-opponents.md`
@@ -19,7 +19,7 @@ ADR-003/`17`); art is **AI-generated** (ADR-006) but **placeholders never block*
 | Tier | Name | What ships | Content scope | Effort (1 dev + AI) | Gate to pass |
 |---|---|---|---|---|---|
 | **T0** | Spike | A throwaway-but-real vertical slice: 1 hero, 2 tiles, ~20 cards, 1 round, 1 assault, 1 site, no art, CLI or ugly UI | ~5% | **2 weeks** | G1: rules/UI seam works and is fun enough to continue |
-| **T1** | **First Conquest = v1.0** | The shippable Miniknight: solo, 3 rounds, fixed 4-tile map, 1 city (level 4), ~40 card defs, 1–2 heroes, 20–30 min session, tutorial, save/undo | ~15% of MKUE | **≈9–13 ew** (~2.5–4 months calendar with AI, 1 dev) | G2/G3: external playtest, zero known rule deviations |
+| **T1** | **First Conquest = v1.0** | The shippable Emberwold: solo, 3 rounds, fixed 4-tile map, 1 city (level 4), ~40 card defs, 1–2 heroes, 20–30 min session, tutorial, save/undo | ~15% of MKUE | **≈9–13 ew** (~2.5–4 months calendar with AI, 1 dev) | G2/G3: external playtest, zero known rule deviations |
 | **T2** | Classic | Solo Conquest shape as data: 6 rounds, 11 tiles, cities 5/8, ~90–110 card defs, 2–4 heroes, hotseat | ~35% | ≈+8–12 ew (total 25 ew; see `12` §12) | G4: veteran players accept fidelity; 45–75 min balance |
 | **T3** | Fidelity & breadth | Remaining base content, co-op, expansions, scenario variants, optional bot, packaging (Tauri/Steam/mobile) | → 100% | open-ended | Market/legal decision (`06`) |
 

@@ -89,7 +89,7 @@ this pack:
 `16-art-brief.md` carries a matching banner ("Update 2026-10-24 — ADR-006"); its §4/§6
 commissioning, budget and contract sections are kept as a **fallback** if AI quality proves
 insufficient for a given asset. This pack does not rewrite the decision log or the brief —
-it implements them. ADR-007 keeps the working names (Miniknight, Emberwold) internal until
+it implements them. ADR-007 keeps the working names (Emberwold, Emberwold) internal until
 v1 is playable, which is why the wordmark is deliberately P2 and should not be published
 early (§5.8).
 
@@ -514,7 +514,7 @@ lettering is a poor basis for a trademark screen. The route is typography + vect
 3. Palette: soot/bone wordmark with one ember accent; keep a one-colour and reversed
    version; test at 16 px and favicon size.
 4. Screen the public name first (`15` §11). Do **not** ship a wordmark until the name
-   screen and a quick trademark check are done. ADR-007 keeps Miniknight/Emberwold internal
+   screen and a quick trademark check are done. ADR-007 keeps public product branding deferred (the repository is named Emberwold)
    until v1 is playable, so this slot is deliberately P2 — nothing public is named yet.
 5. Export SVG + PNG fallbacks. AI may be used *only* to explore abstract mark silhouettes
    (no letters), and any chosen shape must be redrawn as vector by hand.

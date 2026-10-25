@@ -1,8 +1,8 @@
-# Miniknight — Rules Core (engine specification)
+# Emberwold — Rules Core (engine specification)
 
 **Status:** research draft · **Owner:** rules-analyst · **Last updated:** 2026-10-24
 **Scope:** decision-complete specification of the *full* Mage Knight Ultimate Edition
-(MKUE) rules, written for a rules-engine implementer. Miniknight (the reduced adaptation)
+(MKUE) rules, written for a rules-engine implementer. Emberwold (the reduced adaptation)
 will import/variant this spec; reductions are argued in `docs/design/`.
 
 > **Reading this document.** Every non-obvious rule is cited `(MKUE Rulebook p.N)` — the

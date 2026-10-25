@@ -43,7 +43,7 @@ that lets the work be shared freely.
 original **name, world, terminology, card text, art and visual identity**.
 
 **Consequences.**
-- New public name (codename "Miniknight" stays internal — `06` §7 shows it is not safe).
+- Project/repo name: **Emberwold** (renamed 2026-10-24; ADR-007). No public product branding, store page or wordmark until v1; full name screen per `06` §7 before release.
   Candidates and a naming screen: `15-retheme-bible.md` §3.
 - Every visible string, card name, enemy name, site name and rule explanation must be
   authored fresh. No verbatim rulebook text, no official card names, no official art or
@@ -198,15 +198,25 @@ and model licences before any public use.
 
 ---
 
-## ADR-007 — Public naming: keep the codename internal until v1
+## ADR-007 — Naming: Emberwold is the project name; public product branding deferred
 
-**Date:** 2026-10-24 · **Status:** accepted
+**Date:** 2026-10-24 · **Revised:** 2026-10-24 (owner chose the name and renamed the repo)
 
-**Decision.** "Miniknight" (and "Emberwold") stay internal working names until v1 is playable.
-No public name screening/domain/social reservation work now.
+**Decision.** The project is **Emberwold** (formerly codenamed "Miniknight"). The GitHub
+repository was renamed `davidcai/emberwold` on 2026-10-24. Store/product branding, domain
+reservation, wordmark and public name screening remain **deferred until v1**.
 
-**Consequences.** No public strings, store pages or shared builds under a name; `15` §11's
-screening checklist is a pre-public-release task, not a v1 task. Files/IDs use neutral names.
+**Context.** The original ADR kept both names internal. The owner then chose Emberwold for the
+repo so the repository aligns with the game's working title. "Miniknight" is retired as a
+codename — it stays only as historical context in `06-legal-ip.md` §7 (why it was a weak name,
+including existing third-party uses).
+
+**Consequences.**
+- Repo/URL/project docs say **Emberwold**; the old URL redirects on GitHub.
+- No public product launch/branding (store pages, domains, wordmark, marketing) until v1 and
+  until the `15` §11 screening is actually done.
+- The game world and terminology in `15` are unchanged; "Emberwold" was already the world's name.
+- Files/IDs stay neutral (`emberwold-v1`, `.emberwold.json` save extension), per ADR-002.
 
 ---
 
@@ -216,5 +226,5 @@ screening checklist is a pre-public-release task, not a v1 task. Files/IDs use n
 |---|---|---|---|
 | P1 | ~~Stack: Godot vs web-native~~ | — | **Decided: web-native (ADR-003)** |
 | P2 | ~~Art budget cap~~ | — | **Decided: AI-generated art (ADR-006)** |
-| P3 | Public name (screen candidates in `15` §3) | before any public build | keep internal codename until v1 (ADR-007) |
+| P3 | Public product branding + name screen (repo is already `emberwold`) | before any public release | no branding work until v1 (ADR-007) |
 | P4 | Whether the game will ever be shared publicly | before release | private/portfolio only until screened |

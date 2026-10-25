@@ -1,4 +1,4 @@
-# Miniknight game-data schema (v1.0.0)
+# Emberwold game-data schema (v1.0.0)
 
 Field-level contract for every JSON file in `game-data/`. `tools/validate_data.py`
 enforces this file mechanically; keep them in sync. The effect notation is
@@ -19,7 +19,7 @@ Conventions used by every file:
 * Page references ("MKUE Rulebook p.3") point at PDF pages of
   `reference/extracted/*.txt` (marker `=== [page N] ===`).
 * `null` means "not stated by our sources". Never guess.
-* Every content item carries `mvp` (bool, needed for Miniknight v1.0) and
+* Every content item carries `mvp` (bool, needed for Emberwold v1.0) and
   `status` (`data-ready` | `placeholder` | `omitted`); see README §3.5. The
   validator checks both fields and the MVP counts in `manifest.mvp_subset`.
 
@@ -246,7 +246,7 @@ the portal.
 
 ## 13b. `scenarios.json` MVP entries
 
-Two entries are Miniknight-specific and required by the validator:
+Two entries are Emberwold-specific and required by the validator:
 
 * `scenario:first-conquest` — tuned v1.0 scenario: 3 rounds (Day/Night/Day),
   wedge, fixed 4 tiles (1 start + 2 countryside + 1 city), 1 city at level 4,

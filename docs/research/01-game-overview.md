@@ -1,9 +1,9 @@
-# 01 · Game Overview — Mage Knight Board Game, and what Miniknight should be
+# 01 · Game Overview — Mage Knight Board Game, and what Emberwold should be
 
 **Status:** v1 (Lead) · **Sources:** see `08-sources.md`
 
 This document answers: what game are we adapting, why is it worth adapting, what makes it
-hard to adapt, and what exactly is the "scaled-down Miniknight" thesis. Rules details live
+hard to adapt, and what exactly is the "scaled-down Emberwold" thesis. Rules details live
 in `02-rules-core.md` / `03-rules-reference.md`; this is the context those docs sit in.
 
 ## 1. Fact sheet
@@ -67,13 +67,13 @@ Mage Knight:
 6. **Meaningful choice density.** The game's whole identity is "a turn is a puzzle" — a
    version that auto-resolves turns is not this game.
 
-## 4. The Miniknight thesis (what "scaled down" means)
+## 4. The Emberwold thesis (what "scaled down" means)
 
 Full MKUE is a 2–4 hour, **7-hero**, 3-expansion, ~60-tile experience (8 heroes if you count
-Coral from the 2026 *Apocalypse Dragon* expansion). Miniknight keeps the
+Coral from the 2026 *Apocalypse Dragon* expansion). Emberwold keeps the
 pillars and cuts breadth, not depth. Proposed v1 target:
 
-| Axis | Full MKUE | Miniknight v1 |
+| Axis | Full MKUE | Emberwold v1 |
 |---|---|---|
 | Players | 1–5 competitive/co-op | **1 (solo)** first; co-op later |
 | Heroes | 7 in UE (8 incl. 2026 *Apocalypse Dragon*) | **2** (provisional: Arythea + Goldyx; Tovak is the alternate) |

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Miniknight game-data set.
+"""Validate the Emberwold game-data set.
 
 Runs every check described in game-data/schema.md:
 
@@ -176,7 +176,7 @@ def gather_ops(node, counter: Counter) -> None:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Validate Miniknight game data")
+    ap = argparse.ArgumentParser(description="Validate Emberwold game data")
     ap.add_argument("--data-dir", type=Path, default=REPO_ROOT / "game-data")
     ap.add_argument("--quiet", action="store_true", help="only print the summary")
     args = ap.parse_args()
@@ -690,7 +690,7 @@ def main() -> int:
 def print_report(rep: Report, args) -> None:
     width = 34
     print("")
-    print("Miniknight game-data validation")
+    print("Emberwold game-data validation")
     print("=" * 72)
     for name, checks, fails in rep.sections:
         if name.startswith("~"):

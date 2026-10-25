@@ -1,8 +1,8 @@
-# Miniknight game data — schema, provenance and coverage
+# Emberwold game data — schema, provenance and coverage
 
 **Status:** research prototype · **Owner:** data-extractor · **Version:** 0.1.0
 
-Machine-readable, **research-only** data extracted for the Miniknight feasibility
+Machine-readable, **research-only** data extracted for the Emberwold feasibility
 study of *Mage Knight Board Game* (Vlaada Chvátil, WizKids 2011 / Ultimate
 Edition 2018). Nothing here is an official product or licensed asset.
 
@@ -49,7 +49,7 @@ coverage status for every data file.
 | `ruins-tokens.json` | Ancient Ruins tokens | 15 | upstream only |
 | `tiles.json` | Map tile hex layouts | 27 | official counts + upstream layouts |
 | `sites.json` | Map site rules (14 base Site Description cards + expansion sites + portal) | 20 | official (paraphrased) |
-| `scenarios.json` | Scenario setups (10 base + 2 Miniknight presets) | 12 | official |
+| `scenarios.json` | Scenario setups (10 base + 2 Emberwold presets) | 12 | official |
 | `tactics.json` | Day/Night Tactic cards | 12 | upstream reference (paraphrased) |
 | `levels.json` | Fame thresholds + level stats | 10 levels | **official** (board artwork) + upstream detail |
 | `effect-ops.json` | registry of every effect operation | 142 ops | generated |
@@ -196,7 +196,7 @@ Every card object has the shape
 Every item carries two editorial fields used by the MVP scope
 (`docs/design/11-mvp-scope.md`):
 
-* `mvp` (bool) — **does Miniknight v1.0 need this item?** Counts are indexed in
+* `mvp` (bool) — **does Emberwold v1.0 need this item?** Counts are indexed in
   `manifest.json → mvp_subset.counts` and validated.
 * `status` — v1.0 content status for the item:
   * `data-ready` — data complete and provenance strong enough to implement now;
@@ -273,11 +273,11 @@ Legend: **complete** = all items we know exist are present with usable fields;
 | Ancient Ruins tokens | 15 | master ref sheet p.1 describes altar vs enemy tokens | **partial** — 15 vs official count unverified |
 | Tiles | 27 (2 starting + 14 countryside + 10 core + 1 Volkare) | 11 countryside + 8 core in base (Walkthrough p.2) | **complete for base**; Lost Legion tiles tagged |
 | Sites | 20 (14 base cards + 5 expansion sites + portal) | 14 Site Description cards in base (Walkthrough p.4) | **complete for base**; 8 sites marked MVP (six site types + city + portal) |
-| Scenarios | 12 = 10 base + `first-conquest` + `classic` | 2012 base Scenario Book p.12–19 | **partial** — UE Scenario Book unavailable; expansion scenarios missing; both Miniknight presets present |
+| Scenarios | 12 = 10 base + `first-conquest` + `classic` | 2012 base Scenario Book p.12–19 | **partial** — UE Scenario Book unavailable; expansion scenarios missing; both Emberwold presets present |
 | Tactics | 12 (6 day + 6 night) | 6+6 per rulebook setup | **partial** — effects paraphrased from upstream reference, unverified; all 12 needed by v1.0 round loop |
 | Levels | 10 | level 1–2 armour 2 / hand 5, odd levels grant Command token (Rulebook p.3) | **complete enough**; full table upstream-only |
 | Effect registry | 142 ops / 1104 nodes | — | **complete** (generated from the data above) |
-| Miniknight MVP subset | 2 heroes, 16 basic actions, 20 skills, 12 AAs, 6 spells, 4 artifacts, 6 units, 12 enemies, 8 sites, 4 tiles, 2 scenarios | scope doc `11-mvp-scope.md` | **complete** — see `manifest.json → mvp_subset` |
+| Emberwold MVP subset | 2 heroes, 16 basic actions, 20 skills, 12 AAs, 6 spells, 4 artifacts, 6 units, 12 enemies, 8 sites, 4 tiles, 2 scenarios | scope doc `11-mvp-scope.md` | **complete** — see `manifest.json → mvp_subset` |
 
 **MVP slice** (v1.0 content manifest) is fully present in the data set: both
 presets (`scenario:first-conquest` tuned 3-round variant and `scenario:classic`
@@ -382,7 +382,7 @@ Hand-maintained: `keywords`, `sites`, `scenarios`, `tactics`, `manifest`,
 Extractor notes: it uses a small Rust-expression parser (struct literals, enum
 variants, `vec![]`, `Some/None`, const resolution) rather than regex-only
 scraping, so the generated JSON is structurally faithful. It downloads up to
-~240 KB per file and caches them under `/tmp/miniknight-upstream-cache`; no
+~240 KB per file and caches them under `/tmp/emberwold-upstream-cache`; no
 upstream files are committed to this repo.
 
 ## Sources

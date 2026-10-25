@@ -1,4 +1,4 @@
-# 13 — Miniknight AI Opponents
+# 13 — Emberwold AI Opponents
 
 **Status:** proposed · **Owner:** architect · **Last updated:** 2026-10-24
 **Companions:** [`12-architecture.md`](./12-architecture.md), [`10-feasibility-analysis.md`](./10-feasibility-analysis.md), [`11-mvp-scope.md`](./11-mvp-scope.md) · **Rules source of truth:** [`../research/02-rules-core.md`](../research/02-rules-core.md) (published 2026-10-24; dummy player §17.1, timing/priority/undo §19).
@@ -8,9 +8,9 @@
 
 ## 1. Executive summary
 
-**Recommendation: ship T1/T2 Miniknight without a gameplay AI opponent.** Mage Knight is a solitaire-first design; the "opponent" in the solo scenarios is already specified by the rules as a deterministic dummy-player automaton (`MKUE Rulebook, p.15`), and co-op is 2–4 humans against the map. An AI bot is only needed if the Lead greenlights a PvP/skirmish mode, and even then it should be a **Tier-1 rule-based bot with an exact combat solver** (~5–7 engineer-weeks), not MCTS or a learned policy.
+**Recommendation: ship T1/T2 Emberwold without a gameplay AI opponent.** Mage Knight is a solitaire-first design; the "opponent" in the solo scenarios is already specified by the rules as a deterministic dummy-player automaton (`MKUE Rulebook, p.15`), and co-op is 2–4 humans against the map. An AI bot is only needed if the Lead greenlights a PvP/skirmish mode, and even then it should be a **Tier-1 rule-based bot with an exact combat solver** (~5–7 engineer-weeks), not MCTS or a learned policy.
 
-| Tier | What it is | Miniknight fit | Effort | Verdict |
+| Tier | What it is | Emberwold fit | Effort | Verdict |
 |---|---|---|---|---|
 | **0** | No AI: dummy-player clock, static enemies, scripted tutorial | **T1/T2 default** | ~0.5 ew (rules, not AI) | **Ship** |
 | **1** | Rule-based goal planner + exact combat solver + utility scoring | PvP sparring bot, hints/advisor, QA self-play | 5–7 ew | **Ship only if PvP mode ships** |
@@ -19,8 +19,8 @@
 
 Three claims anchor this document:
 
-1. **A full-game AI is a research project, not a feature.** At Miniknight's scale a raw game tree has ~10^100+ paths; the best available evidence is the upstream project, which spent 1,255 commits, a Rust engine, PPO/REINFORCE infrastructure and a 352-case evaluation suite — and its best checkpoint still solves **0 of 96 isolated combat drills** under greedy inference, because competent combat needs the exhaustive combat oracle (`packages/python-sdk/evaluation/REPORT.md`). Do not underestimate this.
-2. **The highest-value "AI" work in Miniknight is not an opponent.** It is (a) the dummy-player automaton (a rules feature), (b) random/scripted bots for engine QA and balance, (c) an optional hint/advisor system, and (d) the arena/eval harness that makes any bot measurable.
+1. **A full-game AI is a research project, not a feature.** At Emberwold's scale a raw game tree has ~10^100+ paths; the best available evidence is the upstream project, which spent 1,255 commits, a Rust engine, PPO/REINFORCE infrastructure and a 352-case evaluation suite — and its best checkpoint still solves **0 of 96 isolated combat drills** under greedy inference, because competent combat needs the exhaustive combat oracle (`packages/python-sdk/evaluation/REPORT.md`). Do not underestimate this.
+2. **The highest-value "AI" work in Emberwold is not an opponent.** It is (a) the dummy-player automaton (a rules feature), (b) random/scripted bots for engine QA and balance, (c) an optional hint/advisor system, and (d) the arena/eval harness that makes any bot measurable.
 3. **If a bot ships, combat is the solved part and planning is the hard part.** Combat after enemies are revealed is perfect-information, short-horizon and exactly solvable; turn-level planning under hidden information and deckbuilding value is where heuristic bots usually fail.
 
 **Bottom line for the Lead:** decide whether PvP ships. If yes, budget 5–7 ew in Phase 6 and target "fun sparring partner" quality, not expert play. If no, do not build an opponent at all — spend 1–2 ew on the QA/arena harness and (optionally) hints.
@@ -35,7 +35,7 @@ Mage Knight has no official AI opponent. "AI" in this genre is a product decisio
 |---|---|---|---|
 | **First Conquest** (T1, v1.0) | Dummy player automaton + map + clock | **No** — rules automaton | 3 rounds, 1 city level 4, simplified dummy (tactics + clock pressure) per `11-mvp-scope` §4–§5 |
 | **Classic** (T2 follow-on) | Dummy player automaton + map + clock | **No** — rules automaton | 6 rounds, 2 cities level 5 then 8, dummy flips cards for tempo (`MKUE Rulebook, p.15, p.19`) |
-| **Co-op (2–3 heroes)** | Map/cities + dummy player | **No** | Humans coordinate; no enemy decision-making. Official co-op scenarios cap at 3 because of the dummy deck (`MKUE Rulebook, p.15` note 3); Miniknight can vary this |
+| **Co-op (2–3 heroes)** | Map/cities + dummy player | **No** | Humans coordinate; no enemy decision-making. Official co-op scenarios cap at 3 because of the dummy deck (`MKUE Rulebook, p.15` note 3); Emberwold can vary this |
 | **Hotseat / shared screen** | Other humans | **No** | no bot required |
 | **PvP skirmish (if greenlit)** | Another hero | **Yes**, Tier 1–2 | PvP rules exist (`MKUE Rulebook, p.12`) but T1/T2 scope excludes them |
 | **Hints / advisor** | — | Optional Tier-1 reuse | Highlights good actions; does not play for you |
@@ -44,7 +44,7 @@ Mage Knight has no official AI opponent. "AI" in this genre is a product decisio
 
 Two clarifications that prevent wasted work:
 
-* **Enemies do not need AI.** Rampaging enemies, garrisons and city defenders are stat blocks with fixed abilities (`MKUE Rulebook, p.8–10, p.24`). "Enemy AI" here would be *scripted tactics* (e.g. block-targeting priorities, summon usage), which only matters if a digital adaptation adds an automated combat referee. Miniknight's engine already resolves them mechanically — no decisions exist.
+* **Enemies do not need AI.** Rampaging enemies, garrisons and city defenders are stat blocks with fixed abilities (`MKUE Rulebook, p.8–10, p.24`). "Enemy AI" here would be *scripted tactics* (e.g. block-targeting priorities, summon usage), which only matters if a digital adaptation adds an automated combat referee. Emberwold's engine already resolves them mechanically — no decisions exist.
 * **The dummy player is not an AI.** It is a deterministic tempo clock described in the rules: flip 3 cards, check the last color, flip extra cards for matching crystals, end the round when the deck empties (`MKUE Rulebook, p.15`; `MK 2012 Rulebook, p.12`). Implement it in the reducer, event it, and test it like any rule. Don't budget AI time for it.
 
 ---
@@ -53,7 +53,7 @@ Two clarifications that prevent wasted work:
 
 ### 3.1 Branching factor
 
-Miniknight is smaller than MKUE, but the action space is still large because a turn is a *sequence* of card/resource decisions and combat is a resource-allocation puzzle.
+Emberwold is smaller than MKUE, but the action space is still large because a turn is a *sequence* of card/resource decisions and combat is a resource-allocation puzzle.
 
 | Decision point | Typical legal choices | Worst case | Source of blow-up |
 |---|---:|---:|---|
@@ -70,7 +70,7 @@ Miniknight is smaller than MKUE, but the action space is still large because a t
 
 Even with a conservative effective branching factor of 10 after macro-action aggregation, a turn is ~10^8–10^12 raw action sequences (8–12 decisions), and a T1 First Conquest game is ~10–15 turns (Classic: ~20–30). The raw tree is astronomically larger than anything MCTS can search without aggressive abstraction. This is not a reason to panic — human players don't search it either — but it is a reason to *never* promise "an AI that plays like a human expert."
 
-Miniknight's reductions help materially: **T1** is one scenario, ~40 card definitions, 1 hero, 4 tiles, one city, 3 rounds; **T2** grows to 11 tiles, ~90–110 cards, 2 heroes, two cities, 6 rounds. But even T1 does not remove hidden information, deckbuilding value, or combat allocation.
+Emberwold's reductions help materially: **T1** is one scenario, ~40 card definitions, 1 hero, 4 tiles, one city, 3 rounds; **T2** grows to 11 tiles, ~90–110 cards, 2 heroes, two cities, 6 rounds. But even T1 does not remove hidden information, deckbuilding value, or combat allocation.
 
 ### 3.2 Horizon and long-horizon credit assignment
 
@@ -98,7 +98,7 @@ For a solo bot, hidden information is mostly *future randomness*, which can be h
 
 ### 3.4 Non-stationarity and action-space growth
 
-The bot's action space changes as it gains cards, skills, units, and mana. A policy trained or hand-tuned in round 1 sees different cards in round 4. Upstream's legal-action module handles ~70 action variants and its effect engine 100+ effect types; Miniknight's subset is smaller but still grows through play. Any learned policy must handle combinatorial generalization; a heuristic bot just needs a card-value table and a planner that reacts to whatever `legalActions` says. This is a major reason Tier 1 is the right first bot: it does not need to learn the action space.
+The bot's action space changes as it gains cards, skills, units, and mana. A policy trained or hand-tuned in round 1 sees different cards in round 4. Upstream's legal-action module handles ~70 action variants and its effect engine 100+ effect types; Emberwold's subset is smaller but still grows through play. Any learned policy must handle combinatorial generalization; a heuristic bot just needs a card-value table and a planner that reacts to whatever `legalActions` says. This is a major reason Tier 1 is the right first bot: it does not need to learn the action space.
 
 ### 3.5 What "good play" even is
 
@@ -119,7 +119,7 @@ The upstream Mage Knight project is the strongest available evidence about what 
 | Standalone `BatchedMCTS` exists but is **not** wired to training; docs warn that the cheap combat resolver has a deterministic pessimistic bias that MCTS cannot average away | MCTS in this game is an open research item, with known safety caveats, even for the reference implementation |
 | 1,255 commits / 4 contributors / no releases / 147 open issues / no LICENSE (Lead update, 2026-10-24) | Deep engine, no shipped product: the AI is part of a long research tail, not a shipping multiplier |
 
-**Implication:** the realistic quality bar for a Miniknight bot is "fun sparring partner / credible opponent for casual players," not "beats experienced humans." Plan and communicate accordingly.
+**Implication:** the realistic quality bar for a Emberwold bot is "fun sparring partner / credible opponent for casual players," not "beats experienced humans." Plan and communicate accordingly.
 
 ---
 
@@ -205,7 +205,7 @@ Wound/knockout avoidance thresholds, "don't take a 40% fight for 2 Fame" logic, 
 
 **Acceptance criteria for a shipped Tier-1 bot**
 * Emits only legal actions: 0 rule violations over 10,000 games (by construction — it picks from `LegalActionSet`).
-* Completes the tuned Miniknight scenario on a meaningful fraction of seeds at "normal" (target: measure first; a reasonable initial bar is ≥40–60% — calibrate after the harness exists rather than promising a number now).
+* Completes the tuned Emberwold scenario on a meaningful fraction of seeds at "normal" (target: measure first; a reasonable initial bar is ≥40–60% — calibrate after the harness exists rather than promising a number now).
 * Beats RandomLegal ≥95% and a GreedyCombat baseline ≥65% in the arena.
 * p95 decision time ≤ 500 ms per action (≤2 s occasionally); never stalls a human's turn visually (thinking indicator + budget cap).
 * Deterministic given a seed; fair (uses `BotView` only, never omniscient state).
@@ -226,11 +226,11 @@ Only worth it if the product needs a *strong* PvP bot or a best-move advisor for
 
 ### 4.4 Tier 3 — Learned policy (do not build)
 
-Two variants, both poor fits for Miniknight T1/T2:
+Two variants, both poor fits for Emberwold T1/T2:
 
 | Approach | Requirements | Why not now |
 |---|---|---|
-| **RL from scratch** (PPO/IMPALA) | Rust/optimized engine for throughput, feature/action encoders, vectorized envs, GPU training, frozen eval suite, months of iteration | Upstream needed a 6-crate Rust engine, PPO infra, 180k+ episodes, and still relies on oracles for combat; Miniknight's content will churn during balance, invalidating checkpoints; effort 12–20 ew + ongoing MLOps |
+| **RL from scratch** (PPO/IMPALA) | Rust/optimized engine for throughput, feature/action encoders, vectorized envs, GPU training, frozen eval suite, months of iteration | Upstream needed a 6-crate Rust engine, PPO infra, 180k+ episodes, and still relies on oracles for combat; Emberwold's content will churn during balance, invalidating checkpoints; effort 12–20 ew + ongoing MLOps |
 | **Imitation learning** from human playtests | Thousands of logged games with action labels, a feature encoder, eval harness, data pipeline + privacy policy | Data doesn't exist yet; collecting it takes months; re-tuning after balance changes is expensive; still needs the Tier-1 solver for combat quality |
 | **LLM-based agent** | API costs, latency, nondeterminism, rules hallucination risk | Unacceptable for a rules engine; might be acceptable *only* for natural-language hint narration, not action selection |
 
@@ -246,7 +246,7 @@ Two variants, both poor fits for Miniknight T1/T2:
 | Explainability | trivially fair | high (weights, logs) | low | low (black box) |
 | Runtime | — | ms | 0.5–2 s/turn | ms (policy) but training cost |
 | Maintenance | trivial | moderate | high | very high |
-| Fit for Miniknight T1/T2 | **◎** | △ (only if PvP) | ✕ | ✕ |
+| Fit for Emberwold T1/T2 | **◎** | △ (only if PvP) | ✕ | ✕ |
 
 ---
 

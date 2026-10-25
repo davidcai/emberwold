@@ -1,4 +1,4 @@
-# 10 · Feasibility Analysis — building Miniknight
+# 10 · Feasibility Analysis — building Emberwold
 
 **Status:** v1 draft (Lead) · **Depends on:** `02`–`07`, `11`–`14` · **Date:** 2026-10-24
 
@@ -101,7 +101,7 @@ cut for v1 (`11`).
 
 **Interpretation:** this is simultaneously the *strongest proof of technical feasibility* and
 the *clearest warning about scope*. A lone developer plus AI produced an is-this-real engine
-in ~10 months and still had not shipped. Miniknight's entire reason to exist is to be the
+in ~10 months and still had not shipped. Emberwold's entire reason to exist is to be the
 version that ships: fewer cards, one scenario, handcrafted maps, no RL.
 
 ### 4.2 Recommended shape (detail in `12-architecture.md`)
@@ -125,7 +125,7 @@ a general "AI" before the rules are complete.
 
 Three credible shapes. All preserve the six pillars in `01-game-overview.md` §3.
 
-| | **A. Faithful MKUE** | **B. Miniknight (recommended)** | **C. Inspired roguelike** |
+| | **A. Faithful MKUE** | **B. Emberwold (recommended)** | **C. Inspired roguelike** |
 |---|---|---|---|
 | Heroes | 7 (UE; 8 incl. 2026 expansion) | 2 | 1–2 |
 | Map | full deck + cities, random | fixed 3–4 tile map, authored | single handcrafted map |
@@ -182,7 +182,7 @@ it doesn't, stop and re-scope (see §9).
 | R7 | **Solo-developer burnout / unfinished** | M×H | Prior art pattern | Milestone-driven, playable-at-every-milestone (`14`) |
 | R8 | **Accidental code copying from upstream** | L×H | Repo has no licence | Clean-room rules; no copy-paste; if studying code, document and re-derive |
 | R9 | **Performance on large maps** | L×M | Hex rendering + many tokens | 2D, modest maps in v1; profile early |
-| R10 | **Trademark/naming search for "Miniknight"** | M×M | Close to "Mage Knight" | Screen before naming publicly; keep working title internal (`06`) |
+| R10 | **Trademark/naming search for "Emberwold"** | M×M | Close to "Mage Knight" | Screen before naming publicly; keep working title internal (`06`) |
 
 ## 8. Product assessment (summary; detail in `05`/`06`)
 
@@ -237,7 +237,7 @@ the discipline required is entirely about *not* building the full game.
 3. **Scope** — confirm option B (2 heroes, fixed map, Solo-Conquest-derived, 30–45 min) or
    push closer to A?
 4. **Art** — placeholder/programmer-art v1, or budget for an illustrator early?
-5. **Name** — keep "Miniknight" as internal working title, or screen a distinct public name?
+5. **Name** — keep "Emberwold" as internal working title, or screen a distinct public name?
 6. **AI** — accept "solo only, no opponent AI" for v1?
 
 ## 11. What this research already de-risked

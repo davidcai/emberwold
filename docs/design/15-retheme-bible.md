@@ -1,12 +1,13 @@
-# 15 · Re-Theme Bible (v0.1) — original IP for Miniknight
+# 15 · Re-Theme Bible (v0.1) — original IP for Emberwold
 
 **Status:** draft proposal · **Owner:** Lead · **Date:** 2026-10-24
 **Decision:** ADR-002 — clean-room re-theme. This document replaces the *expression* of Mage
 Knight while keeping its *mechanics* (which are not copyrightable). It is the source of truth
 for names, tone and copy until a public name is screened.
 
-> **Codename policy.** "Miniknight" remains an internal codename only. It is not a safe public
-> name (`06` §7). Nothing user-visible ships with it.
+> **Name policy.** **Emberwold** is the project/repository name (renamed 2026-10-24, ADR-007).
+> It is **not yet cleared** for a public product launch: no store page, domain, wordmark or
+> marketing until v1 and until the screen in `06` §7 is done. Game-world strings follow this bible.
 
 ---
 
@@ -22,11 +23,11 @@ for names, tone and copy until a public name is screened.
 
 ## 2. Pitch and world
 
-**Working title candidates** (screen before public use — see §11):
-1. **Emberwold** *(recommended: invented compound, pronounceable, no "Mage/Knight", good
-   domain/itch.io odds)*
-2. **The Ashen Vow** *(strong tone; "Ashen" is used by other games — needs care)*
-3. **Gloamreach** *(evocative; check existing uses)*
+**Name: Emberwold** *(chosen 2026-10-24; the GitHub repo is `davidcai/emberwold`)*.
+Invented compound, pronounceable, no "Mage/Knight", and the world's name too. Candidates
+considered and not chosen: **The Ashen Vow** ("Ashen" is widely used) and **Gloamreach**
+(several existing software projects use it). No public product branding or wordmark until v1 —
+see §11 and ADR-007.
 
 **Premise (one paragraph).**
 The sun and the moon once shared the sky in a measured turning. That turning broke — nobody
@@ -222,9 +223,9 @@ Specific enemy names are authored per unit in the content pack (e.g. "Gutterkin 
 
 | Candidate | Screen date | Result | Notes |
 |---|---|---|---|
-| Emberwold | — | — | recommended to screen first |
-| The Ashen Vow | — | — | "Ashen" widely used |
-| Gloamreach | — | — | |
+| **Emberwold** | 2026-10-24 | GitHub repo name in use by us; no GitHub org/repo collision found for the bare name; GitHub check only | **chosen** — full product/trademark screen still required before any public release |
+| The Ashen Vow | — | not screened | "Ashen" widely used |
+| Gloamreach | — | not screened | several existing software projects |
 
 ## 12. Open creative questions
 

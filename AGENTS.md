@@ -71,8 +71,9 @@ history.** This rule is non-negotiable and overrides any convenience.
 - New user-visible strings and names must follow the terminology map and forbidden-term list in
   `docs/design/15-retheme-bible.md`. If a name is not covered there, ask the human; do not invent
   a public name.
-- The codenames "Miniknight"/"Emberwold" are **internal until v1** (ADR-007). Do not create
-  public branding, domains, store pages or wordmarks.
+- The project is **Emberwold** (repo `davidcai/emberwold`; formerly codenamed "Miniknight").
+  Public product branding, domains, store pages and wordmarks stay deferred until v1 (ADR-007);
+  do not create them or rename the repository without the owner's explicit instruction.
 - AI art: follow `docs/design/16-art-brief.md` + `docs/design/18-ai-art-prompts.md`. Never use
   official art as image input, never prompt living-artist styles, and never AI-generate the
   wordmark.
@@ -130,7 +131,7 @@ history.** This rule is non-negotiable and overrides any convenience.
 1. No secrets in the repo — ever (see §1).
 2. No game implementation or app scaffolding before explicit approval.
 3. No official art/PDFs/rulebook text, no copied upstream code/data.
-4. No public branding or name decisions (codenames are internal).
+4. No public branding, domains, store pages or wordmarks before v1 (ADR-007); no repo renames without approval.
 5. No invented rules, citations, names or data values — mark uncertainty or ask.
 6. No scope changes (content manifest/heroes/scenario) without human approval.
 7. No force-push or history rewrite on the public remote.

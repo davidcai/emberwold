@@ -1,4 +1,4 @@
-# 12 — Miniknight Technical Architecture
+# 12 — Emberwold Technical Architecture
 
 **Status:** proposed · **Owner:** architect · **Last updated:** 2026-10-24
 **Scope:** engine, content pipeline, client, persistence, testing, build plan.
@@ -8,13 +8,13 @@
 
 ## 1. Executive summary
 
-**Build Miniknight as a TypeScript monorepo with a pure, deterministic rules engine, a React shell, and an SVG/DOM hex board (PixiJS as an optional upgrade behind a renderer interface).** Ship web-first; package desktop with Tauri v2 later (ADR-003, `17-platform-analysis.md`). Do not build a Rust engine, Godot project, or Unity project for T1/T2.
+**Build Emberwold as a TypeScript monorepo with a pure, deterministic rules engine, a React shell, and an SVG/DOM hex board (PixiJS as an optional upgrade behind a renderer interface).** Ship web-first; package desktop with Tauri v2 later (ADR-003, `17-platform-analysis.md`). Do not build a Rust engine, Godot project, or Unity project for T1/T2.
 
 Five decisions drive everything else:
 
 | # | Decision | Rationale (short) |
 |---|---|---|
-| D1 | **TypeScript everywhere**, strict mode, no `any` in engine | One language across engine, content compiler, UI, bots, arena, tools; JSON-native content; fastest rules iteration. Upstream rewrote its TS engine to Rust only after adding large-scale RL training — a requirement Miniknight does not have (§3.2). |
+| D1 | **TypeScript everywhere**, strict mode, no `any` in engine | One language across engine, content compiler, UI, bots, arena, tools; JSON-native content; fastest rules iteration. Upstream rewrote its TS engine to Rust only after adding large-scale RL training — a requirement Emberwold does not have (§3.2). |
 | D2 | **Pure reducer + event sourcing**: `reduce(state, action) → {state, events}`; state is a serializable value | Replay, undo, save/resume, network-ready, AI search and deterministic tests all fall out of one property. |
 | D3 | **Legal actions are the only UI contract**: every enabled control comes from `getLegalActions(state, player)`; the client holds zero rules | Eliminates the client/server rule drift that upstream's own effect docs call out as a recurring bug class (§5.5). |
 | D4 | **Content is data, not code**: `game-data/` → schema-validated build → typed content bundle injected into the engine | `game-data/` is owned by data-extractor; content updates must not touch engine logic; balance passes stay in data diffs. |
@@ -28,9 +28,9 @@ Five decisions drive everything else:
 
 ## 2. Scope constraints and what they imply architecturally
 
-Miniknight is a *reduced* adaptation. The reduction axes in `00-brief.md` §5, the T1 manifest in [`11-mvp-scope.md`](./11-mvp-scope.md) §3, and the T1→T2 tier plan translate into hard architectural requirements, not just design preferences:
+Emberwold is a *reduced* adaptation. The reduction axes in `00-brief.md` §5, the T1 manifest in [`11-mvp-scope.md`](./11-mvp-scope.md) §3, and the T1→T2 tier plan translate into hard architectural requirements, not just design preferences:
 
-| Reduction axis (brief §5) | Miniknight choice (T1 v1.0 / T2 Classic) | Architectural consequence |
+| Reduction axis (brief §5) | Emberwold choice (T1 v1.0 / T2 Classic) | Architectural consequence |
 |---|---|---|
 | Solo/co-op vs competitive | **Solo-only T1 (v1.0)**; local hotseat/shared-screen 2-player at T2/v1.1; no PvP, no netcode | Rules engine keeps PvP-capable concepts (interactive windows, defender reaction) behind reserved fields/flags but does not implement them. Save/replay format is the async path. |
 | Heroes 2–4 vs 7 (8 incl. 2026 expansion) | **T1: 1 hero (2nd as stretch); T2: 2 heroes (4 stretch)** | Hero is content: `HeroDef` with starting deck/stats/skills. Engine has no hero-specific branches. |
@@ -48,7 +48,7 @@ Miniknight is a *reduced* adaptation. The reduction axes in `00-brief.md` §5, t
 
 ### 3.1 Options compared
 
-Scoring: ◎ strong, ○ adequate, △ weak/expensive, ✕ disqualifying for Miniknight.
+Scoring: ◎ strong, ○ adequate, △ weak/expensive, ✕ disqualifying for Emberwold.
 
 | Criterion (weight) | TS + React/Pixi (proposed) | Godot 4 | Unity | Rust core + TS shell |
 |---|---|---|---|---|
@@ -64,9 +64,9 @@ Scoring: ◎ strong, ○ adequate, △ weak/expensive, ✕ disqualifying for Min
 
 **Choose TS + React with an SVG/DOM board (Pixi optional).** The engine is the risk in this project, not the renderer, and TypeScript gives the cheapest possible loop for rules: edit a card definition, run one test, see the whole game in a headless trace in milliseconds. `game-data/` already ships validated JSON; the codegen/typegen step is ~2 engineer-weeks and eliminates an entire class of "content doesn't match engine" bugs.
 
-The honest cost of this choice: JS performance ceilings, GC pauses, and the need for discipline around determinism (iteration order, floating point). All three are handled by explicit rules in §5.3 and performance budgets in §11; none of them are on the critical path at Miniknight's scale (a turn is tens of actions, not thousands).
+The honest cost of this choice: JS performance ceilings, GC pauses, and the need for discipline around determinism (iteration order, floating point). All three are handled by explicit rules in §5.3 and performance budgets in §11; none of them are on the critical path at Emberwold's scale (a turn is tens of actions, not thousands).
 
-**Why not Rust core now.** The upstream project is the best evidence available for the rules model, and its history is instructive: it built a complete TypeScript monorepo first (≈7 weeks, 1,062 commits), then scaffolded a Rust engine in four days and let the Rust workspace grow for eight months, deleting the TS engine; the migration was affordable because the rules had already been encoded once and was safeguarded by TS-generated golden traces replayed as parity tests (`../research/05-digital-precedents.md` §1.2–§1.3). Rust buys throughput for the RL stack (vectorized env, PyO3) and strictness on a very large effect surface, but it also imposed a two-language toolchain and a permanent parity burden. Miniknight needs neither: ~40–110 cards, one scenario, no ML in-product. Encoding the rules once in TypeScript, with golden traces and a serialized engine protocol, gets us most of the future-proofing at a fraction of the toolchain cost — and makes a later Rust port mechanical rather than a rewrite from scratch.
+**Why not Rust core now.** The upstream project is the best evidence available for the rules model, and its history is instructive: it built a complete TypeScript monorepo first (≈7 weeks, 1,062 commits), then scaffolded a Rust engine in four days and let the Rust workspace grow for eight months, deleting the TS engine; the migration was affordable because the rules had already been encoded once and was safeguarded by TS-generated golden traces replayed as parity tests (`../research/05-digital-precedents.md` §1.2–§1.3). Rust buys throughput for the RL stack (vectorized env, PyO3) and strictness on a very large effect surface, but it also imposed a two-language toolchain and a permanent parity burden. Emberwold needs neither: ~40–110 cards, one scenario, no ML in-product. Encoding the rules once in TypeScript, with golden traces and a serialized engine protocol, gets us most of the future-proofing at a fraction of the toolchain cost — and makes a later Rust port mechanical rather than a rewrite from scratch.
 
 **Escape hatch, and its trigger.** Keep the engine behind a serialized protocol (`GameState`, `Action`, `GameEvent`, `LegalAction`, all JSON-safe, versioned). If measured thresholds are breached — e.g. arena throughput < 2,000 games/hour/core, or `getLegalActions` p95 > 15 ms on a low-end laptop, or AI search becomes a shipped feature that needs > 100k rollouts/game — port *only* the engine to Rust behind the same protocol. The client, content bundle and replay format do not change. This is a cheap option to buy because it constrains nothing else (see D1 in §1 and `13-ai-opponents.md` §3.3 for the AI-driven case).
 
@@ -158,7 +158,7 @@ graph TD
 ### 4.3 Repository layout
 
 ```
-miniknight/
+emberwold/
   game-data/                    # owned by data-extractor (JSON + schema.md/README)
   packages/
     shared/                     # branded IDs, CardId/EnemyId/etc., protocol envelope, util types
@@ -239,7 +239,7 @@ export interface GameState {
   readonly gameId: string;
   readonly seed: number;                  // u32, display/audit only
   readonly scenarioId: string;
-  readonly rulesetId: "mkue2018" | "mk2012" | "miniknight-v1";
+  readonly rulesetId: "mkue2018" | "mk2012" | "emberwold-v1";
 
   readonly phase: GamePhase;
   readonly round: number;                 // 1-based, ≤ scenario.roundLimit
@@ -321,7 +321,7 @@ Notes that matter for implementation:
 * **`pending` is a single blocking choice**, matching the upstream lesson that a pile of `pending*` fields on the player is unmaintainable (`packages/engine-rs/CLAUDE.md` §Key Design Decisions). The sequence is always: action → resolve effects → maybe need a choice → engine pauses with `pending` → next action is `ResolveChoice`. Everything else is illegal while `pending` is non-null.
 * **`actionEpoch`** increments on every accepted action and is embedded in `LegalActionSet`; the client/server must send back the epoch with the action, and stale epochs are rejected with a typed error. This prevents double-submit and "clicked a stale option after animation" bugs. Upstream uses exactly this guard plus fully parameterized actions (`packages/engine-rs/crates/mk-types/src/legal_action.rs`).
 * **State-machine alignment with the rules spec.** The engine state must mirror [`../research/02-rules-core.md`](../research/02-rules-core.md) §1: round phases `prepare → tactics → turns`; turn sub-state `special → movement → action → end`; combat as its own machine; and the end-of-turn **fixed pipeline** (return mana dice → forced withdrawal → clear play area → space benefits → combat rewards → level-up → draw) implemented as ordered `PendingChoice` steps, never as one atomic action (02 §15.1). Two engine-critical bookkeeping details come from the same section and must be in state from day one: (a) `finalTurnsPending` for the interaction of end-of-round announcement and scenario-end triggers (02 §1.3, MKUE p.4 §4b–d), and (b) the "at least one card played/discarded this turn" legality check on turn submission (02 §15.1 step 8). Effect windows and simultaneous-ordering ownership are specified in 02 §19.1–§19.2; implement them as reserved turn-phase guards even where T1 content does not use them.
-* **`rulesetId`** exists because base 2012 and UE 2018 differ in places. Miniknight targets UE 2018 as primary authority (`00-brief.md` §2) and records the ruleset in saves/replays so a future rule change cannot silently alter old replays.
+* **`rulesetId`** exists because base 2012 and UE 2018 differ in places. Emberwold targets UE 2018 as primary authority (`00-brief.md` §2) and records the ruleset in saves/replays so a future rule change cannot silently alter old replays.
 
 ### 5.3 Determinism and RNG
 
@@ -473,7 +473,7 @@ The key design borrowed from upstream's `incremental-combat-allocation.md`: **do
 
 **Turn-submission legality** includes the rules requirement that at least one card was played or discarded during/at the end of a turn (except when the hand was empty but the deck was not) — enforce it in `getLegalActions`/`applyAction`, never by forcing a discard UI (02 §15.1 step 8).
 
-**Anti-pattern to reject (from a real upstream bug):** two independent predicate gates for playability (`effectHas*()` for "is this type relevant here" and `isEffectResolvable()` for "would it do something"). They drift, and cards become unplayable or illegal-to-apply. Miniknight uses **one registry entry per effect type** with a single `isApplicable(effect, state, ctx)` function and one `apply(effect, state, ctx)` function co-located; both legal enumeration and reduction call the same functions. Content validation ensures every effect type used in `game-data/` exists in the registry. See §6 and `docs/design/adding-new-card-effects.md` upstream for the failure mode being avoided (cited for context only; no code is copied).
+**Anti-pattern to reject (from a real upstream bug):** two independent predicate gates for playability (`effectHas*()` for "is this type relevant here" and `isEffectResolvable()` for "would it do something"). They drift, and cards become unplayable or illegal-to-apply. Emberwold uses **one registry entry per effect type** with a single `isApplicable(effect, state, ctx)` function and one `apply(effect, state, ctx)` function co-located; both legal enumeration and reduction call the same functions. Content validation ensures every effect type used in `game-data/` exists in the registry. See §6 and `docs/design/adding-new-card-effects.md` upstream for the failure mode being avoided (cited for context only; no code is copied).
 
 ### 5.6 Effects: data-driven interpreter with a strict registry
 
@@ -521,7 +521,7 @@ export interface EffectHandler<E extends Effect = Effect> {
 
 Rules for the effect layer:
 
-* Keep the atomic set **small**: target ≤40 atomic types for Miniknight. If a card needs something new, first try composing existing effects; only add a new atomic type with a design note and tests. "Special" effects are a red flag and should be rare (target 0–3).
+* Keep the atomic set **small**: target ≤40 atomic types for Emberwold. If a card needs something new, first try composing existing effects; only add a new atomic type with a design note and tests. "Special" effects are a red flag and should be rare (target 0–3).
 * Every effect handler needs at least: happy path test, not-applicable test, undo behavior test (if reversible), and content fixture exercising it.
 * Effects must never read hidden information they should not (e.g. a card cannot peek at deck order unless the rules say so).
 * Composite evaluation is a single effect for rules purposes: partial-block restrictions, resistance checks, and "cannot combine" rules must see the composite as one unit (`MKUE Rulebook, p.5` "Composite effects").
@@ -558,7 +558,7 @@ One nuance: hotseat requires a **handoff screen** between players, and the view 
 
 ### 6.1 Current state and stages
 
-The data layer already exists: `game-data/` ships **JSON** (schema v1.0.0, see `game-data/schema.md`), validated by `tools/validate_data.py`, indexed by `game-data/manifest.json` (per-file counts + SHA-256 + coverage), with an allowed effect vocabulary in `game-data/effect-ops.json` and an upstream provenance pin. Both Miniknight scenarios are already present as data: `scenario:first-conquest` (3 rounds, 1 city level 4) and `scenario:classic` (official 6-round Solo Conquest shape). The build pipeline therefore starts from "consume and verify", not "invent a format":
+The data layer already exists: `game-data/` ships **JSON** (schema v1.0.0, see `game-data/schema.md`), validated by `tools/validate_data.py`, indexed by `game-data/manifest.json` (per-file counts + SHA-256 + coverage), with an allowed effect vocabulary in `game-data/effect-ops.json` and an upstream provenance pin. Both Emberwold scenarios are already present as data: `scenario:first-conquest` (3 rounds, 1 city level 4) and `scenario:classic` (official 6-round Solo Conquest shape). The build pipeline therefore starts from "consume and verify", not "invent a format":
 
 ```mermaid
 flowchart LR
@@ -576,7 +576,7 @@ flowchart LR
 4. **Codegen**: emit `packages/content` (frozen typed bundle + plain JSON). The runtime never reads `game-data/` directly; the engine receives a `ContentBundle` via `EngineContext`, which keeps tests injectable and the client bundle small.
 5. **Coverage**: emit a per-id coverage report (used in golden traces/tests), and fail CI if a T1-manifest id is unexercised.
 
-**Important vocabulary split.** `game-data/effect-ops.json` is a *research superset* (142 ops, extracted from the full upstream content surface) used to describe every card in the source data. The Miniknight engine implements a curated subset — target **≤40 atomic engine ops** (§5.6). The codegen step maintains an explicit `dataOp → engineHandler` map; anything unmapped is reported per id and is a hard error for T1 content, a warning for research-only content. This keeps the data set complete for research while keeping the engine small for shipping.
+**Important vocabulary split.** `game-data/effect-ops.json` is a *research superset* (142 ops, extracted from the full upstream content surface) used to describe every card in the source data. The Emberwold engine implements a curated subset — target **≤40 atomic engine ops** (§5.6). The codegen step maintains an explicit `dataOp → engineHandler` map; anything unmapped is reported per id and is a hard error for T1 content, a warning for research-only content. This keeps the data set complete for research while keeping the engine small for shipping.
 
 ### 6.2 Content domains (maps to the shipped files)
 
@@ -668,7 +668,7 @@ export interface ActionRecord {
 
 **Why action log is canonical:** deterministic replay means the log *is* the game (≈100–600 actions per scenario, ~50–200 KB JSON, <20 KB gzipped). The snapshot is an optimization; if it's missing or fails validation, the loader replays. This gives free replay, free bug reports (`save` attachment = full reproduction), free "share your run" feature, and cheap save migrations (replay through new engine only when ruleset+content match).
 
-**Autosave:** at each turn boundary (and on `visibilitychange`), matching [`11-mvp-scope.md`](./11-mvp-scope.md) §2. Persist to IndexedDB with one active run slot + internal rolling autosaves for crash recovery; the UI exposes one run slot, a replay log, and a manual export. Exported saves are a single `.miniknight.json` file — the async multiplayer primitive (§8).
+**Autosave:** at each turn boundary (and on `visibilitychange`), matching [`11-mvp-scope.md`](./11-mvp-scope.md) §2. Persist to IndexedDB with one active run slot + internal rolling autosaves for crash recovery; the UI exposes one run slot, a replay log, and a manual export. Exported saves are a single `.emberwold.json` file — the async multiplayer primitive (§8).
 
 **Save loading rules:** if `contentHash` matches, replay/load; if not, check the content registry (bundles keyed by hash, shipped as versioned JSON if we keep backward compat) else refuse with "This save was created with content version X — update to load, or start a new game." Never silently reinterpret old content with new rules. `rulesetId` mismatch refuses similarly.
 
@@ -982,7 +982,7 @@ gantt
 * The client can start once Phase 1's headless loop stabilizes (state/events/legal actions frozen), avoiding UI rework.
 * If schedule slips, cut in this order: (1) second hero (T1 ships one), (2) Classic preset content (T1 ships First Conquest only), (3) hotseat (T2 scope), (4) AI bot, (5) T2 extras beyond the manifest (dungeons/tombs/ruins, daily challenge), (6) Tauri packaging. Do not cut determinism, save/undo, tutorial or fuzz testing.
 
-### 12.4 Miniknight tier mapping (phases → tiers)
+### 12.4 Emberwold tier mapping (phases → tiers)
 
 | Tier | Phase fractions consumed | Incremental ew | Explicitly deferred to a later tier |
 |---|---|---|---|

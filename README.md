@@ -1,10 +1,10 @@
-# Miniknight
+# Emberwold
 
 **A feasibility study and pre-production package for a scaled-down digital adaptation of
 *Mage Knight Board Game*.**
 
-> ⚠️ **Working title / fan project.** Miniknight is not affiliated with, endorsed by, or
-> licensed by WizKids or Vlaada Chvátil. *Mage Knight* and its art are the property of their
+> ⚠️ **Work in progress / fan project.** Emberwold (formerly codenamed "Miniknight") is not
+> affiliated with, endorsed by, or licensed by WizKids or Vlaada Chvátil. *Mage Knight* and its art are the property of their
 > owners. No publisher rulebook, art or card text is redistributed in this repository.
 > Read [`docs/research/06-legal-ip.md`](docs/research/06-legal-ip.md) before anything public.
 
@@ -43,7 +43,7 @@ duplicating them.
 
 | # | Document | What it gives you |
 |---|---|---|
-| 1 | [`docs/research/01-game-overview.md`](docs/research/01-game-overview.md) | What Mage Knight is, why adapt it, the Miniknight thesis |
+| 1 | [`docs/research/01-game-overview.md`](docs/research/01-game-overview.md) | What Mage Knight is, why adapt it, the Emberwold thesis |
 | 2 | [`docs/research/02-rules-core.md`](docs/research/02-rules-core.md) | Implementation-grade rules spec |
 | 3 | [`docs/research/03-rules-reference.md`](docs/research/03-rules-reference.md) | Tables: sites, enemies, cards, heroes, tiles, scenarios |
 | 4 | [`docs/research/04-faq-clarifications.md`](docs/research/04-faq-clarifications.md) | Ambiguity/decision register for the engine |
@@ -101,7 +101,7 @@ Recorded in [`docs/design/00-decisions.md`](docs/design/00-decisions.md):
 6. **Art** — **100% AI-generated** (ADR-006): workflow and per-slot prompts in
    [`18-ai-art-prompts.md`](docs/design/18-ai-art-prompts.md) + [`art/prompts.json`](art/prompts.json);
    no commissioned budget.
-7. **Naming** — codename internal until v1 (ADR-007).
+7. **Name** — **Emberwold** (repo renamed 2026-10-24); public product branding/wordmark deferred until v1 (ADR-007).
 
 Still open: public name screening (deferred until v1, ADR-007) and whether the game will
 ever be shared publicly beyond the repository (see `00-decisions.md` P3/P4).

@@ -1,4 +1,4 @@
-# 17 · Platform / Framework Analysis — what to build Miniknight on
+# 17 · Platform / Framework Analysis — what to build Emberwold on
 
 **Status:** v1 · **Owner:** Lead · **Date:** 2026-10-24 · **Supersedes:** the premature
 "Godot" assumption in ADR-003; this document is the basis for the accepted stack.

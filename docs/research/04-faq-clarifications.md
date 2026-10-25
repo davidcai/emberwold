@@ -1,4 +1,4 @@
-# Miniknight — Official FAQ Recovery & Rules Ambiguity Register
+# Emberwold — Official FAQ Recovery & Rules Ambiguity Register
 
 **Status:** research draft · **Owner:** rules-analyst · **Last updated:** 2026-10-24
 **Purpose:** (A) record the recovery of the official Mage Knight FAQ and its contents;
@@ -363,7 +363,7 @@ timing rules are missing from our sources.** `[LL]`/§C item 3
 *Sources:* FAQ p.1 — "These rules changed when the Lost Legion expansion came out... Page 9 of the
 Lost Legion rulebook... should be used even if you do not have LL."
 *Options:* (a) recover LL rulebook p.9; (b) approximate from card icons in the cross-check data;
-(c) design Miniknight's own timing rules.
+(c) design Emberwold's own timing rules.
 **Recommendation:** recover the LL rulebook (WizKids has the PDF; the old WizKids site also
 linked `mk-lost-legion-rulebook-en.pdf`). Until then mark all card-timing behaviour
 ⚠️ UNVERIFIED and gate combats to "card's labelled phases only". *Risk:* P0 — wrong legality
@@ -585,12 +585,12 @@ order/tempo features (Early Bird etc.) unimplementable.
 **A-48 · P2 · Card effect texts missing entirely from primary sources.** Data gap for
 data-extractor; see §C.
 
-### B.10 Miniknight-specific simplification opportunities (avoid the ambiguity instead of solving it)
+### B.10 Emberwold-specific simplification opportunities (avoid the ambiguity instead of solving it)
 
-| Open ambiguity | Cheapest Miniknight simplification |
+| Open ambiguity | Cheapest Emberwold simplification |
 |---|---|
-| A-19 card timing icons (LL rules) | Restrict Miniknight decks to cards whose legal phases are already clear from the engine's own labels; ship only cards tested against a rules whitelist. |
-| A-26 PvP over-assignment | If Miniknight is solo/co-op only (design option), PvP ambiguity disappears entirely. |
+| A-19 card timing icons (LL rules) | Restrict Emberwold decks to cards whose legal phases are already clear from the engine's own labels; ship only cards tested against a rules whitelist. |
+| A-26 PvP over-assignment | If Emberwold is solo/co-op only (design option), PvP ambiguity disappears entirely. |
 | A-38 hidden info and scouting/reveal rules | Keep the visual reveal rules but make all map tokens public in a "learning mode". |
 | A-42/A-43/A-44 board-art values | Verify once from physical components and freeze in data files. |
 | A-30 multiple level-ups | Reduce XP curve so >1 level per turn is rare (still implement correctly). |

@@ -5,13 +5,13 @@
   "provenance": {
     "generated_by": "hand-maintained",
     "schema_version": "1.0.0",
-    "notes": "Built from the 2012 base-game rulebook's bundled Scenario Book (reference/extracted/MK_base_rulebook_2012.txt, PDF p.12-19), cross-checked with the UE rulebook's scenario summaries (MKUE Rulebook p.14-22). The UE Scenario Book is a separate booklet that is NOT in our sources, so expansion scenarios (Volkare's Quest / Volkare's Return, Lost Legion and Shades of Tezla scenarios) are missing. Where the two printings differ (e.g. spell card numbers: 2012 = 17-20, UE = 109-112) the caveat records both. 'first-conquest' is a deliberate Miniknight variant from docs/design/11-mvp-scope.md, not an official scenario.",
+    "notes": "Built from the 2012 base-game rulebook's bundled Scenario Book (reference/extracted/MK_base_rulebook_2012.txt, PDF p.12-19), cross-checked with the UE rulebook's scenario summaries (MKUE Rulebook p.14-22). The UE Scenario Book is a separate booklet that is NOT in our sources, so expansion scenarios (Volkare's Quest / Volkare's Return, Lost Legion and Shades of Tezla scenarios) are missing. Where the two printings differ (e.g. spell card numbers: 2012 = 17-20, UE = 109-112) the caveat records both. 'first-conquest' is a deliberate Emberwold variant from docs/design/11-mvp-scope.md, not an official scenario.",
     "official_cross_check": "Solo Conquest parameters agree in MKUE Rulebook p.19 and MK Base Rulebook 2012 p.17: wedge, 7 countryside, 2 city + 2 non-city core tiles, cities level 5 then 8, six rounds, dummy player, four competitive Spells removed, one interactive Skill removed."
   },
   "sources": [
     "MK Base Rulebook 2012 p.12-19 (scenario book; full text)",
     "MKUE Rulebook p.14-22 (scenario summaries, solo/coop rules)",
-    "docs/design/11-mvp-scope.md (Miniknight First Conquest variant)"
+    "docs/design/11-mvp-scope.md (Emberwold First Conquest variant)"
   ],
   "items": [
     {
@@ -102,7 +102,7 @@
       "status": "omitted",
       "confidence": "official",
       "official_ref": "MK Base Rulebook 2012 p.16; MKUE Rulebook p.19",
-      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "caveat": "Competitive scenario; out of Emberwold v1 scope.",
       "source": "official"
     },
     {
@@ -191,7 +191,7 @@
       "status": "omitted",
       "confidence": "official",
       "official_ref": "MK Base Rulebook 2012 p.17; MKUE Rulebook p.20",
-      "caveat": "Cooperative scenario; out of Miniknight v1 scope.",
+      "caveat": "Cooperative scenario; out of Emberwold v1 scope.",
       "source": "official"
     },
     {
@@ -372,7 +372,7 @@
       "confidence": "official",
       "source": "official",
       "official_ref": "MK Base Rulebook 2012 p.19",
-      "caveat": "Team/competitive scenario from the 2012 scenario book; out of Miniknight v1 scope. The predefined map layout is a picture and is not encoded."
+      "caveat": "Team/competitive scenario from the 2012 scenario book; out of Emberwold v1 scope. The predefined map layout is a picture and is not encoded."
     },
     {
       "id": "scenario:druid-nights",
@@ -448,7 +448,7 @@
       "status": "omitted",
       "confidence": "official",
       "official_ref": "MK Base Rulebook 2012 p.18",
-      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "caveat": "Competitive scenario; out of Emberwold v1 scope.",
       "source": "official"
     },
     {
@@ -535,7 +535,7 @@
       "status": "omitted",
       "confidence": "official",
       "official_ref": "MK Base Rulebook 2012 p.18",
-      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "caveat": "Competitive scenario; out of Emberwold v1 scope.",
       "source": "official"
     },
     {
@@ -573,7 +573,7 @@
         ],
         "layout": null,
         "layout_status": "todo",
-        "layout_note": "Fixed hand-authored placement is a Miniknight design decision, not an official layout. TODO: author explicit hex-adjacency placement (start tile A centre; 2 countryside tiles on the wedge frontier; 1 city tile at the far end) plus site seeding (village, monastery, keep, mage tower, magical glade, crystal mine, rampaging orcs) in a follow-up data pass."
+        "layout_note": "Fixed hand-authored placement is a Emberwold design decision, not an official layout. TODO: author explicit hex-adjacency placement (start tile A centre; 2 countryside tiles on the wedge frontier; 1 city tile at the far end) plus site seeding (village, monastery, keep, mage tower, magical glade, crystal mine, rampaging orcs) in a follow-up data pass."
       },
       "cities": {
         "count": 1,
@@ -582,7 +582,7 @@
         ]
       },
       "dummy_player": true,
-      "dummy_player_note": "Simplified Miniknight dummy: consumes tactics and provides round-clock pressure (see docs/design/11-mvp-scope.md); full official dummy logic lives in the Classic preset.",
+      "dummy_player_note": "Simplified Emberwold dummy: consumes tactics and provides round-clock pressure (see docs/design/11-mvp-scope.md); full official dummy logic lives in the Classic preset.",
       "skills_enabled": true,
       "elite_units_enabled": false,
       "spells_available": true,
@@ -593,7 +593,7 @@
         "detail": "Remove the four competitive Spells and the non-matching interactive Skill, as in official Solo Conquest (MK Base Rulebook 2012 p.17)."
       },
       "special_rules": [
-        "Miniknight tuned variant; not an official scenario",
+        "Emberwold tuned variant; not an official scenario",
         "target session length 20-30 minutes; target win rate roughly 50%",
         "tuned scoring weights (see scoring.tuning)"
       ],
@@ -627,7 +627,7 @@
       "status": "data-ready",
       "confidence": "official+upstream",
       "official_ref": "docs/design/11-mvp-scope.md §4.1; shape derived from official Solo Conquest (MK Base Rulebook 2012 p.17 / MKUE Rulebook p.19)",
-      "caveat": "Miniknight-specific variant. Tile/site layout and tuned scoring are design decisions and are not authored yet (layout_status=todo).",
+      "caveat": "Emberwold-specific variant. Tile/site layout and tuned scoring are design decisions and are not authored yet (layout_status=todo).",
       "source": "official+upstream"
     },
     {
@@ -704,7 +704,7 @@
       "status": "omitted",
       "confidence": "official",
       "official_ref": "MK Base Rulebook 2012 p.15; MKUE Rulebook p.18; MKUE Walkthrough p.1-4",
-      "caveat": "Base-game/solo-variant setup data; not needed for Miniknight v1.",
+      "caveat": "Base-game/solo-variant setup data; not needed for Emberwold v1.",
       "source": "official"
     },
     {
@@ -794,7 +794,7 @@
       "status": "omitted",
       "confidence": "official",
       "official_ref": "MK Base Rulebook 2012 p.16; MKUE Rulebook p.19",
-      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "caveat": "Competitive scenario; out of Emberwold v1 scope.",
       "source": "official"
     },
     {
@@ -894,7 +894,7 @@
       "status": "omitted",
       "confidence": "official",
       "official_ref": "MK Base Rulebook 2012 p.16; MKUE Rulebook p.20",
-      "caveat": "Cooperative scenario; out of Miniknight v1 scope (solo only).",
+      "caveat": "Cooperative scenario; out of Emberwold v1 scope (solo only).",
       "source": "official"
     },
     {
@@ -979,7 +979,7 @@
       "status": "omitted",
       "confidence": "official",
       "official_ref": "MK Base Rulebook 2012 p.17; MKUE Rulebook p.20",
-      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "caveat": "Competitive scenario; out of Emberwold v1 scope.",
       "source": "official"
     },
     {
@@ -1054,7 +1054,7 @@
       "status": "omitted",
       "confidence": "official",
       "official_ref": "MK Base Rulebook 2012 p.19",
-      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "caveat": "Competitive scenario; out of Emberwold v1 scope.",
       "source": "official"
     }
   ]

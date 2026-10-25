@@ -24,8 +24,8 @@
 | Is the *game system* protected? | Rules **as an idea/system** are generally not copyrightable, but the **rulebook text, card text, art, iconography, logo, and trade dress** are. A faithful reimplementation of mechanics is the defensible part; a reproduction of the *expression* is not. See §3. |
 | Are there official digital rights available? | Yes in principle — WizKids licenses its catalogue, and **Dire Wolf Digital signed a Mage Knight digital deal in 2019** (then never shipped). See §5.3. |
 | What do fan projects actually do? | They ship anyway: the most mature engine has **no licence at all**; the most complete web remake **bundles official art and the official PDFs** with a disclaimer; the biggest audience is a **Tabletop Simulator mod with ~162 k lifetime subscriptions**. See §5. |
-| What is the bottom line for Miniknight? | **Build the prototype now. Do not publicly release under the Mage Knight name or with official assets without a licence decision.** The cheapest defensible public path is a **clean-room re-theme** (own name, own art, own text, same mechanics). See §8. |
-| Is "Miniknight" a safe name? | **Not established.** It is a *codename* at best. There are live third-party uses of "Mini Knight" in games (including on Steam) and it reads as a diminutive of "Mage Knight" in this context. See §7. |
+| What is the bottom line for Emberwold? | **Build the prototype now. Do not publicly release under the Mage Knight name or with official assets without a licence decision.** The cheapest defensible public path is a **clean-room re-theme** (own name, own art, own text, same mechanics). See §8. |
+| Is "Emberwold" a safe name? | **Not established** — the repo/project name is chosen, but no trademark/store/domain screen has been run. The retired codename "Miniknight" was unsafe (third-party uses, similarity). Full screen before any public release. See §7. |
 
 ---
 
@@ -34,7 +34,7 @@
 The single most useful exercise is to stop treating "Mage Knight" as one thing. It is at least
 eight separable layers, owned differently and protected differently.
 
-| # | Layer | Who owns it | Evidence (primary source) | What Miniknight may do |
+| # | Layer | Who owns it | Evidence (primary source) | What Emberwold may do |
 |---|---|---|---|---|
 | 1 | **The name / trademark** "Mage Knight", plus "WizKids", "HeroClix" | WizKids/NECA, LLC | Rulebook: "**WizKids and related marks and logos are trademarks of WizKids. All rights reserved.**" (MKUE Rulebook, p.22). Explicitly enumerated: "**HeroClix, WizKids, Mage Knight are trademarks of WIZKIDS/NECA, LLC.**" (Master Reference Sheet, p.2; identical line in MKUE Expansions Rulebook, p.15) | Use only as a *descriptive reference* to the source game in internal docs; never as the product name, logo, or store listing. |
 | 2 | **The rulebook text** (rules prose, examples, diagrams) | WizKids | "© 2018 WizKids/NECA, LLC … All rights reserved." (MKUE Rulebook, p.22) | Do **not** copy or redistribute the text. Rewrite rules in your own words / compact notation (`game-data/README.md`). |
@@ -46,7 +46,7 @@ eight separable layers, owned differently and protected differently.
 | 8 | **The code and data of existing fan projects** | Their authors | e.g. `mage-knight-digital/MageKnight` has **no LICENSE** → all rights reserved; `kyle-ip` has none either | Do not copy files, tables, or identifiers. See `05` §7. |
 
 **Practical consequence:** layers 6 (mechanics) are where you are free. Layers 1–5 (name, text,
-art, trade dress) are where every fan project is exposed. Miniknight's legal strategy is
+art, trade dress) are where every fan project is exposed. Emberwold's legal strategy is
 essentially: *take layer 6, replace layers 1–5.*
 
 ---
@@ -72,7 +72,7 @@ origin, sponsorship, or affiliation (Lanham Act §32, 15 U.S.C. §1114; §43(a),
 - Calling a game **"Mage Knight"**, or "Mage Knight Digital", or using the MK logo, is the core
   trademark problem.
 - A name that merely *evokes* the original can still be a problem if buyers think WizKids approved
-  it — this is the "Miniknight" question in §7.
+  it — this is the "Emberwold" question in §7.
 - Non-commercial status is **not a defence** to trademark infringement, though it is relevant to
   remedies and to a plaintiff's appetite.
 
@@ -126,7 +126,7 @@ privately and complied with silently. Do not read "nobody has been sued" as perm
    official artwork remain with their rights holders") while still redistributing both.
 3. **The most mature engine chose the opposite trade**: code public, **art private**, assets
    hosted separately, `.gitignore` comment "potentially copyrighted". That is a deliberate
-   risk-reduction design, and it is the one Miniknight should study.
+   risk-reduction design, and it is the one Emberwold should study.
 
 ### 5.3 WizKids' posture (what can be sourced)
 
@@ -157,9 +157,9 @@ current catalogue ([direwolfdigital.com/games](https://www.direwolfdigital.com/g
 
 ---
 
-## 6. Why this matters for Miniknight specifically
+## 6. Why this matters for Emberwold specifically
 
-Miniknight is a **deliberately reduced** adaptation (`00-brief.md` §5). Reduction does not reduce
+Emberwold is a **deliberately reduced** adaptation (`00-brief.md` §5). Reduction does not reduce
 IP exposure: a smaller Mage Knight is still a derivative work. In fact the *name* makes the
 derivation explicit, which is the one thing a trademark plaintiff needs.
 
@@ -178,41 +178,51 @@ expensive layer (art) for free and paid for it with legal exposure.
 
 ---
 
-## 7. Naming / trademark screen for "Miniknight"
+## 7. Naming: why "Miniknight" was retired, and the screen still needed for "Emberwold"
 
-### 7.1 What "Miniknight" is up against
+> **Historical note (2026-10-24).** The project was codenamed "Miniknight" and has been renamed
+> **Emberwold** (repo `davidcai/emberwold`). This section is kept because it documents *why* the
+> codename was a weak, crowded name, and because a proper screen of **Emberwold** is still
+> required before any public product release. The `miniknight` strings below refer to the retired
+> codename and third-party uses, not to this project.
+
+### 7.1 The retired codename ("Miniknight") — do not resurrect it
 
 | Risk | Analysis |
 |---|---|
-| **Similarity to "Mage Knight"** | Sight: different first word ("Mini" vs "Mage"), shared "night"/"knight" ending. Sound: "MIN-ee-nite" vs "MAYJ-nite" — two syllables each, same stress, same terminal sound. Meaning: "mini knight" is a natural diminutive; in the context of a scaled-down Mage Knight it reads as *"small Mage Knight"*. Commercial channels: identical (tabletop/digital strategy games). Under a likelihood-of-confusion analysis this is **not a safe name**; the context makes the association deliberate-looking. |
-| **Third-party uses already exist** | Steam store search for "miniknight" returns **"Mini Knight's Journey"** (app 2222250, $3.99) and its demo. GitHub has **12 repos** named `miniknight`/`MiniKnight`, including a 53-star F# platformer (`ChrisPritchard/MiniKnight`). So the name is both **already taken in the games market** and **weak as a brand** (descriptive/crowded). |
-| **It is not a "safe harbour" just because it is one word** | Compounding words does not avoid confusion; "Mini" + "Knight" is precisely the kind of variant a trademark examiner or a plaintiff's lawyer will call a colourable imitation. |
-| **Domain/store availability** | ⚠️ Not screened. `miniknight` on GitHub is already used by 12 repos; assume `.com` and store names are contested. |
+| **Similarity to "Mage Knight"** | Sight: different first word ("Mini" vs "Mage"), shared "night"/"knight" ending. Sound: "MIN-ee-nite" vs "MAYJ-nite" — same stress and terminal sound. Meaning: "mini knight" is a natural diminutive; in the context of a scaled-down Mage Knight it reads as *"small Mage Knight"*. Channels: identical (tabletop/digital strategy games). Under a likelihood-of-confusion analysis this was **not a safe name**. |
+| **Third-party uses already exist** | Steam store search for "miniknight" returns **"Mini Knight's Journey"** (app 2222250) and its demo. GitHub has **12 repos** named `miniknight`/`MiniKnight`, including a 53-star F# platformer (`ChrisPritchard/MiniKnight`). The name was already taken in the games market and weak as a brand (descriptive/crowded). |
+| **One word does not create a safe harbour** | Compounding words does not avoid confusion; "Mini" + "Knight" is exactly the kind of variant a trademark examiner or a plaintiff's lawyer calls a colourable imitation. |
+| **Domain/store availability** | ⚠️ Not screened for the retired codename; assume `.com` and store names were contested. |
 
-### 7.2 Recommended treatment of the name
+**Disposition:** stop using "Miniknight" for anything user-visible. It appears in this repo only
+as historical context and in `docs/prompts/1st-prompt.md` (the original brief).
 
-1. **Use "Miniknight" only as an internal codename** for the prototype and repo (as the brief
-   already does: "working title"). That is low-risk and fine.
-2. **Do not use it in any public build, store page, trailer, or domain** unless the trademark
-   screen in §7.3 comes back clean *and* your lawyer agrees. Given §7.1, expect it not to.
-3. **If the public product is a re-theme (§8, option D), drop "knight" entirely.** A name that
-   does not reference the source game at all is both legally safer and more original. "Knight"
-   in a game name is crowded (Mage Knight, Knight's Journey, Grey Knights, Imperial Knights…).
-4. **Keep a naming file** with the searches you ran and their dates — it is evidence of
-   good-faith screening if you ever need it.
+### 7.2 "Emberwold" — preliminary status (not a clearance opinion)
 
-### 7.3 Minimum trademark screen (do this before reserving a name)
+| Item | Status (2026-10-24) |
+|---|---|
+| Chosen by owner | ✅ Yes; GitHub repo renamed `davidcai/emberwold` (old URL redirects) |
+| Preliminary GitHub check | ✅ No bare-name repository/user collision found for `emberwold` at time of check (GitHub API search). This is **not** a trademark screen. |
+| Trademark / store / domain screen | ❌ Not done. Required before any public product release (§7.3). Deferred while the game is a private hobby project for the owner and friends. |
+| Product branding/wordmark | ❌ Deferred until v1 (ADR-007) |
 
-- [ ] **USPTO Trademark Search** (<https://tmsearch.uspto.gov/>) — search the exact name, plurals,
-      and phonetic variants; record classes 9 (software), 16 (printed matter), 28 (games), 41
-      (entertainment services). ⚠️ I could not retrieve registration records for "MAGE KNIGHT"
-      programmatically (the USPTO/Justia endpoints are JS- or Cloudflare-gated); a lawyer or a
-      paid search service should confirm registrations, owners, and classes.
-- [ ] **EUIPO eSearch** and **WIPO Global Brand Database** if you plan to sell in the EU/UK/international.
-- [ ] **Store searches**: Steam, App Store, Google Play, itch.io for the exact and near names.
+**Reading:** for a private hobby project tested with friends, no further naming work is needed.
+The moment anything is published (public repo *product*, store page, trailer, itch.io build), run
+§7.3 and record the results.
+
+### 7.3 Minimum trademark screen (before reserving or publishing a name)
+
+- [ ] **USPTO Trademark Search** (<https://tmsearch.uspto.gov/>) — exact name, plurals and
+      phonetic variants; classes 9 (software), 16 (printed matter), 28 (games), 41
+      (entertainment services). ⚠️ Registration records for "MAGE KNIGHT" could not be retrieved
+      programmatically (USPTO/Justia endpoints are JS- or Cloudflare-gated); use a lawyer or paid
+      search for anything public.
+- [ ] **EUIPO eSearch** and **WIPO Global Brand Database** if selling in the EU/UK/international.
+- [ ] **Store searches**: Steam, App Store, Google Play, itch.io for exact and near names.
 - [ ] **Domain + social handle** availability for the chosen name.
 - [ ] **Common-law search**: GitHub, Reddit, BGG, Board Game Arena, Tabletopia.
-- [ ] Record date-stamped screenshots of every search.
+- [ ] Record date-stamped screenshots of every search in a naming file.
 
 ---
 

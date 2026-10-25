@@ -1,9 +1,9 @@
-# 11 · Miniknight MVP Scope — the thing we actually build first
+# 11 · Emberwold MVP Scope — the thing we actually build first
 
 **Status:** v1 (Lead) · **Companions:** `10-feasibility-analysis.md`, `12-architecture.md`,
 `13-ai-opponents.md`, `14-roadmap.md`
 
-> **One sentence:** Miniknight v1 is a **solo-only, 20–30 minute, single-scenario digital
+> **One sentence:** Emberwold v1 is a **solo-only, 20–30 minute, single-scenario digital
 > Mage Knight** — one hero, a fixed four-tile map, one city to crack, ~40 card definitions,
 > full combat phases — that is **fun to play and provably rule-correct** before anything is
 > added back.
@@ -91,7 +91,7 @@ after v1.0 ships. No "just one more card" during the MVP.
 
 ### 4.1 "First Conquest" (default v1 scenario — tuned variant)
 
-Adapts Solo Conquest's shape to a short session. It is a **deliberate Miniknight variant**,
+Adapts Solo Conquest's shape to a short session. It is a **deliberate Emberwold variant**,
 not an official scenario; the Classic preset exists for players who want the official shape.
 
 | Parameter | First Conquest | Official Solo Conquest (reference) |
