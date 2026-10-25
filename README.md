@@ -22,6 +22,11 @@ Before writing game code, we answered three questions with evidence:
 **Status: research + design complete; no game code yet.** The next step is a 2-week spike
 (`docs/design/14-roadmap.md` §5).
 
+**For AI agents:** read [`AGENTS.md`](AGENTS.md) before changing anything — it contains the
+agent-specific rules (public-repo secret policy, clean-room constraints, data validation, git
+rules). Project facts stay in this README; `AGENTS.md` deliberately links here instead of
+duplicating them.
+
 ## TL;DR
 
 | Question | Answer |
@@ -55,6 +60,7 @@ Before writing game code, we answered three questions with evidence:
 | — | [`docs/design/16-art-brief.md`](docs/design/16-art-brief.md) | Art direction, specs, acceptance (commissioning fallback) |
 | — | [`docs/design/17-platform-analysis.md`](docs/design/17-platform-analysis.md) | Platform analysis + recommended stack |
 | — | [`docs/design/18-ai-art-prompts.md`](docs/design/18-ai-art-prompts.md) | AI art workflow + per-slot prompts |
+| — | [`AGENTS.md`](AGENTS.md) | Rules for AI coding agents (read before editing) |
 | — | [`game-data/README.md`](game-data/README.md) | Machine-readable content schema + provenance |
 | — | [`docs/research/08-sources.md`](docs/research/08-sources.md) | Every source, checksum, and retrieval method |
 
@@ -86,8 +92,8 @@ Recorded in [`docs/design/00-decisions.md`](docs/design/00-decisions.md):
 2. **IP** — **clean-room re-theme**: original name, world, terminology, text and art; same
    mechanics (ADR-002). World/naming bible: [`15-retheme-bible.md`](docs/design/15-retheme-bible.md).
 3. **Scope** — First Conquest (T1) is v1 (ADR-004).
-4. **Art** — commission early, starting with a small paid pilot; placeholders never block
-   (ADR-005). Brief: [`16-art-brief.md`](docs/design/16-art-brief.md).
+4. **Art process** — placeholders never block (ADR-005); sourcing is AI-generated (ADR-006);
+   brief/spec: [`16-art-brief.md`](docs/design/16-art-brief.md).
 5. **Platform** — web-first confirmed; **stack decided: web-native** (TypeScript + React + SVG
    board, Vite; desktop later via Tauri v2), Godot out of scope for v1 (ADR-003,
    [`17-platform-analysis.md`](docs/design/17-platform-analysis.md)).
@@ -96,7 +102,8 @@ Recorded in [`docs/design/00-decisions.md`](docs/design/00-decisions.md):
    no commissioned budget.
 7. **Naming** — codename internal until v1 (ADR-007).
 
-Still open: stack confirmation (ADR-003), pilot art budget cap, public name screening.
+Still open: public name screening (deferred until v1, ADR-007) and whether the game will
+ever be shared publicly beyond the repository (see `00-decisions.md` P3/P4).
 
 ## Licence
 
