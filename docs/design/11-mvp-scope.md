@@ -198,10 +198,10 @@ modal more than one level deep.
   tests. Adding a card is data + tests only.
 * Art is placeholder (frames + icons + colour) until the mechanics are locked; the art
   pipeline is a separate track (`07-assets-art-inventory.md`).
-* **Re-theme-ready by construction** (from `06-legal-ip.md` §8): stable internal content IDs;
-  display names, flavour text and art come from a content pack; **no Mage Knight names or
-  trademarks in code, asset filenames or UI strings**. This makes the difference between
-  "throw the project away" and "ship under original IP in a week" if the legal path requires it.
+* **Re-themed by construction** (ADR-002, `15-retheme-bible.md`): original world, names and
+  terminology; stable neutral internal content IDs; display names, flavour text and art come
+  from a content pack; **no Mage Knight names or trademarks in code, asset filenames or UI
+  strings**. Art slots and placeholder policy: `16-art-brief.md` + `art/manifest.json`.
 
 ## 9. Definition of done (v1.0)
 

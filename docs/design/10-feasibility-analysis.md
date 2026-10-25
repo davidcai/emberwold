@@ -220,7 +220,12 @@ it doesn't, stop and re-scope (see §9).
 | G3 (playtest, ~wk 10–14) | 5 external board-game players complete a game; ≥3 say "again" | Fix UX or abandon |
 | G4 (release candidate) | Tutorial, save/resume, settings, no rule deviations in golden suite | Delay release; no "beta" with known rule bugs |
 
-**Recommendation: GO**, scoped to option B, with G0 decided before any public artifact. The
+**Recommendation: GO**, scoped to option B, with G0 decided before any public artifact.
+
+**Decision recorded (2026-10-24):** GO, as a **personal educational hobby project** with a
+**clean-room re-theme** (ADR-001/002 in [`00-decisions.md`](./00-decisions.md)). That resolves
+G0 for private development; the public-release gates in `06` §9 still apply before anything
+is shown publicly. Stack choice remains open (ADR-003); art approach in `16-art-brief.md`. The
 project is worth doing because the gap is real and the technical risk is already retired;
 the discipline required is entirely about *not* building the full game.
 

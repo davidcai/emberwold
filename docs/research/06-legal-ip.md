@@ -225,6 +225,14 @@ expensive layer (art) for free and paid for it with legal exposure.
 | **C. Licensed commercial product** | Negotiate a licence from WizKids; ship with official name/art | High: advance/royalty, legal fees, publisher approval, milestone risk | **Low** (contractual) | Real revenue, official assets, storefronts | The only path that legitimises the name and art. Precedent exists (Dire Wolf, 2019) but that deal did not ship — expect a hard commercial conversation and a long timeline. |
 | **D. Clean-room original IP ("inspired by")** | Same mechanics, own name, own art, own world/text; marketed as a spiritual successor | Medium–high (art + narrative design) | **T0–T2** — lowest for a public/commercial product | Highest long-term: ownable IP, sellable, expandable | The only option that can become a business without a licence. Precedent: `tvhees/Colour-Quest` — "Single player game loosely inspired by Mage Knight Board Game". Also instructive: *Star Trek: Frontiers* (2016) — the same designer and publisher reusing the MK system under a licensed Star Trek theme, i.e. re-theming this exact rules engine is a proven pattern (see `01-game-overview.md`). |
 
+### Decision taken (2026-10-24)
+
+The owner chose **ADR-001 + ADR-002**: a **personal, educational, non-commercial hobby
+project** built as a **clean-room re-theme (option D)**. Consequences and remaining release
+gates are recorded in [`../design/00-decisions.md`](../design/00-decisions.md); the original
+world/name mapping is in [`../design/15-retheme-bible.md`](../design/15-retheme-bible.md).
+The options analysis below is kept as the reasoning behind that choice.
+
 ### Recommendation
 
 **Do A now → design for D → decide between B and C before any public build leaves your machine.**

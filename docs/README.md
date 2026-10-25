@@ -17,11 +17,14 @@ This folder is the complete pre-production package for **Miniknight**. It is spl
 | `research/06-legal-ip.md` | Legal & IP | ✅ v1 | precedent-analyst | **Read before public release** |
 | `research/07-assets-art-inventory.md` | Assets & art inventory | ✅ v1 | precedent-analyst | Art needs, legal sources, $0 MVP plan |
 | `research/08-sources.md` | Sources & provenance | ✅ v1 | Lead | URLs, checksums, retrieval log, blocked sources |
+| `design/00-decisions.md` | **Decision log (ADRs)** | ✅ v1 | Lead | Purpose, IP strategy, platform, scope, art — **start here after the summary** |
 | `design/10-feasibility-analysis.md` | Feasibility analysis | ✅ v1 | Lead | **The verdict**, effort, risks, gates |
 | `design/11-mvp-scope.md` | MVP scope (First Conquest) | ✅ v1 | Lead | What ships in v1.0 and what doesn't |
 | `design/12-architecture.md` | Technical architecture | ✅ v1 | architect | Engine, data pipeline, UI, testing, build plan |
 | `design/13-ai-opponents.md` | AI / opponents | ✅ v1 | architect | Why AI is hard; tiered approach; MVP stance |
 | `design/14-roadmap.md` | Roadmap | ✅ v1 | Lead | Tiers, milestones, gates, next 2 weeks |
+| `design/15-retheme-bible.md` | Re-theme bible | ✅ v0.1 | Lead | Original world, names, terminology map, copy rules |
+| `design/16-art-brief.md` | Art brief | ✅ v0.1 | Lead | Direction, specs, budget tiers, commissioning process |
 
 Legend: ✅ complete · ⏳ in progress · ⚠️ has unverified parts (see the doc's own flags)
 

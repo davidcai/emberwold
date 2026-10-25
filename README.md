@@ -50,6 +50,9 @@ Before writing game code, we answered three questions with evidence:
 | 10 | [`docs/design/12-architecture.md`](docs/design/12-architecture.md) | Engine/UI architecture, determinism, testing, build plan |
 | 11 | [`docs/design/13-ai-opponents.md`](docs/design/13-ai-opponents.md) | Why AI is hard here, and what to do instead |
 | 12 | [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) | Tiers, milestones, gates, first two weeks |
+| — | [`docs/design/00-decisions.md`](docs/design/00-decisions.md) | **The decisions log** (purpose, IP, platform, scope, art) |
+| — | [`docs/design/15-retheme-bible.md`](docs/design/15-retheme-bible.md) | Original world, names, terminology, copy rules |
+| — | [`docs/design/16-art-brief.md`](docs/design/16-art-brief.md) | Art direction, specs, budgets, commissioning process |
 | — | [`game-data/README.md`](game-data/README.md) | Machine-readable content schema + provenance |
 | — | [`docs/research/08-sources.md`](docs/research/08-sources.md) | Every source, checksum, and retrieval method |
 
@@ -73,13 +76,20 @@ reference/     gitignored: official PDFs + extracted text (see docs/research/08-
 * Validate the game data: `.venv/bin/python tools/validate_data.py`.
 * Citation convention: `(MKUE Rulebook, p.N)` = PDF page of the official rulebook.
 
-## Decisions needed before implementation
+## Decisions taken (2026-10-24)
 
-1. Release path: personal/portfolio, free fan release, licensed, or original IP? (`06`)
-2. Platform: web-first vs. desktop vs. mobile-first? (`10` §10)
-3. Confirm v1 scope = First Conquest (`11`).
-4. Art: placeholder v1 or commission early? (`07`)
-5. Public name (screen "Miniknight" before use). (`06`)
+Recorded in [`docs/design/00-decisions.md`](docs/design/00-decisions.md):
+
+1. **Purpose** — personal educational hobby project, non-commercial (ADR-001).
+2. **IP** — **clean-room re-theme**: original name, world, terminology, text and art; same
+   mechanics (ADR-002). World/naming bible: [`15-retheme-bible.md`](docs/design/15-retheme-bible.md).
+3. **Scope** — First Conquest (T1) is v1 (ADR-004).
+4. **Art** — commission early, starting with a small paid pilot; placeholders never block
+   (ADR-005). Brief: [`16-art-brief.md`](docs/design/16-art-brief.md).
+5. **Platform** — web first, desktop later; **stack choice pending** (ADR-003):
+   Godot-from-day-one vs web-native + Tauri. See the ADR's recommendation.
+
+Still open: stack confirmation (ADR-003), pilot art budget cap, public name screening.
 
 ## Licence
 

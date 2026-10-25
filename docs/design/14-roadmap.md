@@ -7,7 +7,14 @@ This roadmap sequences the work **after** the research phase. It is tiered so th
 tier ends in something playable — the single most important property for a project whose
 main failure mode (see `10` §4.1) is getting deep without ever shipping.
 
-## 0. Tiers at a glance
+## 0. Decisions and operating constraints
+
+Fixed by the owner on 2026-10-24 (see `00-decisions.md`): personal/educational hobby project;
+**clean-room re-theme** (original name, world, text, art); **web first** (desktop later —
+stack choice pending ADR-003); **First Conquest = v1**; art commissioned early but
+**placeholders never block**. These constrain the roadmap below; tier scope is unchanged.
+
+## 0.1 Tiers at a glance
 
 | Tier | Name | What ships | Content scope | Effort (1 dev + AI) | Gate to pass |
 |---|---|---|---|---|---|
@@ -108,7 +115,8 @@ current level (it compresses implementation, not playtesting or art).
 | Track | When | Deliverable | Owner |
 |---|---|---|---|
 | **Legal/name decision** | before M5 (T1 public build) | Chosen release path + public name + asset-rights checklist (`06`) | Lead/owner |
-| **Art** | placeholder M4; production art from M5 | Unit/enemy/tile/card-frame art, UI kit; budget ranges in `07` | Artist/designer |
+| **Re-theme** | M0–M1 (before first public string) | Apply `15-retheme-bible.md`: names/terminology/content-pack strings; remove forbidden terms; screen public name | Lead/designer |
+| **Art** | pilot after M3; production art from M5 | Slot-based deliverables per `16-art-brief.md` + `art/manifest.json`; placeholders never block | Artist/designer |
 | **Audio** | M5+ | 3–5 ambient loops, ~30 SFX, UI sounds | Contract composer |
 | **Playtest cohort** | from M4 | 5–8 board-game players, weekly build, structured feedback | Lead |
 | **Community/legal scanning** | continuous | Watch upstream project, WizKids announcements, fan expectations | Lead |

@@ -67,3 +67,5 @@ reference/
 # Generated / large assets
 *.tmp
 *.log
+# Art production: layered originals are large; manifest + web finals are committed
+art/source/
