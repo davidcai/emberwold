@@ -60,6 +60,10 @@ Saved/
 .env.local
 .env.*.local
 
+# Downloaded third-party reference material (see docs/research/08-sources.md).
+# Kept locally for research; not redistributed in the repo.
+reference/
+
 # Generated / large assets
 *.tmp
 *.log

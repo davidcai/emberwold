@@ -1,0 +1,267 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "ruins_token",
+  "count": 15,
+  "sources": [
+    "upstream-mk-data/ruins_tokens.rs",
+    "MK Master Reference Sheet p.1"
+  ],
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "schema_version": "1.0.0",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+      "path": "packages/engine-rs/crates/mk-data/src/ruins_tokens.rs",
+      "sha256": "e3cf37075cb2d91f09f81637d14931531188473c5c9b95eb783d938f5f5f54e6",
+      "fetched_at": "2026-10-25T02:32:56Z"
+    },
+    "confidence": "upstream-only",
+    "notes": "15 ancient-ruins tokens: 5 altars (pay mana for fame) and 10 enemy/reward tokens. Upstream claim; official Site Description card text not available, see master reference sheet p.1."
+  },
+  "items": [
+    {
+      "id": "ruins:altar_blue",
+      "kind": "altar",
+      "cost": [
+        [
+          "blue",
+          3
+        ]
+      ],
+      "fame": 7,
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:altar_green",
+      "kind": "altar",
+      "cost": [
+        [
+          "green",
+          3
+        ]
+      ],
+      "fame": 7,
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:altar_red",
+      "kind": "altar",
+      "cost": [
+        [
+          "red",
+          3
+        ]
+      ],
+      "fame": 7,
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:altar_white",
+      "kind": "altar",
+      "cost": [
+        [
+          "white",
+          3
+        ]
+      ],
+      "fame": 7,
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:altar_all_colors",
+      "kind": "altar",
+      "cost": [
+        [
+          "blue",
+          1
+        ],
+        [
+          "green",
+          1
+        ],
+        [
+          "red",
+          1
+        ],
+        [
+          "white",
+          1
+        ]
+      ],
+      "fame": 10,
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:enemy_green_brown_artifact",
+      "kind": "enemy",
+      "enemy_colors": [
+        "green",
+        "brown"
+      ],
+      "rewards": [
+        "artifact"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:enemy_green_violet_artifact",
+      "kind": "enemy",
+      "enemy_colors": [
+        "green",
+        "violet"
+      ],
+      "rewards": [
+        "unit"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:enemy_green_green_crystals",
+      "kind": "enemy",
+      "enemy_colors": [
+        "green",
+        "green"
+      ],
+      "rewards": [
+        "crystals_4"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:enemy_grey_brown_artifact",
+      "kind": "enemy",
+      "enemy_colors": [
+        "gray",
+        "brown"
+      ],
+      "rewards": [
+        "artifact"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:enemy_green_red_artifact_unit",
+      "kind": "enemy",
+      "enemy_colors": [
+        "green",
+        "red"
+      ],
+      "rewards": [
+        "artifact",
+        "advanced_action"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:enemy_brown_violet_spell_crystals",
+      "kind": "enemy",
+      "enemy_colors": [
+        "brown",
+        "violet"
+      ],
+      "rewards": [
+        "spell",
+        "crystals_4"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:enemy_brown_red_artifact_artifact",
+      "kind": "enemy",
+      "enemy_colors": [
+        "brown",
+        "red"
+      ],
+      "rewards": [
+        "artifact",
+        "artifact"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:enemy_green_green_green_artifact",
+      "kind": "enemy",
+      "enemy_colors": [
+        "green",
+        "green",
+        "green"
+      ],
+      "rewards": [
+        "unit"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:enemy_green_grey_artifact_spell",
+      "kind": "enemy",
+      "enemy_colors": [
+        "gray",
+        "white"
+      ],
+      "rewards": [
+        "artifact",
+        "spell"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "ruins:enemy_violet_violet_spell_unit",
+      "kind": "enemy",
+      "enemy_colors": [
+        "violet",
+        "violet"
+      ],
+      "rewards": [
+        "spell",
+        "advanced_action"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/ruins_tokens.rs",
+      "confidence": "upstream-only"
+    }
+  ]
+}

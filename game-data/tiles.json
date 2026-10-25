@@ -1,0 +1,2167 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "tiles",
+  "count": 27,
+  "counts": {
+    "starting": 2,
+    "countryside": 14,
+    "core_non_city": 6,
+    "core_city": 4,
+    "core_volkare": 1
+  },
+  "sources": [
+    "upstream-mk-data/tiles.rs",
+    "MKUE Walkthrough p.2"
+  ],
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "schema_version": "1.0.0",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+      "path": "packages/engine-rs/crates/mk-data/src/tiles.rs",
+      "sha256": "6d21a336e70e99d5e794317a6249960995a1ccbdeb2b3a574141f827e30cee33",
+      "fetched_at": "2026-10-25T02:32:56Z"
+    },
+    "confidence": "upstream-only",
+    "notes": "Hex layouts for starting tiles and the base-game countryside/core tiles (11 countryside + 8 core confirmed by MKUE Walkthrough p.2). Lost Legion tiles 12-14 / core 9-10 / Volkare tile are included and tagged expansion=lost_legion."
+  },
+  "items": [
+    {
+      "id": "tile:starting_a",
+      "name": "Starting A",
+      "tile_kind": "starting",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "plains",
+          "site": "portal",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": true,
+      "status": "placeholder",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:starting_b",
+      "name": "Starting B",
+      "tile_kind": "starting",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "plains",
+          "site": "portal",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_1",
+      "name": "Countryside 1",
+      "tile_kind": "countryside",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "forest",
+          "site": "magical_glade",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "plains",
+          "site": "village",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        }
+      ],
+      "mvp": true,
+      "status": "placeholder",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_10",
+      "name": "Countryside 10",
+      "tile_kind": "countryside",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "hills",
+          "site": "ancient_ruins",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "hills",
+          "site": "keep",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "hills",
+          "site": "monster_den",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_11",
+      "name": "Countryside 11",
+      "tile_kind": "countryside",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "plains",
+          "site": "mage_tower",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "plains",
+          "site": "ancient_ruins",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_12",
+      "name": "Countryside 12",
+      "tile_kind": "countryside",
+      "expansion": "lost_legion",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "wasteland",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "hills",
+          "site": "monastery",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "plains",
+          "site": "maze",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "hills",
+          "site": "refugee_camp",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_13",
+      "name": "Countryside 13",
+      "tile_kind": "countryside",
+      "expansion": "lost_legion",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "forest",
+          "site": "mage_tower",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "forest",
+          "site": "deep_mine",
+          "mine_color": null,
+          "deep_mine_colors": [
+            "green",
+            "blue"
+          ],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": "magical_glade",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_14",
+      "name": "Countryside 14",
+      "tile_kind": "countryside",
+      "expansion": "lost_legion",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "plains",
+          "site": "keep",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": "maze",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "hills",
+          "site": "village",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "desert",
+          "site": "deep_mine",
+          "mine_color": null,
+          "deep_mine_colors": [
+            "red",
+            "white"
+          ],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "desert",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_2",
+      "name": "Countryside 2",
+      "tile_kind": "countryside",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "forest",
+          "site": "magical_glade",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "plains",
+          "site": "village",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "hills",
+          "site": "mine",
+          "mine_color": "green",
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        }
+      ],
+      "mvp": true,
+      "status": "placeholder",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_3",
+      "name": "Countryside 3",
+      "tile_kind": "countryside",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "hills",
+          "site": "keep",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "hills",
+          "site": "mine",
+          "mine_color": "white",
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "plains",
+          "site": "village",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_4",
+      "name": "Countryside 4",
+      "tile_kind": "countryside",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "desert",
+          "site": "mage_tower",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "desert",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "plains",
+          "site": "village",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "desert",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_5",
+      "name": "Countryside 5",
+      "tile_kind": "countryside",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "plains",
+          "site": "monastery",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "hills",
+          "site": "mine",
+          "mine_color": "blue",
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "forest",
+          "site": "magical_glade",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_6",
+      "name": "Countryside 6",
+      "tile_kind": "countryside",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "hills",
+          "site": "mine",
+          "mine_color": "red",
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "hills",
+          "site": "monster_den",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_7",
+      "name": "Countryside 7",
+      "tile_kind": "countryside",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "swamp",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "forest",
+          "site": "magical_glade",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "plains",
+          "site": "tomb",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "plains",
+          "site": "monastery",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_8",
+      "name": "Countryside 8",
+      "tile_kind": "countryside",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "swamp",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "forest",
+          "site": "ancient_ruins",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "swamp",
+          "site": "village",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "swamp",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "forest",
+          "site": "magical_glade",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:countryside_9",
+      "name": "Countryside 9",
+      "tile_kind": "countryside",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": "keep",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "wasteland",
+          "site": "mage_tower",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "wasteland",
+          "site": "tomb",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:core_non_city_1",
+      "name": "Core Non City 1",
+      "tile_kind": "core_non_city",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "desert",
+          "site": "monastery",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "desert",
+          "site": "tomb",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "desert",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "desert",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "hills",
+          "site": "spawning_grounds",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:core_non_city_10",
+      "name": "Core Non City 10",
+      "tile_kind": "core_non_city",
+      "expansion": "lost_legion",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "forest",
+          "site": "labyrinth",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "forest",
+          "site": "keep",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "wasteland",
+          "site": "deep_mine",
+          "mine_color": null,
+          "deep_mine_colors": [
+            "red",
+            "blue",
+            "green",
+            "white"
+          ],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:core_non_city_2",
+      "name": "Core Non City 2",
+      "tile_kind": "core_non_city",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "wasteland",
+          "site": "ancient_ruins",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "hills",
+          "site": "mine",
+          "mine_color": "green",
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "swamp",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "draconum"
+          ]
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "swamp",
+          "site": "mage_tower",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:core_non_city_3",
+      "name": "Core Non City 3",
+      "tile_kind": "core_non_city",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "wasteland",
+          "site": "ancient_ruins",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "hills",
+          "site": "mage_tower",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "wasteland",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "hills",
+          "site": "mine",
+          "mine_color": "white",
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": "tomb",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:core_non_city_4",
+      "name": "Core Non City 4",
+      "tile_kind": "core_non_city",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "draconum"
+          ]
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "hills",
+          "site": "keep",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "wasteland",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "wasteland",
+          "site": "ancient_ruins",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "wasteland",
+          "site": "mine",
+          "mine_color": "blue",
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:core_non_city_9",
+      "name": "Core Non City 9",
+      "tile_kind": "core_non_city",
+      "expansion": "lost_legion",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "draconum"
+          ]
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "hills",
+          "site": "mage_tower",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "desert",
+          "site": "refugee_camp",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "desert",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "hills",
+          "site": "labyrinth",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:core_city_blue",
+      "name": "Core City Blue",
+      "tile_kind": "core_city",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "plains",
+          "site": "city",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "plains",
+          "site": "monastery",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "draconum"
+          ]
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:core_city_green",
+      "name": "Core City Green",
+      "tile_kind": "core_city",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "plains",
+          "site": "city",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "swamp",
+          "site": "village",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "swamp",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "swamp",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "forest",
+          "site": "magical_glade",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": true,
+      "status": "placeholder",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:core_city_red",
+      "name": "Core City Red",
+      "tile_kind": "core_city",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": "city",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "hills",
+          "site": "mine",
+          "mine_color": "red",
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "desert",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "desert",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "draconum"
+          ]
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "wasteland",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "draconum"
+          ]
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "desert",
+          "site": "ancient_ruins",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:core_city_white",
+      "name": "Core City White",
+      "tile_kind": "core_city",
+      "expansion": "base",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "plains",
+          "site": "city",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "draconum"
+          ]
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": "keep",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "wasteland",
+          "site": "spawning_grounds",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    },
+    {
+      "id": "tile:core_volkare",
+      "name": "Core Volkare",
+      "tile_kind": "core_volkare",
+      "expansion": "lost_legion",
+      "hex_count": 7,
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "plains",
+          "site": "volkares_camp",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "wasteland",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "draconum"
+          ]
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "desert",
+          "site": "village",
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "hills",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "deep_mine_colors": [],
+          "rampaging": [
+            "orc_marauder"
+          ]
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/tiles.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.2: 11 Countryside tiles, 8 Core tiles (4 city + 4 non-city), 2-sided starting tile."
+    }
+  ]
+}

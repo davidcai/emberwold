@@ -1,0 +1,1356 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "spells",
+  "count": 24,
+  "sources": [
+    "upstream-mk-data/cards.rs",
+    "MKUE Rulebook p.19",
+    "MK Base Rulebook 2012 p.17"
+  ],
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "schema_version": "1.0.0",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+      "path": "packages/engine-rs/crates/mk-data/src/cards.rs",
+      "sha256": "b8315523959b30988ea14c9d6a6e3ca422bb0fc9813c3097e37fc1f0f2ae18ac",
+      "fetched_at": "2026-10-25T02:32:56Z"
+    },
+    "confidence": "upstream-only",
+    "notes": "Base-game Spell deck is numbered 1-20 (2012 rulebook refers to the four competitive Spells as 17-20); upstream ships 24, consistent with 20 base + 4 Lost Legion spells. Per-card set attribution UNVERIFIED."
+  },
+  "items": [
+    {
+      "id": "spell:fireball",
+      "name": "Fireball",
+      "card_type": "spell",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_attack",
+          "amount": 5,
+          "combat_type": "ranged",
+          "element": "fire"
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "take_wound"
+            },
+            {
+              "op": "gain_attack",
+              "amount": 8,
+              "combat_type": "siege",
+              "element": "fire"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "spell:flame_wall",
+      "name": "Flame Wall",
+      "card_type": "spell",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 5,
+              "combat_type": "melee",
+              "element": "fire"
+            },
+            {
+              "op": "gain_block",
+              "amount": 7,
+              "element": "fire"
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 7,
+              "combat_type": "melee",
+              "element": "fire"
+            },
+            {
+              "op": "gain_block",
+              "amount": 9,
+              "element": "fire"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:tremor",
+      "name": "Tremor",
+      "card_type": "spell",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "select_combat_enemy",
+              "template": {
+                "op": "select_enemy_template",
+                "armor_change": -3,
+                "armor_minimum": 1
+              }
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "enemy_stat",
+                "stat": "armor",
+                "amount": -2,
+                "minimum": 1,
+                "attack_index": null,
+                "per_resistance": false,
+                "fortified_amount": null,
+                "exclude_resistance": null
+              },
+              "duration": "combat",
+              "scope": "all_enemies"
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "select_combat_enemy",
+              "template": {
+                "op": "select_enemy_template",
+                "armor_change": -3,
+                "armor_minimum": 1,
+                "fortified_armor_change": -6
+              }
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "enemy_stat",
+                "stat": "armor",
+                "amount": -2,
+                "minimum": 1,
+                "attack_index": null,
+                "per_resistance": false,
+                "fortified_amount": -4,
+                "exclude_resistance": null
+              },
+              "duration": "combat",
+              "scope": "all_enemies"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:mana_meltdown",
+      "name": "Mana Meltdown",
+      "card_type": "spell",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "mana_meltdown",
+          "powered": false
+        },
+        "powered": {
+          "op": "mana_meltdown",
+          "powered": true
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:demolish",
+      "name": "Demolish",
+      "card_type": "spell",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "ignore_fortification"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "enemy_stat",
+                "stat": "armor",
+                "amount": -1,
+                "minimum": 1,
+                "attack_index": null,
+                "per_resistance": false,
+                "fortified_amount": null,
+                "exclude_resistance": "fire"
+              },
+              "duration": "combat",
+              "scope": "all_enemies"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "select_combat_enemy",
+              "template": {
+                "op": "select_enemy_template",
+                "defeat": true,
+                "exclude_arcane_immune": true,
+                "exclude_resistance": "fire"
+              }
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "enemy_stat",
+                "stat": "armor",
+                "amount": -1,
+                "minimum": 1,
+                "attack_index": null,
+                "per_resistance": false,
+                "fortified_amount": null,
+                "exclude_resistance": "fire"
+              },
+              "duration": "combat",
+              "scope": "all_enemies"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:burning_shield",
+      "name": "Burning Shield",
+      "card_type": "spell",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_block",
+              "amount": 4,
+              "element": "fire"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "burning_shield_active",
+                "mode": "attack",
+                "block_value": 4,
+                "attack_value": 4
+              },
+              "duration": "combat",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_block",
+              "amount": 4,
+              "element": "fire"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "burning_shield_active",
+                "mode": "destroy",
+                "block_value": 4,
+                "attack_value": 0
+              },
+              "duration": "combat",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:offering",
+      "name": "Offering",
+      "card_type": "spell",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_crystal",
+              "color": "red"
+            },
+            {
+              "op": "discard_for_crystal",
+              "optional": true
+            },
+            {
+              "op": "discard_for_crystal",
+              "optional": true
+            },
+            {
+              "op": "discard_for_crystal",
+              "optional": true
+            }
+          ]
+        },
+        "powered": {
+          "op": "sacrifice"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:snowstorm",
+      "name": "Snowstorm",
+      "card_type": "spell",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_attack",
+          "amount": 5,
+          "combat_type": "ranged",
+          "element": "ice"
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "take_wound"
+            },
+            {
+              "op": "gain_attack",
+              "amount": 8,
+              "combat_type": "siege",
+              "element": "ice"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "spell:chill",
+      "name": "Chill",
+      "card_type": "spell",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "select_combat_enemy",
+          "template": {
+            "op": "select_enemy_template",
+            "exclude_arcane_immune": true,
+            "exclude_resistance": "ice",
+            "skip_attack": true,
+            "remove_fire_resistance": true
+          }
+        },
+        "powered": {
+          "op": "select_combat_enemy",
+          "template": {
+            "op": "select_enemy_template",
+            "exclude_arcane_immune": true,
+            "exclude_resistance": "ice",
+            "skip_attack": true,
+            "armor_change": -4,
+            "armor_minimum": 1
+          }
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:mist_form",
+      "name": "Mist Form",
+      "card_type": "spell",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": "all",
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 2
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_prohibition",
+                "prohibited_terrains": [
+                  "hills",
+                  "mountain"
+                ]
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "grant_resistances",
+                "resistances": [
+                  "physical",
+                  "fire",
+                  "ice"
+                ]
+              },
+              "duration": "turn",
+              "scope": "all_units"
+            },
+            {
+              "op": "grant_wound_immunity"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:mana_claim",
+      "name": "Mana Claim",
+      "card_type": "spell",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "mana_claim",
+          "with_curse": false
+        },
+        "powered": {
+          "op": "mana_claim",
+          "with_curse": true
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:space_bending",
+      "name": "Space Bending",
+      "card_type": "spell",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "space_bending_adjacency"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "ignore_rampaging_provoke"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "time_bending_active"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "noop"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:mana_bolt",
+      "name": "Mana Bolt",
+      "card_type": "spell",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "mana_bolt",
+          "base_value": 8
+        },
+        "powered": {
+          "op": "mana_bolt",
+          "base_value": 11
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:restoration",
+      "name": "Restoration",
+      "card_type": "spell",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "conditional",
+          "condition": {
+            "op": "on_terrain",
+            "terrain": [
+              "forest"
+            ]
+          },
+          "then_effect": {
+            "op": "gain_healing",
+            "amount": 5
+          },
+          "else_effect": {
+            "op": "gain_healing",
+            "amount": 3
+          }
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "conditional",
+              "condition": {
+                "op": "on_terrain",
+                "terrain": [
+                  "forest"
+                ]
+              },
+              "then_effect": {
+                "op": "gain_healing",
+                "amount": 5
+              },
+              "else_effect": {
+                "op": "gain_healing",
+                "amount": 3
+              }
+            },
+            {
+              "op": "conditional",
+              "condition": {
+                "op": "on_terrain",
+                "terrain": [
+                  "forest"
+                ]
+              },
+              "then_effect": {
+                "op": "ready_units_budget",
+                "total_levels": 5
+              },
+              "else_effect": {
+                "op": "ready_units_budget",
+                "total_levels": 3
+              }
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "healing"
+        ],
+        "powered": [
+          "healing"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "spell:energy_flow",
+      "name": "Energy Flow",
+      "card_type": "spell",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "energy_flow",
+          "heal": false
+        },
+        "powered": {
+          "op": "energy_flow",
+          "heal": true
+        }
+      },
+      "categories": {
+        "basic": [
+          "healing"
+        ],
+        "powered": [
+          "healing"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:underground_travel",
+      "name": "Underground Travel",
+      "card_type": "spell",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 3
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": "all",
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 1
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_prohibition",
+                "prohibited_terrains": [
+                  "swamp",
+                  "lake"
+                ]
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "ignore_rampaging_provoke"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 3
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": "all",
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 1
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_prohibition",
+                "prohibited_terrains": [
+                  "swamp",
+                  "lake"
+                ]
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "ignore_rampaging_provoke"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "ignore_fortification"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "movement"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:meditation",
+      "name": "Meditation",
+      "card_type": "spell",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "meditation",
+          "powered": false
+        },
+        "powered": {
+          "op": "meditation",
+          "powered": true
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:whirlwind",
+      "name": "Whirlwind",
+      "card_type": "spell",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "select_combat_enemy",
+          "template": {
+            "op": "select_enemy_template",
+            "skip_attack": true
+          }
+        },
+        "powered": {
+          "op": "select_combat_enemy",
+          "template": {
+            "op": "select_enemy_template",
+            "defeat": true
+          }
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "spell:expose",
+      "name": "Expose",
+      "card_type": "spell",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "select_combat_enemy",
+              "template": {
+                "op": "select_enemy_template",
+                "nullify_fortified": true,
+                "remove_resistances": true
+              }
+            },
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "ranged",
+              "element": "physical"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "choice",
+              "options": [
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "ability_nullifier",
+                    "ability": "fortified",
+                    "ignore_arcane_immunity": false
+                  },
+                  "duration": "combat",
+                  "scope": "all_enemies"
+                },
+                {
+                  "op": "apply_modifier",
+                  "effect": "remove_resistances",
+                  "duration": "combat",
+                  "scope": "all_enemies"
+                }
+              ]
+            },
+            {
+              "op": "gain_attack",
+              "amount": 3,
+              "combat_type": "ranged",
+              "element": "physical"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "spell:cure",
+      "name": "Cure",
+      "card_type": "spell",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "cure",
+          "amount": 2
+        },
+        "powered": {
+          "op": "disease"
+        }
+      },
+      "categories": {
+        "basic": [
+          "healing"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "spell:call_to_arms",
+      "name": "Call to Arms",
+      "card_type": "spell",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "call_to_arms"
+        },
+        "powered": {
+          "op": "free_recruit"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:mind_read",
+      "name": "Mind Read",
+      "card_type": "spell",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "mind_read",
+          "powered": false
+        },
+        "powered": {
+          "op": "mind_read",
+          "powered": true
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:wings_of_wind",
+      "name": "Wings of Wind",
+      "card_type": "spell",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "flight_option",
+              "args": [
+                1
+              ]
+            },
+            {
+              "op": "flight_option",
+              "args": [
+                2
+              ]
+            },
+            {
+              "op": "flight_option",
+              "args": [
+                3
+              ]
+            },
+            {
+              "op": "flight_option",
+              "args": [
+                4
+              ]
+            },
+            {
+              "op": "flight_option",
+              "args": [
+                5
+              ]
+            }
+          ]
+        },
+        "powered": {
+          "op": "wings_of_night"
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "spell:charm",
+      "name": "Charm",
+      "card_type": "spell",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 4
+            },
+            {
+              "op": "conditional",
+              "condition": {
+                "op": "in_interaction"
+              },
+              "then_effect": {
+                "op": "choice",
+                "options": [
+                  {
+                    "op": "gain_crystal",
+                    "color": "red"
+                  },
+                  {
+                    "op": "gain_crystal",
+                    "color": "blue"
+                  },
+                  {
+                    "op": "gain_crystal",
+                    "color": "green"
+                  },
+                  {
+                    "op": "gain_crystal",
+                    "color": "white"
+                  },
+                  {
+                    "op": "apply_modifier",
+                    "effect": {
+                      "op": "recruit_discount",
+                      "discount": 3,
+                      "reputation_change": 0
+                    },
+                    "duration": "turn",
+                    "scope": "self_scope"
+                  }
+                ]
+              },
+              "else_effect": null
+            }
+          ]
+        },
+        "powered": {
+          "op": "possess_enemy"
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    }
+  ]
+}

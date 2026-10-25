@@ -1,0 +1,1424 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "artifacts",
+  "count": 25,
+  "sources": [
+    "upstream-mk-data/cards.rs"
+  ],
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "schema_version": "1.0.0",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+      "path": "packages/engine-rs/crates/mk-data/src/cards.rs",
+      "sha256": "b8315523959b30988ea14c9d6a6e3ca422bb0fc9813c3097e37fc1f0f2ae18ac",
+      "fetched_at": "2026-10-25T02:32:56Z"
+    },
+    "confidence": "upstream-only",
+    "notes": "The official rulebooks we extracted do not state the base-game Artifact count; upstream ships 25. Count/set UNVERIFIED against physical components."
+  },
+  "items": [
+    {
+      "id": "artifact:ruby_ring",
+      "name": "Ruby Ring",
+      "card_type": "artifact",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 2,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_mana",
+              "color": "red",
+              "amount": 1
+            },
+            {
+              "op": "gain_crystal",
+              "color": "red"
+            },
+            {
+              "op": "gain_fame",
+              "amount": 1
+            }
+          ]
+        },
+        "powered": {
+          "op": "apply_modifier",
+          "effect": {
+            "op": "endless_mana",
+            "colors": [
+              "red",
+              "black"
+            ]
+          },
+          "duration": "turn",
+          "scope": "self_scope"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "artifact:sapphire_ring",
+      "name": "Sapphire Ring",
+      "card_type": "artifact",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 2,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_mana",
+              "color": "blue",
+              "amount": 1
+            },
+            {
+              "op": "gain_crystal",
+              "color": "blue"
+            },
+            {
+              "op": "gain_fame",
+              "amount": 1
+            }
+          ]
+        },
+        "powered": {
+          "op": "apply_modifier",
+          "effect": {
+            "op": "endless_mana",
+            "colors": [
+              "blue",
+              "black"
+            ]
+          },
+          "duration": "turn",
+          "scope": "self_scope"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "artifact:diamond_ring",
+      "name": "Diamond Ring",
+      "card_type": "artifact",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 2,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_mana",
+              "color": "white",
+              "amount": 1
+            },
+            {
+              "op": "gain_crystal",
+              "color": "white"
+            },
+            {
+              "op": "gain_fame",
+              "amount": 1
+            }
+          ]
+        },
+        "powered": {
+          "op": "apply_modifier",
+          "effect": {
+            "op": "endless_mana",
+            "colors": [
+              "white",
+              "black"
+            ]
+          },
+          "duration": "turn",
+          "scope": "self_scope"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "artifact:emerald_ring",
+      "name": "Emerald Ring",
+      "card_type": "artifact",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 2,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_mana",
+              "color": "green",
+              "amount": 1
+            },
+            {
+              "op": "gain_crystal",
+              "color": "green"
+            },
+            {
+              "op": "gain_fame",
+              "amount": 1
+            }
+          ]
+        },
+        "powered": {
+          "op": "apply_modifier",
+          "effect": {
+            "op": "endless_mana",
+            "colors": [
+              "green",
+              "black"
+            ]
+          },
+          "duration": "turn",
+          "scope": "self_scope"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "artifact:endless_bag_of_gold",
+      "name": "Endless Bag of Gold",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 2,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 4
+            },
+            {
+              "op": "gain_fame",
+              "amount": 2
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 9
+            },
+            {
+              "op": "gain_fame",
+              "amount": 3
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence"
+        ],
+        "powered": [
+          "influence"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:banner_of_command",
+      "name": "Banner of Command",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "gain_influence",
+          "amount": 4
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_fame",
+              "amount": 2
+            },
+            {
+              "op": "free_recruit"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "banner",
+          "influence"
+        ],
+        "powered": [
+          "banner",
+          "influence"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:banner_of_courage",
+      "name": "Banner of Courage",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "noop"
+        },
+        "powered": {
+          "op": "ready_all_units"
+        }
+      },
+      "categories": {
+        "basic": [
+          "banner",
+          "healing"
+        ],
+        "powered": [
+          "banner",
+          "healing"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:banner_of_fortitude",
+      "name": "Banner of Fortitude",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "noop"
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "ready_all_units"
+            },
+            {
+              "op": "heal_all_units"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "banner",
+          "healing"
+        ],
+        "powered": [
+          "banner",
+          "healing"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:banner_of_protection",
+      "name": "Banner of Protection",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 0,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "noop"
+        },
+        "powered": {
+          "op": "activate_banner_protection"
+        }
+      },
+      "categories": {
+        "basic": [
+          "banner",
+          "combat"
+        ],
+        "powered": [
+          "banner",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:banner_of_fear",
+      "name": "Banner of Fear",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 0,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "noop"
+        },
+        "powered": {
+          "op": "select_combat_enemy",
+          "template": {
+            "op": "select_enemy_template",
+            "skip_attack": true
+          }
+        }
+      },
+      "categories": {
+        "basic": [
+          "banner",
+          "combat"
+        ],
+        "powered": [
+          "banner",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:banner_of_glory",
+      "name": "Banner of Glory",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 0,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "noop"
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "unit_combat_bonus",
+                "attack_bonus": 2,
+                "block_bonus": 2
+              },
+              "duration": "combat",
+              "scope": "all_units"
+            },
+            {
+              "op": "fame_per_enemy_defeated",
+              "amount": 1,
+              "exclude_summoned": false
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "banner",
+          "combat"
+        ],
+        "powered": [
+          "banner",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:sword_of_justice",
+      "name": "Sword of Justice",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "discard_for_attack",
+              "attacks_by_color": [
+                [
+                  "red",
+                  {
+                    "op": "gain_attack",
+                    "amount": 3,
+                    "combat_type": "melee",
+                    "element": "physical"
+                  }
+                ],
+                [
+                  "blue",
+                  {
+                    "op": "gain_attack",
+                    "amount": 3,
+                    "combat_type": "melee",
+                    "element": "physical"
+                  }
+                ],
+                [
+                  "green",
+                  {
+                    "op": "gain_attack",
+                    "amount": 3,
+                    "combat_type": "melee",
+                    "element": "physical"
+                  }
+                ],
+                [
+                  "white",
+                  {
+                    "op": "gain_attack",
+                    "amount": 3,
+                    "combat_type": "melee",
+                    "element": "physical"
+                  }
+                ]
+              ]
+            },
+            {
+              "op": "fame_per_enemy_defeated",
+              "amount": 1,
+              "exclude_summoned": false
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": "double_physical_attacks",
+              "duration": "combat",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": "remove_physical_resistance",
+              "duration": "combat",
+              "scope": "all_enemies"
+            },
+            {
+              "op": "fame_per_enemy_defeated",
+              "amount": 1,
+              "exclude_summoned": false
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:horn_of_wrath",
+      "name": "Horn of Wrath",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_attack",
+              "amount": 5,
+              "combat_type": "siege",
+              "element": "physical"
+            },
+            {
+              "op": "roll_die_for_wound",
+              "die_count": 1
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_attack",
+              "amount": 5,
+              "combat_type": "siege",
+              "element": "physical"
+            },
+            {
+              "op": "choose_bonus_with_risk",
+              "bonus_per_roll": 5,
+              "combat_type": "siege",
+              "element": "physical",
+              "accumulated": 0,
+              "rolled": false
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:bow_of_starsdawn",
+      "name": "Bow of Starsdawn",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "discard_for_attack",
+              "attacks_by_color": [
+                [
+                  "red",
+                  {
+                    "op": "gain_attack",
+                    "amount": 2,
+                    "combat_type": "ranged",
+                    "element": "physical"
+                  }
+                ],
+                [
+                  "blue",
+                  {
+                    "op": "gain_attack",
+                    "amount": 2,
+                    "combat_type": "ranged",
+                    "element": "physical"
+                  }
+                ],
+                [
+                  "green",
+                  {
+                    "op": "gain_attack",
+                    "amount": 2,
+                    "combat_type": "ranged",
+                    "element": "physical"
+                  }
+                ],
+                [
+                  "white",
+                  {
+                    "op": "gain_attack",
+                    "amount": 2,
+                    "combat_type": "ranged",
+                    "element": "physical"
+                  }
+                ]
+              ]
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "bow_phase_fame_tracking",
+                "fame_per_enemy": 1
+              },
+              "duration": "combat",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "apply_modifier",
+          "effect": "bow_attack_transformation",
+          "duration": "combat",
+          "scope": "self_scope"
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:soul_harvester",
+      "name": "Soul Harvester",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_attack",
+              "amount": 3,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "soul_harvester_crystal_tracking",
+                "limit": 1,
+                "track_by_attack": false
+              },
+              "duration": "combat",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_attack",
+              "amount": 8,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "soul_harvester_crystal_tracking",
+                "limit": 99,
+                "track_by_attack": false
+              },
+              "duration": "combat",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:shield_of_the_fallen_kings",
+      "name": "Shield of the Fallen Kings",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_block",
+              "amount": 6,
+              "element": "physical"
+            },
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "gain_block",
+                  "amount": 4,
+                  "element": "physical"
+                },
+                {
+                  "op": "gain_block",
+                  "amount": 4,
+                  "element": "physical"
+                }
+              ]
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_block",
+              "amount": 8,
+              "element": "cold_fire"
+            },
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "gain_block",
+                  "amount": 4,
+                  "element": "cold_fire"
+                },
+                {
+                  "op": "gain_block",
+                  "amount": 4,
+                  "element": "cold_fire"
+                },
+                {
+                  "op": "gain_block",
+                  "amount": 4,
+                  "element": "cold_fire"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:amulet_of_the_sun",
+      "name": "Amulet of the Sun",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_mana",
+              "color": "gold",
+              "amount": 1
+            },
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "terrain_cost",
+                    "terrain": {
+                      "op": "terrain_specific",
+                      "terrain": "forest"
+                    },
+                    "amount": 0,
+                    "minimum": 0,
+                    "replace_cost": 3
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                },
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "rule_override",
+                    "rule": "allow_gold_at_night"
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                }
+              ]
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_mana",
+              "color": "gold",
+              "amount": 3
+            },
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "terrain_cost",
+                    "terrain": {
+                      "op": "terrain_specific",
+                      "terrain": "forest"
+                    },
+                    "amount": 0,
+                    "minimum": 0,
+                    "replace_cost": 3
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                },
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "rule_override",
+                    "rule": "allow_gold_at_night"
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:amulet_of_darkness",
+      "name": "Amulet of Darkness",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_mana_any_color",
+              "args": []
+            },
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "terrain_cost",
+                    "terrain": {
+                      "op": "terrain_specific",
+                      "terrain": "desert"
+                    },
+                    "amount": 0,
+                    "minimum": 0,
+                    "replace_cost": 3
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                },
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "rule_override",
+                    "rule": "allow_black_at_day"
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                }
+              ]
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_mana_any_color",
+              "args": []
+            },
+            {
+              "op": "gain_mana_any_color",
+              "args": []
+            },
+            {
+              "op": "gain_mana_any_color",
+              "args": []
+            },
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "terrain_cost",
+                    "terrain": {
+                      "op": "terrain_specific",
+                      "terrain": "desert"
+                    },
+                    "amount": 0,
+                    "minimum": 0,
+                    "replace_cost": 3
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                },
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "rule_override",
+                    "rule": "allow_black_at_day"
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:golden_grail",
+      "name": "Golden Grail",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "golden_grail_fame_tracking",
+                "remaining_healing_points": 2
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "gain_healing",
+              "amount": 2
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": "golden_grail_draw_on_heal",
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "gain_healing",
+              "amount": 6
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "healing"
+        ],
+        "powered": [
+          "healing"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:endless_gem_pouch",
+      "name": "Endless Gem Pouch",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "roll_for_crystals",
+          "die_count": 2
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_mana",
+              "color": "red",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "blue",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "green",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "white",
+              "amount": 1
+            },
+            {
+              "op": "conditional",
+              "condition": {
+                "op": "is_night_or_underground"
+              },
+              "then_effect": {
+                "op": "gain_mana",
+                "color": "black",
+                "amount": 1
+              },
+              "else_effect": {
+                "op": "gain_mana",
+                "color": "gold",
+                "amount": 1
+              }
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:book_of_wisdom",
+      "name": "Book of Wisdom",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "book_of_wisdom",
+          "mode": "basic"
+        },
+        "powered": {
+          "op": "book_of_wisdom",
+          "mode": "powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:tome_of_all_spells",
+      "name": "Tome of All Spells",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "tome_of_all_spells",
+          "mode": "basic"
+        },
+        "powered": {
+          "op": "tome_of_all_spells",
+          "mode": "powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:circlet_of_proficiency",
+      "name": "Circlet of Proficiency",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "circlet_of_proficiency_basic"
+        },
+        "powered": {
+          "op": "circlet_of_proficiency_powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:druidic_staff",
+      "name": "Druidic Staff",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "free",
+      "sideways_value": 1,
+      "destroy_on_powered": true,
+      "effects": {
+        "basic": {
+          "op": "druidic_staff_basic"
+        },
+        "powered": {
+          "op": "druidic_staff_powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "special",
+          "healing"
+        ],
+        "powered": [
+          "movement",
+          "special",
+          "healing"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "artifact:mysterious_box",
+      "name": "Mysterious Box",
+      "card_type": "artifact",
+      "color": "colorless",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": null,
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "mysterious_box"
+        },
+        "powered": {
+          "op": "mysterious_box"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    }
+  ]
+}

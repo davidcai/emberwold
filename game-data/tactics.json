@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "tactics",
+  "count": 12,
+  "provenance": {
+    "generated_by": "hand-maintained",
+    "schema_version": "1.0.0",
+    "notes": "Tactic card names, turn order and short effect paraphrases. The upstream engine (mk-data/tactics.rs) contains only the 12 IDs; effect wording is paraphrased from the upstream reference doc docs/reference/tactics.md (itself derived from tabletop card images). It has NOT been checked against physical Tactic cards, so effects are unverified. Effects are not modelled in the effect DSL because no structural source exists.",
+    "official_cross_check": "MKUE Rulebook p.4 (tactics phase; lower tactic number goes first); six Day + six Night tactics."
+  },
+  "sources": [
+    "upstream mage-knight-digital/MageKnight docs/reference/tactics.md (paraphrased)",
+    "upstream mk-data/tactics.rs (IDs only)",
+    "MKUE Rulebook p.4 (tactics phase)"
+  ],
+  "counts": {"day": 6, "night": 6},
+  "items": [
+    {"id": "tactic:early_bird", "name": "Early Bird", "turn_order": 1, "time_of_day": "day", "effect_kind": "none", "effect": null, "effect_summary": "No special effect; guarantees first turn order.", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"},
+    {"id": "tactic:rethink", "name": "Rethink", "turn_order": 2, "time_of_day": "day", "effect_kind": "on_pick", "effect": null, "effect_summary": "On taking it: discard up to 3 cards, draw that many, then shuffle discard back into the Deed deck.", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"},
+    {"id": "tactic:mana_steal", "name": "Mana Steal", "turn_order": 3, "time_of_day": "day", "effect_kind": "activated", "effect": null, "effect_summary": "On taking it: take one basic-colour Source die onto this card; usable once this Day, then reroll and return it.", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"},
+    {"id": "tactic:planning", "name": "Planning", "turn_order": 4, "time_of_day": "day", "effect_kind": "ongoing", "effect": null, "effect_summary": "At end of each turn, if you still hold at least two cards, draw as if your Hand limit were 1 higher.", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"},
+    {"id": "tactic:great_start", "name": "Great Start", "turn_order": 5, "time_of_day": "day", "effect_kind": "on_pick", "effect": null, "effect_summary": "On taking it: draw 2 cards immediately.", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"},
+    {"id": "tactic:the_right_moment", "name": "The Right Moment", "turn_order": 6, "time_of_day": "day", "effect_kind": "activated", "effect": null, "effect_summary": "Once this Day: take another turn immediately after this one, then flip this card face down.", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"},
+
+    {"id": "tactic:from_the_dusk", "name": "From the Dusk", "turn_order": 1, "time_of_day": "night", "effect_kind": "none", "effect": null, "effect_summary": "No special effect; guarantees first turn order.", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"},
+    {"id": "tactic:long_night", "name": "Long Night", "turn_order": 2, "time_of_day": "night", "effect_kind": "activated", "effect": null, "effect_summary": "Once this Night, if your Deed deck is empty: shuffle discard and put 3 random cards back into the Deed deck, then flip face down.", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"},
+    {"id": "tactic:mana_search", "name": "Mana Search", "turn_order": 3, "time_of_day": "night", "effect_kind": "activated", "effect": null, "effect_summary": "Once per turn, before using Source mana: reroll up to two Source dice (depleted/gold dice first).", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"},
+    {"id": "tactic:midnight_meditation", "name": "Midnight Meditation", "turn_order": 4, "time_of_day": "night", "effect_kind": "activated", "effect": null, "effect_summary": "Once this Night before any of your turns: shuffle up to 5 cards (Wounds allowed) into the Deed deck and draw that many, then flip face down.", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"},
+    {"id": "tactic:preparation", "name": "Preparation", "turn_order": 5, "time_of_day": "night", "effect_kind": "on_pick", "effect": null, "effect_summary": "On taking it: search your Deed deck for one card, put it into hand, then shuffle the deck.", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"},
+    {"id": "tactic:sparing_power", "name": "Sparing Power", "turn_order": 6, "time_of_day": "night", "effect_kind": "activated", "effect": null, "effect_summary": "Once before each of your turns: store the top Deed card under this card, or flip face down and put all stored cards into hand.", "source": "upstream-reference", "confidence": "unverified", "mvp": true, "status": "placeholder"}
+  ]
+}

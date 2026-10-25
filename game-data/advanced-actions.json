@@ -1,0 +1,2656 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "advanced_actions",
+  "count": 44,
+  "sources": [
+    "upstream-mk-data/cards.rs",
+    "MKUE Walkthrough p.4",
+    "MK Base Rulebook 2012 p.15+ (scenario book)"
+  ],
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "schema_version": "1.0.0",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+      "path": "packages/engine-rs/crates/mk-data/src/cards.rs",
+      "sha256": "b8315523959b30988ea14c9d6a6e3ca422bb0fc9813c3097e37fc1f0f2ae18ac",
+      "fetched_at": "2026-10-25T02:32:56Z"
+    },
+    "confidence": "upstream-only",
+    "notes": "Upstream aggregates the Ultimate-Edition card pool; per-card expansion attribution is not encoded there and the official sources we have do not list card-by-card set membership. Official count note: the 2012 rulebook scenario book refers to the base Advanced Action deck by number ranges (16 used in the first scenario, 12 more removed), and the UE walkthrough states 'There are 28 Advanced Action cards' (base game). Upstream ships 44 -> likely base 28 + Lost Legion 16, UNVERIFIED per card."
+  },
+  "items": [
+    {
+      "id": "advanced:blood_rage",
+      "name": "Blood Rage",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "take_wound"
+                },
+                {
+                  "op": "gain_attack",
+                  "amount": 5,
+                  "combat_type": "melee",
+                  "element": "physical"
+                }
+              ]
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 4,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "take_wound"
+                },
+                {
+                  "op": "gain_attack",
+                  "amount": 9,
+                  "combat_type": "melee",
+                  "element": "physical"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:intimidate",
+      "name": "Intimidate",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "choice",
+              "options": [
+                {
+                  "op": "gain_influence",
+                  "amount": 4
+                },
+                {
+                  "op": "gain_attack",
+                  "amount": 3,
+                  "combat_type": "melee",
+                  "element": "physical"
+                }
+              ]
+            },
+            {
+              "op": "change_reputation",
+              "amount": -1
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "choice",
+              "options": [
+                {
+                  "op": "gain_influence",
+                  "amount": 8
+                },
+                {
+                  "op": "gain_attack",
+                  "amount": 7,
+                  "combat_type": "melee",
+                  "element": "physical"
+                }
+              ]
+            },
+            {
+              "op": "change_reputation",
+              "amount": -2
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence",
+          "combat"
+        ],
+        "powered": [
+          "influence",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:blood_ritual",
+      "name": "Blood Ritual",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "take_wound"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "red"
+            },
+            {
+              "op": "gain_mana_any_color",
+              "args": []
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "take_wound"
+            },
+            {
+              "op": "gain_mana_any_color",
+              "args": []
+            },
+            {
+              "op": "gain_mana_any_color",
+              "args": []
+            },
+            {
+              "op": "gain_mana_any_color",
+              "args": []
+            },
+            {
+              "op": "choice",
+              "options": [
+                {
+                  "op": "convert_mana_to_crystal"
+                },
+                {
+                  "op": "noop"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:counterattack",
+      "name": "Counterattack",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "scaling",
+          "factor": "per_enemy_blocked",
+          "base_effect": {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          "bonus_per_count": 2,
+          "maximum": null
+        },
+        "powered": {
+          "op": "scaling",
+          "factor": "per_enemy_blocked",
+          "base_effect": {
+            "op": "gain_attack",
+            "amount": 4,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          "bonus_per_count": 3,
+          "maximum": null
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:fire_bolt",
+      "name": "Fire Bolt",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_crystal",
+          "color": "red"
+        },
+        "powered": {
+          "op": "gain_attack",
+          "amount": 3,
+          "combat_type": "ranged",
+          "element": "fire"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:into_the_heat",
+      "name": "Into the Heat",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "unit_combat_bonus",
+                "attack_bonus": 2,
+                "block_bonus": 2
+              },
+              "duration": "combat",
+              "scope": "all_units"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "units_cannot_absorb_damage"
+              },
+              "duration": "combat",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "unit_combat_bonus",
+                "attack_bonus": 3,
+                "block_bonus": 3
+              },
+              "duration": "combat",
+              "scope": "all_units"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "units_cannot_absorb_damage"
+              },
+              "duration": "combat",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:ice_bolt",
+      "name": "Ice Bolt",
+      "card_type": "advanced_action",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_crystal",
+          "color": "blue"
+        },
+        "powered": {
+          "op": "gain_attack",
+          "amount": 3,
+          "combat_type": "ranged",
+          "element": "ice"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:steady_tempo",
+      "name": "Steady Tempo",
+      "card_type": "advanced_action",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "schedule_end_turn",
+              "effect": {
+                "op": "offer_deck_placement",
+                "destination": "bottom",
+                "requires_non_empty_deck": true
+              }
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "schedule_end_turn",
+              "effect": {
+                "op": "offer_deck_placement",
+                "destination": "top",
+                "requires_non_empty_deck": false
+              }
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "movement"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:frost_bridge",
+      "name": "Frost Bridge",
+      "card_type": "advanced_action",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "swamp"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 1
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "lake"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 1
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "swamp"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 1
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "movement"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:refreshing_walk",
+      "name": "Refreshing Walk",
+      "card_type": "advanced_action",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "conditional",
+          "condition": {
+            "op": "in_combat"
+          },
+          "then_effect": {
+            "op": "gain_move",
+            "amount": 2
+          },
+          "else_effect": {
+            "op": "compound",
+            "effects": [
+              {
+                "op": "gain_move",
+                "amount": 2
+              },
+              {
+                "op": "gain_healing",
+                "amount": 1
+              }
+            ]
+          }
+        },
+        "powered": {
+          "op": "conditional",
+          "condition": {
+            "op": "in_combat"
+          },
+          "then_effect": {
+            "op": "gain_move",
+            "amount": 4
+          },
+          "else_effect": {
+            "op": "compound",
+            "effects": [
+              {
+                "op": "gain_move",
+                "amount": 4
+              },
+              {
+                "op": "gain_healing",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "healing"
+        ],
+        "powered": [
+          "movement",
+          "healing"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:in_need",
+      "name": "In Need",
+      "card_type": "advanced_action",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "scaling",
+          "factor": "per_wound_total",
+          "base_effect": {
+            "op": "gain_influence",
+            "amount": 3
+          },
+          "bonus_per_count": 1,
+          "maximum": null
+        },
+        "powered": {
+          "op": "scaling",
+          "factor": "per_wound_total",
+          "base_effect": {
+            "op": "gain_influence",
+            "amount": 5
+          },
+          "bonus_per_count": 2,
+          "maximum": null
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence"
+        ],
+        "powered": [
+          "influence"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:crushing_bolt",
+      "name": "Crushing Bolt",
+      "card_type": "advanced_action",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_crystal",
+          "color": "green"
+        },
+        "powered": {
+          "op": "gain_attack",
+          "amount": 3,
+          "combat_type": "siege",
+          "element": "physical"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder"
+    },
+    {
+      "id": "advanced:ambush",
+      "name": "Ambush",
+      "card_type": "advanced_action",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "attack_block_card_bonus",
+                "attack_bonus": 1,
+                "block_bonus": 2,
+                "ranged_siege_attack_bonus": null
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "attack_block_card_bonus",
+                "attack_bonus": 2,
+                "block_bonus": 4,
+                "ranged_siege_attack_bonus": null
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "movement"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:path_finding",
+      "name": "Path Finding",
+      "card_type": "advanced_action",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": "all",
+                "amount": -1,
+                "minimum": 2,
+                "replace_cost": null
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "plains"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 2
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "hills"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 2
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "forest"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 2
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "wasteland"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 2
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "desert"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 2
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "swamp"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 2
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "movement"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:mountain_lore",
+      "name": "Mountain Lore",
+      "card_type": "advanced_action",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 3
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "mountain_lore_hand_limit",
+                "hills_bonus": 1,
+                "mountain_bonus": 0
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 5
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "mountain"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 5
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_safe",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "mountain"
+                }
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "mountain_lore_hand_limit",
+                "hills_bonus": 1,
+                "mountain_bonus": 2
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "movement"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:regeneration",
+      "name": "Regeneration",
+      "card_type": "advanced_action",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_healing",
+              "amount": 1
+            },
+            {
+              "op": "ready_unit",
+              "max_level": 2
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_healing",
+              "amount": 2
+            },
+            {
+              "op": "ready_unit",
+              "max_level": 3
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "healing"
+        ],
+        "powered": [
+          "healing"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:force_of_nature",
+      "name": "Force of Nature",
+      "card_type": "advanced_action",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "select_unit_for_modifier",
+          "modifier": {
+            "op": "grant_resistances",
+            "resistances": [
+              "physical"
+            ]
+          },
+          "duration": "combat"
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 3,
+              "combat_type": "siege",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 6,
+              "element": "physical"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:swift_bolt",
+      "name": "Swift Bolt",
+      "card_type": "advanced_action",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_crystal",
+          "color": "white"
+        },
+        "powered": {
+          "op": "gain_attack",
+          "amount": 4,
+          "combat_type": "ranged",
+          "element": "physical"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:agility",
+      "name": "Agility",
+      "card_type": "advanced_action",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "move_to_attack_conversion",
+                "cost_per_point": 1,
+                "attack_type": "attack"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "move_cards_in_combat"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "move_to_attack_conversion",
+                "cost_per_point": 1,
+                "attack_type": "attack"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "move_to_attack_conversion",
+                "cost_per_point": 2,
+                "attack_type": "ranged"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "move_cards_in_combat"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "combat"
+        ],
+        "powered": [
+          "movement",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:diplomacy",
+      "name": "Diplomacy",
+      "card_type": "advanced_action",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 2
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "influence_to_block_conversion",
+                "cost_per_point": 1,
+                "element": null
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "influence_cards_in_combat"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 4
+            },
+            {
+              "op": "choice",
+              "options": [
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "influence_to_block_conversion",
+                    "cost_per_point": 1,
+                    "element": "ice"
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                },
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "influence_to_block_conversion",
+                    "cost_per_point": 1,
+                    "element": "fire"
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                }
+              ]
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "influence_cards_in_combat"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence",
+          "combat"
+        ],
+        "powered": [
+          "influence",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:explosive_bolt",
+      "name": "Explosive Bolt",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "take_wound"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "white"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "red"
+            }
+          ]
+        },
+        "powered": {
+          "op": "attack_with_defeat_bonus",
+          "amount": 3,
+          "combat_type": "ranged",
+          "element": "physical",
+          "reputation_per_defeat": 0,
+          "fame_per_defeat": 0,
+          "armor_reduction_per_defeat": 1
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:ice_shield",
+      "name": "Ice Shield",
+      "card_type": "advanced_action",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_block",
+          "amount": 3,
+          "element": "ice"
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_block",
+              "amount": 3,
+              "element": "ice"
+            },
+            {
+              "op": "select_combat_enemy",
+              "template": {
+                "op": "select_enemy_template",
+                "exclude_resistance": "ice",
+                "armor_change": -3,
+                "armor_minimum": 1
+              }
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:temporal_portal",
+      "name": "Temporal Portal",
+      "card_type": "advanced_action",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 1
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": "all",
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 1
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "ignore_rampaging_provoke"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "hand_limit_bonus",
+              "bonus": 1
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "gain_move",
+                  "amount": 2
+                },
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "terrain_cost",
+                    "terrain": "all",
+                    "amount": 0,
+                    "minimum": 0,
+                    "replace_cost": 1
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                },
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "rule_override",
+                    "rule": "ignore_rampaging_provoke"
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                },
+                {
+                  "op": "hand_limit_bonus",
+                  "bonus": 1
+                }
+              ]
+            },
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "gain_move",
+                  "amount": 1
+                },
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "terrain_cost",
+                    "terrain": "all",
+                    "amount": 0,
+                    "minimum": 0,
+                    "replace_cost": 1
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                },
+                {
+                  "op": "apply_modifier",
+                  "effect": {
+                    "op": "rule_override",
+                    "rule": "ignore_rampaging_provoke"
+                  },
+                  "duration": "turn",
+                  "scope": "self_scope"
+                },
+                {
+                  "op": "hand_limit_bonus",
+                  "bonus": 2
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "action"
+        ],
+        "powered": [
+          "action"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:song_of_wind",
+      "name": "Song of Wind",
+      "card_type": "advanced_action",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "plains"
+                },
+                "amount": -1,
+                "minimum": 0,
+                "replace_cost": null
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "desert"
+                },
+                "amount": -1,
+                "minimum": 0,
+                "replace_cost": null
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "wasteland"
+                },
+                "amount": -1,
+                "minimum": 0,
+                "replace_cost": null
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "song_of_wind_powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "movement"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:heroic_tale",
+      "name": "Heroic Tale",
+      "card_type": "advanced_action",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 3
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "recruitment_bonus",
+                "reputation_per_recruit": 1,
+                "fame_per_recruit": 0
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 6
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "recruitment_bonus",
+                "reputation_per_recruit": 1,
+                "fame_per_recruit": 1
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence"
+        ],
+        "powered": [
+          "influence"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:learning",
+      "name": "Learning",
+      "card_type": "advanced_action",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 2
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "learning_discount",
+                "cost": 6,
+                "destination": "discard"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 4
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "learning_discount",
+                "cost": 9,
+                "destination": "hand"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence",
+          "special"
+        ],
+        "powered": [
+          "influence",
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:stout_resolve",
+      "name": "Stout Resolve",
+      "card_type": "advanced_action",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "discard_for_bonus",
+          "choice_options": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "gain_influence",
+              "amount": 2
+            },
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 2,
+              "element": "physical"
+            }
+          ],
+          "bonus_per_card": 1,
+          "max_discards": 1,
+          "discard_filter": "wound_only"
+        },
+        "powered": {
+          "op": "discard_for_bonus",
+          "choice_options": [
+            {
+              "op": "gain_move",
+              "amount": 3
+            },
+            {
+              "op": "gain_influence",
+              "amount": 3
+            },
+            {
+              "op": "gain_attack",
+              "amount": 3,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 3,
+              "element": "physical"
+            }
+          ],
+          "bonus_per_card": 2,
+          "max_discards": "max",
+          "discard_filter": "any_max_one_wound"
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "influence",
+          "combat"
+        ],
+        "powered": [
+          "movement",
+          "influence",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:shield_bash",
+      "name": "Shield Bash",
+      "card_type": "advanced_action",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_block",
+          "amount": 3,
+          "element": "physical"
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_block",
+              "amount": 5,
+              "element": "physical"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": "shield_bash_armor_reduction",
+              "duration": "combat",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:pure_magic",
+      "name": "Pure Magic",
+      "card_type": "advanced_action",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "pure_magic",
+          "amount": 4
+        },
+        "powered": {
+          "op": "pure_magic",
+          "amount": 7
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "influence",
+          "combat"
+        ],
+        "powered": [
+          "movement",
+          "influence",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:decompose",
+      "name": "Decompose",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "decompose",
+          "mode": "basic"
+        },
+        "powered": {
+          "op": "decompose",
+          "mode": "powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:ritual_attack",
+      "name": "Ritual Attack",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "discard_for_attack",
+          "attacks_by_color": [
+            [
+              "red",
+              {
+                "op": "gain_attack",
+                "amount": 5,
+                "combat_type": "melee",
+                "element": "physical"
+              }
+            ],
+            [
+              "blue",
+              {
+                "op": "gain_attack",
+                "amount": 3,
+                "combat_type": "melee",
+                "element": "ice"
+              }
+            ],
+            [
+              "white",
+              {
+                "op": "gain_attack",
+                "amount": 3,
+                "combat_type": "ranged",
+                "element": "physical"
+              }
+            ],
+            [
+              "green",
+              {
+                "op": "gain_attack",
+                "amount": 2,
+                "combat_type": "siege",
+                "element": "physical"
+              }
+            ]
+          ]
+        },
+        "powered": {
+          "op": "discard_for_attack",
+          "attacks_by_color": [
+            [
+              "red",
+              {
+                "op": "gain_attack",
+                "amount": 6,
+                "combat_type": "melee",
+                "element": "fire"
+              }
+            ],
+            [
+              "blue",
+              {
+                "op": "gain_attack",
+                "amount": 4,
+                "combat_type": "melee",
+                "element": "cold_fire"
+              }
+            ],
+            [
+              "white",
+              {
+                "op": "gain_attack",
+                "amount": 4,
+                "combat_type": "ranged",
+                "element": "fire"
+              }
+            ],
+            [
+              "green",
+              {
+                "op": "gain_attack",
+                "amount": 3,
+                "combat_type": "siege",
+                "element": "fire"
+              }
+            ]
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:chivalry",
+      "name": "Chivalry",
+      "card_type": "advanced_action",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 3,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "attack_with_defeat_bonus",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical",
+              "reputation_per_defeat": 1,
+              "fame_per_defeat": 0,
+              "armor_reduction_per_defeat": 0
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 6,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "attack_with_defeat_bonus",
+              "amount": 4,
+              "combat_type": "melee",
+              "element": "physical",
+              "reputation_per_defeat": 1,
+              "fame_per_defeat": 1,
+              "armor_reduction_per_defeat": 0
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:maximal_effect",
+      "name": "Maximal Effect",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "maximal_effect",
+          "mode": "basic"
+        },
+        "powered": {
+          "op": "maximal_effect",
+          "mode": "powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:blood_of_ancients",
+      "name": "Blood of Ancients",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "blood_of_ancients_basic"
+        },
+        "powered": {
+          "op": "blood_of_ancients_powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:crystal_mastery",
+      "name": "Crystal Mastery",
+      "card_type": "advanced_action",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "crystal_mastery_basic"
+        },
+        "powered": {
+          "op": "crystal_mastery_powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:magic_talent",
+      "name": "Magic Talent",
+      "card_type": "advanced_action",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "magic_talent_basic"
+        },
+        "powered": {
+          "op": "magic_talent_powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:spell_forge",
+      "name": "Spell Forge",
+      "card_type": "advanced_action",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "spell_forge_basic"
+        },
+        "powered": {
+          "op": "spell_forge_powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:training",
+      "name": "Training",
+      "card_type": "advanced_action",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "training",
+          "mode": "basic"
+        },
+        "powered": {
+          "op": "training",
+          "mode": "powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:power_of_crystals",
+      "name": "Power of Crystals",
+      "card_type": "advanced_action",
+      "color": "green",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "power_of_crystals_basic"
+        },
+        "powered": {
+          "op": "power_of_crystals_powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "healing",
+          "special"
+        ],
+        "powered": [
+          "movement",
+          "healing",
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:mana_storm",
+      "name": "Mana Storm",
+      "card_type": "advanced_action",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "mana_storm_basic"
+        },
+        "powered": {
+          "op": "mana_storm_powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:peaceful_moment",
+      "name": "Peaceful Moment",
+      "card_type": "advanced_action",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 3
+            },
+            {
+              "op": "peaceful_moment_action",
+              "influence": 3,
+              "allow_refresh": false
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 6
+            },
+            {
+              "op": "peaceful_moment_action",
+              "influence": 6,
+              "allow_refresh": true
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence",
+          "action"
+        ],
+        "powered": [
+          "influence",
+          "action"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:dodge_and_weave",
+      "name": "Dodge and Weave",
+      "card_type": "advanced_action",
+      "color": "white",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "gain_block",
+              "amount": 2,
+              "element": "physical"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "move_cards_in_combat"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "gain_block",
+              "amount": 4,
+              "element": "physical"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "move_cards_in_combat"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:rush_of_adrenaline",
+      "name": "Rush of Adrenaline",
+      "card_type": "advanced_action",
+      "color": "red",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "rush_of_adrenaline",
+          "mode": "basic"
+        },
+        "powered": {
+          "op": "rush_of_adrenaline",
+          "mode": "powered"
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    },
+    {
+      "id": "advanced:chilling_stare",
+      "name": "Chilling Stare",
+      "card_type": "advanced_action",
+      "color": "blue",
+      "expansion": "unknown",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_influence",
+              "amount": 3
+            },
+            {
+              "op": "select_combat_enemy",
+              "template": {
+                "op": "select_enemy_template",
+                "exclude_resistance": "ice",
+                "nullify_all_attack_abilities": true
+              }
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_influence",
+              "amount": 5
+            },
+            {
+              "op": "select_combat_enemy",
+              "template": {
+                "op": "select_enemy_template",
+                "exclude_arcane_immune": true,
+                "exclude_resistance": "ice",
+                "skip_attack": true
+              }
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence",
+          "combat"
+        ],
+        "powered": [
+          "influence",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted"
+    }
+  ]
+}

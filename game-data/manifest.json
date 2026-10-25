@@ -1,0 +1,499 @@
+{
+  "schema_version": "1.0.0",
+  "project": "Miniknight \u2014 research prototype game data",
+  "generated_at": "2026-10-24",
+  "owner": "data-extractor",
+  "description": "Top-level index of the machine-readable Mage Knight data set used by the Miniknight feasibility study. Research-only; not a licensed product. See README.md for schema, effect DSL, provenance rules and the coverage table.",
+  "upstream": {
+    "repo": "mage-knight-digital/MageKnight",
+    "commit": "d279e8b4069f",
+    "url": "https://github.com/mage-knight-digital/MageKnight",
+    "pin_file": "upstream-pin.json",
+    "license": "none present at pinned commit (GitHub contents API checked)",
+    "usage": "cross-check / gap-fill only; never the authority. Not vendored."
+  },
+  "validator": {
+    "command": ".venv/bin/python tools/validate_data.py",
+    "status": "pass",
+    "last_run": "2026-10-24",
+    "checks": 9662,
+    "errors": 0,
+    "warnings": 0
+  },
+  "files": [
+    {
+      "path": "game-data/heroes.json",
+      "domain": "heroes",
+      "count": 7,
+      "source_class": "official+upstream",
+      "maintainer": "generated",
+      "sha256": "08ec6a93ad8bc7a7"
+    },
+    {
+      "path": "game-data/basic-actions.json",
+      "domain": "basic_actions",
+      "count": 28,
+      "source_class": "official+upstream",
+      "maintainer": "generated",
+      "sha256": "5a816d2e8da350bf"
+    },
+    {
+      "path": "game-data/advanced-actions.json",
+      "domain": "advanced_actions",
+      "count": 44,
+      "source_class": "upstream",
+      "maintainer": "generated",
+      "sha256": "c9597585133aeada"
+    },
+    {
+      "path": "game-data/spells.json",
+      "domain": "spells",
+      "count": 24,
+      "source_class": "official+upstream",
+      "maintainer": "generated",
+      "sha256": "4477ca8f92440636"
+    },
+    {
+      "path": "game-data/artifacts.json",
+      "domain": "artifacts",
+      "count": 25,
+      "source_class": "upstream",
+      "maintainer": "generated",
+      "sha256": "381c3f1cfeeb1ad1"
+    },
+    {
+      "path": "game-data/skills.json",
+      "domain": "skills",
+      "count": 70,
+      "source_class": "upstream",
+      "maintainer": "generated",
+      "sha256": "052420fa073c8df5"
+    },
+    {
+      "path": "game-data/units.json",
+      "domain": "units",
+      "count": 31,
+      "source_class": "upstream",
+      "maintainer": "generated",
+      "sha256": "155fdd65e0cef738"
+    },
+    {
+      "path": "game-data/enemies.json",
+      "domain": "enemies",
+      "count": 72,
+      "source_class": "official+upstream",
+      "maintainer": "generated",
+      "sha256": "868079b319a1afbc"
+    },
+    {
+      "path": "game-data/ruins-tokens.json",
+      "domain": "ruins_token",
+      "count": 15,
+      "source_class": "upstream",
+      "maintainer": "generated",
+      "sha256": "34e85a28cf5033ee"
+    },
+    {
+      "path": "game-data/tiles.json",
+      "domain": "tiles",
+      "count": 27,
+      "source_class": "official+upstream",
+      "maintainer": "generated",
+      "sha256": "950646eacf92fc66"
+    },
+    {
+      "path": "game-data/levels.json",
+      "domain": "levels",
+      "count": 10,
+      "source_class": "official+upstream",
+      "maintainer": "generated",
+      "sha256": "6af17430a7e10a5c"
+    },
+    {
+      "path": "game-data/effect-ops.json",
+      "domain": "effect-ops",
+      "count": 142,
+      "source_class": "generated",
+      "maintainer": "generated",
+      "sha256": "275efa8c7c81a7b5"
+    },
+    {
+      "path": "game-data/upstream-pin.json",
+      "domain": "provenance",
+      "count": 10,
+      "source_class": "generated",
+      "maintainer": "generated",
+      "sha256": "5801f9316a162370"
+    },
+    {
+      "path": "game-data/keywords.json",
+      "domain": "keywords",
+      "count": 38,
+      "source_class": "official",
+      "maintainer": "hand-maintained",
+      "sha256": "0b0f95cb5d2d516e"
+    },
+    {
+      "path": "game-data/sites.json",
+      "domain": "sites",
+      "count": 20,
+      "source_class": "official",
+      "maintainer": "hand-maintained",
+      "sha256": "4a6f25e7a1f04c61"
+    },
+    {
+      "path": "game-data/scenarios.json",
+      "domain": "scenarios",
+      "count": 12,
+      "source_class": "official",
+      "maintainer": "hand-maintained",
+      "sha256": "9edc4df53b27e555"
+    },
+    {
+      "path": "game-data/tactics.json",
+      "domain": "tactics",
+      "count": 12,
+      "source_class": "upstream-reference",
+      "maintainer": "hand-maintained",
+      "sha256": "d926c733d1366e2b"
+    },
+    {
+      "path": "game-data/schema.md",
+      "domain": "schema",
+      "count": null,
+      "source_class": "documentation",
+      "maintainer": "hand-maintained"
+    }
+  ],
+  "coverage": {
+    "heroes": {
+      "status": "partial",
+      "present": 7,
+      "official_expected": "4 base + 3 expansion = 7 (task brief's '8' unsupported)",
+      "evidence": "MKUE Walkthrough p.5; MKUE Expansions Rulebook p.1",
+      "notes": "starting decks complete; expansion set attribution for Wolfhawk unverified"
+    },
+    "basic_actions": {
+      "status": "complete",
+      "present": 28,
+      "official_expected": "12 shared types + 8 base hero-specific + 8 expansion hero-specific = 28",
+      "evidence": "MKUE Rulebook p.3; MKUE Walkthrough p.4",
+      "notes": ""
+    },
+    "advanced_actions": {
+      "status": "partial",
+      "present": 44,
+      "official_expected": "28 base (2012/UE walkthrough numbering 65-92)",
+      "evidence": "MKUE Walkthrough p.4; MK Base Rulebook 2012 p.15",
+      "notes": "upstream 44 likely = base 28 + Lost Legion 16; per-card attribution unknown"
+    },
+    "spells": {
+      "status": "partial",
+      "present": 24,
+      "official_expected": "20 base (2012 numbering 1-20; competitive 17-20)",
+      "evidence": "MK Base Rulebook 2012 p.14/p.17; MKUE Rulebook p.19",
+      "notes": "upstream 24 likely = base 20 + Lost Legion 4; attribution unknown"
+    },
+    "artifacts": {
+      "status": "partial",
+      "present": 25,
+      "official_expected": null,
+      "evidence": "no official count in extracted rulebooks",
+      "notes": "count unverified"
+    },
+    "skills": {
+      "status": "partial",
+      "present": 70,
+      "official_expected": "11 tokens per hero, 1 removed per mode",
+      "evidence": "MKUE Walkthrough p.5; MKUE Rulebook p.3",
+      "notes": "upstream 10/hero -> one interactive skill per hero missing; krang_mana_enhancement has no effect"
+    },
+    "units": {
+      "status": "partial",
+      "present": 31,
+      "official_expected": null,
+      "evidence": "no official count in extracted rulebooks",
+      "notes": "includes 4 hero units + 1 'Heroes' unit; set attribution unknown"
+    },
+    "enemies": {
+      "status": "partial",
+      "present": 72,
+      "official_expected": "6 pile colours + ruins pile = seven piles",
+      "evidence": "MKUE Rulebook p.3; MK Master Reference Sheet p.2",
+      "notes": "per-enemy expansion attribution unknown; token copies unverified"
+    },
+    "ruins_tokens": {
+      "status": "partial",
+      "present": 15,
+      "official_expected": null,
+      "evidence": "MK Master Reference Sheet p.1 (altar/enemy token types)",
+      "notes": "count unverified"
+    },
+    "tiles": {
+      "status": "complete_for_base",
+      "present": 27,
+      "official_expected": "11 countryside + 8 core base; Lost Legion adds 3 countryside + 2 core + Volkare",
+      "evidence": "MKUE Walkthrough p.2",
+      "notes": "hex layouts upstream-only"
+    },
+    "sites": {
+      "status": "complete_for_base",
+      "present": 20,
+      "official_expected": "14 base Site Description cards",
+      "evidence": "MKUE Walkthrough p.4; MK Master Reference Sheet p.1-2",
+      "notes": "site rules paraphrased from reference sheet, not from the cards themselves"
+    },
+    "scenarios": {
+      "status": "partial",
+      "present": 11,
+      "official_expected": "10 base scenarios (2012 scenario book)",
+      "evidence": "MK Base Rulebook 2012 p.12-19",
+      "notes": "UE Scenario Book unavailable; UE-only expansion scenarios missing"
+    },
+    "tactics": {
+      "status": "partial",
+      "present": 12,
+      "official_expected": "6 day + 6 night",
+      "evidence": "MKUE Rulebook p.4",
+      "notes": "effects paraphrased from upstream reference, unverified"
+    },
+    "levels": {
+      "status": "complete_enough",
+      "present": 10,
+      "official_expected": "levels 1-10",
+      "evidence": "MKUE Rulebook p.3 (partial)",
+      "notes": "full stat table upstream-only"
+    },
+    "effect_ops": {
+      "status": "complete",
+      "present": 142,
+      "official_expected": null,
+      "evidence": "generated from the data set",
+      "notes": ""
+    }
+  },
+  "mvp_subset": {
+    "scenario": [
+      "scenario:first-conquest",
+      "scenario:classic"
+    ],
+    "heroes": [
+      "hero:arythea",
+      "hero:goldyx"
+    ],
+    "heroes_note": "provisional pair (direct-combat red + mana green); final roster pending docs/research/03-rules-reference.md",
+    "counts": {
+      "heroes": 2,
+      "basic_actions": 16,
+      "skills": 20,
+      "advanced_actions": 12,
+      "spells": 6,
+      "artifacts": 4,
+      "units": 6,
+      "enemies": 12,
+      "sites": 8,
+      "tiles": 4,
+      "ruins_tokens": 0
+    },
+    "sites": [
+      "site:village",
+      "site:monastery",
+      "site:keep",
+      "site:mage_tower",
+      "site:magical_glade",
+      "site:mine",
+      "site:city",
+      "site:portal"
+    ],
+    "tiles": [
+      "tile:starting_a",
+      "tile:countryside_1",
+      "tile:countryside_2",
+      "tile:core_city_green"
+    ],
+    "tiles_note": "fixed 4-tile first-conquest layout is a design decision; layout itself still TODO in scenarios.json",
+    "status_legend": {
+      "data-ready": "data complete and provenance strong enough to implement",
+      "placeholder": "data present but partially unverified or selection provisional",
+      "omitted": "not needed for v1.0"
+    },
+    "sites_note": "six MVP site types plus the city (climax) and the portal (starting space)"
+  },
+  "official_counts": [
+    {
+      "id": "deed_deck_size",
+      "claim": "each Hero starts with a 16-card Basic Action deck",
+      "count": 16,
+      "ref": "MKUE Rulebook p.3",
+      "used_for": "heroes.starting_deck"
+    },
+    {
+      "id": "skills_per_hero",
+      "claim": "11 Skill tokens per Hero (one interactive skill removed per game mode)",
+      "count": 11,
+      "ref": "MKUE Walkthrough p.5; MKUE Rulebook p.3",
+      "used_for": "skills coverage"
+    },
+    {
+      "id": "countryside_tiles_base",
+      "claim": "11 Countryside tiles in the base game",
+      "count": 11,
+      "ref": "MKUE Walkthrough p.2",
+      "used_for": "tiles coverage"
+    },
+    {
+      "id": "core_tiles_base",
+      "claim": "8 Core tiles in the base game (4 city + 4 non-city)",
+      "count": 8,
+      "ref": "MKUE Walkthrough p.2",
+      "used_for": "tiles coverage"
+    },
+    {
+      "id": "site_description_cards",
+      "claim": "14 Site Description cards in the base game",
+      "count": 14,
+      "ref": "MKUE Walkthrough p.4",
+      "used_for": "sites.base_site_count"
+    },
+    {
+      "id": "tactics",
+      "claim": "6 Day + 6 Night Tactic cards",
+      "count": 12,
+      "ref": "MKUE Rulebook p.4",
+      "used_for": "tactics counts"
+    },
+    {
+      "id": "levels",
+      "claim": "Fame levels 1-10",
+      "count": 10,
+      "ref": "MKUE Rulebook p.3 (level tokens)",
+      "used_for": "levels"
+    },
+    {
+      "id": "advanced_actions_base",
+      "claim": "28 Advanced Action cards in the base game (numbered 65-92)",
+      "count": 28,
+      "ref": "MKUE Walkthrough p.4; MK Base Rulebook 2012 p.15",
+      "used_for": "advanced_actions coverage"
+    },
+    {
+      "id": "spells_base",
+      "claim": "20 Spell cards in the base game (competitive spells numbered 17-20)",
+      "count": 20,
+      "ref": "MK Base Rulebook 2012 p.14/p.17",
+      "used_for": "spells coverage"
+    },
+    {
+      "id": "solo_conquest_rounds",
+      "claim": "Solo Conquest: six rounds (3 day + 3 night)",
+      "count": 6,
+      "ref": "MK Base Rulebook 2012 p.17; MKUE Rulebook p.19",
+      "used_for": "scenario:classic"
+    },
+    {
+      "id": "solo_conquest_countryside",
+      "claim": "Solo Conquest: 7 countryside tiles",
+      "count": 7,
+      "ref": "MK Base Rulebook 2012 p.17; MKUE Rulebook p.19",
+      "used_for": "scenario:classic"
+    },
+    {
+      "id": "token_piles",
+      "claim": "seven face-down enemy/ruin token piles at setup",
+      "count": 7,
+      "ref": "MKUE Rulebook p.3",
+      "used_for": "enemies coverage"
+    },
+    {
+      "id": "fame_thresholds",
+      "claim": "Fame needed for levels 2-10: 3/8/15/24/35/48/63/80/99",
+      "count": 9,
+      "ref": "MKUE Walkthrough p.6 (Fame and Reputation Board artwork, rendered/read 2026-10-24)",
+      "used_for": "levels.fame_threshold"
+    }
+  ],
+  "discrepancies": [
+    {
+      "id": "d1",
+      "title": "upstream has no LICENSE",
+      "readme_ref": "README.md \u00a77.1"
+    },
+    {
+      "id": "d2",
+      "title": "skills: 10/hero upstream vs 11 tokens official",
+      "readme_ref": "README.md \u00a77.2"
+    },
+    {
+      "id": "d3",
+      "title": "hero count is 7, not 8",
+      "readme_ref": "README.md \u00a77.3"
+    },
+    {
+      "id": "d4",
+      "title": "Goldyx dummy crystals disagree (official green/green/blue)",
+      "readme_ref": "README.md \u00a77.4"
+    },
+    {
+      "id": "d5",
+      "title": "advanced action count: 28 official base vs 44 upstream",
+      "readme_ref": "README.md \u00a77.5"
+    },
+    {
+      "id": "d6",
+      "title": "spell numbering 17-20 (2012) vs 109-112 (UE)",
+      "readme_ref": "README.md \u00a77.6"
+    },
+    {
+      "id": "d7",
+      "title": "enemy/unit sets mix expansions; per-item attribution unknown",
+      "readme_ref": "README.md \u00a77.7"
+    },
+    {
+      "id": "d8",
+      "title": "UE Scenario Book unavailable; base-2012 scenario book used",
+      "readme_ref": "README.md \u00a77.8"
+    },
+    {
+      "id": "d9",
+      "title": "upstream scenarios have no Solo Conquest config",
+      "readme_ref": "README.md \u00a77.9"
+    },
+    {
+      "id": "d10",
+      "title": "tactic effects are paraphrased and unverified",
+      "readme_ref": "README.md \u00a77.10"
+    },
+    {
+      "id": "d11",
+      "title": "site rules come from the reference sheet, not Site Description cards",
+      "readme_ref": "README.md \u00a77.11"
+    },
+    {
+      "id": "d12",
+      "title": "enemy token copies unverified",
+      "readme_ref": "README.md \u00a77.12"
+    },
+    {
+      "id": "d13",
+      "title": "card numbering schemes differ across printings",
+      "readme_ref": "README.md \u00a77.13"
+    },
+    {
+      "id": "d14",
+      "title": "tile layouts are upstream-only",
+      "readme_ref": "README.md \u00a77.14"
+    },
+    {
+      "id": "d15",
+      "title": "Fame thresholds: upstream values wrong from level 4; corrected from official board artwork",
+      "readme_ref": "README.md \u00a77.15"
+    }
+  ],
+  "missing": [
+    "UE-only scenarios (Volkare's Quest, Volkare's Return, Lost Legion/Tezla scenario book entries)",
+    "11th skill token per hero (interactive skill not in upstream data)",
+    "per-card expansion attribution for advanced actions, spells, artifacts, skills, units, enemies",
+    "AI/scripted enemy behaviour (out of data scope; docs/design/13-ai-opponents.md)",
+    "first-conquest fixed map layout + tuned scoring weights (design TODO, see scenarios.json layout_status)"
+  ]
+}

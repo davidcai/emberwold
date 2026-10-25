@@ -1,0 +1,1701 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "units",
+  "count": 31,
+  "counts": {
+    "total": 31,
+    "hero_units": 4,
+    "regular_max_level2": 15,
+    "elite_min_level3": 16
+  },
+  "sources": [
+    "upstream-mk-data/units.rs"
+  ],
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "schema_version": "1.0.0",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+      "path": "packages/engine-rs/crates/mk-data/src/units.rs",
+      "sha256": "e2fabfc2de0b1ca941bab30605f0cf034e2c9794ebbe59bb5c5e3a6edee603e0",
+      "fetched_at": "2026-10-25T02:32:56Z"
+    },
+    "confidence": "upstream-only",
+    "notes": "Unit cards (regular + elite). Upstream blocks describe 'all base game units' but include hero units used by scenarios and a few expansion-flavoured units; per-unit set attribution UNVERIFIED."
+  },
+  "items": [
+    {
+      "id": "unit:foresters",
+      "name": "Foresters",
+      "level": 1,
+      "influence_cost": 5,
+      "armor": 4,
+      "recruit_sites": [
+        "village"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "move_with_terrain_reduction",
+            "move_value": 2,
+            "terrain_reductions": [
+              [
+                "forest",
+                -1,
+                0
+              ],
+              [
+                "hills",
+                -1,
+                0
+              ],
+              [
+                "swamp",
+                -1,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:herbalist",
+      "name": "Herbalist",
+      "level": 1,
+      "influence_cost": 3,
+      "armor": 2,
+      "recruit_sites": [
+        "village",
+        "monastery"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": "green",
+          "ability": {
+            "op": "heal",
+            "value": 2
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "ready_unit",
+            "max_level": 2
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "gain_mana",
+            "color": "green"
+          }
+        }
+      ],
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:peasants",
+      "name": "Peasants",
+      "level": 1,
+      "influence_cost": 4,
+      "armor": 3,
+      "recruit_sites": [
+        "village"
+      ],
+      "copies": 3,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 2,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 2,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "influence",
+            "value": 2
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "move",
+            "value": 2
+          }
+        }
+      ],
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:scouts",
+      "name": "Scouts",
+      "level": 1,
+      "influence_cost": 4,
+      "armor": 2,
+      "recruit_sites": [
+        "village",
+        "keep",
+        "mage_tower",
+        "monastery",
+        "city"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "siege_attack",
+            "value": 1,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "scout_peek",
+            "distance": 3,
+            "fame_bonus": 1
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "move_with_extended_explore",
+            "move_value": 2
+          }
+        }
+      ],
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:thugs",
+      "name": "Thugs",
+      "level": 1,
+      "influence_cost": 5,
+      "armor": 5,
+      "recruit_sites": [
+        "village",
+        "keep"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": true,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack_with_rep_cost",
+            "value": 3,
+            "element": "physical",
+            "rep_change": -1
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "influence_with_rep_cost",
+            "value": 4,
+            "rep_change": -1
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:guardian_golems",
+      "name": "Guardian Golems",
+      "level": 2,
+      "influence_cost": 7,
+      "armor": 3,
+      "recruit_sites": [
+        "mage_tower",
+        "keep"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 2,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 2,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": "red",
+          "ability": {
+            "op": "block",
+            "value": 4,
+            "element": "fire"
+          }
+        },
+        {
+          "mana_cost": "blue",
+          "ability": {
+            "op": "block",
+            "value": 4,
+            "element": "ice"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:illusionists",
+      "name": "Illusionists",
+      "level": 2,
+      "influence_cost": 7,
+      "armor": 2,
+      "recruit_sites": [
+        "mage_tower",
+        "monastery"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "influence",
+            "value": 4
+          }
+        },
+        {
+          "mana_cost": "white",
+          "ability": {
+            "op": "select_combat_enemy",
+            "exclude_fortified": true,
+            "exclude_arcane_immune": true,
+            "exclude_summoners": false,
+            "exclude_resistance": null,
+            "skip_attack": true,
+            "armor_change": 0,
+            "armor_minimum": 0,
+            "attack_change": 0,
+            "attack_minimum": 0,
+            "fortified_armor_change": null,
+            "nullify_fortified": false,
+            "remove_resistances": false,
+            "remove_fire_resistance": false,
+            "defeat_if_blocked": false,
+            "defeat": false,
+            "nullify_all_attack_abilities": false,
+            "damage_redirect_from_unit": false,
+            "bundled_ranged_attack": 0,
+            "armor_per_resistance": false
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "gain_crystal",
+            "color": "white"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:magic_familiars",
+      "name": "Magic Familiars",
+      "level": 2,
+      "influence_cost": 6,
+      "armor": 5,
+      "recruit_sites": [
+        "monastery",
+        "mage_tower",
+        "magical_glade"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": true,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 4,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "move_or_influence",
+            "value": 3
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "heal",
+            "value": 2
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:northern_monks",
+      "name": "Northern Monks",
+      "level": 2,
+      "influence_cost": 7,
+      "armor": 4,
+      "recruit_sites": [
+        "monastery"
+      ],
+      "copies": 1,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": "blue",
+          "ability": {
+            "op": "attack",
+            "value": 4,
+            "element": "ice"
+          }
+        },
+        {
+          "mana_cost": "blue",
+          "ability": {
+            "op": "block",
+            "value": 4,
+            "element": "ice"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:red_cape_monks",
+      "name": "Red Cape Monks",
+      "level": 2,
+      "influence_cost": 7,
+      "armor": 4,
+      "recruit_sites": [
+        "monastery"
+      ],
+      "copies": 1,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": "red",
+          "ability": {
+            "op": "attack",
+            "value": 4,
+            "element": "fire"
+          }
+        },
+        {
+          "mana_cost": "red",
+          "ability": {
+            "op": "block",
+            "value": 4,
+            "element": "fire"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:savage_monks",
+      "name": "Savage Monks",
+      "level": 2,
+      "influence_cost": 7,
+      "armor": 4,
+      "recruit_sites": [
+        "monastery"
+      ],
+      "copies": 1,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": "green",
+          "ability": {
+            "op": "siege_attack",
+            "value": 4,
+            "element": "physical"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:shocktroops",
+      "name": "Shocktroops",
+      "level": 2,
+      "influence_cost": 6,
+      "armor": 3,
+      "recruit_sites": [
+        "keep"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "coordinated_fire",
+            "ranged_value": 1,
+            "element": "physical",
+            "unit_attack_bonus": 1
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "select_combat_enemy",
+            "exclude_fortified": false,
+            "exclude_arcane_immune": false,
+            "exclude_summoners": false,
+            "exclude_resistance": null,
+            "skip_attack": false,
+            "armor_change": -1,
+            "armor_minimum": 1,
+            "attack_change": -1,
+            "attack_minimum": 0,
+            "fortified_armor_change": null,
+            "nullify_fortified": false,
+            "remove_resistances": false,
+            "remove_fire_resistance": false,
+            "defeat_if_blocked": false,
+            "defeat": false,
+            "nullify_all_attack_abilities": false,
+            "damage_redirect_from_unit": false,
+            "bundled_ranged_attack": 0,
+            "armor_per_resistance": false
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "select_combat_enemy",
+            "exclude_fortified": false,
+            "exclude_arcane_immune": false,
+            "exclude_summoners": false,
+            "exclude_resistance": null,
+            "skip_attack": false,
+            "armor_change": 0,
+            "armor_minimum": 0,
+            "attack_change": -3,
+            "attack_minimum": 0,
+            "nullify_fortified": false,
+            "remove_resistances": false,
+            "fortified_armor_change": null,
+            "defeat_if_blocked": false,
+            "defeat": false,
+            "nullify_all_attack_abilities": false,
+            "remove_fire_resistance": false,
+            "damage_redirect_from_unit": true,
+            "bundled_ranged_attack": 0,
+            "armor_per_resistance": false
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:utem_crossbowmen",
+      "name": "Utem Crossbowmen",
+      "level": 2,
+      "influence_cost": 6,
+      "armor": 4,
+      "recruit_sites": [
+        "village",
+        "keep"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "ranged_attack",
+            "value": 2,
+            "element": "physical"
+          }
+        }
+      ],
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:utem_guardsmen",
+      "name": "Utem Guardsmen",
+      "level": 2,
+      "influence_cost": 5,
+      "armor": 5,
+      "recruit_sites": [
+        "village",
+        "keep"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 2,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 4,
+            "element": "physical"
+          }
+        }
+      ],
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:utem_swordsmen",
+      "name": "Utem Swordsmen",
+      "level": 2,
+      "influence_cost": 6,
+      "armor": 4,
+      "recruit_sites": [
+        "keep"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack_or_block_wound_self",
+            "value": 6,
+            "element": "physical"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:amotep_freezers",
+      "name": "Amotep Freezers",
+      "level": 3,
+      "influence_cost": 8,
+      "armor": 6,
+      "recruit_sites": [
+        "keep",
+        "city"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": "blue",
+          "ability": {
+            "op": "select_combat_enemy",
+            "exclude_fortified": false,
+            "exclude_arcane_immune": false,
+            "exclude_summoners": false,
+            "exclude_resistance": "ice",
+            "skip_attack": true,
+            "armor_change": -3,
+            "armor_minimum": 1,
+            "attack_change": 0,
+            "attack_minimum": 0,
+            "fortified_armor_change": null,
+            "nullify_fortified": false,
+            "remove_resistances": false,
+            "remove_fire_resistance": false,
+            "defeat_if_blocked": false,
+            "defeat": false,
+            "nullify_all_attack_abilities": false,
+            "damage_redirect_from_unit": false,
+            "bundled_ranged_attack": 0,
+            "armor_per_resistance": false
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:amotep_gunners",
+      "name": "Amotep Gunners",
+      "level": 3,
+      "influence_cost": 8,
+      "armor": 6,
+      "recruit_sites": [
+        "keep",
+        "city"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": "red",
+          "ability": {
+            "op": "ranged_attack",
+            "value": 6,
+            "element": "fire"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:catapults",
+      "name": "Catapults",
+      "level": 3,
+      "influence_cost": 9,
+      "armor": 4,
+      "recruit_sites": [
+        "keep",
+        "city"
+      ],
+      "copies": 3,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "siege_attack",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": "red",
+          "ability": {
+            "op": "siege_attack",
+            "value": 5,
+            "element": "fire"
+          }
+        },
+        {
+          "mana_cost": "blue",
+          "ability": {
+            "op": "siege_attack",
+            "value": 5,
+            "element": "ice"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:fire_golems",
+      "name": "Fire Golems",
+      "level": 3,
+      "influence_cost": 8,
+      "armor": 4,
+      "recruit_sites": [
+        "keep",
+        "mage_tower"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": "red",
+          "ability": {
+            "op": "ranged_attack",
+            "value": 4,
+            "element": "fire"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:fire_mages",
+      "name": "Fire Mages",
+      "level": 3,
+      "influence_cost": 9,
+      "armor": 3,
+      "recruit_sites": [
+        "mage_tower",
+        "monastery"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "ranged_attack",
+            "value": 3,
+            "element": "fire"
+          }
+        },
+        {
+          "mana_cost": "red",
+          "ability": {
+            "op": "attack",
+            "value": 6,
+            "element": "fire"
+          }
+        },
+        {
+          "mana_cost": "red",
+          "ability": {
+            "op": "block",
+            "value": 6,
+            "element": "fire"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "gain_mana_and_crystal",
+            "color": "red"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:hero_blue",
+      "name": "Hero (Blue)",
+      "level": 3,
+      "influence_cost": 9,
+      "armor": 4,
+      "recruit_sites": [
+        "village",
+        "keep",
+        "city"
+      ],
+      "copies": 1,
+      "is_hero_unit": true,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "influence",
+            "value": 5
+          }
+        },
+        {
+          "mana_cost": "blue",
+          "ability": {
+            "op": "block",
+            "value": 8,
+            "element": "cold_fire"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:hero_green",
+      "name": "Hero (Green)",
+      "level": 3,
+      "influence_cost": 9,
+      "armor": 3,
+      "recruit_sites": [
+        "village",
+        "keep",
+        "city"
+      ],
+      "copies": 1,
+      "is_hero_unit": true,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "influence",
+            "value": 5
+          }
+        },
+        {
+          "mana_cost": "green",
+          "ability": {
+            "op": "heal",
+            "value": 4
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:hero_red",
+      "name": "Hero (Red)",
+      "level": 3,
+      "influence_cost": 9,
+      "armor": 4,
+      "recruit_sites": [
+        "village",
+        "keep",
+        "city"
+      ],
+      "copies": 1,
+      "is_hero_unit": true,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "influence",
+            "value": 5
+          }
+        },
+        {
+          "mana_cost": "red",
+          "ability": {
+            "op": "attack",
+            "value": 6,
+            "element": "cold_fire"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:hero_white",
+      "name": "Hero (White)",
+      "level": 3,
+      "influence_cost": 9,
+      "armor": 6,
+      "recruit_sites": [
+        "village",
+        "keep",
+        "city"
+      ],
+      "copies": 1,
+      "is_hero_unit": true,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "influence",
+            "value": 5
+          }
+        },
+        {
+          "mana_cost": "white",
+          "ability": {
+            "op": "ranged_attack",
+            "value": 7,
+            "element": "physical"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:heroes",
+      "name": "Heroes",
+      "level": 3,
+      "influence_cost": 9,
+      "armor": 5,
+      "recruit_sites": [
+        "village",
+        "keep",
+        "city"
+      ],
+      "copies": 1,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "influence",
+            "value": 5
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:ice_golems",
+      "name": "Ice Golems",
+      "level": 3,
+      "influence_cost": 8,
+      "armor": 4,
+      "recruit_sites": [
+        "keep",
+        "mage_tower"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 3,
+            "element": "ice"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 3,
+            "element": "ice"
+          }
+        },
+        {
+          "mana_cost": "blue",
+          "ability": {
+            "op": "attack",
+            "value": 6,
+            "element": "ice"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:ice_mages",
+      "name": "Ice Mages",
+      "level": 3,
+      "influence_cost": 9,
+      "armor": 4,
+      "recruit_sites": [
+        "mage_tower",
+        "monastery"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 4,
+            "element": "ice"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 4,
+            "element": "ice"
+          }
+        },
+        {
+          "mana_cost": "blue",
+          "ability": {
+            "op": "siege_attack",
+            "value": 4,
+            "element": "ice"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "gain_mana_and_crystal",
+            "color": "blue"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:sorcerers",
+      "name": "Sorcerers",
+      "level": 3,
+      "influence_cost": 9,
+      "armor": 4,
+      "recruit_sites": [
+        "mage_tower",
+        "monastery"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "ranged_attack",
+            "value": 3,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": "white",
+          "ability": {
+            "op": "select_combat_enemy",
+            "exclude_fortified": false,
+            "exclude_arcane_immune": false,
+            "exclude_summoners": false,
+            "exclude_resistance": null,
+            "skip_attack": false,
+            "armor_change": 0,
+            "armor_minimum": 0,
+            "fortified_armor_change": null,
+            "attack_change": 0,
+            "attack_minimum": 0,
+            "nullify_fortified": true,
+            "remove_resistances": false,
+            "remove_fire_resistance": false,
+            "defeat_if_blocked": false,
+            "defeat": false,
+            "nullify_all_attack_abilities": false,
+            "damage_redirect_from_unit": false,
+            "bundled_ranged_attack": 3,
+            "armor_per_resistance": false
+          }
+        },
+        {
+          "mana_cost": "green",
+          "ability": {
+            "op": "select_combat_enemy",
+            "exclude_fortified": false,
+            "exclude_arcane_immune": false,
+            "exclude_summoners": false,
+            "exclude_resistance": null,
+            "skip_attack": false,
+            "armor_change": 0,
+            "armor_minimum": 0,
+            "fortified_armor_change": null,
+            "attack_change": 0,
+            "attack_minimum": 0,
+            "nullify_fortified": false,
+            "remove_resistances": true,
+            "remove_fire_resistance": false,
+            "defeat_if_blocked": false,
+            "defeat": false,
+            "nullify_all_attack_abilities": false,
+            "damage_redirect_from_unit": false,
+            "bundled_ranged_attack": 3,
+            "armor_per_resistance": false
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:altem_guardians",
+      "name": "Altem Guardians",
+      "level": 4,
+      "influence_cost": 11,
+      "armor": 7,
+      "recruit_sites": [
+        "city"
+      ],
+      "copies": 3,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "attack",
+            "value": 5,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "block",
+            "value": 8,
+            "element": "physical"
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "grant_all_resistances"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:altem_mages",
+      "name": "Altem Mages",
+      "level": 4,
+      "influence_cost": 12,
+      "armor": 5,
+      "recruit_sites": [
+        "city"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "gain_mana_choose",
+            "count": 2
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "altem_mages_cold_fire",
+            "base": 5,
+            "blue_value": 7,
+            "red_value": 7,
+            "both_value": 9
+          }
+        },
+        {
+          "mana_cost": null,
+          "ability": {
+            "op": "altem_mages_attack_modifier"
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "unit:delphana_masters",
+      "name": "Delphana Masters",
+      "level": 4,
+      "influence_cost": 13,
+      "armor": 3,
+      "recruit_sites": [
+        "city"
+      ],
+      "copies": 2,
+      "is_hero_unit": false,
+      "reversed_reputation": false,
+      "restricted_from_free_recruit": false,
+      "abilities": [
+        {
+          "mana_cost": "blue",
+          "ability": {
+            "op": "select_combat_enemy",
+            "exclude_fortified": false,
+            "exclude_arcane_immune": true,
+            "exclude_summoners": false,
+            "exclude_resistance": "ice",
+            "skip_attack": true,
+            "armor_change": 0,
+            "armor_minimum": 0,
+            "attack_change": 0,
+            "attack_minimum": 0,
+            "fortified_armor_change": null,
+            "nullify_fortified": false,
+            "remove_resistances": false,
+            "remove_fire_resistance": false,
+            "defeat_if_blocked": false,
+            "defeat": false,
+            "nullify_all_attack_abilities": false,
+            "damage_redirect_from_unit": false,
+            "bundled_ranged_attack": 0,
+            "armor_per_resistance": false
+          }
+        },
+        {
+          "mana_cost": "red",
+          "ability": {
+            "op": "select_combat_enemy",
+            "exclude_fortified": false,
+            "exclude_arcane_immune": true,
+            "exclude_summoners": false,
+            "exclude_resistance": "fire",
+            "skip_attack": false,
+            "armor_change": 0,
+            "armor_minimum": 0,
+            "attack_change": 0,
+            "attack_minimum": 0,
+            "nullify_fortified": false,
+            "remove_resistances": false,
+            "fortified_armor_change": null,
+            "defeat_if_blocked": true,
+            "defeat": false,
+            "nullify_all_attack_abilities": false,
+            "remove_fire_resistance": false,
+            "damage_redirect_from_unit": false,
+            "bundled_ranged_attack": 0,
+            "armor_per_resistance": false
+          }
+        },
+        {
+          "mana_cost": "green",
+          "ability": {
+            "op": "select_combat_enemy",
+            "exclude_fortified": false,
+            "exclude_arcane_immune": false,
+            "exclude_summoners": false,
+            "exclude_resistance": null,
+            "skip_attack": false,
+            "armor_change": -5,
+            "armor_minimum": 1,
+            "attack_change": 0,
+            "attack_minimum": 0,
+            "fortified_armor_change": null,
+            "nullify_fortified": false,
+            "remove_resistances": false,
+            "remove_fire_resistance": false,
+            "defeat_if_blocked": false,
+            "defeat": false,
+            "nullify_all_attack_abilities": false,
+            "damage_redirect_from_unit": false,
+            "bundled_ranged_attack": 0,
+            "armor_per_resistance": false
+          }
+        },
+        {
+          "mana_cost": "white",
+          "ability": {
+            "op": "select_combat_enemy",
+            "exclude_fortified": false,
+            "exclude_arcane_immune": false,
+            "exclude_summoners": false,
+            "exclude_resistance": null,
+            "skip_attack": false,
+            "armor_change": 0,
+            "armor_minimum": 0,
+            "attack_change": 0,
+            "attack_minimum": 0,
+            "fortified_armor_change": null,
+            "nullify_fortified": true,
+            "remove_resistances": true,
+            "remove_fire_resistance": false,
+            "defeat_if_blocked": false,
+            "defeat": false,
+            "nullify_all_attack_abilities": false,
+            "damage_redirect_from_unit": false,
+            "bundled_ranged_attack": 0,
+            "armor_per_resistance": false
+          }
+        }
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/units.rs",
+      "confidence": "upstream-only"
+    }
+  ]
+}

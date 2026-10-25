@@ -1,0 +1,1519 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "basic_actions",
+  "count": 28,
+  "deck_composition": {
+    "standard_deck_types": 12,
+    "unique_card_types": 28,
+    "per_hero_deck_size": 16,
+    "standard_deck": [
+      "basic:basic:rage",
+      "basic:basic:rage",
+      "basic:basic:determination",
+      "basic:basic:swiftness",
+      "basic:basic:swiftness",
+      "basic:basic:march",
+      "basic:basic:march",
+      "basic:basic:stamina",
+      "basic:basic:stamina",
+      "basic:basic:tranquility",
+      "basic:basic:promise",
+      "basic:basic:threaten",
+      "basic:basic:crystallize",
+      "basic:basic:mana_draw",
+      "basic:basic:concentration",
+      "basic:basic:improvisation"
+    ]
+  },
+  "sources": [
+    "upstream-mk-data/cards.rs",
+    "MKUE Rulebook p.3",
+    "MKUE Walkthrough p.4"
+  ],
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "schema_version": "1.0.0",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+      "path": "packages/engine-rs/crates/mk-data/src/cards.rs",
+      "sha256": "b8315523959b30988ea14c9d6a6e3ca422bb0fc9813c3097e37fc1f0f2ae18ac",
+      "fetched_at": "2026-10-25T02:32:56Z"
+    },
+    "confidence": "upstream-only",
+    "notes": "Basic Action deck cards. Official: each hero deck has 16 cards (MKUE Rulebook p.3); 12 shared card types plus hero-specific replacements (MKUE Walkthrough p.4). Expansion attribution for expansion-hero cards follows the hero sets."
+  },
+  "items": [
+    {
+      "id": "basic:march",
+      "name": "March",
+      "card_type": "basic_action",
+      "color": "green",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_move",
+          "amount": 2
+        },
+        "powered": {
+          "op": "gain_move",
+          "amount": 4
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "movement"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:stamina",
+      "name": "Stamina",
+      "card_type": "basic_action",
+      "color": "blue",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_move",
+          "amount": 2
+        },
+        "powered": {
+          "op": "gain_move",
+          "amount": 4
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "movement"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:swiftness",
+      "name": "Swiftness",
+      "card_type": "basic_action",
+      "color": "white",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_move",
+          "amount": 2
+        },
+        "powered": {
+          "op": "gain_attack",
+          "amount": 3,
+          "combat_type": "ranged",
+          "element": "physical"
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:rage",
+      "name": "Rage",
+      "card_type": "basic_action",
+      "color": "red",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 2,
+              "element": "physical"
+            }
+          ]
+        },
+        "powered": {
+          "op": "gain_attack",
+          "amount": 4,
+          "combat_type": "melee",
+          "element": "physical"
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:determination",
+      "name": "Determination",
+      "card_type": "basic_action",
+      "color": "blue",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 2,
+              "element": "physical"
+            }
+          ]
+        },
+        "powered": {
+          "op": "gain_block",
+          "amount": 5,
+          "element": "physical"
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:tranquility",
+      "name": "Tranquility",
+      "card_type": "basic_action",
+      "color": "green",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_healing",
+              "amount": 1
+            },
+            {
+              "op": "draw_cards",
+              "count": 1
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_healing",
+              "amount": 2
+            },
+            {
+              "op": "draw_cards",
+              "count": 2
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "healing"
+        ],
+        "powered": [
+          "healing"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:promise",
+      "name": "Promise",
+      "card_type": "basic_action",
+      "color": "white",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_influence",
+          "amount": 2
+        },
+        "powered": {
+          "op": "gain_influence",
+          "amount": 4
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence"
+        ],
+        "powered": [
+          "influence"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:threaten",
+      "name": "Threaten",
+      "card_type": "basic_action",
+      "color": "red",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_influence",
+          "amount": 2
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 5
+            },
+            {
+              "op": "change_reputation",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence"
+        ],
+        "powered": [
+          "influence"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:crystallize",
+      "name": "Crystallize",
+      "card_type": "basic_action",
+      "color": "blue",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "convert_mana_to_crystal"
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_crystal",
+              "color": "red"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "blue"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "green"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "white"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:mana_draw",
+      "name": "Mana Draw",
+      "card_type": "basic_action",
+      "color": "white",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "apply_modifier",
+          "effect": {
+            "op": "rule_override",
+            "rule": "extra_source_die"
+          },
+          "duration": "turn",
+          "scope": "self_scope"
+        },
+        "powered": {
+          "op": "mana_draw_powered",
+          "dice_count": 1,
+          "tokens_per_die": 2
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:concentration",
+      "name": "Concentration",
+      "card_type": "basic_action",
+      "color": "green",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_mana",
+              "color": "blue",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "white",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "red",
+              "amount": 1
+            }
+          ]
+        },
+        "powered": {
+          "op": "card_boost",
+          "bonus": 2
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:improvisation",
+      "name": "Improvisation",
+      "card_type": "basic_action",
+      "color": "red",
+      "expansion": "base",
+      "hero": null,
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "discard_cost",
+          "count": 1,
+          "filter_wounds": true,
+          "wounds_only": false,
+          "then_effect": {
+            "op": "choice",
+            "options": [
+              {
+                "op": "gain_move",
+                "amount": 3
+              },
+              {
+                "op": "gain_influence",
+                "amount": 3
+              },
+              {
+                "op": "gain_attack",
+                "amount": 3,
+                "combat_type": "melee",
+                "element": "physical"
+              },
+              {
+                "op": "gain_block",
+                "amount": 3,
+                "element": "physical"
+              }
+            ]
+          }
+        },
+        "powered": {
+          "op": "discard_cost",
+          "count": 1,
+          "filter_wounds": true,
+          "wounds_only": false,
+          "then_effect": {
+            "op": "choice",
+            "options": [
+              {
+                "op": "gain_move",
+                "amount": 5
+              },
+              {
+                "op": "gain_influence",
+                "amount": 5
+              },
+              {
+                "op": "gain_attack",
+                "amount": 5,
+                "combat_type": "melee",
+                "element": "physical"
+              },
+              {
+                "op": "gain_block",
+                "amount": 5,
+                "element": "physical"
+              }
+            ]
+          }
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "influence",
+          "combat"
+        ],
+        "powered": [
+          "movement",
+          "influence",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "data-ready",
+      "in_standard_deck": true
+    },
+    {
+      "id": "basic:arythea_battle_versatility",
+      "name": "Battle Versatility",
+      "card_type": "basic_action",
+      "color": "red",
+      "expansion": "base",
+      "hero": "arythea",
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 2,
+              "element": "physical"
+            },
+            {
+              "op": "gain_attack",
+              "amount": 1,
+              "combat_type": "ranged",
+              "element": "physical"
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 4,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 4,
+              "element": "physical"
+            },
+            {
+              "op": "gain_attack",
+              "amount": 3,
+              "combat_type": "melee",
+              "element": "fire"
+            },
+            {
+              "op": "gain_block",
+              "amount": 3,
+              "element": "fire"
+            },
+            {
+              "op": "gain_attack",
+              "amount": 3,
+              "combat_type": "ranged",
+              "element": "physical"
+            },
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "siege",
+              "element": "physical"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:arythea_mana_pull",
+      "name": "Mana Pull",
+      "card_type": "basic_action",
+      "color": "white",
+      "expansion": "base",
+      "hero": "arythea",
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "extra_source_die"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "black_as_any_color"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "mana_draw_powered",
+          "dice_count": 2,
+          "tokens_per_die": 1
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:braevalar_druidic_paths",
+      "name": "Druidic Paths",
+      "card_type": "basic_action",
+      "color": "blue",
+      "expansion": "shades_of_tezla",
+      "hero": "braevalar",
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "other",
+              "effect_type": "select_hex_for_cost_reduction"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "other",
+              "effect_type": "select_terrain_for_cost_reduction"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "movement"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:braevalar_one_with_the_land",
+      "name": "One With The Land",
+      "card_type": "basic_action",
+      "color": "green",
+      "expansion": "shades_of_tezla",
+      "hero": "braevalar",
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "gain_healing",
+              "amount": 1
+            },
+            {
+              "op": "gain_block",
+              "amount": 2,
+              "element": "physical"
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "gain_healing",
+              "amount": 2
+            },
+            {
+              "op": "other",
+              "effect_type": "terrain_based_block"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "healing",
+          "combat"
+        ],
+        "powered": [
+          "movement",
+          "healing",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:goldyx_crystal_joy",
+      "name": "Crystal Joy",
+      "card_type": "basic_action",
+      "color": "blue",
+      "expansion": "base",
+      "hero": "goldyx",
+      "powered_by": "any_basic",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "convert_mana_to_crystal"
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_crystal",
+              "color": "red"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "blue"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "green"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "white"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:goldyx_will_focus",
+      "name": "Will Focus",
+      "card_type": "basic_action",
+      "color": "green",
+      "expansion": "base",
+      "hero": "goldyx",
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_mana",
+              "color": "blue",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "white",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "red",
+              "amount": 1
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_mana",
+              "color": "blue",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "white",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "red",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "gold",
+              "amount": 1
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "special"
+        ],
+        "powered": [
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": true,
+      "status": "placeholder",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:krang_battle_rage",
+      "name": "Battle Rage",
+      "card_type": "basic_action",
+      "color": "red",
+      "expansion": "krang",
+      "hero": "krang",
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 2,
+              "element": "physical"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_attack",
+              "amount": 5,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "take_wound"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:krang_ruthless_coercion",
+      "name": "Ruthless Coercion",
+      "card_type": "basic_action",
+      "color": "red",
+      "expansion": "krang",
+      "hero": "krang",
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_influence",
+          "amount": 2
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 7
+            },
+            {
+              "op": "change_reputation",
+              "amount": -2
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence"
+        ],
+        "powered": [
+          "influence",
+          "healing"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:krang_savage_harvesting",
+      "name": "Savage Harvesting",
+      "card_type": "basic_action",
+      "color": "green",
+      "expansion": "krang",
+      "hero": "krang",
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_move",
+          "amount": 2
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "change_reputation",
+              "amount": -1
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "special"
+        ],
+        "powered": [
+          "movement",
+          "special"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:norowas_noble_manners",
+      "name": "Noble Manners",
+      "card_type": "basic_action",
+      "color": "white",
+      "expansion": "base",
+      "hero": "norowas",
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_influence",
+          "amount": 2
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 4
+            },
+            {
+              "op": "change_reputation",
+              "amount": 1
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "influence"
+        ],
+        "powered": [
+          "influence"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:norowas_rejuvenate",
+      "name": "Rejuvenate",
+      "card_type": "basic_action",
+      "color": "green",
+      "expansion": "base",
+      "hero": "norowas",
+      "powered_by": "green",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_healing",
+              "amount": 1
+            },
+            {
+              "op": "draw_cards",
+              "count": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "green",
+              "amount": 1
+            },
+            {
+              "op": "ready_unit",
+              "max_level": 2
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_healing",
+              "amount": 2
+            },
+            {
+              "op": "draw_cards",
+              "count": 2
+            },
+            {
+              "op": "gain_crystal",
+              "color": "green"
+            },
+            {
+              "op": "ready_unit",
+              "max_level": 3
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "healing"
+        ],
+        "powered": [
+          "healing"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:tovak_cold_toughness",
+      "name": "Cold Toughness",
+      "card_type": "basic_action",
+      "color": "blue",
+      "expansion": "base",
+      "hero": "tovak",
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 2,
+              "element": "physical"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_block",
+              "amount": 5,
+              "element": "physical"
+            },
+            {
+              "op": "gain_block_element",
+              "amount": 3,
+              "element": "ice"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:tovak_instinct",
+      "name": "Instinct",
+      "card_type": "basic_action",
+      "color": "red",
+      "expansion": "base",
+      "hero": "tovak",
+      "powered_by": "red",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "gain_influence",
+              "amount": 2
+            },
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 2,
+              "element": "physical"
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "gain_influence",
+              "amount": 4
+            },
+            {
+              "op": "gain_attack",
+              "amount": 4,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 4,
+              "element": "physical"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "influence",
+          "combat"
+        ],
+        "powered": [
+          "movement",
+          "influence",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:axe_throw",
+      "name": "Axe Throw",
+      "card_type": "basic_action",
+      "color": "white",
+      "expansion": "lost_legion",
+      "hero": "wolfhawk",
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "gain_attack",
+              "amount": 1,
+              "combat_type": "ranged",
+              "element": "physical"
+            }
+          ]
+        },
+        "powered": {
+          "op": "attack_with_defeat_bonus",
+          "amount": 3,
+          "combat_type": "ranged",
+          "element": "physical",
+          "reputation_per_defeat": 0,
+          "fame_per_defeat": 1,
+          "armor_reduction_per_defeat": 0
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "combat"
+        ],
+        "powered": [
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:wolfhawk_swift_reflexes",
+      "name": "Swift Reflexes",
+      "card_type": "basic_action",
+      "color": "white",
+      "expansion": "lost_legion",
+      "hero": "wolfhawk",
+      "powered_by": "white",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_move",
+          "amount": 2
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 3,
+              "combat_type": "ranged",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 3,
+              "element": "physical"
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement",
+          "combat"
+        ],
+        "powered": [
+          "movement",
+          "combat"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    },
+    {
+      "id": "basic:wolfhawk_tirelessness",
+      "name": "Tirelessness",
+      "card_type": "basic_action",
+      "color": "blue",
+      "expansion": "lost_legion",
+      "hero": "wolfhawk",
+      "powered_by": "blue",
+      "sideways_value": 1,
+      "destroy_on_powered": false,
+      "effects": {
+        "basic": {
+          "op": "gain_move",
+          "amount": 2
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "draw_cards",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "categories": {
+        "basic": [
+          "movement"
+        ],
+        "powered": [
+          "movement"
+        ]
+      },
+      "source": "upstream-mk-data/cards.rs",
+      "confidence": "upstream-only",
+      "mvp": false,
+      "status": "omitted",
+      "in_standard_deck": false
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "levels",
+  "count": 10,
+  "level_stats": [
+    {
+      "min_level": 1,
+      "max_level": 2,
+      "armor": 2,
+      "hand_limit": 5,
+      "command_slots": 1
+    },
+    {
+      "min_level": 3,
+      "max_level": 4,
+      "armor": 3,
+      "hand_limit": 5,
+      "command_slots": 2
+    },
+    {
+      "min_level": 5,
+      "max_level": 6,
+      "armor": 3,
+      "hand_limit": 6,
+      "command_slots": 3
+    },
+    {
+      "min_level": 7,
+      "max_level": 8,
+      "armor": 4,
+      "hand_limit": 6,
+      "command_slots": 4
+    },
+    {
+      "min_level": 9,
+      "max_level": 10,
+      "armor": 4,
+      "hand_limit": 7,
+      "command_slots": 5
+    }
+  ],
+  "sources": [
+    "MKUE Walkthrough p.6 \u2014 'Fame and Reputation Board' artwork (board photo rendered at ~300 dpi and read row-by-row: L2=3, L3=8, L4=15, L5=24, L6=35, L7=48, L8=63, L9=80, L10=99)",
+    "MKUE Walkthrough p.6 text: level 2 at 3 Fame, level 3 at 8 Fame",
+    "MKUE Rulebook p.3 (level stats: armor/hand limit, odd levels grant a Command token)"
+  ],
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "schema_version": "1.0.0",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+      "path": "packages/engine-rs/crates/mk-data/src/levels.rs",
+      "sha256": "8b9fabb8bbb02b0916cf768f2a0c397aee73425f8e77768661d4355cf4836712",
+      "fetched_at": "2026-10-25T02:32:56Z",
+      "status": "superseded \u2014 upstream fame thresholds (3/8/14/21/29/38/48/59/71) were wrong; official board art used instead"
+    },
+    "confidence": "official",
+    "notes": "Level stats (armor/hand limit/command slots) remain upstream-derived and match the rulebook's description. Fame thresholds were VERIFIED on 2026-10-24 by rendering the official walkthrough's board photo and reading each row start. The upstream project's values (3,8,14,21,29,38,48,59,71) are incorrect from level 4 onward \u2014 do not use them."
+  },
+  "items": [
+    {
+      "op": "fame_threshold",
+      "level": 1,
+      "fame": 0,
+      "mvp": true,
+      "status": "verified-official"
+    },
+    {
+      "op": "fame_threshold",
+      "level": 2,
+      "fame": 3,
+      "mvp": true,
+      "status": "verified-official"
+    },
+    {
+      "op": "fame_threshold",
+      "level": 3,
+      "fame": 8,
+      "mvp": true,
+      "status": "verified-official"
+    },
+    {
+      "op": "fame_threshold",
+      "level": 4,
+      "fame": 15,
+      "mvp": true,
+      "status": "verified-official"
+    },
+    {
+      "op": "fame_threshold",
+      "level": 5,
+      "fame": 24,
+      "mvp": true,
+      "status": "verified-official"
+    },
+    {
+      "op": "fame_threshold",
+      "level": 6,
+      "fame": 35,
+      "mvp": true,
+      "status": "verified-official"
+    },
+    {
+      "op": "fame_threshold",
+      "level": 7,
+      "fame": 48,
+      "mvp": true,
+      "status": "verified-official"
+    },
+    {
+      "op": "fame_threshold",
+      "level": 8,
+      "fame": 63,
+      "mvp": true,
+      "status": "verified-official"
+    },
+    {
+      "op": "fame_threshold",
+      "level": 9,
+      "fame": 80,
+      "mvp": true,
+      "status": "verified-official"
+    },
+    {
+      "op": "fame_threshold",
+      "level": 10,
+      "fame": 99,
+      "mvp": true,
+      "status": "verified-official"
+    }
+  ]
+}

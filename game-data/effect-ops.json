@@ -1,0 +1,1037 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "effect-ops",
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa"
+    },
+    "note": "Registry of every structured effect operation emitted in game-data/cards**.json, skills.json and units.json. The notation is documented in game-data/README.md. Op names are normalised from the upstream engine's CardEffect/UnitAbility enum variants; they are not official card text."
+  },
+  "op_count": 142,
+  "total_nodes": 1104,
+  "ops": [
+    {
+      "op": "compound",
+      "used": 116,
+      "fields": [
+        "effects"
+      ]
+    },
+    {
+      "op": "apply_modifier",
+      "used": 108,
+      "fields": [
+        "duration",
+        "effect",
+        "scope"
+      ]
+    },
+    {
+      "op": "gain_attack",
+      "used": 81,
+      "fields": [
+        "amount",
+        "combat_type",
+        "element"
+      ]
+    },
+    {
+      "op": "choice",
+      "used": 64,
+      "fields": [
+        "options"
+      ]
+    },
+    {
+      "op": "gain_move",
+      "used": 55,
+      "fields": [
+        "amount"
+      ]
+    },
+    {
+      "op": "gain_mana",
+      "used": 49,
+      "fields": [
+        "amount",
+        "color"
+      ]
+    },
+    {
+      "op": "gain_influence",
+      "used": 43,
+      "fields": [
+        "amount"
+      ]
+    },
+    {
+      "op": "gain_block",
+      "used": 38,
+      "fields": [
+        "amount",
+        "element"
+      ]
+    },
+    {
+      "op": "noop",
+      "used": 35,
+      "fields": []
+    },
+    {
+      "op": "gain_crystal",
+      "used": 34,
+      "fields": [
+        "color"
+      ]
+    },
+    {
+      "op": "rule_override",
+      "used": 29,
+      "fields": [
+        "rule"
+      ]
+    },
+    {
+      "op": "block",
+      "used": 28,
+      "fields": [
+        "element",
+        "value"
+      ]
+    },
+    {
+      "op": "select_combat_enemy",
+      "used": 26,
+      "fields": [
+        "armor_change",
+        "armor_minimum",
+        "armor_per_resistance",
+        "attack_change",
+        "attack_minimum",
+        "bundled_ranged_attack",
+        "damage_redirect_from_unit",
+        "defeat",
+        "defeat_if_blocked",
+        "exclude_arcane_immune",
+        "exclude_fortified",
+        "exclude_resistance",
+        "exclude_summoners",
+        "fortified_armor_change",
+        "nullify_all_attack_abilities",
+        "nullify_fortified",
+        "remove_fire_resistance",
+        "remove_resistances",
+        "skip_attack",
+        "template"
+      ]
+    },
+    {
+      "op": "terrain_cost",
+      "used": 26,
+      "fields": [
+        "amount",
+        "minimum",
+        "replace_cost",
+        "terrain"
+      ]
+    },
+    {
+      "op": "attack",
+      "used": 25,
+      "fields": [
+        "element",
+        "value"
+      ]
+    },
+    {
+      "op": "conditional",
+      "used": 23,
+      "fields": [
+        "condition",
+        "else_effect",
+        "then_effect"
+      ]
+    },
+    {
+      "op": "gain_healing",
+      "used": 19,
+      "fields": [
+        "amount"
+      ]
+    },
+    {
+      "op": "terrain_specific",
+      "used": 18,
+      "fields": [
+        "terrain"
+      ]
+    },
+    {
+      "op": "select_enemy_template",
+      "used": 16,
+      "fields": [
+        "armor_change",
+        "armor_minimum",
+        "armor_per_resistance",
+        "attack_change",
+        "attack_minimum",
+        "defeat",
+        "exclude_arcane_immune",
+        "exclude_resistance",
+        "fortified_armor_change",
+        "nullify_all_attack_abilities",
+        "nullify_fortified",
+        "remove_fire_resistance",
+        "remove_resistances",
+        "skip_attack"
+      ]
+    },
+    {
+      "op": "draw_cards",
+      "used": 11,
+      "fields": [
+        "count"
+      ]
+    },
+    {
+      "op": "gain_fame",
+      "used": 8,
+      "fields": [
+        "amount"
+      ]
+    },
+    {
+      "op": "gain_mana_any_color",
+      "used": 8,
+      "fields": [
+        "args"
+      ]
+    },
+    {
+      "op": "take_wound",
+      "used": 8,
+      "fields": []
+    },
+    {
+      "op": "influence",
+      "used": 7,
+      "fields": [
+        "value"
+      ]
+    },
+    {
+      "op": "is_night_or_underground",
+      "used": 7,
+      "fields": []
+    },
+    {
+      "op": "change_reputation",
+      "used": 6,
+      "fields": [
+        "amount"
+      ]
+    },
+    {
+      "op": "ranged_attack",
+      "used": 6,
+      "fields": [
+        "element",
+        "value"
+      ]
+    },
+    {
+      "op": "ready_unit",
+      "used": 6,
+      "fields": [
+        "max_level"
+      ]
+    },
+    {
+      "op": "scaling",
+      "used": 6,
+      "fields": [
+        "base_effect",
+        "bonus_per_count",
+        "factor",
+        "maximum"
+      ]
+    },
+    {
+      "op": "siege_attack",
+      "used": 6,
+      "fields": [
+        "element",
+        "value"
+      ]
+    },
+    {
+      "op": "flight_option",
+      "used": 5,
+      "fields": [
+        "args"
+      ]
+    },
+    {
+      "op": "lowest_fame",
+      "used": 5,
+      "fields": []
+    },
+    {
+      "op": "attack_with_defeat_bonus",
+      "used": 4,
+      "fields": [
+        "amount",
+        "armor_reduction_per_defeat",
+        "combat_type",
+        "element",
+        "fame_per_defeat",
+        "reputation_per_defeat"
+      ]
+    },
+    {
+      "op": "discard_for_attack",
+      "used": 4,
+      "fields": [
+        "attacks_by_color"
+      ]
+    },
+    {
+      "op": "endless_mana",
+      "used": 4,
+      "fields": [
+        "colors"
+      ]
+    },
+    {
+      "op": "enemy_stat",
+      "used": 4,
+      "fields": [
+        "amount",
+        "attack_index",
+        "exclude_resistance",
+        "fortified_amount",
+        "minimum",
+        "per_resistance",
+        "stat"
+      ]
+    },
+    {
+      "op": "hero_damage_reduction",
+      "used": 4,
+      "fields": [
+        "amount",
+        "elements"
+      ]
+    },
+    {
+      "op": "convert_mana_to_crystal",
+      "used": 3,
+      "fields": []
+    },
+    {
+      "op": "discard_cost",
+      "used": 3,
+      "fields": [
+        "count",
+        "filter_wounds",
+        "then_effect",
+        "wounds_only"
+      ]
+    },
+    {
+      "op": "discard_for_crystal",
+      "used": 3,
+      "fields": [
+        "optional"
+      ]
+    },
+    {
+      "op": "fame_per_enemy_defeated",
+      "used": 3,
+      "fields": [
+        "amount",
+        "exclude_summoned"
+      ]
+    },
+    {
+      "op": "hand_limit_bonus",
+      "used": 3,
+      "fields": [
+        "bonus"
+      ]
+    },
+    {
+      "op": "heal",
+      "used": 3,
+      "fields": [
+        "value"
+      ]
+    },
+    {
+      "op": "influence_to_block_conversion",
+      "used": 3,
+      "fields": [
+        "cost_per_point",
+        "element"
+      ]
+    },
+    {
+      "op": "leadership_bonus",
+      "used": 3,
+      "fields": [
+        "amount",
+        "bonus_type"
+      ]
+    },
+    {
+      "op": "move_to_attack_conversion",
+      "used": 3,
+      "fields": [
+        "attack_type",
+        "cost_per_point"
+      ]
+    },
+    {
+      "op": "on_terrain",
+      "used": 3,
+      "fields": [
+        "terrain"
+      ]
+    },
+    {
+      "op": "other",
+      "used": 3,
+      "fields": [
+        "effect_type"
+      ]
+    },
+    {
+      "op": "terrain_prohibition",
+      "used": 3,
+      "fields": [
+        "prohibited_terrains"
+      ]
+    },
+    {
+      "op": "unit_combat_bonus",
+      "used": 3,
+      "fields": [
+        "attack_bonus",
+        "block_bonus"
+      ]
+    },
+    {
+      "op": "attack_block_card_bonus",
+      "used": 2,
+      "fields": [
+        "attack_bonus",
+        "block_bonus",
+        "ranged_siege_attack_bonus"
+      ]
+    },
+    {
+      "op": "book_of_wisdom",
+      "used": 2,
+      "fields": [
+        "mode"
+      ]
+    },
+    {
+      "op": "burning_shield_active",
+      "used": 2,
+      "fields": [
+        "attack_value",
+        "block_value",
+        "mode"
+      ]
+    },
+    {
+      "op": "decompose",
+      "used": 2,
+      "fields": [
+        "mode"
+      ]
+    },
+    {
+      "op": "discard_for_bonus",
+      "used": 2,
+      "fields": [
+        "bonus_per_card",
+        "choice_options",
+        "discard_filter",
+        "max_discards"
+      ]
+    },
+    {
+      "op": "energy_flow",
+      "used": 2,
+      "fields": [
+        "heal"
+      ]
+    },
+    {
+      "op": "free_recruit",
+      "used": 2,
+      "fields": []
+    },
+    {
+      "op": "gain_mana_and_crystal",
+      "used": 2,
+      "fields": [
+        "color"
+      ]
+    },
+    {
+      "op": "grant_resistances",
+      "used": 2,
+      "fields": [
+        "resistances"
+      ]
+    },
+    {
+      "op": "in_combat",
+      "used": 2,
+      "fields": []
+    },
+    {
+      "op": "learning_discount",
+      "used": 2,
+      "fields": [
+        "cost",
+        "destination"
+      ]
+    },
+    {
+      "op": "mana_bolt",
+      "used": 2,
+      "fields": [
+        "base_value"
+      ]
+    },
+    {
+      "op": "mana_claim",
+      "used": 2,
+      "fields": [
+        "with_curse"
+      ]
+    },
+    {
+      "op": "mana_draw_powered",
+      "used": 2,
+      "fields": [
+        "dice_count",
+        "tokens_per_die"
+      ]
+    },
+    {
+      "op": "mana_meltdown",
+      "used": 2,
+      "fields": [
+        "powered"
+      ]
+    },
+    {
+      "op": "maximal_effect",
+      "used": 2,
+      "fields": [
+        "mode"
+      ]
+    },
+    {
+      "op": "meditation",
+      "used": 2,
+      "fields": [
+        "powered"
+      ]
+    },
+    {
+      "op": "mind_read",
+      "used": 2,
+      "fields": [
+        "powered"
+      ]
+    },
+    {
+      "op": "mountain_lore_hand_limit",
+      "used": 2,
+      "fields": [
+        "hills_bonus",
+        "mountain_bonus"
+      ]
+    },
+    {
+      "op": "mysterious_box",
+      "used": 2,
+      "fields": []
+    },
+    {
+      "op": "offer_deck_placement",
+      "used": 2,
+      "fields": [
+        "destination",
+        "requires_non_empty_deck"
+      ]
+    },
+    {
+      "op": "peaceful_moment_action",
+      "used": 2,
+      "fields": [
+        "allow_refresh",
+        "influence"
+      ]
+    },
+    {
+      "op": "pure_magic",
+      "used": 2,
+      "fields": [
+        "amount"
+      ]
+    },
+    {
+      "op": "ready_all_units",
+      "used": 2,
+      "fields": []
+    },
+    {
+      "op": "ready_units_budget",
+      "used": 2,
+      "fields": [
+        "total_levels"
+      ]
+    },
+    {
+      "op": "recruitment_bonus",
+      "used": 2,
+      "fields": [
+        "fame_per_recruit",
+        "reputation_per_recruit"
+      ]
+    },
+    {
+      "op": "rush_of_adrenaline",
+      "used": 2,
+      "fields": [
+        "mode"
+      ]
+    },
+    {
+      "op": "schedule_end_turn",
+      "used": 2,
+      "fields": [
+        "effect"
+      ]
+    },
+    {
+      "op": "soul_harvester_crystal_tracking",
+      "used": 2,
+      "fields": [
+        "limit",
+        "track_by_attack"
+      ]
+    },
+    {
+      "op": "tome_of_all_spells",
+      "used": 2,
+      "fields": [
+        "mode"
+      ]
+    },
+    {
+      "op": "training",
+      "used": 2,
+      "fields": [
+        "mode"
+      ]
+    },
+    {
+      "op": "ability_nullifier",
+      "used": 1,
+      "fields": [
+        "ability",
+        "ignore_arcane_immunity"
+      ]
+    },
+    {
+      "op": "activate_banner_protection",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "altem_mages_attack_modifier",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "altem_mages_cold_fire",
+      "used": 1,
+      "fields": [
+        "base",
+        "blue_value",
+        "both_value",
+        "red_value"
+      ]
+    },
+    {
+      "op": "at_fortified_site",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "at_magical_glade",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "attack_or_block_wound_self",
+      "used": 1,
+      "fields": [
+        "element",
+        "value"
+      ]
+    },
+    {
+      "op": "attack_with_rep_cost",
+      "used": 1,
+      "fields": [
+        "element",
+        "rep_change",
+        "value"
+      ]
+    },
+    {
+      "op": "blood_of_ancients_basic",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "blood_of_ancients_powered",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "bow_phase_fame_tracking",
+      "used": 1,
+      "fields": [
+        "fame_per_enemy"
+      ]
+    },
+    {
+      "op": "call_to_arms",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "card_boost",
+      "used": 1,
+      "fields": [
+        "bonus"
+      ]
+    },
+    {
+      "op": "choose_bonus_with_risk",
+      "used": 1,
+      "fields": [
+        "accumulated",
+        "bonus_per_roll",
+        "combat_type",
+        "element",
+        "rolled"
+      ]
+    },
+    {
+      "op": "circlet_of_proficiency_basic",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "circlet_of_proficiency_powered",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "combat_value",
+      "used": 1,
+      "fields": [
+        "amount",
+        "element",
+        "value_type"
+      ]
+    },
+    {
+      "op": "coordinated_fire",
+      "used": 1,
+      "fields": [
+        "element",
+        "ranged_value",
+        "unit_attack_bonus"
+      ]
+    },
+    {
+      "op": "crystal_mastery_basic",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "crystal_mastery_powered",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "cure",
+      "used": 1,
+      "fields": [
+        "amount"
+      ]
+    },
+    {
+      "op": "disease",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "druidic_staff_basic",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "druidic_staff_powered",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "explore_cost_reduction",
+      "used": 1,
+      "fields": [
+        "amount"
+      ]
+    },
+    {
+      "op": "gain_block_element",
+      "used": 1,
+      "fields": [
+        "amount",
+        "element"
+      ]
+    },
+    {
+      "op": "gain_mana_choose",
+      "used": 1,
+      "fields": [
+        "count"
+      ]
+    },
+    {
+      "op": "golden_grail_fame_tracking",
+      "used": 1,
+      "fields": [
+        "remaining_healing_points"
+      ]
+    },
+    {
+      "op": "grant_all_resistances",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "grant_wound_immunity",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "heal_all_units",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "heal_unit",
+      "used": 1,
+      "fields": [
+        "max_level"
+      ]
+    },
+    {
+      "op": "in_interaction",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "in_phase",
+      "used": 1,
+      "fields": [
+        "phases"
+      ]
+    },
+    {
+      "op": "influence_with_rep_cost",
+      "used": 1,
+      "fields": [
+        "rep_change",
+        "value"
+      ]
+    },
+    {
+      "op": "magic_talent_basic",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "magic_talent_powered",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "mana_storm_basic",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "mana_storm_powered",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "move",
+      "used": 1,
+      "fields": [
+        "value"
+      ]
+    },
+    {
+      "op": "move_or_influence",
+      "used": 1,
+      "fields": [
+        "value"
+      ]
+    },
+    {
+      "op": "move_with_extended_explore",
+      "used": 1,
+      "fields": [
+        "move_value"
+      ]
+    },
+    {
+      "op": "move_with_terrain_reduction",
+      "used": 1,
+      "fields": [
+        "move_value",
+        "terrain_reductions"
+      ]
+    },
+    {
+      "op": "no_unit_recruited_this_turn",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "per_unit",
+      "used": 1,
+      "fields": [
+        "filter"
+      ]
+    },
+    {
+      "op": "possess_enemy",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "power_of_crystals_basic",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "power_of_crystals_powered",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "recruit_discount",
+      "used": 1,
+      "fields": [
+        "discount",
+        "reputation_change"
+      ]
+    },
+    {
+      "op": "roll_die_for_wound",
+      "used": 1,
+      "fields": [
+        "die_count"
+      ]
+    },
+    {
+      "op": "roll_for_crystals",
+      "used": 1,
+      "fields": [
+        "die_count"
+      ]
+    },
+    {
+      "op": "sacrifice",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "scout_peek",
+      "used": 1,
+      "fields": [
+        "distance",
+        "fame_bonus"
+      ]
+    },
+    {
+      "op": "select_unit_for_modifier",
+      "used": 1,
+      "fields": [
+        "duration",
+        "modifier"
+      ]
+    },
+    {
+      "op": "song_of_wind_powered",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "spell_forge_basic",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "spell_forge_powered",
+      "used": 1,
+      "fields": []
+    },
+    {
+      "op": "terrain_safe",
+      "used": 1,
+      "fields": [
+        "terrain"
+      ]
+    },
+    {
+      "op": "time_of_day",
+      "used": 1,
+      "fields": [
+        "time"
+      ]
+    },
+    {
+      "op": "unit_filter",
+      "used": 1,
+      "fields": [
+        "max_level",
+        "state",
+        "wounded"
+      ]
+    },
+    {
+      "op": "wings_of_night",
+      "used": 1,
+      "fields": []
+    }
+  ]
+}

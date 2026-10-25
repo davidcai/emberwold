@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "provenance",
+  "repo": "mage-knight-digital/MageKnight",
+  "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+  "fetched_at": "2026-10-25T02:32:56Z",
+  "files": {
+    "heroes": {
+      "path": "packages/engine-rs/crates/mk-data/src/heroes.rs",
+      "sha256": "ff705e320ef758590d3c8b855cfeaa53208e3f3926a703db483e9462a5ae55d8",
+      "bytes": 7729
+    },
+    "cards": {
+      "path": "packages/engine-rs/crates/mk-data/src/cards.rs",
+      "sha256": "b8315523959b30988ea14c9d6a6e3ca422bb0fc9813c3097e37fc1f0f2ae18ac",
+      "bytes": 238668
+    },
+    "enemies": {
+      "path": "packages/engine-rs/crates/mk-data/src/enemies.rs",
+      "sha256": "fac0b421bcd61fb3897a437920ca5051c6802f540e26e6c63d859e6105c56130",
+      "bytes": 44513
+    },
+    "units": {
+      "path": "packages/engine-rs/crates/mk-data/src/units.rs",
+      "sha256": "e2fabfc2de0b1ca941bab30605f0cf034e2c9794ebbe59bb5c5e3a6edee603e0",
+      "bytes": 44360
+    },
+    "skills": {
+      "path": "packages/engine-rs/crates/mk-data/src/skills.rs",
+      "sha256": "7cf605e9e27762dbcd1f3d1de8e144b0d5dc48ad05c25130c3006eb5840cd8ef",
+      "bytes": 66452
+    },
+    "tiles": {
+      "path": "packages/engine-rs/crates/mk-data/src/tiles.rs",
+      "sha256": "6d21a336e70e99d5e794317a6249960995a1ccbdeb2b3a574141f827e30cee33",
+      "bytes": 46268
+    },
+    "ruins_tokens": {
+      "path": "packages/engine-rs/crates/mk-data/src/ruins_tokens.rs",
+      "sha256": "e3cf37075cb2d91f09f81637d14931531188473c5c9b95eb783d938f5f5f54e6",
+      "bytes": 13175
+    },
+    "tactics": {
+      "path": "packages/engine-rs/crates/mk-data/src/tactics.rs",
+      "sha256": "827dd8c319c96e3806cbc4f1be1c028162dc78699a8de8d8a2afbba29b01cfb8",
+      "bytes": 2505
+    },
+    "levels": {
+      "path": "packages/engine-rs/crates/mk-data/src/levels.rs",
+      "sha256": "8b9fabb8bbb02b0916cf768f2a0c397aee73425f8e77768661d4355cf4836712",
+      "bytes": 6697
+    }
+  },
+  "url": "https://github.com/mage-knight-digital/MageKnight/tree/d279e8b4069fcb9011933eb10cc9c4bbd7472baa"
+}

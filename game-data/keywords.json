@@ -1,0 +1,528 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "keywords",
+  "count": 38,
+  "provenance": {
+    "generated_by": "hand-maintained",
+    "schema_version": "1.0.0",
+    "notes": "Vocabulary and short keyword glossary for the effect DSL. Definitions are our own <=1-sentence paraphrases of the official rulebook / master reference sheet; no card or rulebook prose is copied. Numeric movement costs are derived from the upstream engine's enums.rs and are NOT printed in the extracted rulebook text (the Day/Night board is an image), so they are tagged unverified."
+  },
+  "enums": {
+    "elements": [
+      "physical",
+      "fire",
+      "ice",
+      "cold_fire"
+    ],
+    "mana_colors": [
+      "red",
+      "blue",
+      "green",
+      "white",
+      "gold",
+      "black"
+    ],
+    "basic_mana_colors": [
+      "red",
+      "blue",
+      "green",
+      "white"
+    ],
+    "card_colors": [
+      "red",
+      "blue",
+      "green",
+      "white",
+      "colorless"
+    ],
+    "terrain": [
+      "plains",
+      "hills",
+      "forest",
+      "wasteland",
+      "desert",
+      "swamp",
+      "lake",
+      "mountain",
+      "ocean",
+      "all"
+    ],
+    "site_types": [
+      "village",
+      "monastery",
+      "magical_glade",
+      "keep",
+      "mage_tower",
+      "ancient_ruins",
+      "dungeon",
+      "tomb",
+      "monster_den",
+      "spawning_grounds",
+      "mine",
+      "deep_mine",
+      "portal",
+      "city",
+      "maze",
+      "labyrinth",
+      "refugee_camp",
+      "volkares_camp"
+    ],
+    "recruit_sites": [
+      "village",
+      "keep",
+      "mage_tower",
+      "monastery",
+      "city",
+      "camp",
+      "magical_glade"
+    ],
+    "enemy_colors": [
+      "green",
+      "gray",
+      "brown",
+      "violet",
+      "white",
+      "red"
+    ],
+    "combat_types": [
+      "melee",
+      "ranged",
+      "siege"
+    ],
+    "combat_phases": [
+      "ranged_siege",
+      "block",
+      "assign_damage",
+      "attack"
+    ],
+    "card_categories": [
+      "movement",
+      "combat",
+      "influence",
+      "healing",
+      "special",
+      "action",
+      "banner"
+    ],
+    "card_types": [
+      "basic_action",
+      "advanced_action",
+      "spell",
+      "artifact"
+    ],
+    "time_of_day": [
+      "day",
+      "night"
+    ],
+    "map_shapes": [
+      "wedge",
+      "open_3",
+      "open_4",
+      "fully_open",
+      "predefined"
+    ],
+    "tile_kinds": [
+      "starting",
+      "countryside",
+      "core_non_city",
+      "core_city",
+      "core_volkare"
+    ],
+    "expansions": [
+      "base",
+      "lost_legion",
+      "krang",
+      "shades_of_tezla",
+      "unknown"
+    ],
+    "skill_usage_types": [
+      "once_per_turn",
+      "once_per_round",
+      "passive",
+      "interactive"
+    ],
+    "skill_phase_restrictions": [
+      "any",
+      "combat_only",
+      "melee_attack_only",
+      "ranged_siege_or_attack",
+      "block_only",
+      "no_combat"
+    ],
+    "powered_by": [
+      "red",
+      "blue",
+      "green",
+      "white",
+      "any_basic",
+      "free"
+    ],
+    "rampaging_types": [
+      "orc_marauder",
+      "draconum"
+    ],
+    "ruins_token_kinds": [
+      "altar",
+      "enemy"
+    ],
+    "ruins_rewards": [
+      "artifact",
+      "spell",
+      "advanced_action",
+      "unit",
+      "crystals_4"
+    ],
+    "site_kinds": [
+      "inhabited",
+      "adventure",
+      "fortified",
+      "rampaging",
+      "special"
+    ],
+    "item_statuses": [
+      "data-ready",
+      "placeholder",
+      "omitted"
+    ],
+    "modifier_durations": [
+      "turn",
+      "combat"
+    ],
+    "modifier_scopes": [
+      "self_scope",
+      "all_units",
+      "all_enemies"
+    ]
+  },
+  "keywords": [
+    {
+      "id": "kw:fortified",
+      "kind": "enemy_ability",
+      "name": "Fortified",
+      "short": "In the ranged/siege phase only siege attacks can be used against it; double fortified if it also defends a fortified site.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:unfortified",
+      "kind": "enemy_ability",
+      "name": "Unfortified",
+      "short": "Ignores all site fortifications.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:elusive",
+      "kind": "enemy_ability",
+      "name": "Elusive",
+      "short": "Has a higher armor value unless all of its attacks are blocked.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:arcane_immunity",
+      "kind": "enemy_ability",
+      "name": "Arcane Immunity",
+      "short": "Unaffected by non-attack/non-block effects; attack-modifying effects still apply.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:defend",
+      "kind": "enemy_ability",
+      "name": "Defend X",
+      "short": "The first enemy you attack has its armor increased by X until end of combat.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:summon",
+      "kind": "enemy_ability",
+      "name": "Summon",
+      "short": "At start of the block phase a random brown token replaces it for blocking/damage, then is discarded.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:summon_green",
+      "kind": "enemy_ability",
+      "name": "Summon (green)",
+      "short": "Summon variant that draws a green (orc) token instead of brown; upstream-only encoding.",
+      "official_ref": "upstream mk-data/enemies.rs (unverified against card)"
+    },
+    {
+      "id": "kw:swift",
+      "kind": "enemy_ability",
+      "name": "Swift",
+      "short": "Needs twice its attack value in block to be blocked.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:brutal",
+      "kind": "enemy_ability",
+      "name": "Brutal",
+      "short": "If unblocked it deals twice its attack value as damage.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:poison",
+      "kind": "enemy_ability",
+      "name": "Poison",
+      "short": "A wounded unit gets two wounds; a hero also puts one extra wound into the discard pile.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:paralyze",
+      "kind": "enemy_ability",
+      "name": "Paralyze",
+      "short": "A wounded unit is destroyed; a hero discards all non-wound cards from hand.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:assassination",
+      "kind": "enemy_ability",
+      "name": "Assassination",
+      "short": "Unblocked damage cannot be assigned to units and must be taken by the hero.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:cumbersome",
+      "kind": "enemy_ability",
+      "name": "Cumbersome",
+      "short": "In the block phase move points can reduce its attack, one per point; zero counts as blocked.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:vampiric",
+      "kind": "enemy_ability",
+      "name": "Vampiric",
+      "short": "Gains +1 armor for the rest of combat for each unit or hero wound its attacks cause.",
+      "official_ref": "MK Master Reference Sheet p.2; MKUE Expansions Rulebook p.2"
+    },
+    {
+      "id": "kw:cold_fire_attack",
+      "kind": "enemy_ability",
+      "name": "Cold Fire Attack",
+      "short": "Only cold fire blocks are efficient; other blocks are halved.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:fire_attack",
+      "kind": "enemy_ability",
+      "name": "Fire Attack",
+      "short": "Only ice and cold fire blocks are efficient; other blocks are halved.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:ice_attack",
+      "kind": "enemy_ability",
+      "name": "Ice Attack",
+      "short": "Only fire and cold fire blocks are efficient; other blocks are halved.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:ambush",
+      "kind": "enemy_ability",
+      "name": "Ambush",
+      "short": "Expansion ability: can attack from up to two spaces away when provoked.",
+      "official_ref": "MKUE Expansions Rulebook p.2 (not in base-game data)"
+    },
+    {
+      "id": "kw:pursuit",
+      "kind": "enemy_ability",
+      "name": "Pursuit",
+      "short": "Expansion ability: moves one space toward the marked hero after their movement.",
+      "official_ref": "MKUE Expansions Rulebook p.2 (not in base-game data)"
+    },
+    {
+      "id": "kw:physical_resistance",
+      "kind": "unit_resistance",
+      "name": "Physical Resistance",
+      "short": "Reduces damage from physical attacks; also resists physical attacks in PvP.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:fire_resistance",
+      "kind": "unit_resistance",
+      "name": "Fire Resistance",
+      "short": "Reduces fire attack damage and ignores non-attack effects of red cards/powered abilities.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:ice_resistance",
+      "kind": "unit_resistance",
+      "name": "Ice Resistance",
+      "short": "Reduces ice attack damage and ignores non-attack effects of blue cards/powered abilities.",
+      "official_ref": "MK Master Reference Sheet p.2"
+    },
+    {
+      "id": "kw:archery",
+      "kind": "combat",
+      "name": "Ranged Attack",
+      "short": "Attacks in the ranged & siege phase; inefficient against fortified enemies.",
+      "official_ref": "MKUE Rulebook p.8-9"
+    },
+    {
+      "id": "kw:siege",
+      "kind": "combat",
+      "name": "Siege Attack",
+      "short": "Ranged-phase attack that ignores fortification; cannot be played sideways.",
+      "official_ref": "MKUE Rulebook p.8-9"
+    },
+    {
+      "id": "kw:block",
+      "kind": "combat",
+      "name": "Block",
+      "short": "Points spent in the block phase to stop one enemy attack; elemental multipliers apply.",
+      "official_ref": "MKUE Rulebook p.9"
+    },
+    {
+      "id": "kw:attack",
+      "kind": "combat",
+      "name": "Attack",
+      "short": "Points spent in the attack phase to destroy one enemy; total must reach its armor.",
+      "official_ref": "MKUE Rulebook p.9-10"
+    },
+    {
+      "id": "kw:healing",
+      "kind": "resource",
+      "name": "Healing",
+      "short": "Discards wound cards from hand or discard pile at the given rate.",
+      "official_ref": "MKUE Rulebook p.11"
+    },
+    {
+      "id": "kw:mana_token",
+      "kind": "resource",
+      "name": "Mana Token",
+      "short": "One-shot mana of a colour; from the Source, crystals, skills or card effects.",
+      "official_ref": "MKUE Rulebook p.5"
+    },
+    {
+      "id": "kw:mana_crystal",
+      "kind": "resource",
+      "name": "Mana Crystal",
+      "short": "Stored mana in the inventory; spent to power one card and consumed.",
+      "official_ref": "MKUE Rulebook p.5"
+    },
+    {
+      "id": "kw:fame",
+      "kind": "resource",
+      "name": "Fame",
+      "short": "Victory points and level-up currency.",
+      "official_ref": "MKUE Rulebook p.6, p.10-11"
+    },
+    {
+      "id": "kw:reputation",
+      "kind": "resource",
+      "name": "Reputation",
+      "short": "Track that adjusts interaction costs and conquest reputation penalties/bonuses.",
+      "official_ref": "MKUE Rulebook p.8-9"
+    },
+    {
+      "id": "kw:influence",
+      "kind": "resource",
+      "name": "Influence",
+      "short": "Points spent at inhabited sites to recruit, heal and buy cards.",
+      "official_ref": "MKUE Rulebook p.8-9"
+    },
+    {
+      "id": "kw:hand_limit",
+      "kind": "resource",
+      "name": "Hand Limit",
+      "short": "Maximum hand size when drawing at round start, shown on the level token.",
+      "official_ref": "MKUE Rulebook p.3, p.11"
+    },
+    {
+      "id": "kw:command_token",
+      "kind": "resource",
+      "name": "Command Token",
+      "short": "One token per allowed unit; assigned to a unit while it is used.",
+      "official_ref": "MKUE Rulebook p.4"
+    },
+    {
+      "id": "kw:wound",
+      "kind": "resource",
+      "name": "Wound",
+      "short": "Unplayable card that clogs the deck; also marks wounded units.",
+      "official_ref": "MKUE Rulebook p.11"
+    },
+    {
+      "id": "kw:tactic",
+      "kind": "resource",
+      "name": "Tactic",
+      "short": "Per-round card that sets turn order and may grant a special effect.",
+      "official_ref": "MKUE Rulebook p.4"
+    },
+    {
+      "id": "kw:deed_card",
+      "kind": "resource",
+      "name": "Deed Card",
+      "short": "Umbrella term for Action, Spell, Artifact and Wound cards.",
+      "official_ref": "MKUE Rulebook p.4"
+    },
+    {
+      "id": "kw:shield_token",
+      "kind": "resource",
+      "name": "Shield Token",
+      "short": "Marks fame/reputation position and conquered sites on the map.",
+      "official_ref": "MKUE Rulebook p.3"
+    }
+  ],
+  "rules_constants": {
+    "starting_hand_size": 5,
+    "hero_armor_level_1_2": 2,
+    "hero_hand_limit_level_1_2": 5,
+    "command_tokens_level_1": 1,
+    "deed_deck_size": 16,
+    "skill_tokens_per_hero": 11,
+    "source_dice": "players + 2",
+    "unit_offer_size": "players + 2",
+    "spell_offer_size": 3,
+    "advanced_action_offer_size": 3,
+    "monastery_advanced_action_cost": 6,
+    "spell_purchase_cost": 7,
+    "basic_action_sideways_values": [
+      "move_1",
+      "influence_1",
+      "attack_1",
+      "block_1"
+    ],
+    "terrain_move_cost": {
+      "plains": {
+        "day": 2,
+        "night": 3
+      },
+      "hills": {
+        "day": 3,
+        "night": 4
+      },
+      "forest": {
+        "day": 3,
+        "night": 5
+      },
+      "wasteland": {
+        "day": 4,
+        "night": 5
+      },
+      "desert": {
+        "day": 5,
+        "night": 3
+      },
+      "swamp": {
+        "day": 5,
+        "night": 5
+      },
+      "lake": null,
+      "mountain": null,
+      "ocean": null,
+      "city": {
+        "day": 2,
+        "night": 2
+      }
+    },
+    "tile_reveal_cost": 2,
+    "wall_crossing_extra_move": 1,
+    "_sources": {
+      "hand_and_level_stats": "MKUE Rulebook p.3",
+      "offers": "MKUE Rulebook p.3 (spell/AA offers of 3)",
+      "purchase_costs": "MK Master Reference Sheet p.1 (monastery 6, mage tower spell 7); MKUE Rulebook p.8-9",
+      "sideways_play": "MKUE Rulebook p.4",
+      "tile_reveal_and_wall": "MKUE Rulebook p.7; MK Master Reference Sheet p.2",
+      "terrain_move_cost": "Derived from upstream mk-data mk-types enums.rs (day_cost/night_cost); the Day/Night board is an image in the rulebook so the numbers are UNVERIFIED against the printed board. city=2 confirmed by MKUE Rulebook p.7."
+    }
+  }
+}

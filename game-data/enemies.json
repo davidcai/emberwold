@@ -1,0 +1,1949 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "enemies",
+  "count": 72,
+  "colour_counts": {
+    "green": 20,
+    "gray": 7,
+    "brown": 16,
+    "violet": 8,
+    "white": 10,
+    "red": 11
+  },
+  "total_token_copies": 143,
+  "sources": [
+    "upstream-mk-data/enemies.rs",
+    "MKUE Rulebook p.3 (seven token piles)"
+  ],
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "schema_version": "1.0.0",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+      "path": "packages/engine-rs/crates/mk-data/src/enemies.rs",
+      "sha256": "fac0b421bcd61fb3897a437920ca5051c6802f540e26e6c63d859e6105c56130",
+      "fetched_at": "2026-10-25T02:32:56Z"
+    },
+    "confidence": "upstream-only",
+    "notes": "Enemy tokens by pile colour. Upstream header says 'base game + Lost Legion' but also contains enemies introduced in later expansion rulebooks (e.g. Centaur Outriders, Elven Protectors, Crystal Sprites appear in MKUE_expansions_rulebook.txt p.2). Per-enemy set attribution UNVERIFIED; base-game piles are the green/gray/brown/violet/white/red colours."
+  },
+  "items": [
+    {
+      "id": "enemy:centaur_outriders",
+      "name": "Centaur Outriders",
+      "color": "green",
+      "attack": 3,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 2,
+      "resistances": [],
+      "abilities": [
+        "swift"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:cloud_griffons",
+      "name": "Cloud Griffons",
+      "color": "green",
+      "attack": 4,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": 8,
+      "defend": null,
+      "fame": 3,
+      "resistances": [],
+      "abilities": [
+        "unfortified",
+        "swift",
+        "elusive"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:corrupted_priests",
+      "name": "Corrupted Priests",
+      "color": "green",
+      "attack": 4,
+      "attack_element": "cold_fire",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": 1,
+      "fame": 3,
+      "resistances": [],
+      "abilities": [
+        "defend"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:crystal_sprites",
+      "name": "Crystal Sprites",
+      "color": "green",
+      "attack": 0,
+      "attack_element": "physical",
+      "armor": 1,
+      "armor_elusive": 2,
+      "defend": 1,
+      "fame": 1,
+      "resistances": [
+        "ice"
+      ],
+      "abilities": [
+        "elusive",
+        "defend"
+      ],
+      "attacks": [
+        {
+          "damage": 1,
+          "element": "ice",
+          "ability": null
+        },
+        {
+          "damage": 1,
+          "element": "ice",
+          "ability": null
+        }
+      ],
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:cursed_hags",
+      "name": "Cursed Hags",
+      "color": "green",
+      "attack": 3,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 3,
+      "resistances": [],
+      "abilities": [
+        "poison"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:diggers",
+      "name": "Diggers",
+      "color": "green",
+      "attack": 3,
+      "attack_element": "physical",
+      "armor": 3,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 2,
+      "resistances": [],
+      "abilities": [
+        "fortified"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:elemental_priests",
+      "name": "Elemental Priests",
+      "color": "green",
+      "attack": 0,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 3,
+      "resistances": [
+        "fire",
+        "ice"
+      ],
+      "abilities": [],
+      "attacks": [
+        {
+          "damage": 3,
+          "element": "fire",
+          "ability": null
+        },
+        {
+          "damage": 3,
+          "element": "ice",
+          "ability": null
+        }
+      ],
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:elven_protectors",
+      "name": "Elven Protectors",
+      "color": "green",
+      "attack": 3,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": 2,
+      "fame": 2,
+      "resistances": [
+        "fire"
+      ],
+      "abilities": [
+        "defend"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:gibbering_ghouls",
+      "name": "Gibbering Ghouls",
+      "color": "green",
+      "attack": 4,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 2,
+      "resistances": [],
+      "abilities": [
+        "vampiric"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:ironclads",
+      "name": "Ironclads",
+      "color": "green",
+      "attack": 4,
+      "attack_element": "physical",
+      "armor": 3,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [
+        "physical"
+      ],
+      "abilities": [
+        "brutal"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:orc_skirmishers",
+      "name": "Orc Skirmishers",
+      "color": "green",
+      "attack": 0,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 2,
+      "resistances": [],
+      "abilities": [],
+      "attacks": [
+        {
+          "damage": 1,
+          "element": "physical",
+          "ability": null
+        },
+        {
+          "damage": 1,
+          "element": "physical",
+          "ability": null
+        }
+      ],
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:orc_stonethrowers",
+      "name": "Orc Stonethrowers",
+      "color": "green",
+      "attack": 7,
+      "attack_element": "physical",
+      "armor": 2,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [
+        "physical"
+      ],
+      "abilities": [
+        "fortified",
+        "cumbersome"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:orc_summoners",
+      "name": "Orc Summoners",
+      "color": "green",
+      "attack": 0,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [],
+      "abilities": [
+        "summon"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:orc_tracker",
+      "name": "Orc Tracker",
+      "color": "green",
+      "attack": 4,
+      "attack_element": "physical",
+      "armor": 3,
+      "armor_elusive": 6,
+      "defend": null,
+      "fame": 3,
+      "resistances": [],
+      "abilities": [
+        "elusive",
+        "assassination"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:orc_war_beasts",
+      "name": "Orc War Beasts",
+      "color": "green",
+      "attack": 3,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 3,
+      "resistances": [
+        "fire",
+        "ice"
+      ],
+      "abilities": [
+        "unfortified",
+        "brutal"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:prowlers",
+      "name": "Prowlers",
+      "color": "green",
+      "attack": 4,
+      "attack_element": "physical",
+      "armor": 3,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 2,
+      "resistances": [],
+      "abilities": [],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:shrouded_necromancers",
+      "name": "Shrouded Necromancers",
+      "color": "green",
+      "attack": 0,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 3,
+      "resistances": [],
+      "abilities": [
+        "fortified",
+        "summon_green"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:skeletal_warriors",
+      "name": "Skeletal Warriors",
+      "color": "green",
+      "attack": 3,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 1,
+      "resistances": [
+        "fire"
+      ],
+      "abilities": [],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:wolf_riders",
+      "name": "Wolf Riders",
+      "color": "green",
+      "attack": 3,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 3,
+      "resistances": [],
+      "abilities": [
+        "swift"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:zombie_horde",
+      "name": "Zombie Horde",
+      "color": "green",
+      "attack": 0,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 2,
+      "resistances": [
+        "ice"
+      ],
+      "abilities": [
+        "cumbersome"
+      ],
+      "attacks": [
+        {
+          "damage": 1,
+          "element": "physical",
+          "ability": null
+        },
+        {
+          "damage": 1,
+          "element": "physical",
+          "ability": null
+        },
+        {
+          "damage": 1,
+          "element": "physical",
+          "ability": null
+        }
+      ],
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:crossbowmen",
+      "name": "Crossbowmen",
+      "color": "gray",
+      "attack": 4,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 3,
+      "resistances": [],
+      "abilities": [
+        "swift"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 3,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:golems",
+      "name": "Golems",
+      "color": "gray",
+      "attack": 2,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [
+        "physical"
+      ],
+      "abilities": [],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:guardsmen",
+      "name": "Guardsmen",
+      "color": "gray",
+      "attack": 3,
+      "attack_element": "physical",
+      "armor": 7,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 3,
+      "resistances": [],
+      "abilities": [
+        "fortified"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 3,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:heroes",
+      "name": "Heroes",
+      "color": "gray",
+      "attack": 5,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [],
+      "abilities": [
+        "fortified"
+      ],
+      "attacks": [
+        {
+          "damage": 5,
+          "element": "physical",
+          "ability": null
+        },
+        {
+          "damage": 3,
+          "element": "physical",
+          "ability": null
+        }
+      ],
+      "reputation_penalty": 1,
+      "reputation_bonus": null,
+      "copies": 1,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:shocktroops_gray",
+      "name": "Shocktroops",
+      "color": "gray",
+      "attack": 5,
+      "attack_element": "physical",
+      "armor": 3,
+      "armor_elusive": 6,
+      "defend": null,
+      "fame": 3,
+      "resistances": [],
+      "abilities": [
+        "unfortified",
+        "elusive"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:swordsmen",
+      "name": "Swordsmen",
+      "color": "gray",
+      "attack": 6,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [],
+      "abilities": [],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:thugs_gray",
+      "name": "Thugs",
+      "color": "gray",
+      "attack": 3,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 2,
+      "resistances": [],
+      "abilities": [
+        "brutal"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": 1,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:air_elemental",
+      "name": "Air Elemental",
+      "color": "brown",
+      "attack": 3,
+      "attack_element": "cold_fire",
+      "armor": 4,
+      "armor_elusive": 8,
+      "defend": null,
+      "fame": 4,
+      "resistances": [
+        "fire",
+        "ice"
+      ],
+      "abilities": [
+        "swift",
+        "elusive"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:blood_demon",
+      "name": "Blood Demon",
+      "color": "brown",
+      "attack": 6,
+      "attack_element": "physical",
+      "armor": 6,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [
+        "fire"
+      ],
+      "abilities": [
+        "brutal",
+        "assassination",
+        "arcane_immunity"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:crypt_worm",
+      "name": "Crypt Worm",
+      "color": "brown",
+      "attack": 6,
+      "attack_element": "physical",
+      "armor": 6,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [],
+      "abilities": [
+        "fortified"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:earth_elemental",
+      "name": "Earth Elemental",
+      "color": "brown",
+      "attack": 4,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [
+        "physical"
+      ],
+      "abilities": [
+        "fortified",
+        "cumbersome",
+        "brutal"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:fire_elemental",
+      "name": "Fire Elemental",
+      "color": "brown",
+      "attack": 7,
+      "attack_element": "physical",
+      "armor": 6,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [
+        "fire"
+      ],
+      "abilities": [],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:gargoyle",
+      "name": "Gargoyle",
+      "color": "brown",
+      "attack": 5,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [
+        "physical"
+      ],
+      "abilities": [],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:hydra",
+      "name": "Hydra",
+      "color": "brown",
+      "attack": 0,
+      "attack_element": "physical",
+      "armor": 6,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [
+        "ice"
+      ],
+      "abilities": [],
+      "attacks": [
+        {
+          "damage": 2,
+          "element": "physical",
+          "ability": null
+        },
+        {
+          "damage": 2,
+          "element": "physical",
+          "ability": null
+        },
+        {
+          "damage": 2,
+          "element": "physical",
+          "ability": null
+        }
+      ],
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:manticore",
+      "name": "Manticore",
+      "color": "brown",
+      "attack": 4,
+      "attack_element": "physical",
+      "armor": 6,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [
+        "fire"
+      ],
+      "abilities": [
+        "swift",
+        "assassination",
+        "poison"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:medusa",
+      "name": "Medusa",
+      "color": "brown",
+      "attack": 6,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [],
+      "abilities": [
+        "paralyze"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:minotaur",
+      "name": "Minotaur",
+      "color": "brown",
+      "attack": 5,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [],
+      "abilities": [
+        "brutal"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:mummy",
+      "name": "Mummy",
+      "color": "brown",
+      "attack": 4,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [
+        "ice",
+        "physical"
+      ],
+      "abilities": [
+        "poison"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:pain_wraith",
+      "name": "Pain Wraith",
+      "color": "brown",
+      "attack": 4,
+      "attack_element": "physical",
+      "armor": 4,
+      "armor_elusive": 8,
+      "defend": null,
+      "fame": 3,
+      "resistances": [],
+      "abilities": [
+        "elusive",
+        "paralyze"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:shadow",
+      "name": "Shadow",
+      "color": "brown",
+      "attack": 4,
+      "attack_element": "cold_fire",
+      "armor": 4,
+      "armor_elusive": 8,
+      "defend": null,
+      "fame": 4,
+      "resistances": [],
+      "abilities": [
+        "elusive",
+        "arcane_immunity"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:vampire",
+      "name": "Vampire",
+      "color": "brown",
+      "attack": 5,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": 10,
+      "defend": null,
+      "fame": 4,
+      "resistances": [],
+      "abilities": [
+        "elusive",
+        "vampiric"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:water_elemental",
+      "name": "Water Elemental",
+      "color": "brown",
+      "attack": 6,
+      "attack_element": "physical",
+      "armor": 7,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [
+        "ice"
+      ],
+      "abilities": [],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:werewolf",
+      "name": "Werewolf",
+      "color": "brown",
+      "attack": 7,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [],
+      "abilities": [
+        "swift"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:fire_golems",
+      "name": "Fire Golems",
+      "color": "violet",
+      "attack": 3,
+      "attack_element": "fire",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [
+        "fire",
+        "physical"
+      ],
+      "abilities": [
+        "brutal"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 1,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:fire_mages",
+      "name": "Fire Mages",
+      "color": "violet",
+      "attack": 6,
+      "attack_element": "fire",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [
+        "fire"
+      ],
+      "abilities": [],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:ice_golems",
+      "name": "Ice Golems",
+      "color": "violet",
+      "attack": 2,
+      "attack_element": "ice",
+      "armor": 4,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [
+        "ice",
+        "physical"
+      ],
+      "abilities": [
+        "paralyze"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 1,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:ice_mages",
+      "name": "Ice Mages",
+      "color": "violet",
+      "attack": 5,
+      "attack_element": "ice",
+      "armor": 6,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [
+        "ice"
+      ],
+      "abilities": [],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:illusionists",
+      "name": "Illusionists",
+      "color": "violet",
+      "attack": 0,
+      "attack_element": "physical",
+      "armor": 3,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [
+        "physical"
+      ],
+      "abilities": [
+        "summon"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:magic_familiars",
+      "name": "Magic Familiars",
+      "color": "violet",
+      "attack": 0,
+      "attack_element": "physical",
+      "armor": 7,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [],
+      "abilities": [
+        "unfortified",
+        "brutal"
+      ],
+      "attacks": [
+        {
+          "damage": 3,
+          "element": "physical",
+          "ability": null
+        },
+        {
+          "damage": 3,
+          "element": "physical",
+          "ability": null
+        }
+      ],
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:monks",
+      "name": "Monks",
+      "color": "violet",
+      "attack": 5,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 4,
+      "resistances": [],
+      "abilities": [
+        "poison"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:sorcerers",
+      "name": "Sorcerers",
+      "color": "violet",
+      "attack": 6,
+      "attack_element": "physical",
+      "armor": 6,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [],
+      "abilities": [
+        "assassination",
+        "poison",
+        "arcane_immunity"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:altem_guardsmen",
+      "name": "Altem Guardsmen",
+      "color": "white",
+      "attack": 5,
+      "attack_element": "physical",
+      "armor": 7,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 8,
+      "resistances": [
+        "physical",
+        "fire",
+        "ice"
+      ],
+      "abilities": [
+        "fortified"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:altem_mages",
+      "name": "Altem Mages",
+      "color": "white",
+      "attack": 4,
+      "attack_element": "cold_fire",
+      "armor": 8,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 8,
+      "resistances": [
+        "physical"
+      ],
+      "abilities": [
+        "brutal",
+        "poison"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:delphana_masters",
+      "name": "Delphana Masters",
+      "color": "white",
+      "attack": 5,
+      "attack_element": "cold_fire",
+      "armor": 8,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 9,
+      "resistances": [
+        "fire",
+        "ice"
+      ],
+      "abilities": [
+        "assassination",
+        "paralyze"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:fire_catapult",
+      "name": "Fire Catapult",
+      "color": "white",
+      "attack": 8,
+      "attack_element": "fire",
+      "armor": 7,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 7,
+      "resistances": [],
+      "abilities": [
+        "fortified",
+        "cumbersome"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 1,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:freezers",
+      "name": "Freezers",
+      "color": "white",
+      "attack": 3,
+      "attack_element": "ice",
+      "armor": 7,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 7,
+      "resistances": [
+        "fire"
+      ],
+      "abilities": [
+        "paralyze",
+        "swift"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 3,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:grim_legionnaries",
+      "name": "Grim Legionnaries",
+      "color": "white",
+      "attack": 11,
+      "attack_element": "physical",
+      "armor": 10,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 8,
+      "resistances": [],
+      "abilities": [
+        "unfortified",
+        "arcane_immunity"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:gunners",
+      "name": "Gunners",
+      "color": "white",
+      "attack": 6,
+      "attack_element": "fire",
+      "armor": 6,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 7,
+      "resistances": [
+        "ice"
+      ],
+      "abilities": [
+        "brutal"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 3,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:ice_catapult",
+      "name": "Ice Catapult",
+      "color": "white",
+      "attack": 9,
+      "attack_element": "ice",
+      "armor": 6,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 7,
+      "resistances": [],
+      "abilities": [
+        "fortified",
+        "cumbersome"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 1,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:shocktroops",
+      "name": "Shocktroops",
+      "color": "white",
+      "attack": 5,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [],
+      "abilities": [
+        "swift",
+        "brutal"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:thugs",
+      "name": "Thugs",
+      "color": "white",
+      "attack": 6,
+      "attack_element": "physical",
+      "armor": 5,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 5,
+      "resistances": [],
+      "abilities": [],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:death_dragon",
+      "name": "Death Dragon",
+      "color": "red",
+      "attack": 7,
+      "attack_element": "physical",
+      "armor": 9,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 6,
+      "resistances": [],
+      "abilities": [
+        "assassination",
+        "paralyze"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:dragon_summoner",
+      "name": "Dragon Summoner",
+      "color": "red",
+      "attack": 0,
+      "attack_element": "physical",
+      "armor": 8,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 9,
+      "resistances": [
+        "physical"
+      ],
+      "abilities": [
+        "arcane_immunity"
+      ],
+      "attacks": [
+        {
+          "damage": 0,
+          "element": "physical",
+          "ability": "summon"
+        },
+        {
+          "damage": 0,
+          "element": "physical",
+          "ability": "summon"
+        }
+      ],
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:fire_dragon",
+      "name": "Fire Dragon",
+      "color": "red",
+      "attack": 9,
+      "attack_element": "fire",
+      "armor": 7,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 8,
+      "resistances": [
+        "physical",
+        "fire"
+      ],
+      "abilities": [],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:high_dragon",
+      "name": "High Dragon",
+      "color": "red",
+      "attack": 6,
+      "attack_element": "cold_fire",
+      "armor": 9,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 9,
+      "resistances": [
+        "fire",
+        "ice"
+      ],
+      "abilities": [
+        "brutal"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:ice_dragon",
+      "name": "Ice Dragon",
+      "color": "red",
+      "attack": 6,
+      "attack_element": "ice",
+      "armor": 7,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 8,
+      "resistances": [
+        "physical",
+        "ice"
+      ],
+      "abilities": [
+        "paralyze"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:lava_dragon",
+      "name": "Lava Dragon",
+      "color": "red",
+      "attack": 6,
+      "attack_element": "fire",
+      "armor": 8,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 8,
+      "resistances": [
+        "fire"
+      ],
+      "abilities": [
+        "fortified",
+        "brutal"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:lightning_dragon",
+      "name": "Lightning Dragon",
+      "color": "red",
+      "attack": 6,
+      "attack_element": "cold_fire",
+      "armor": 7,
+      "armor_elusive": 14,
+      "defend": null,
+      "fame": 7,
+      "resistances": [
+        "fire",
+        "ice"
+      ],
+      "abilities": [
+        "elusive"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:savage_dragon",
+      "name": "Savage Dragon",
+      "color": "red",
+      "attack": 5,
+      "attack_element": "physical",
+      "armor": 7,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 6,
+      "resistances": [
+        "physical"
+      ],
+      "abilities": [
+        "brutal"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:storm_dragon",
+      "name": "Storm Dragon",
+      "color": "red",
+      "attack": 4,
+      "attack_element": "ice",
+      "armor": 7,
+      "armor_elusive": 14,
+      "defend": null,
+      "fame": 7,
+      "resistances": [
+        "ice"
+      ],
+      "abilities": [
+        "elusive",
+        "swift"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:swamp_dragon",
+      "name": "Swamp Dragon",
+      "color": "red",
+      "attack": 5,
+      "attack_element": "physical",
+      "armor": 9,
+      "armor_elusive": null,
+      "defend": null,
+      "fame": 7,
+      "resistances": [],
+      "abilities": [
+        "swift",
+        "paralyze"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "enemy:vampire_dragon",
+      "name": "Vampire Dragon",
+      "color": "red",
+      "attack": 8,
+      "attack_element": "physical",
+      "armor": 8,
+      "armor_elusive": 16,
+      "defend": null,
+      "fame": 7,
+      "resistances": [],
+      "abilities": [
+        "elusive",
+        "vampiric"
+      ],
+      "attacks": null,
+      "reputation_penalty": null,
+      "reputation_bonus": null,
+      "copies": 2,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "unknown",
+      "source": "upstream-mk-data/enemies.rs",
+      "confidence": "upstream-only"
+    }
+  ]
+}

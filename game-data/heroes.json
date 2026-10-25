@@ -1,0 +1,330 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "heroes",
+  "count": 7,
+  "standard_deck": [
+    "basic:rage",
+    "basic:rage",
+    "basic:determination",
+    "basic:swiftness",
+    "basic:swiftness",
+    "basic:march",
+    "basic:march",
+    "basic:stamina",
+    "basic:stamina",
+    "basic:tranquility",
+    "basic:promise",
+    "basic:threaten",
+    "basic:crystallize",
+    "basic:mana_draw",
+    "basic:concentration",
+    "basic:improvisation"
+  ],
+  "sources": [
+    "upstream-mk-data/heroes.rs",
+    "MKUE Walkthrough p.5",
+    "MKUE Rulebook p.3"
+  ],
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "schema_version": "1.0.0",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+      "path": "packages/engine-rs/crates/mk-data/src/heroes.rs",
+      "sha256": "ff705e320ef758590d3c8b855cfeaa53208e3f3926a703db483e9462a5ae55d8",
+      "fetched_at": "2026-10-25T02:32:56Z"
+    },
+    "confidence": "upstream-only",
+    "notes": "Starting decks and hero-specific replacements from upstream heroes.rs. Four base-game heroes confirmed by MKUE Walkthrough p.5; Wolfhawk/Krang/Braevalar are expansion heroes (Krang and Braevalar are named in reference/extracted/MKUE_expansions_rulebook.txt; Wolfhawk expansion attribution is community knowledge, UNVERIFIED in our extracted sources)."
+  },
+  "items": [
+    {
+      "id": "hero:arythea",
+      "name": "Arythea",
+      "expansion": "base",
+      "starting_deck": [
+        "basic:arythea_battle_versatility",
+        "basic:rage",
+        "basic:determination",
+        "basic:swiftness",
+        "basic:swiftness",
+        "basic:march",
+        "basic:march",
+        "basic:stamina",
+        "basic:stamina",
+        "basic:tranquility",
+        "basic:promise",
+        "basic:threaten",
+        "basic:crystallize",
+        "basic:arythea_mana_pull",
+        "basic:concentration",
+        "basic:improvisation"
+      ],
+      "deck_size": 16,
+      "starting_crystals": [
+        "red",
+        "red",
+        "white"
+      ],
+      "starting_crystals_source": "upstream-mk-data",
+      "starting_crystals_note": "Upstream heroes.rs; the official rulebooks do not enumerate every hero's three dummy-player crystal dots, so this is UNVERIFIED.",
+      "starting_crystals_upstream": [
+        "red",
+        "red",
+        "white"
+      ],
+      "mvp": true,
+      "status": "data-ready",
+      "source": "upstream-mk-data/heroes.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.5: 'There are four Heroes in the game'; p.3/MKUE Rulebook: each starting deck is 16 Basic Action cards; p.15: dummy player starts with three crystals matching the hero card dots (Goldyx example)."
+    },
+    {
+      "id": "hero:tovak",
+      "name": "Tovak",
+      "expansion": "base",
+      "starting_deck": [
+        "basic:rage",
+        "basic:rage",
+        "basic:tovak_cold_toughness",
+        "basic:swiftness",
+        "basic:swiftness",
+        "basic:march",
+        "basic:march",
+        "basic:stamina",
+        "basic:stamina",
+        "basic:tranquility",
+        "basic:promise",
+        "basic:threaten",
+        "basic:crystallize",
+        "basic:mana_draw",
+        "basic:concentration",
+        "basic:tovak_instinct"
+      ],
+      "deck_size": 16,
+      "starting_crystals": [
+        "blue",
+        "red",
+        "white"
+      ],
+      "starting_crystals_source": "upstream-mk-data",
+      "starting_crystals_note": "Upstream heroes.rs; the official rulebooks do not enumerate every hero's three dummy-player crystal dots, so this is UNVERIFIED.",
+      "starting_crystals_upstream": [
+        "blue",
+        "red",
+        "white"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/heroes.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.5: 'There are four Heroes in the game'; p.3/MKUE Rulebook: each starting deck is 16 Basic Action cards; p.15: dummy player starts with three crystals matching the hero card dots (Goldyx example)."
+    },
+    {
+      "id": "hero:goldyx",
+      "name": "Goldyx",
+      "expansion": "base",
+      "starting_deck": [
+        "basic:rage",
+        "basic:rage",
+        "basic:determination",
+        "basic:swiftness",
+        "basic:swiftness",
+        "basic:march",
+        "basic:march",
+        "basic:stamina",
+        "basic:stamina",
+        "basic:tranquility",
+        "basic:promise",
+        "basic:threaten",
+        "basic:goldyx_crystal_joy",
+        "basic:mana_draw",
+        "basic:goldyx_will_focus",
+        "basic:improvisation"
+      ],
+      "deck_size": 16,
+      "starting_crystals": [
+        "green",
+        "green",
+        "blue"
+      ],
+      "starting_crystals_source": "official",
+      "starting_crystals_note": "Official: MKUE Rulebook p.15 gives Goldyx as the worked example ('Goldyx has green, green and blue'). Upstream heroes.rs says blue, blue, white -> DISCREPANCY; official value used.",
+      "starting_crystals_upstream": [
+        "blue",
+        "blue",
+        "white"
+      ],
+      "mvp": true,
+      "status": "data-ready",
+      "source": "upstream-mk-data/heroes.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.5: 'There are four Heroes in the game'; p.3/MKUE Rulebook: each starting deck is 16 Basic Action cards; p.15: dummy player starts with three crystals matching the hero card dots (Goldyx example)."
+    },
+    {
+      "id": "hero:norowas",
+      "name": "Norowas",
+      "expansion": "base",
+      "starting_deck": [
+        "basic:rage",
+        "basic:rage",
+        "basic:determination",
+        "basic:swiftness",
+        "basic:swiftness",
+        "basic:march",
+        "basic:march",
+        "basic:stamina",
+        "basic:stamina",
+        "basic:norowas_rejuvenate",
+        "basic:norowas_noble_manners",
+        "basic:threaten",
+        "basic:crystallize",
+        "basic:mana_draw",
+        "basic:concentration",
+        "basic:improvisation"
+      ],
+      "deck_size": 16,
+      "starting_crystals": [
+        "green",
+        "green",
+        "white"
+      ],
+      "starting_crystals_source": "upstream-mk-data",
+      "starting_crystals_note": "Upstream heroes.rs; the official rulebooks do not enumerate every hero's three dummy-player crystal dots, so this is UNVERIFIED.",
+      "starting_crystals_upstream": [
+        "green",
+        "green",
+        "white"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/heroes.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.5: 'There are four Heroes in the game'; p.3/MKUE Rulebook: each starting deck is 16 Basic Action cards; p.15: dummy player starts with three crystals matching the hero card dots (Goldyx example)."
+    },
+    {
+      "id": "hero:wolfhawk",
+      "name": "Wolfhawk",
+      "expansion": "lost_legion",
+      "starting_deck": [
+        "basic:rage",
+        "basic:rage",
+        "basic:determination",
+        "basic:wolfhawk_swift_reflexes",
+        "basic:swiftness",
+        "basic:march",
+        "basic:march",
+        "basic:wolfhawk_tirelessness",
+        "basic:stamina",
+        "basic:tranquility",
+        "basic:promise",
+        "basic:threaten",
+        "basic:crystallize",
+        "basic:mana_draw",
+        "basic:axe_throw",
+        "basic:improvisation"
+      ],
+      "deck_size": 16,
+      "starting_crystals": [
+        "green",
+        "white",
+        "white"
+      ],
+      "starting_crystals_source": "upstream-mk-data",
+      "starting_crystals_note": "Upstream heroes.rs; the official rulebooks do not enumerate every hero's three dummy-player crystal dots, so this is UNVERIFIED.",
+      "starting_crystals_upstream": [
+        "green",
+        "white",
+        "white"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/heroes.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.5: 'There are four Heroes in the game'; p.3/MKUE Rulebook: each starting deck is 16 Basic Action cards; p.15: dummy player starts with three crystals matching the hero card dots (Goldyx example)."
+    },
+    {
+      "id": "hero:krang",
+      "name": "Krang",
+      "expansion": "krang",
+      "starting_deck": [
+        "basic:krang_battle_rage",
+        "basic:rage",
+        "basic:determination",
+        "basic:swiftness",
+        "basic:swiftness",
+        "basic:krang_savage_harvesting",
+        "basic:march",
+        "basic:stamina",
+        "basic:stamina",
+        "basic:tranquility",
+        "basic:promise",
+        "basic:krang_ruthless_coercion",
+        "basic:crystallize",
+        "basic:mana_draw",
+        "basic:concentration",
+        "basic:improvisation"
+      ],
+      "deck_size": 16,
+      "starting_crystals": [
+        "red",
+        "green",
+        "white"
+      ],
+      "starting_crystals_source": "upstream-mk-data",
+      "starting_crystals_note": "Upstream heroes.rs; the official rulebooks do not enumerate every hero's three dummy-player crystal dots, so this is UNVERIFIED.",
+      "starting_crystals_upstream": [
+        "red",
+        "green",
+        "white"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/heroes.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.5: 'There are four Heroes in the game'; p.3/MKUE Rulebook: each starting deck is 16 Basic Action cards; p.15: dummy player starts with three crystals matching the hero card dots (Goldyx example)."
+    },
+    {
+      "id": "hero:braevalar",
+      "name": "Braevalar",
+      "expansion": "shades_of_tezla",
+      "starting_deck": [
+        "basic:rage",
+        "basic:rage",
+        "basic:determination",
+        "basic:swiftness",
+        "basic:swiftness",
+        "basic:braevalar_one_with_the_land",
+        "basic:march",
+        "basic:braevalar_druidic_paths",
+        "basic:stamina",
+        "basic:tranquility",
+        "basic:promise",
+        "basic:threaten",
+        "basic:crystallize",
+        "basic:mana_draw",
+        "basic:concentration",
+        "basic:improvisation"
+      ],
+      "deck_size": 16,
+      "starting_crystals": [
+        "green",
+        "blue",
+        "white"
+      ],
+      "starting_crystals_source": "upstream-mk-data",
+      "starting_crystals_note": "Upstream heroes.rs; the official rulebooks do not enumerate every hero's three dummy-player crystal dots, so this is UNVERIFIED.",
+      "starting_crystals_upstream": [
+        "green",
+        "blue",
+        "white"
+      ],
+      "mvp": false,
+      "status": "omitted",
+      "source": "upstream-mk-data/heroes.rs",
+      "confidence": "upstream-only",
+      "official_cross_check": "MKUE Walkthrough p.5: 'There are four Heroes in the game'; p.3/MKUE Rulebook: each starting deck is 16 Basic Action cards; p.15: dummy player starts with three crystals matching the hero card dots (Goldyx example)."
+    }
+  ]
+}

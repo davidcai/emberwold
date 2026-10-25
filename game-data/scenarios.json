@@ -1,0 +1,1061 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "scenarios",
+  "count": 12,
+  "provenance": {
+    "generated_by": "hand-maintained",
+    "schema_version": "1.0.0",
+    "notes": "Built from the 2012 base-game rulebook's bundled Scenario Book (reference/extracted/MK_base_rulebook_2012.txt, PDF p.12-19), cross-checked with the UE rulebook's scenario summaries (MKUE Rulebook p.14-22). The UE Scenario Book is a separate booklet that is NOT in our sources, so expansion scenarios (Volkare's Quest / Volkare's Return, Lost Legion and Shades of Tezla scenarios) are missing. Where the two printings differ (e.g. spell card numbers: 2012 = 17-20, UE = 109-112) the caveat records both. 'first-conquest' is a deliberate Miniknight variant from docs/design/11-mvp-scope.md, not an official scenario.",
+    "official_cross_check": "Solo Conquest parameters agree in MKUE Rulebook p.19 and MK Base Rulebook 2012 p.17: wedge, 7 countryside, 2 city + 2 non-city core tiles, cities level 5 then 8, six rounds, dummy player, four competitive Spells removed, one interactive Skill removed."
+  },
+  "sources": [
+    "MK Base Rulebook 2012 p.12-19 (scenario book; full text)",
+    "MKUE Rulebook p.14-22 (scenario summaries, solo/coop rules)",
+    "docs/design/11-mvp-scope.md (Miniknight First Conquest variant)"
+  ],
+  "items": [
+    {
+      "id": "scenario:blitz-conquest",
+      "name": "Blitz Conquest",
+      "type": "competitive",
+      "players": {
+        "min": 2,
+        "max": 4
+      },
+      "rounds": {
+        "total": 4,
+        "day": 2,
+        "night": 2
+      },
+      "map": {
+        "shape": [
+          "wedge",
+          "wedge",
+          "open_4"
+        ],
+        "starting_tile": null,
+        "countryside": [
+          6,
+          7,
+          9
+        ],
+        "core_city": [
+          2,
+          3,
+          4
+        ],
+        "core_non_city": [
+          1,
+          2,
+          3
+        ],
+        "fixed_tiles": null,
+        "layout": null,
+        "layout_status": "random-per-rules"
+      },
+      "cities": {
+        "count": "players",
+        "levels": [
+          3
+        ]
+      },
+      "dummy_player": false,
+      "skills_enabled": true,
+      "elite_units_enabled": true,
+      "spells_available": true,
+      "removals": {
+        "competitive_spells": false,
+        "interactive_skill": false,
+        "detail": "competitive scenario"
+      },
+      "special_rules": [
+        "start with 1 Fame; whenever you cross a Fame line gain 1 extra Fame",
+        "start with +2 Reputation",
+        "one extra Source die and one extra Unit in the offer"
+      ],
+      "tactics": {
+        "human_chooses_first": false,
+        "dummy_random": null,
+        "used_tactics_removed_each_round": false
+      },
+      "end_condition": "When all cities are conquered every player has one last turn; if the Round ends during this the game ends immediately.",
+      "scoring": {
+        "base": "fame",
+        "achievements": true,
+        "titles": true,
+        "goal": [
+          {
+            "kind": "city_leader",
+            "points": 7
+          },
+          {
+            "kind": "city_shield",
+            "points": 4
+          },
+          {
+            "kind": "greatest_city_conqueror",
+            "points": 5
+          }
+        ]
+      },
+      "mvp": false,
+      "status": "omitted",
+      "confidence": "official",
+      "official_ref": "MK Base Rulebook 2012 p.16; MKUE Rulebook p.19",
+      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "source": "official"
+    },
+    {
+      "id": "scenario:blitz-cooperation",
+      "name": "Blitz Cooperation",
+      "type": "cooperative",
+      "players": {
+        "min": 2,
+        "max": 3
+      },
+      "rounds": {
+        "total": 4,
+        "day": 2,
+        "night": 2
+      },
+      "map": {
+        "shape": [
+          "fully_open"
+        ],
+        "starting_tile": "B",
+        "countryside": [
+          7,
+          8
+        ],
+        "core_city": [
+          2,
+          3
+        ],
+        "core_non_city": [
+          1,
+          2
+        ],
+        "fixed_tiles": null,
+        "layout": null,
+        "layout_status": "random-per-rules"
+      },
+      "cities": {
+        "count": "players",
+        "levels": [
+          5,
+          8,
+          11
+        ]
+      },
+      "dummy_player": true,
+      "skills_enabled": true,
+      "elite_units_enabled": true,
+      "spells_available": true,
+      "removals": {
+        "competitive_spells": true,
+        "interactive_skill": true,
+        "detail": "remove the four competitive Spells and one interactive Skill per player"
+      },
+      "special_rules": [
+        "start with 1 Fame; crossing a Fame line gives 1 extra Fame",
+        "start with +2 Reputation",
+        "one extra Source die and one extra Unit in the offer",
+        "Full Cooperation rules apply with the shorter map"
+      ],
+      "tactics": {
+        "human_chooses_first": false,
+        "dummy_random": true,
+        "used_tactics_removed_each_round": true
+      },
+      "end_condition": "When all cities are conquered every player except the Dummy player has one last turn.",
+      "scoring": {
+        "base": "lowest_fame",
+        "achievements": "best_per_category",
+        "titles": false,
+        "goal": [
+          {
+            "kind": "city_conquered",
+            "points": 10
+          },
+          {
+            "kind": "all_cities",
+            "points": 15
+          },
+          {
+            "kind": "round_finished_early",
+            "points_per_round": 30
+          }
+        ]
+      },
+      "mvp": false,
+      "status": "omitted",
+      "confidence": "official",
+      "official_ref": "MK Base Rulebook 2012 p.17; MKUE Rulebook p.20",
+      "caveat": "Cooperative scenario; out of Miniknight v1 scope.",
+      "source": "official"
+    },
+    {
+      "id": "scenario:classic",
+      "name": "Classic (official Solo Conquest shape)",
+      "type": "solo",
+      "players": {
+        "min": 1,
+        "max": 1
+      },
+      "rounds": {
+        "total": 6,
+        "day": 3,
+        "night": 3
+      },
+      "map": {
+        "shape": [
+          "wedge"
+        ],
+        "starting_tile": "A",
+        "countryside": [
+          7
+        ],
+        "core_city": [
+          2
+        ],
+        "core_non_city": [
+          2
+        ],
+        "fixed_tiles": null,
+        "layout": null,
+        "layout_status": "random-per-rules",
+        "layout_note": "Tile deck per standard rules: wedge map, starting tile A; core city/non-city tiles chosen as the scenario specifies (MKUE Rulebook p.3)."
+      },
+      "cities": {
+        "count": 2,
+        "levels": [
+          5,
+          8
+        ]
+      },
+      "dummy_player": true,
+      "skills_enabled": true,
+      "elite_units_enabled": true,
+      "spells_available": true,
+      "advanced_actions_available": true,
+      "removals": {
+        "competitive_spells": true,
+        "interactive_skill": true,
+        "detail": "Remove the four competitive Spells and the one interactive Skill. 2012 numbering: Spells 17-20 (Mana Meltdown, Mana Claim, Mind Read, Energy Flow). UE numbering: Spells 109-112."
+      },
+      "special_rules": [
+        "when taking Tactics you always choose first; the Dummy player then takes one random card from the remaining",
+        "at the end of each Day or Night remove both used Tactic cards from the game (each Tactic is picked once)",
+        "Dummy player uses a standard 16-card hero deck with three starting crystals"
+      ],
+      "tactics": {
+        "human_chooses_first": true,
+        "dummy_random": true,
+        "used_tactics_removed_each_round": true
+      },
+      "end_condition": "When all cities are conquered you have one last turn (the Dummy player does not).",
+      "scoring": {
+        "base": "fame",
+        "achievements": true,
+        "titles": false,
+        "goal": [
+          {
+            "kind": "city_conquered",
+            "points": 10
+          },
+          {
+            "kind": "all_cities",
+            "points": 15
+          },
+          {
+            "kind": "round_finished_early",
+            "points_per_round": 30
+          },
+          {
+            "kind": "cards_left_in_dummy_deck",
+            "points_per_card": 1
+          },
+          {
+            "kind": "end_of_round_not_announced",
+            "points": 5
+          }
+        ]
+      },
+      "mvp": true,
+      "status": "data-ready",
+      "confidence": "official",
+      "official_ref": "MK Base Rulebook 2012 p.17 (SOLO CONQUEST); MKUE Rulebook p.19",
+      "caveat": "Official Solo Conquest shape from the 2012 printing. The UE Scenario Book itself is unavailable; values were cross-checked against the UE rulebook summary p.19 and agree. Spell card numbering differs between printings (17-20 vs 109-112).",
+      "source": "official"
+    },
+    {
+      "id": "scenario:conquer-and-hold",
+      "name": "Conquer and Hold",
+      "type": "very_competitive",
+      "players": {
+        "min": 2,
+        "max": 4
+      },
+      "rounds": {
+        "total": 4,
+        "day": 2,
+        "night": 2
+      },
+      "rounds_note": "4 rounds with 4 players; 6 rounds in a 2-player game (MK Base Rulebook 2012 p.19)",
+      "map": {
+        "shape": [
+          "predefined"
+        ],
+        "starting_tile": "B",
+        "countryside": [
+          5
+        ],
+        "core_city": [
+          1
+        ],
+        "core_non_city": [
+          3
+        ],
+        "fixed_tiles": null,
+        "layout": null,
+        "layout_status": "scenario-book-picture",
+        "layout_note": "Predefined map: B side of the starting tile, three revealed countryside tiles, plus predefined positions for 2 more countryside and 4 core tiles. The picture is in the 2012 rulebook and not extracted as text, so the exact layout is not encoded."
+      },
+      "cities": {
+        "count": 1,
+        "levels": [],
+        "enterable": false,
+        "conquerable": false,
+        "note": "white city; friendly but closes its gates, cannot be entered"
+      },
+      "dummy_player": false,
+      "skills_enabled": true,
+      "elite_units_enabled": true,
+      "spells_available": true,
+      "advanced_actions_available": true,
+      "removals": {
+        "competitive_spells": false,
+        "interactive_skill": false,
+        "detail": "remove level IV Units (city-only recruitable) from the Elite Unit deck"
+      },
+      "special_rules": [
+        "regular Units only in the first half; both regular and elite in the second half (from Round 3 in 4p / Round 4 in 3p)",
+        "monastery units also recruitable at mage towers; village units also recruitable at keeps",
+        "no reputation loss for assaulting keeps/mage towers",
+        "mage towers work like keeps in this scenario and give mana when you start in/next to one you control",
+        "2 player game: draw two gray/violet tokens when attacking a keep/tower; three during the third Day/Night"
+      ],
+      "tactics": {
+        "human_chooses_first": false,
+        "dummy_random": null,
+        "used_tactics_removed_each_round": false
+      },
+      "end_condition": "Played until the round limit, or until one side admits the other has won.",
+      "scoring": {
+        "base": "victory_points",
+        "achievements": false,
+        "titles": false,
+        "goal": [
+          {
+            "kind": "keep_controlled",
+            "points": 3
+          },
+          {
+            "kind": "mage_tower_controlled",
+            "points": 2
+          }
+        ],
+        "note": "25 victory points available in total; a tie means nobody wins."
+      },
+      "mvp": false,
+      "status": "omitted",
+      "confidence": "official",
+      "source": "official",
+      "official_ref": "MK Base Rulebook 2012 p.19",
+      "caveat": "Team/competitive scenario from the 2012 scenario book; out of Miniknight v1 scope. The predefined map layout is a picture and is not encoded."
+    },
+    {
+      "id": "scenario:druid-nights",
+      "name": "Druid Nights",
+      "type": "slightly_competitive",
+      "players": {
+        "min": 2,
+        "max": 4
+      },
+      "rounds": {
+        "total": 4,
+        "day": 2,
+        "night": 2
+      },
+      "map": {
+        "shape": [
+          "wedge",
+          "wedge",
+          "open_4"
+        ],
+        "starting_tile": null,
+        "countryside": [
+          8,
+          9,
+          11
+        ],
+        "core_city": [
+          1
+        ],
+        "core_non_city": [
+          1,
+          2,
+          3
+        ],
+        "fixed_tiles": null,
+        "layout": null,
+        "layout_status": "random-per-rules",
+        "layout_note": "Remove tiles with no magical glades; core city is always the green city."
+      },
+      "cities": {
+        "count": 1,
+        "levels": [],
+        "enterable": false,
+        "conquerable": false
+      },
+      "dummy_player": false,
+      "skills_enabled": true,
+      "elite_units_enabled": true,
+      "spells_available": true,
+      "removals": {
+        "competitive_spells": false,
+        "interactive_skill": false,
+        "detail": "competitive scenario"
+      },
+      "special_rules": [
+        "mark magical glades with shields; incantation summons one brown enemy per marked glade during the first Night and red enemies during the second Night",
+        "defeated summoned enemies give double Fame",
+        "city is friendly, no leader"
+      ],
+      "tactics": {
+        "human_chooses_first": false,
+        "dummy_random": null,
+        "used_tactics_removed_each_round": false
+      },
+      "end_condition": "When all players have performed the incantation during the second Night (each gets one more turn), or at the end of the second Night.",
+      "scoring": {
+        "base": "fame",
+        "achievements": true,
+        "titles": true,
+        "goal": []
+      },
+      "mvp": false,
+      "status": "omitted",
+      "confidence": "official",
+      "official_ref": "MK Base Rulebook 2012 p.18",
+      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "source": "official"
+    },
+    {
+      "id": "scenario:dungeon-lords",
+      "name": "Dungeon Lords",
+      "type": "competitive",
+      "players": {
+        "min": 2,
+        "max": 4
+      },
+      "rounds": {
+        "total": 5,
+        "day": 3,
+        "night": 2
+      },
+      "map": {
+        "shape": [
+          "wedge",
+          "wedge",
+          "open_4"
+        ],
+        "starting_tile": null,
+        "countryside": [
+          8,
+          9,
+          11
+        ],
+        "core_city": [
+          1
+        ],
+        "core_non_city": [
+          1,
+          2,
+          3
+        ],
+        "fixed_tiles": null,
+        "layout": null,
+        "layout_status": "random-per-rules",
+        "layout_note": "Remove tiles with no dungeons; core city is always the blue city; always include the desert tile with monastery and tomb."
+      },
+      "cities": {
+        "count": 1,
+        "levels": [],
+        "enterable": false,
+        "conquerable": false
+      },
+      "dummy_player": false,
+      "skills_enabled": true,
+      "elite_units_enabled": true,
+      "spells_available": true,
+      "removals": {
+        "competitive_spells": false,
+        "interactive_skill": false,
+        "detail": "competitive scenario"
+      },
+      "special_rules": [
+        "secret dungeon entrances are placed next to revealed villages",
+        "secret tombs are placed next to revealed monasteries",
+        "all conquered dungeons/tombs are connected for movement (2 Move + 1 per space)",
+        "city is friendly, no leader"
+      ],
+      "tactics": {
+        "human_chooses_first": false,
+        "dummy_random": null,
+        "used_tactics_removed_each_round": false
+      },
+      "end_condition": "When all tiles are revealed and all dungeons and tombs are conquered every player has one last turn.",
+      "scoring": {
+        "base": "fame",
+        "achievements": true,
+        "titles": true,
+        "goal": [
+          {
+            "kind": "dungeon_tomb_adventure",
+            "points": 4
+          },
+          {
+            "kind": "greatest_dungeon_crawler",
+            "points": 5
+          }
+        ]
+      },
+      "mvp": false,
+      "status": "omitted",
+      "confidence": "official",
+      "official_ref": "MK Base Rulebook 2012 p.18",
+      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "source": "official"
+    },
+    {
+      "id": "scenario:first-conquest",
+      "name": "First Conquest",
+      "type": "solo",
+      "players": {
+        "min": 1,
+        "max": 1
+      },
+      "rounds": {
+        "total": 3,
+        "day": 2,
+        "night": 1
+      },
+      "map": {
+        "shape": [
+          "wedge"
+        ],
+        "starting_tile": "A",
+        "countryside": [
+          2
+        ],
+        "core_city": [
+          1
+        ],
+        "core_non_city": [
+          0
+        ],
+        "fixed_tiles": [
+          "tile:starting_a",
+          "tile:countryside_1",
+          "tile:countryside_2",
+          "tile:core_city_green"
+        ],
+        "layout": null,
+        "layout_status": "todo",
+        "layout_note": "Fixed hand-authored placement is a Miniknight design decision, not an official layout. TODO: author explicit hex-adjacency placement (start tile A centre; 2 countryside tiles on the wedge frontier; 1 city tile at the far end) plus site seeding (village, monastery, keep, mage tower, magical glade, crystal mine, rampaging orcs) in a follow-up data pass."
+      },
+      "cities": {
+        "count": 1,
+        "levels": [
+          4
+        ]
+      },
+      "dummy_player": true,
+      "dummy_player_note": "Simplified Miniknight dummy: consumes tactics and provides round-clock pressure (see docs/design/11-mvp-scope.md); full official dummy logic lives in the Classic preset.",
+      "skills_enabled": true,
+      "elite_units_enabled": false,
+      "spells_available": true,
+      "advanced_actions_available": true,
+      "removals": {
+        "competitive_spells": true,
+        "interactive_skill": true,
+        "detail": "Remove the four competitive Spells and the non-matching interactive Skill, as in official Solo Conquest (MK Base Rulebook 2012 p.17)."
+      },
+      "special_rules": [
+        "Miniknight tuned variant; not an official scenario",
+        "target session length 20-30 minutes; target win rate roughly 50%",
+        "tuned scoring weights (see scoring.tuning)"
+      ],
+      "tactics": {
+        "human_chooses_first": true,
+        "dummy_random": true,
+        "used_tactics_removed_each_round": true,
+        "note": "same tactic rules as Solo Conquest (MK Base Rulebook 2012 p.17)"
+      },
+      "end_condition": "The game ends when the single city is conquered (after the conquering turn); a round limit of 3 also ends it as a loss if the city still stands.",
+      "scoring": {
+        "base": "fame",
+        "achievements": true,
+        "titles": false,
+        "goal": [
+          {
+            "kind": "city_conquered",
+            "points": 10
+          },
+          {
+            "kind": "all_cities",
+            "points": 15
+          }
+        ],
+        "tuning": {
+          "status": "todo",
+          "note": "Weights to be tuned in playtest; structure mirrors official Solo Conquest scoring for easy A/B comparison."
+        }
+      },
+      "mvp": true,
+      "status": "data-ready",
+      "confidence": "official+upstream",
+      "official_ref": "docs/design/11-mvp-scope.md §4.1; shape derived from official Solo Conquest (MK Base Rulebook 2012 p.17 / MKUE Rulebook p.19)",
+      "caveat": "Miniknight-specific variant. Tile/site layout and tuned scoring are design decisions and are not authored yet (layout_status=todo).",
+      "source": "official+upstream"
+    },
+    {
+      "id": "scenario:first-reconnaissance",
+      "name": "First Reconnaissance",
+      "type": "slightly_competitive",
+      "players": {
+        "min": 2,
+        "max": 4,
+        "solo_variant": true
+      },
+      "rounds": {
+        "total": 3,
+        "day": 2,
+        "night": 1
+      },
+      "map": {
+        "shape": [
+          "wedge"
+        ],
+        "starting_tile": "A",
+        "countryside": [
+          8,
+          9,
+          11
+        ],
+        "core_city": [
+          1
+        ],
+        "core_non_city": [
+          2
+        ],
+        "fixed_tiles": null,
+        "layout": null,
+        "layout_status": "random-per-rules",
+        "layout_note": "countryside tiles sorted by number for the first game (MKUE Walkthrough p.2)"
+      },
+      "cities": {
+        "count": 1,
+        "levels": [],
+        "enterable": false,
+        "conquerable": false
+      },
+      "dummy_player": false,
+      "skills_enabled": false,
+      "elite_units_enabled": false,
+      "spells_available": true,
+      "advanced_actions_available": true,
+      "removals": {
+        "competitive_spells": false,
+        "interactive_skill": false,
+        "detail": "For the first game use only Advanced Action cards 65-80 (2012/UE numbering) and do not reveal Spells/AAs until needed."
+      },
+      "special_rules": [
+        "a player scores 1 Fame whenever a new tile is revealed",
+        "no player-vs-player combat unless agreed",
+        "cities cannot be conquered or entered",
+        "guarantee at least one village-recruitable Unit in the initial offer",
+        "solo variant: 8 countryside tiles, 4 rounds (2 day, 2 night), dummy player, no titles"
+      ],
+      "tactics": {
+        "human_chooses_first": false,
+        "dummy_random": true,
+        "used_tactics_removed_each_round": false
+      },
+      "end_condition": "When a player reveals a city tile, everyone has one last turn; if the Round ends during this, the game ends immediately.",
+      "scoring": {
+        "base": "fame",
+        "achievements": true,
+        "titles": true,
+        "goal": []
+      },
+      "mvp": false,
+      "status": "omitted",
+      "confidence": "official",
+      "official_ref": "MK Base Rulebook 2012 p.15; MKUE Rulebook p.18; MKUE Walkthrough p.1-4",
+      "caveat": "Base-game/solo-variant setup data; not needed for Miniknight v1.",
+      "source": "official"
+    },
+    {
+      "id": "scenario:full-conquest",
+      "name": "Full Conquest",
+      "type": "competitive",
+      "players": {
+        "min": 2,
+        "max": 4
+      },
+      "rounds": {
+        "total": 6,
+        "day": 3,
+        "night": 3
+      },
+      "map": {
+        "shape": [
+          "wedge",
+          "wedge",
+          "fully_open"
+        ],
+        "starting_tile": null,
+        "countryside": [
+          8,
+          9,
+          11
+        ],
+        "core_city": [
+          2,
+          3,
+          4
+        ],
+        "core_non_city": [
+          1,
+          2,
+          3
+        ],
+        "fixed_tiles": null,
+        "layout": null,
+        "layout_status": "random-per-rules",
+        "layout_note": "Wedge uses starting tile A; fully-open uses starting tile B (MK Base Rulebook 2012 p.12)."
+      },
+      "cities": {
+        "count": "players",
+        "levels": [
+          4
+        ]
+      },
+      "dummy_player": false,
+      "skills_enabled": true,
+      "elite_units_enabled": true,
+      "spells_available": true,
+      "removals": {
+        "competitive_spells": false,
+        "interactive_skill": false,
+        "detail": "competitive scenario, keep all cards and skills"
+      },
+      "special_rules": [
+        "standard game; cities all level 4"
+      ],
+      "tactics": {
+        "human_chooses_first": false,
+        "dummy_random": null,
+        "used_tactics_removed_each_round": false
+      },
+      "end_condition": "When all cities are conquered every player has one last turn; if the Round ends during this the game ends immediately.",
+      "scoring": {
+        "base": "fame",
+        "achievements": true,
+        "titles": true,
+        "goal": [
+          {
+            "kind": "city_leader",
+            "points": 7
+          },
+          {
+            "kind": "city_shield",
+            "points": 4
+          },
+          {
+            "kind": "greatest_city_conqueror",
+            "points": 5
+          }
+        ]
+      },
+      "mvp": false,
+      "status": "omitted",
+      "confidence": "official",
+      "official_ref": "MK Base Rulebook 2012 p.16; MKUE Rulebook p.19",
+      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "source": "official"
+    },
+    {
+      "id": "scenario:full-cooperation",
+      "name": "Full Cooperation",
+      "type": "cooperative",
+      "players": {
+        "min": 2,
+        "max": 3
+      },
+      "rounds": {
+        "total": 6,
+        "day": 3,
+        "night": 3
+      },
+      "map": {
+        "shape": [
+          "fully_open"
+        ],
+        "starting_tile": "B",
+        "countryside": [
+          8,
+          10
+        ],
+        "core_city": [
+          3,
+          4
+        ],
+        "core_non_city": [
+          2,
+          3
+        ],
+        "fixed_tiles": null,
+        "layout": null,
+        "layout_status": "random-per-rules"
+      },
+      "cities": {
+        "count": "players_plus_one",
+        "levels": [
+          5,
+          5,
+          8
+        ]
+      },
+      "dummy_player": true,
+      "skills_enabled": true,
+      "elite_units_enabled": true,
+      "spells_available": true,
+      "removals": {
+        "competitive_spells": true,
+        "interactive_skill": true,
+        "detail": "remove the four competitive Spells and one interactive Skill per player"
+      },
+      "special_rules": [
+        "Dummy player takes a random Tactic first, then players choose",
+        "at the end of each Day/Night remove one Tactic used by a player",
+        "team rules apply (one shared score)"
+      ],
+      "tactics": {
+        "human_chooses_first": false,
+        "dummy_random": true,
+        "used_tactics_removed_each_round": true
+      },
+      "end_condition": "When all cities are conquered every player except the Dummy player has one last turn.",
+      "scoring": {
+        "base": "lowest_fame",
+        "achievements": "best_per_category",
+        "titles": false,
+        "goal": [
+          {
+            "kind": "city_conquered",
+            "points": 10
+          },
+          {
+            "kind": "every_player_city_leader",
+            "points": 10
+          },
+          {
+            "kind": "all_cities",
+            "points": 15
+          },
+          {
+            "kind": "round_finished_early",
+            "points_per_round": 30
+          },
+          {
+            "kind": "cards_left_in_dummy_deck",
+            "points_per_card": 1
+          },
+          {
+            "kind": "end_of_round_not_announced",
+            "points": 5
+          }
+        ]
+      },
+      "mvp": false,
+      "status": "omitted",
+      "confidence": "official",
+      "official_ref": "MK Base Rulebook 2012 p.16; MKUE Rulebook p.20",
+      "caveat": "Cooperative scenario; out of Miniknight v1 scope (solo only).",
+      "source": "official"
+    },
+    {
+      "id": "scenario:mines-liberation",
+      "name": "Mines Liberation",
+      "type": "competitive",
+      "players": {
+        "min": 2,
+        "max": 4
+      },
+      "rounds": {
+        "total": 4,
+        "day": 2,
+        "night": 2
+      },
+      "map": {
+        "shape": [
+          "wedge",
+          "wedge",
+          "open_4"
+        ],
+        "starting_tile": null,
+        "countryside": [
+          8,
+          9,
+          11
+        ],
+        "core_city": [
+          1
+        ],
+        "core_non_city": [
+          1,
+          2,
+          3
+        ],
+        "fixed_tiles": null,
+        "layout": null,
+        "layout_status": "random-per-rules",
+        "layout_note": "Remove tiles with no mines; core city is always the red city."
+      },
+      "cities": {
+        "count": 1,
+        "levels": [],
+        "enterable": false,
+        "conquerable": false
+      },
+      "dummy_player": false,
+      "skills_enabled": true,
+      "elite_units_enabled": true,
+      "spells_available": true,
+      "removals": {
+        "competitive_spells": false,
+        "interactive_skill": false,
+        "detail": "competitive scenario"
+      },
+      "special_rules": [
+        "mines are guarded and must be liberated; liberated mines produce crystals at the start of each Day/Night",
+        "city is friendly; each player puts a shield on it but no leader exists"
+      ],
+      "tactics": {
+        "human_chooses_first": false,
+        "dummy_random": null,
+        "used_tactics_removed_each_round": false
+      },
+      "end_condition": "When all tiles are revealed and all mines liberated every player has one last turn.",
+      "scoring": {
+        "base": "fame",
+        "achievements": true,
+        "titles": true,
+        "goal": [
+          {
+            "kind": "mine_countryside",
+            "points": 4
+          },
+          {
+            "kind": "mine_core",
+            "points": 7
+          }
+        ]
+      },
+      "mvp": false,
+      "status": "omitted",
+      "confidence": "official",
+      "official_ref": "MK Base Rulebook 2012 p.17; MKUE Rulebook p.20",
+      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "source": "official"
+    },
+    {
+      "id": "scenario:one-to-return",
+      "name": "One to Return",
+      "type": "very_competitive",
+      "players": {
+        "min": 2,
+        "max": 4
+      },
+      "rounds": {
+        "total": 4,
+        "day": 2,
+        "night": 2
+      },
+      "map": {
+        "shape": [
+          "wedge"
+        ],
+        "starting_tile": "A",
+        "countryside": [
+          7,
+          8,
+          10
+        ],
+        "core_city": [
+          1,
+          2,
+          3
+        ],
+        "core_non_city": [
+          1,
+          2,
+          3
+        ],
+        "fixed_tiles": null,
+        "layout": null,
+        "layout_status": "random-per-rules"
+      },
+      "cities": {
+        "count": "players_minus_one",
+        "levels": [
+          3
+        ]
+      },
+      "dummy_player": false,
+      "skills_enabled": true,
+      "elite_units_enabled": true,
+      "spells_available": true,
+      "removals": {
+        "competitive_spells": false,
+        "interactive_skill": false,
+        "detail": "competitive scenario"
+      },
+      "special_rules": [
+        "portal closes at the end of Day 1; afterwards it is an empty plain space",
+        "no scoring; the hero on the portal at the end of the second Night wins"
+      ],
+      "tactics": {
+        "human_chooses_first": false,
+        "dummy_random": null,
+        "used_tactics_removed_each_round": false
+      },
+      "end_condition": "The scenario ends as soon as the second Night is over; the hero standing on the portal wins.",
+      "scoring": {
+        "base": "none",
+        "achievements": false,
+        "titles": false,
+        "goal": []
+      },
+      "mvp": false,
+      "status": "omitted",
+      "confidence": "official",
+      "official_ref": "MK Base Rulebook 2012 p.19",
+      "caveat": "Competitive scenario; out of Miniknight v1 scope.",
+      "source": "official"
+    }
+  ]
+}

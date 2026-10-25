@@ -1,0 +1,710 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "sites",
+  "count": 20,
+  "provenance": {
+    "generated_by": "hand-maintained",
+    "schema_version": "1.0.0",
+    "notes": "Map-site rules compiled from the official master reference sheet (p.1-2) and rulebook site sections (MKUE Rulebook p.8-11, p.14). All wording is our own short paraphrase; the physical Site Description cards were not available. Values marked null are not stated in our extracted sources.",
+    "official_cross_check": "MKUE Walkthrough p.4: 'There are 14 Site Description cards' in the base game."
+  },
+  "base_site_count": 14,
+  "mvp_site_types": [
+    "village",
+    "monastery",
+    "keep",
+    "mage_tower",
+    "magical_glade",
+    "mine"
+  ],
+  "sources": [
+    "MK Master Reference Sheet p.1-2",
+    "MKUE Rulebook p.8-11",
+    "MKUE Walkthrough p.4",
+    "MKUE Expansions Rulebook p.2"
+  ],
+  "items": [
+    {
+      "id": "site:village",
+      "name": "Village",
+      "site_kind": "inhabited",
+      "fortified": false,
+      "inhabited": true,
+      "adventure_site": false,
+      "recruit_sites": [
+        "village"
+      ],
+      "healing": {
+        "influence_per_point": 3
+      },
+      "garrison": null,
+      "entry_combat": null,
+      "conquest": null,
+      "interaction": [
+        "recruit units with the village icon",
+        "buy healing: 1 point per 3 influence"
+      ],
+      "special": [
+        "plunder during another player's turn: draw 2 cards, Reputation -1, at most once between your turns"
+      ],
+      "expansion": "base",
+      "mvp": true,
+      "status": "data-ready",
+      "official_ref": "MK Master Reference Sheet p.1 (VILLAGE); MKUE Rulebook p.8",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:monastery",
+      "name": "Monastery",
+      "site_kind": "inhabited",
+      "fortified": false,
+      "inhabited": true,
+      "adventure_site": false,
+      "recruit_sites": [
+        "monastery"
+      ],
+      "healing": {
+        "influence_per_point": 2
+      },
+      "garrison": null,
+      "entry_combat": null,
+      "conquest": null,
+      "interaction": [
+        "recruit units with the monastery icon",
+        "buy healing: 1 point per 2 influence",
+        "buy the Advanced Action in the Units offer for 6 influence (training)"
+      ],
+      "special": [
+        "when revealed, put the top Advanced Action in the Units offer (training)",
+        "burning (action): Reputation -3, fight a random violet enemy without Units; if defeated, mark with a shield and gain an Artifact; monastery becomes destroyed"
+      ],
+      "expansion": "base",
+      "mvp": true,
+      "status": "data-ready",
+      "official_ref": "MK Master Reference Sheet p.1 (MONASTERY); MKUE Rulebook p.8-9",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:mage_tower",
+      "name": "Mage Tower",
+      "site_kind": "fortified",
+      "fortified": true,
+      "inhabited": true,
+      "adventure_site": false,
+      "recruit_sites": [
+        "mage_tower"
+      ],
+      "healing": null,
+      "garrison": {
+        "color": "violet",
+        "count": 1,
+        "face": "down",
+        "reveal": "revealed during the Day if a player is adjacent"
+      },
+      "entry_combat": null,
+      "conquest": {
+        "shield": true,
+        "reputation": -1,
+        "rewards": [
+          {
+            "kind": "spell",
+            "count": 1
+          }
+        ]
+      },
+      "interaction": [
+        "recruit units",
+        "buy Spells for 7 influence plus one mana matching the Spell's colour"
+      ],
+      "special": [
+        "defenders are fortified; unclaimed tower can be assaulted with Reputation -1"
+      ],
+      "expansion": "base",
+      "mvp": true,
+      "status": "data-ready",
+      "official_ref": "MK Master Reference Sheet p.1 (MAGE TOWER); MKUE Rulebook p.8-9",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:keep",
+      "name": "Keep",
+      "site_kind": "fortified",
+      "fortified": true,
+      "inhabited": true,
+      "adventure_site": false,
+      "recruit_sites": [
+        "keep"
+      ],
+      "healing": null,
+      "garrison": {
+        "color": "gray",
+        "count": 1,
+        "face": "down",
+        "reveal": "revealed during the Day if a player is adjacent"
+      },
+      "entry_combat": null,
+      "conquest": {
+        "shield": true,
+        "reputation": -1,
+        "rewards": [
+          {
+            "kind": "keep_ownership",
+            "count": 1
+          }
+        ]
+      },
+      "interaction": [
+        "recruit units with the keep icon (owner only)",
+        "hand limit +1 while on or adjacent to a keep you own"
+      ],
+      "special": [
+        "defenders are fortified",
+        "assaulting another player's keep: if the owner is absent draw a random gray token as fortified defenders; success gives half Fame (rounded up) and replaces their shield"
+      ],
+      "expansion": "base",
+      "mvp": true,
+      "status": "data-ready",
+      "official_ref": "MK Master Reference Sheet p.1 (KEEP); MKUE Rulebook p.8-9",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:magical_glade",
+      "name": "Magical Glade",
+      "site_kind": "special",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": false,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": null,
+      "conquest": null,
+      "interaction": [],
+      "special": [
+        "healing essence: if you end your turn here, discard one Wound card from hand or discard pile (not Healing, does not combine with Healing effects)",
+        "imbued with magic: starting your turn here during Day gives a gold mana token; during Night a black mana token"
+      ],
+      "expansion": "base",
+      "mvp": true,
+      "status": "data-ready",
+      "official_ref": "MK Master Reference Sheet p.1 (MAGICAL GLADE)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:mine",
+      "name": "Crystal Mine",
+      "site_kind": "special",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": false,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": null,
+      "conquest": null,
+      "interaction": [
+        "mining: ending your turn on a mine gives one mana crystal of the colour it produces"
+      ],
+      "special": [
+        "each mine tile is printed with its crystal colour; see tiles.json hex.mine_color"
+      ],
+      "expansion": "base",
+      "mvp": true,
+      "status": "data-ready",
+      "official_ref": "MK Master Reference Sheet p.1 (CRYSTAL MINES); MKUE Rulebook p.8",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:deep_mine",
+      "name": "Deep Mine",
+      "site_kind": "special",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": false,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": null,
+      "conquest": null,
+      "interaction": [
+        "mining: ending your turn on a deep mine gives one mana crystal of any colour it produces"
+      ],
+      "special": [
+        "expansion tile site; produces multiple colours"
+      ],
+      "expansion": "unknown",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "MK Master Reference Sheet p.2 (DEEP MINES)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:ancient_ruins",
+      "name": "Ancient Ruins",
+      "site_kind": "adventure",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": true,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": {
+        "color": null,
+        "count": 1,
+        "night_rules": false,
+        "units_allowed": true,
+        "token": "ruins_token"
+      },
+      "conquest": {
+        "shield": true,
+        "reputation": null,
+        "rewards": [
+          {
+            "kind": "ruins_token",
+            "count": 1
+          }
+        ]
+      },
+      "interaction": [],
+      "special": [
+        "when revealed place a yellow token face up during Day, face down during Night (revealed at next Day start or when entered)",
+        "enter as an action: either an altar (pay 3 mana of the token's colour: shield + 7 Fame) or fight the enemies depicted on the token",
+        "undefeated enemies stay and can be fought later; clearing the last enemy gives the token's reward",
+        "stretch content in v1 (see docs/design/11-mvp-scope.md)"
+      ],
+      "expansion": "base",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "MK Master Reference Sheet p.1 (ANCIENT RUINS)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:dungeon",
+      "name": "Dungeon",
+      "site_kind": "adventure",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": true,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": {
+        "color": "brown",
+        "count": 1,
+        "night_rules": true,
+        "units_allowed": false
+      },
+      "conquest": {
+        "shield": true,
+        "reputation": null,
+        "rewards": [
+          {
+            "kind": "dungeon_roll",
+            "count": 1
+          }
+        ]
+      },
+      "interaction": [],
+      "special": [
+        "enter as an action: reveal a brown enemy token and fight it under Night rules without Units",
+        "reward roll a mana die: gold/black gives a Spell, otherwise an Artifact",
+        "conquered dungeons can be re-entered for Fame only (no reward, no new shield)"
+      ],
+      "expansion": "base",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "MK Master Reference Sheet p.1 (DUNGEON)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:tomb",
+      "name": "Tomb",
+      "site_kind": "adventure",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": true,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": {
+        "color": "red",
+        "count": 1,
+        "night_rules": true,
+        "units_allowed": false
+      },
+      "conquest": {
+        "shield": true,
+        "reputation": null,
+        "rewards": [
+          {
+            "kind": "spell",
+            "count": 1
+          },
+          {
+            "kind": "artifact",
+            "count": 1
+          }
+        ]
+      },
+      "interaction": [],
+      "special": [
+        "enter as an action: draw a red Draconum token and fight under Night rules without Units",
+        "defeat: shield + one Spell + one Artifact; if defeated, discard the enemy token",
+        "conquered tombs can be re-entered for Fame only (no reward, no new shield)"
+      ],
+      "expansion": "base",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "MK Master Reference Sheet p.1 (TOMB)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:monster_den",
+      "name": "Monster Den",
+      "site_kind": "adventure",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": true,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": {
+        "color": "brown",
+        "count": 1,
+        "night_rules": false,
+        "units_allowed": true
+      },
+      "conquest": {
+        "shield": true,
+        "reputation": null,
+        "rewards": [
+          {
+            "kind": "crystal_roll",
+            "count": 2
+          }
+        ]
+      },
+      "interaction": [],
+      "special": [
+        "enter as an action: draw one brown enemy token; undefeated token stays face up for the next entrant",
+        "reward: shield + two crystals decided by rolling a mana die twice (gold: choose; black: Fame +1 instead)"
+      ],
+      "expansion": "base",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "MK Master Reference Sheet p.1 (MONSTER DEN)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:spawning_grounds",
+      "name": "Spawning Grounds",
+      "site_kind": "adventure",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": true,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": {
+        "color": "brown",
+        "count": 2,
+        "night_rules": false,
+        "units_allowed": true
+      },
+      "conquest": {
+        "shield": true,
+        "reputation": null,
+        "rewards": [
+          {
+            "kind": "artifact",
+            "count": 1
+          },
+          {
+            "kind": "crystal_roll",
+            "count": 3
+          }
+        ]
+      },
+      "interaction": [],
+      "special": [
+        "enter as an action: draw and fight two brown enemy tokens",
+        "undefeated tokens remain; defeated ones are replaced by a new face-down brown token",
+        "reward: shield + one Artifact + three crystals decided by mana die rolls (gold: choose; black: Fame +1 instead)"
+      ],
+      "expansion": "base",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "MK Master Reference Sheet p.1 (SPAWNING GROUNDS)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:city",
+      "name": "City",
+      "site_kind": "fortified",
+      "fortified": true,
+      "inhabited": true,
+      "adventure_site": false,
+      "recruit_sites": [
+        "city"
+      ],
+      "healing": null,
+      "garrison": {
+        "color": "white",
+        "count": null,
+        "face": "up",
+        "reveal": "entire garrison revealed when attacking from an adjacent space"
+      },
+      "entry_combat": null,
+      "conquest": {
+        "shield": true,
+        "reputation": -1,
+        "rewards": [
+          {
+            "kind": "city_conquest",
+            "count": 1
+          }
+        ]
+      },
+      "interaction": [
+        "after conquest the city can be entered; it offers unit recruitment and card purchase options depending on the city colour"
+      ],
+      "special": [
+        "four cities exist (green/blue/white/red); city level sets garrison count",
+        "garrison is fortified; cooperate/assault rules differ (MKUE Rulebook p.13)",
+        "city cards carry additional combat bonuses to their garrison; exact card text not in our extracted sources (null)",
+        "v1 MVP uses a single level-4 city"
+      ],
+      "expansion": "base",
+      "mvp": true,
+      "status": "data-ready",
+      "official_ref": "MKUE Rulebook p.8-10, p.13; MK Master Reference Sheet (city rules referenced via site cards)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:portal",
+      "name": "Portal",
+      "site_kind": "special",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": false,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": null,
+      "conquest": null,
+      "interaction": [],
+      "special": [
+        "starting space at the centre of the starting tile; heroes begin here on their first turn"
+      ],
+      "expansion": "base",
+      "mvp": true,
+      "status": "data-ready",
+      "official_ref": "MKUE Rulebook p.3 (Map / starting tile)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:marauding_orcs",
+      "name": "Marauding Orcs",
+      "site_kind": "rampaging",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": false,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": null,
+      "conquest": {
+        "shield": false,
+        "reputation": 1,
+        "rewards": []
+      },
+      "interaction": [],
+      "special": [
+        "when revealed place a green Orc token face up on this space",
+        "nobody can enter the space while the Orcs are there; they can be provoked by moving between adjacent spaces, or challenged from an adjacent space as an action",
+        "defeating them discards the token and gives Reputation +1"
+      ],
+      "expansion": "base",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "MK Master Reference Sheet p.1 (MARAUDING ORCS)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:draconum",
+      "name": "Draconum",
+      "site_kind": "rampaging",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": false,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": null,
+      "conquest": {
+        "shield": false,
+        "reputation": 2,
+        "rewards": []
+      },
+      "interaction": [],
+      "special": [
+        "when revealed place a red Draconum token face up on this space",
+        "nobody can enter the space while it is there; can be provoked or challenged like Marauding Orcs",
+        "defeating it discards the token and gives Reputation +2"
+      ],
+      "expansion": "base",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "MK Master Reference Sheet p.1 (DRACONUM)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:refugee_camp",
+      "name": "Refugee Camp",
+      "site_kind": "inhabited",
+      "fortified": false,
+      "inhabited": true,
+      "adventure_site": false,
+      "recruit_sites": [
+        "camp",
+        "village",
+        "keep",
+        "mage_tower",
+        "monastery",
+        "city"
+      ],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": null,
+      "conquest": null,
+      "interaction": [
+        "recruit Units; for recruitment it may be treated as any depicted site, with cost increases for more advanced sites"
+      ],
+      "special": [
+        "expansion site; choose the cheapest valid recruiting option"
+      ],
+      "expansion": "unknown",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "MK Master Reference Sheet p.2 (REFUGEE CAMP)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:maze",
+      "name": "Maze",
+      "site_kind": "adventure",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": true,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": {
+        "color": "brown",
+        "count": 1,
+        "night_rules": false,
+        "units_allowed": true
+      },
+      "conquest": {
+        "shield": true,
+        "reputation": null,
+        "rewards": [
+          {
+            "kind": "maze_reward",
+            "count": 1
+          }
+        ]
+      },
+      "interaction": [],
+      "special": [
+        "enter as an action; only one ready unwounded Unit may accompany you",
+        "pay 2, 4 or 6 Move to choose a path, then draw and fight a brown enemy token (discarded afterwards either way)",
+        "reward by move paid: two crystals of your choice / a Spell / an Artifact; mark the path conquered",
+        "a second player must choose another path; each path can be conquered once"
+      ],
+      "expansion": "unknown",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "MK Master Reference Sheet p.2 (MAZE)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:labyrinth",
+      "name": "Labyrinth",
+      "site_kind": "adventure",
+      "fortified": false,
+      "inhabited": false,
+      "adventure_site": true,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": {
+        "color": "red",
+        "count": 1,
+        "night_rules": false,
+        "units_allowed": true
+      },
+      "conquest": {
+        "shield": true,
+        "reputation": null,
+        "rewards": [
+          {
+            "kind": "labyrinth_reward",
+            "count": 1
+          }
+        ]
+      },
+      "interaction": [],
+      "special": [
+        "like the Maze but the enemy is a red Draconum token and every path reward also includes an Advanced Action"
+      ],
+      "expansion": "unknown",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "MK Master Reference Sheet p.2 (LABYRINTH)",
+      "source": "official",
+      "confidence": "official"
+    },
+    {
+      "id": "site:volkares_camp",
+      "name": "Volkare's Camp",
+      "site_kind": "special",
+      "fortified": true,
+      "inhabited": false,
+      "adventure_site": false,
+      "recruit_sites": [],
+      "healing": null,
+      "garrison": null,
+      "entry_combat": null,
+      "conquest": null,
+      "interaction": [],
+      "special": [
+        "Lost Legion scenario site used only by the Volkare scenarios; rules live in the expansion scenario book which we do not have"
+      ],
+      "expansion": "lost_legion",
+      "mvp": false,
+      "status": "omitted",
+      "official_ref": "upstream mk-data/sites.rs (no official text in our extracted sources)",
+      "source": "upstream-mk-data",
+      "confidence": "upstream-only"
+    }
+  ]
+}

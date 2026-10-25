@@ -1,0 +1,2090 @@
+{
+  "schema_version": "1.0.0",
+  "domain": "skills",
+  "count": 70,
+  "per_hero_counts": {
+    "arythea": 10,
+    "tovak": 10,
+    "goldyx": 10,
+    "norowas": 10,
+    "wolfhawk": 10,
+    "krang": 10,
+    "braevalar": 10
+  },
+  "sources": [
+    "upstream-mk-data/skills.rs",
+    "MKUE Walkthrough p.5",
+    "MKUE Rulebook p.3"
+  ],
+  "provenance": {
+    "generated_by": "tools/extract_upstream_mkdata.py",
+    "schema_version": "1.0.0",
+    "upstream": {
+      "repo": "mage-knight-digital/MageKnight",
+      "commit": "d279e8b4069fcb9011933eb10cc9c4bbd7472baa",
+      "path": "packages/engine-rs/crates/mk-data/src/skills.rs",
+      "sha256": "7cf605e9e27762dbcd1f3d1de8e144b0d5dc48ad05c25130c3006eb5840cd8ef",
+      "fetched_at": "2026-10-25T02:32:56Z"
+    },
+    "confidence": "upstream-only",
+    "notes": "Upstream models 10 skills per hero (70 total, one stub with no effect). Official: 11 Skill tokens per hero, of which the skill not used in the current mode is removed (MKUE Walkthrough p.5; MKUE Rulebook p.3). The 11th (missing) token is the non-selected interactive skill; DISCREPANCY noted in game-data/README.md."
+  },
+  "items": [
+    {
+      "id": "skill:arythea_burning_power",
+      "hero": "arythea",
+      "name": "Burning Power",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "ranged_siege_or_attack",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_attack",
+            "amount": 1,
+            "combat_type": "siege",
+            "element": "physical"
+          },
+          {
+            "op": "gain_attack",
+            "amount": 1,
+            "combat_type": "siege",
+            "element": "fire"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:arythea_dark_fire_magic",
+      "hero": "arythea",
+      "name": "Dark Fire Magic",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_crystal",
+            "color": "red"
+          },
+          {
+            "op": "choice",
+            "options": [
+              {
+                "op": "gain_mana",
+                "color": "red",
+                "amount": 1
+              },
+              {
+                "op": "gain_mana",
+                "color": "black",
+                "amount": 1
+              }
+            ]
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:arythea_dark_negotiation",
+      "hero": "arythea",
+      "name": "Dark Negotiation",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "conditional",
+        "condition": {
+          "op": "is_night_or_underground"
+        },
+        "then_effect": {
+          "op": "gain_influence",
+          "amount": 3
+        },
+        "else_effect": {
+          "op": "gain_influence",
+          "amount": 2
+        }
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:arythea_dark_paths",
+      "hero": "arythea",
+      "name": "Dark Paths",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "any",
+      "is_motivation": false,
+      "effect": {
+        "op": "conditional",
+        "condition": {
+          "op": "is_night_or_underground"
+        },
+        "then_effect": {
+          "op": "gain_move",
+          "amount": 2
+        },
+        "else_effect": {
+          "op": "gain_move",
+          "amount": 1
+        }
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:arythea_hot_swordsmanship",
+      "hero": "arythea",
+      "name": "Hot Swordsmanship",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "melee_attack_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "melee",
+            "element": "fire"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:arythea_invocation",
+      "hero": "arythea",
+      "name": "Invocation",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:arythea_motivation",
+      "hero": "arythea",
+      "name": "Motivation",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": true,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "draw_cards",
+            "count": 2
+          },
+          {
+            "op": "conditional",
+            "condition": {
+              "op": "lowest_fame"
+            },
+            "then_effect": {
+              "op": "gain_mana",
+              "color": "red",
+              "amount": 1
+            },
+            "else_effect": {
+              "op": "noop"
+            }
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:arythea_polarization",
+      "hero": "arythea",
+      "name": "Polarization",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:arythea_power_of_pain",
+      "hero": "arythea",
+      "name": "Power Of Pain",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "any",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:arythea_ritual_of_pain",
+      "hero": "arythea",
+      "name": "Ritual Of Pain",
+      "name_derived": true,
+      "usage_type": "interactive",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:tovak_cold_swordsmanship",
+      "hero": "tovak",
+      "name": "Cold Swordsmanship",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "melee_attack_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "melee",
+            "element": "ice"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:tovak_double_time",
+      "hero": "tovak",
+      "name": "Double Time",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "any",
+      "is_motivation": false,
+      "effect": {
+        "op": "conditional",
+        "condition": {
+          "op": "time_of_day",
+          "time": "day"
+        },
+        "then_effect": {
+          "op": "gain_move",
+          "amount": 2
+        },
+        "else_effect": {
+          "op": "gain_move",
+          "amount": 1
+        }
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:tovak_i_dont_give_a_damn",
+      "hero": "tovak",
+      "name": "I Dont Give A Damn",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:tovak_i_feel_no_pain",
+      "hero": "tovak",
+      "name": "I Feel No Pain",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "discard_cost",
+        "count": 1,
+        "filter_wounds": false,
+        "wounds_only": true,
+        "then_effect": {
+          "op": "draw_cards",
+          "count": 1
+        }
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:tovak_mana_overload",
+      "hero": "tovak",
+      "name": "Mana Overload",
+      "name_derived": true,
+      "usage_type": "interactive",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:tovak_motivation",
+      "hero": "tovak",
+      "name": "Motivation",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": true,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "draw_cards",
+            "count": 2
+          },
+          {
+            "op": "conditional",
+            "condition": {
+              "op": "lowest_fame"
+            },
+            "then_effect": {
+              "op": "gain_mana",
+              "color": "blue",
+              "amount": 1
+            },
+            "else_effect": {
+              "op": "noop"
+            }
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:tovak_night_sharpshooting",
+      "hero": "tovak",
+      "name": "Night Sharpshooting",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "ranged_siege_or_attack",
+      "is_motivation": false,
+      "effect": {
+        "op": "conditional",
+        "condition": {
+          "op": "is_night_or_underground"
+        },
+        "then_effect": {
+          "op": "gain_attack",
+          "amount": 2,
+          "combat_type": "ranged",
+          "element": "physical"
+        },
+        "else_effect": {
+          "op": "gain_attack",
+          "amount": 1,
+          "combat_type": "ranged",
+          "element": "physical"
+        }
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:tovak_resistance_break",
+      "hero": "tovak",
+      "name": "Resistance Break",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "select_combat_enemy",
+        "template": {
+          "op": "select_enemy_template",
+          "exclude_arcane_immune": true,
+          "armor_change": -1,
+          "armor_minimum": 1,
+          "armor_per_resistance": true
+        }
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:tovak_shield_mastery",
+      "hero": "tovak",
+      "name": "Shield Mastery",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "block_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_block",
+            "amount": 3,
+            "element": "physical"
+          },
+          {
+            "op": "gain_block",
+            "amount": 2,
+            "element": "fire"
+          },
+          {
+            "op": "gain_block",
+            "amount": 2,
+            "element": "ice"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:tovak_who_needs_magic",
+      "hero": "tovak",
+      "name": "Who Needs Magic",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:goldyx_flight",
+      "hero": "goldyx",
+      "name": "Flight",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "compound",
+            "effects": [
+              {
+                "op": "apply_modifier",
+                "effect": {
+                  "op": "terrain_cost",
+                  "terrain": "all",
+                  "amount": 0,
+                  "minimum": 0,
+                  "replace_cost": 0
+                },
+                "duration": "turn",
+                "scope": "self_scope"
+              },
+              {
+                "op": "apply_modifier",
+                "effect": {
+                  "op": "rule_override",
+                  "rule": "ignore_rampaging_provoke"
+                },
+                "duration": "turn",
+                "scope": "self_scope"
+              },
+              {
+                "op": "gain_move",
+                "amount": 1
+              }
+            ]
+          },
+          {
+            "op": "compound",
+            "effects": [
+              {
+                "op": "apply_modifier",
+                "effect": {
+                  "op": "terrain_cost",
+                  "terrain": "all",
+                  "amount": 0,
+                  "minimum": 0,
+                  "replace_cost": 1
+                },
+                "duration": "turn",
+                "scope": "self_scope"
+              },
+              {
+                "op": "apply_modifier",
+                "effect": {
+                  "op": "rule_override",
+                  "rule": "ignore_rampaging_provoke"
+                },
+                "duration": "turn",
+                "scope": "self_scope"
+              },
+              {
+                "op": "gain_move",
+                "amount": 2
+              }
+            ]
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:goldyx_freezing_power",
+      "hero": "goldyx",
+      "name": "Freezing Power",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "ranged_siege_or_attack",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_attack",
+            "amount": 1,
+            "combat_type": "siege",
+            "element": "physical"
+          },
+          {
+            "op": "gain_attack",
+            "amount": 1,
+            "combat_type": "siege",
+            "element": "ice"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:goldyx_glittering_fortune",
+      "hero": "goldyx",
+      "name": "Glittering Fortune",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "scaling",
+        "factor": "per_crystal_color",
+        "base_effect": {
+          "op": "gain_influence",
+          "amount": 0
+        },
+        "bonus_per_count": null,
+        "maximum": null
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:goldyx_green_crystal_craft",
+      "hero": "goldyx",
+      "name": "Green Crystal Craft",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_crystal",
+            "color": "blue"
+          },
+          {
+            "op": "gain_mana",
+            "color": "green",
+            "amount": 1
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:goldyx_motivation",
+      "hero": "goldyx",
+      "name": "Motivation",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": true,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "draw_cards",
+            "count": 2
+          },
+          {
+            "op": "conditional",
+            "condition": {
+              "op": "lowest_fame"
+            },
+            "then_effect": {
+              "op": "gain_mana",
+              "color": "green",
+              "amount": 1
+            },
+            "else_effect": {
+              "op": "noop"
+            }
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:goldyx_potion_making",
+      "hero": "goldyx",
+      "name": "Potion Making",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "gain_healing",
+        "amount": 2
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:goldyx_red_crystal_craft",
+      "hero": "goldyx",
+      "name": "Red Crystal Craft",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_crystal",
+            "color": "blue"
+          },
+          {
+            "op": "gain_mana",
+            "color": "red",
+            "amount": 1
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:goldyx_source_opening",
+      "hero": "goldyx",
+      "name": "Source Opening",
+      "name_derived": true,
+      "usage_type": "interactive",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:goldyx_universal_power",
+      "hero": "goldyx",
+      "name": "Universal Power",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:goldyx_white_crystal_craft",
+      "hero": "goldyx",
+      "name": "White Crystal Craft",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_crystal",
+            "color": "blue"
+          },
+          {
+            "op": "gain_mana",
+            "color": "white",
+            "amount": 1
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": true,
+      "status": "placeholder",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:norowas_bonds_of_loyalty",
+      "hero": "norowas",
+      "name": "Bonds Of Loyalty",
+      "name_derived": true,
+      "usage_type": "passive",
+      "phase_restriction": "any",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:norowas_bright_negotiation",
+      "hero": "norowas",
+      "name": "Bright Negotiation",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "conditional",
+        "condition": {
+          "op": "is_night_or_underground"
+        },
+        "then_effect": {
+          "op": "gain_influence",
+          "amount": 2
+        },
+        "else_effect": {
+          "op": "gain_influence",
+          "amount": 3
+        }
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:norowas_day_sharpshooting",
+      "hero": "norowas",
+      "name": "Day Sharpshooting",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "ranged_siege_or_attack",
+      "is_motivation": false,
+      "effect": {
+        "op": "conditional",
+        "condition": {
+          "op": "is_night_or_underground"
+        },
+        "then_effect": {
+          "op": "gain_attack",
+          "amount": 1,
+          "combat_type": "ranged",
+          "element": "physical"
+        },
+        "else_effect": {
+          "op": "gain_attack",
+          "amount": 2,
+          "combat_type": "ranged",
+          "element": "physical"
+        }
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:norowas_forward_march",
+      "hero": "norowas",
+      "name": "Forward March",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "scaling",
+        "factor": {
+          "op": "per_unit",
+          "filter": {
+            "op": "unit_filter",
+            "wounded": false,
+            "max_level": null,
+            "state": "ready"
+          }
+        },
+        "base_effect": {
+          "op": "gain_move",
+          "amount": 0
+        },
+        "bonus_per_count": null,
+        "maximum": 3
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:norowas_inspiration",
+      "hero": "norowas",
+      "name": "Inspiration",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "ready_unit",
+            "max_level": 4
+          },
+          {
+            "op": "heal_unit",
+            "max_level": 4
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:norowas_leadership",
+      "hero": "norowas",
+      "name": "Leadership",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "apply_modifier",
+            "effect": {
+              "op": "leadership_bonus",
+              "bonus_type": "block",
+              "amount": 3
+            },
+            "duration": "turn",
+            "scope": "self_scope"
+          },
+          {
+            "op": "apply_modifier",
+            "effect": {
+              "op": "leadership_bonus",
+              "bonus_type": "attack",
+              "amount": 2
+            },
+            "duration": "turn",
+            "scope": "self_scope"
+          },
+          {
+            "op": "apply_modifier",
+            "effect": {
+              "op": "leadership_bonus",
+              "bonus_type": "ranged_attack",
+              "amount": 1
+            },
+            "duration": "turn",
+            "scope": "self_scope"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:norowas_leaves_in_the_wind",
+      "hero": "norowas",
+      "name": "Leaves In The Wind",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_crystal",
+            "color": "green"
+          },
+          {
+            "op": "gain_mana",
+            "color": "white",
+            "amount": 1
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:norowas_motivation",
+      "hero": "norowas",
+      "name": "Motivation",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": true,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "draw_cards",
+            "count": 2
+          },
+          {
+            "op": "conditional",
+            "condition": {
+              "op": "lowest_fame"
+            },
+            "then_effect": {
+              "op": "gain_mana",
+              "color": "white",
+              "amount": 1
+            },
+            "else_effect": {
+              "op": "noop"
+            }
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:norowas_prayer_of_weather",
+      "hero": "norowas",
+      "name": "Prayer Of Weather",
+      "name_derived": true,
+      "usage_type": "interactive",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:norowas_whispers_in_the_treetops",
+      "hero": "norowas",
+      "name": "Whispers In The Treetops",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_crystal",
+            "color": "white"
+          },
+          {
+            "op": "gain_mana",
+            "color": "green",
+            "amount": 1
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "base",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:wolfhawk_deadly_aim",
+      "hero": "wolfhawk",
+      "name": "Deadly Aim",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "ranged_siege_or_attack",
+      "is_motivation": false,
+      "effect": {
+        "op": "conditional",
+        "condition": {
+          "op": "in_phase",
+          "phases": [
+            "attack"
+          ]
+        },
+        "then_effect": {
+          "op": "gain_attack",
+          "amount": 2,
+          "combat_type": "melee",
+          "element": "physical"
+        },
+        "else_effect": {
+          "op": "gain_attack",
+          "amount": 1,
+          "combat_type": "ranged",
+          "element": "physical"
+        }
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "lost_legion",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:wolfhawk_dueling",
+      "hero": "wolfhawk",
+      "name": "Dueling",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "block_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "lost_legion",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:wolfhawk_hawk_eyes",
+      "hero": "wolfhawk",
+      "name": "Hawk Eyes",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_move",
+            "amount": 1
+          },
+          {
+            "op": "conditional",
+            "condition": {
+              "op": "is_night_or_underground"
+            },
+            "then_effect": {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "explore_cost_reduction",
+                "amount": 1
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            "else_effect": {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "garrison_reveal_distance2"
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "lost_legion",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:wolfhawk_know_your_prey",
+      "hero": "wolfhawk",
+      "name": "Know Your Prey",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "lost_legion",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:wolfhawk_motivation",
+      "hero": "wolfhawk",
+      "name": "Motivation",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": true,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "draw_cards",
+            "count": 2
+          },
+          {
+            "op": "conditional",
+            "condition": {
+              "op": "lowest_fame"
+            },
+            "then_effect": {
+              "op": "gain_fame",
+              "amount": 1
+            },
+            "else_effect": {
+              "op": "noop"
+            }
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "lost_legion",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:wolfhawk_on_her_own",
+      "hero": "wolfhawk",
+      "name": "On Her Own",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "conditional",
+        "condition": {
+          "op": "no_unit_recruited_this_turn"
+        },
+        "then_effect": {
+          "op": "gain_influence",
+          "amount": 3
+        },
+        "else_effect": {
+          "op": "gain_influence",
+          "amount": 1
+        }
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "lost_legion",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:wolfhawk_refreshing_bath",
+      "hero": "wolfhawk",
+      "name": "Refreshing Bath",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_healing",
+            "amount": 1
+          },
+          {
+            "op": "gain_crystal",
+            "color": "blue"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "lost_legion",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:wolfhawk_refreshing_breeze",
+      "hero": "wolfhawk",
+      "name": "Refreshing Breeze",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_healing",
+            "amount": 1
+          },
+          {
+            "op": "gain_crystal",
+            "color": "white"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "lost_legion",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:wolfhawk_taunt",
+      "hero": "wolfhawk",
+      "name": "Taunt",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "block_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "select_combat_enemy",
+            "template": {
+              "op": "select_enemy_template",
+              "attack_change": -1,
+              "attack_minimum": 0
+            }
+          },
+          {
+            "op": "select_combat_enemy",
+            "template": {
+              "op": "select_enemy_template",
+              "attack_change": 2,
+              "attack_minimum": 0,
+              "armor_change": -2,
+              "armor_minimum": 1
+            }
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "lost_legion",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:wolfhawk_wolfs_howl",
+      "hero": "wolfhawk",
+      "name": "Wolfs Howl",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "lost_legion",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:krang_arcane_disguise",
+      "hero": "krang",
+      "name": "Arcane Disguise",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_influence",
+            "amount": 2
+          },
+          {
+            "op": "apply_modifier",
+            "effect": {
+              "op": "rule_override",
+              "rule": "ignore_reputation"
+            },
+            "duration": "turn",
+            "scope": "self_scope"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "krang",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:krang_battle_frenzy",
+      "hero": "krang",
+      "name": "Battle Frenzy",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          {
+            "op": "gain_attack",
+            "amount": 4,
+            "combat_type": "melee",
+            "element": "physical"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "krang",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:krang_battle_hardened",
+      "hero": "krang",
+      "name": "Battle Hardened",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "apply_modifier",
+            "effect": {
+              "op": "hero_damage_reduction",
+              "amount": 2,
+              "elements": [
+                "physical"
+              ]
+            },
+            "duration": "combat",
+            "scope": "self_scope"
+          },
+          {
+            "op": "apply_modifier",
+            "effect": {
+              "op": "hero_damage_reduction",
+              "amount": 1,
+              "elements": [
+                "fire",
+                "ice",
+                "cold_fire"
+              ]
+            },
+            "duration": "combat",
+            "scope": "self_scope"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "krang",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:krang_curse",
+      "hero": "krang",
+      "name": "Curse",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "krang",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:krang_mana_enhancement",
+      "hero": "krang",
+      "name": "Mana Enhancement",
+      "name_derived": true,
+      "usage_type": "interactive",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": null,
+      "implemented": false,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "krang",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:krang_master_of_chaos",
+      "hero": "krang",
+      "name": "Master Of Chaos",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "any",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "krang",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:krang_puppet_master",
+      "hero": "krang",
+      "name": "Puppet Master",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "krang",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:krang_regenerate",
+      "hero": "krang",
+      "name": "Regenerate",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "krang",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:krang_shamanic_ritual",
+      "hero": "krang",
+      "name": "Shamanic Ritual",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_mana",
+            "color": "red",
+            "amount": 1
+          },
+          {
+            "op": "gain_mana",
+            "color": "blue",
+            "amount": 1
+          },
+          {
+            "op": "gain_mana",
+            "color": "green",
+            "amount": 1
+          },
+          {
+            "op": "gain_mana",
+            "color": "white",
+            "amount": 1
+          },
+          {
+            "op": "gain_mana",
+            "color": "gold",
+            "amount": 1
+          },
+          {
+            "op": "gain_mana",
+            "color": "black",
+            "amount": 1
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "krang",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:krang_spirit_guides",
+      "hero": "krang",
+      "name": "Spirit Guides",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "any",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_move",
+            "amount": 1
+          },
+          {
+            "op": "apply_modifier",
+            "effect": {
+              "op": "combat_value",
+              "value_type": "block",
+              "element": null,
+              "amount": 1
+            },
+            "duration": "turn",
+            "scope": "self_scope"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "krang",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:braevalar_beguile",
+      "hero": "braevalar",
+      "name": "Beguile",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "conditional",
+        "condition": {
+          "op": "at_magical_glade"
+        },
+        "then_effect": {
+          "op": "gain_influence",
+          "amount": 4
+        },
+        "else_effect": {
+          "op": "conditional",
+          "condition": {
+            "op": "at_fortified_site"
+          },
+          "then_effect": {
+            "op": "gain_influence",
+            "amount": 2
+          },
+          "else_effect": {
+            "op": "gain_influence",
+            "amount": 3
+          }
+        }
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "shades_of_tezla",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:braevalar_elemental_resistance",
+      "hero": "braevalar",
+      "name": "Elemental Resistance",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "apply_modifier",
+            "effect": {
+              "op": "hero_damage_reduction",
+              "amount": 2,
+              "elements": [
+                "fire",
+                "ice"
+              ]
+            },
+            "duration": "combat",
+            "scope": "self_scope"
+          },
+          {
+            "op": "apply_modifier",
+            "effect": {
+              "op": "hero_damage_reduction",
+              "amount": 1,
+              "elements": [
+                "physical",
+                "cold_fire"
+              ]
+            },
+            "duration": "combat",
+            "scope": "self_scope"
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "shades_of_tezla",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:braevalar_feral_allies",
+      "hero": "braevalar",
+      "name": "Feral Allies",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_attack",
+            "amount": 1,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          {
+            "op": "select_combat_enemy",
+            "template": {
+              "op": "select_enemy_template",
+              "attack_change": -1,
+              "attack_minimum": 0
+            }
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "shades_of_tezla",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:braevalar_forked_lightning",
+      "hero": "braevalar",
+      "name": "Forked Lightning",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "shades_of_tezla",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:braevalar_lightning_storm",
+      "hero": "braevalar",
+      "name": "Lightning Storm",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "any",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "choice",
+            "options": [
+              {
+                "op": "gain_mana",
+                "color": "blue",
+                "amount": 1
+              },
+              {
+                "op": "gain_mana",
+                "color": "green",
+                "amount": 1
+              }
+            ]
+          },
+          {
+            "op": "choice",
+            "options": [
+              {
+                "op": "gain_mana",
+                "color": "blue",
+                "amount": 1
+              },
+              {
+                "op": "gain_mana",
+                "color": "red",
+                "amount": 1
+              }
+            ]
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "shades_of_tezla",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:braevalar_natures_vengeance",
+      "hero": "braevalar",
+      "name": "Natures Vengeance",
+      "name_derived": true,
+      "usage_type": "interactive",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "shades_of_tezla",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:braevalar_regenerate",
+      "hero": "braevalar",
+      "name": "Regenerate",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "shades_of_tezla",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:braevalar_secret_ways",
+      "hero": "braevalar",
+      "name": "Secret Ways",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "no_combat",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "shades_of_tezla",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:braevalar_shapeshift",
+      "hero": "braevalar",
+      "name": "Shapeshift",
+      "name_derived": true,
+      "usage_type": "once_per_turn",
+      "phase_restriction": "combat_only",
+      "is_motivation": false,
+      "effect": {
+        "op": "noop"
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "shades_of_tezla",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    },
+    {
+      "id": "skill:braevalar_thunderstorm",
+      "hero": "braevalar",
+      "name": "Thunderstorm",
+      "name_derived": true,
+      "usage_type": "once_per_round",
+      "phase_restriction": "any",
+      "is_motivation": false,
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "choice",
+            "options": [
+              {
+                "op": "gain_mana",
+                "color": "green",
+                "amount": 1
+              },
+              {
+                "op": "gain_mana",
+                "color": "blue",
+                "amount": 1
+              }
+            ]
+          },
+          {
+            "op": "choice",
+            "options": [
+              {
+                "op": "gain_mana",
+                "color": "green",
+                "amount": 1
+              },
+              {
+                "op": "gain_mana",
+                "color": "white",
+                "amount": 1
+              }
+            ]
+          }
+        ]
+      },
+      "implemented": true,
+      "mvp": false,
+      "status": "omitted",
+      "expansion": "shades_of_tezla",
+      "source": "upstream-mk-data/skills.rs",
+      "confidence": "upstream-only"
+    }
+  ]
+}
