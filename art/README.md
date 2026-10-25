@@ -7,8 +7,9 @@ This folder holds the **art production manifest**, not the art itself.
   `art_ref` only when a commissioned piece is accepted.
 * Direction, specs, palette, budgets and the commissioning process (fallback):
   [`../docs/design/16-art-brief.md`](../docs/design/16-art-brief.md)
-* **AI workflow + per-slot prompts (primary):** [`../docs/design/18-ai-art-prompts.md`](../docs/design/18-ai-art-prompts.md)
-  and [`prompts.json`](prompts.json)
+* **Copy-paste prompts, one per asset (start here):** [`PROMPTS.md`](PROMPTS.md)
+* AI workflow + tool/licence guidance: [`../docs/design/18-ai-art-prompts.md`](../docs/design/18-ai-art-prompts.md)
+  and machine-readable [`prompts.json`](prompts.json)
 * Names, world and visual identity: [`../docs/design/15-retheme-bible.md`](../docs/design/15-retheme-bible.md)
 
 ## Rules

@@ -61,6 +61,7 @@ duplicating them.
 | — | [`docs/design/17-platform-analysis.md`](docs/design/17-platform-analysis.md) | Platform analysis + recommended stack |
 | — | [`docs/design/18-ai-art-prompts.md`](docs/design/18-ai-art-prompts.md) | AI art workflow + per-slot prompts |
 | — | [`AGENTS.md`](AGENTS.md) | Rules for AI coding agents (read before editing) |
+| — | [`art/PROMPTS.md`](art/PROMPTS.md) | Copy-paste prompts for all 41 art assets |
 | — | [`game-data/README.md`](game-data/README.md) | Machine-readable content schema + provenance |
 | — | [`docs/research/08-sources.md`](docs/research/08-sources.md) | Every source, checksum, and retrieval method |
 

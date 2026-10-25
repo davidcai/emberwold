@@ -167,6 +167,25 @@ The pack is written to be portable. Same text, different plumbing:
 | **DALL·E / ChatGPT images** | Paste the slot prompt as-is; ask for the exact aspect ratio; iterate conversationally | Request in words | None | Same prompt + "same character as before" in-thread; no real seed | It loves adding captions/signatures — check and inpaint out |
 | **Bulk scripting** | `art/prompts.json` is machine-readable; loop over `slots[]` and feed `prompt` + `negative` to an API | From `aspect_ratio`/`size_px` | As above | Store the returned seed per slot | Keep the same model version pinned for the whole batch |
 
+### 2.5 Selected route (owner decision, 2026-10-24)
+
+The owner will generate externally — **no local models / no local GPU setup**. Rendering happens
+in **OpenAI image generation** (ChatGPT image tools / OpenAI image API) or **Grok Imagine**;
+prompts are pasted from the copy-paste sheet.
+
+- **Use [`../../art/PROMPTS.md`](../../art/PROMPTS.md)**: one prompt per asset, with the avoid-list
+  inlined (neither tool exposes a true negative-prompt field).
+- **Codex note:** OpenAI Codex is a coding agent; it does not render images itself. Use the
+  OpenAI image-generation surface (ChatGPT image generation or the image API) for rendering;
+  Grok Imagine is the other route. ⚠️ Verify current tool capabilities/limits before a batch.
+- **Consistency comes from reference images** (paste/attach style-lock images in the chat), not
+  seeds — neither route gives reliable seed control in chat.
+- **Licences:** hobby/private use only for now (ADR-001). If the project is ever shared
+  publicly, re-check OpenAI/Grok terms plus the model-level licences in §8.3. OpenAI's terms
+  assign output to the user subject to policy; Grok terms ⚠️ verify before publishing.
+- **Owner confirmed:** Veska Rhee is a woman and Bered Kask is a man — the existing prompts
+  already match; only appearance/age remains a creative choice.
+
 ---
 
 ## 3. Prompt architecture
@@ -810,15 +829,16 @@ its replacement passes review. If a piece fails twice, ship the placeholder and 
 
 ## 10. Open questions and things to verify
 
-1. **Hero specifics:** `15` gives no gender/age/appearance for Veska Rhee or Bered Kask. The
-   prompts assume adult woman / adult man — confirm or flip before alt art (§5.1).
+1. **Hero specifics:** ✅ gender confirmed by owner (Veska = woman, Bered = man); prompts
+   already match. Age/appearance remain open for alt art (§5.1).
 2. **Public release intent:** if the game will be shared publicly, prefer a licence-clean
    model (FLUX [schnell] / Firefly) for *shipped* art and re-check storefront AI disclosure
    policies ⚠️.
 3. **Licence re-check:** ADR-006 requires a per-generator licence check before any public
    release; the table in §8.3 is ⚠️ and must be re-verified at that point.
-4. **Local hardware:** whether the owner has an Apple Silicon/GPU machine suitable for local
-   FLUX/SDXL; if not, the API/Midjourney route is the realistic one.
+4. **Local hardware:** ✅ resolved — no local models; generation is external via OpenAI image
+   generation or Grok Imagine (§2.5). Local FLUX/SDXL/ComfyUI guidance in §2 is no longer the
+   active route (retained for reference).
 5. **Wordmark:** design route, font pair and name screen (`15` §11) still open; do not ship
    an AI-lettered logo, and do not publish a lockup while the name is still internal
    (ADR-007).

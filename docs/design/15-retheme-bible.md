@@ -120,6 +120,9 @@ nouns, flavour nouns, and terms that carry the original product's identity.
 | Elven captain (Norowas) | **Aelinor Sael, the Banner-Sworn** | companions and leadership | T2 |
 | Knight (Tovak) | **Bered Kask, the Oathless** | direct combat, reliable defence | **recommended pair** |
 
+*Owner-confirmed (2026-10-24): Veska Rhee is a woman; Bered Kask is a man. Age/appearance are
+still open; art prompts already assume adult woman / adult man.*
+
 **Recommended v1 pair:** **Bered** (teaches combat cleanly) + **Veska** (teaches risk and
 ember economy). One playable at T1, second as the stretch hero per `11`.
 

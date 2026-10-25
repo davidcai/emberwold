@@ -178,6 +178,13 @@ playable with programmatic/gray-box art.
 Budget for art becomes tool subscription/compute only. Placeholder-first still applies: the
 build is fully playable with programmatic placeholders and art drops in by `art_ref`.
 
+**Tooling (owner, 2026-10-24).** No local models or GPU: images are generated externally in
+**OpenAI image generation** (ChatGPT image tools / image API — note Codex itself is a coding
+agent, not an image renderer) or **Grok Imagine**. The copy-paste sheet is
+[`art/PROMPTS.md`](../../art/PROMPTS.md); both routes lack a true negative-prompt field, so the
+avoid-list is inlined per slot. Hobby/private use only for now (ADR-001); re-verify tool terms
+and model licences before any public use.
+
 **Consequences.**
 - Workflow, per-slot prompts, consistency method, post-processing and acceptance checks:
   [`18-ai-art-prompts.md`](./18-ai-art-prompts.md) and [`art/prompts.json`](../../art/prompts.json).
