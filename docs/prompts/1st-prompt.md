@@ -1,0 +1,1 @@
+I'm trying to create a video game based on the scaled-down mageknight boardgame -- mintknight. Your goal is to explore and analyze the feasibility of developing such video game, search web to gather mintknight game rules, assets, artworks, prepare any work prior to the implementation. Be thorough. 
