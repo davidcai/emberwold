@@ -25,7 +25,7 @@ This folder is the complete pre-production package for **Emberwold**. It is spli
 | `design/14-roadmap.md` | Roadmap | ✅ v1 | Lead | Tiers, milestones, gates, next 2 weeks |
 | `design/17-platform-analysis.md` | Platform/framework analysis | ✅ v1 | Lead | Web-native recommendation (accepted), scoring, escape hatches |
 | `design/15-retheme-bible.md` | Re-theme bible | ✅ v0.1 | Lead | Original world, names, terminology map, copy rules |
-| `design/16-art-brief.md` | Art brief | ✅ v0.2 | Lead | Direction, specs, acceptance (commissioning = fallback) |
+| `design/16-art-brief.md` | Art brief | ✅ v1.0 | Lead | Direction, specs, acceptance (AI-generated art, ADR-006) |
 | `design/18-ai-art-prompts.md` | AI art prompt pack | ✅ v1 | art-prompt-writer | Tool/licence guidance, consistency workflow, 41 per-slot prompts |
 
 Legend: ✅ complete · ⏳ in progress · ⚠️ has unverified parts (see the doc's own flags)

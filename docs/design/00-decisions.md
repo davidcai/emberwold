@@ -174,22 +174,25 @@ playable with programmatic/gray-box art.
 
 **Date:** 2026-10-24 · **Status:** accepted
 
+**Revision 2026-10-25.** The art style was revised to v2 (stylized ink linework + smooth cel
+shading); applied across `15` §8, `16`, `18` and all prompt text, and the four v1 style-lock
+images were discarded. The canonical style block lives in `art/prompts.json`.
+
 **Decision.** All art is generated with AI image tools instead of commissioning an illustrator.
 Budget for art becomes tool subscription/compute only. Placeholder-first still applies: the
 build is fully playable with programmatic placeholders and art drops in by `art_ref`.
 
-**Tooling (owner, 2026-10-24).** No local models or GPU: images are generated externally in
-**OpenAI image generation** (ChatGPT image tools / image API — note Codex itself is a coding
-agent, not an image renderer) or **Grok Imagine**. The copy-paste sheet is
-[`art/PROMPTS.md`](../../art/PROMPTS.md); both routes lack a true negative-prompt field, so the
-avoid-list is inlined per slot. Hobby/private use only for now (ADR-001); re-verify tool terms
-and model licences before any public use.
+**Tooling (owner, revised 2026-10-25).** No local models or GPU and no Codex CLI: images are
+generated externally in the **ChatGPT desktop app** (primary) or **Grok Imagine** (fallback).
+The copy-paste sheet is [`art/PROMPTS.md`](../../art/PROMPTS.md); neither route has a true
+negative-prompt field, so the avoid list is inlined per slot. Hobby/private use only for now
+(ADR-001); re-verify tool terms and model licences before any public use.
 
 **Consequences.**
 - Workflow, per-slot prompts, consistency method, post-processing and acceptance checks:
   [`18-ai-art-prompts.md`](./18-ai-art-prompts.md) and [`art/prompts.json`](../../art/prompts.json).
-- `16-art-brief.md` remains the spec (style, sizes, palette, acceptance); its commissioning and
-  budget sections become a fallback if AI quality proves insufficient for a given asset.
+- `16-art-brief.md` is direction + specs + acceptance only; its commissioning, budget and
+  schedule sections were removed when the AI route was adopted.
 - Tool licences/terms must be checked per generator before any public release (some models are
   non-commercial; terms change). Mark AI use in the project notes.
 - The logo/wordmark is **not** AI-generated: use typography/vector work instead.

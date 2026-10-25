@@ -2,6 +2,12 @@
 
 **Status:** v1 (precedent-analyst) · **Date:** 2026-10-24 · **Companions:** `05-digital-precedents.md`, `06-legal-ip.md`
 
+> **⚠️ Historical planning note (2026-10-25):** art sourcing changed to 100% AI-generated
+> (ADR-006). The commissioning and cost sections below (§5–§8) are retained as the original
+> research record; they are **not** the current plan. Current direction:
+> [`../design/16-art-brief.md`](../design/16-art-brief.md) and
+> [`../design/18-ai-art-prompts.md`](../design/18-ai-art-prompts.md).
+
 This document inventories the art/audio/font/UI assets a digital adaptation requires, states the
 licensing status of the official assets, catalogues legal sources with rough costs, and ends with
 a concrete starter asset plan for an MVP. Cost figures marked **⚠️** are **planning assumptions**,

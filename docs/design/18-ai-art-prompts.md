@@ -12,7 +12,7 @@ commissioning plan).
 > production workflow**: 41 prompts, one per manifest slot, that *you* run in a generator.
 > The prompts have not been executed against any model — treat round 1 as calibration, not
 > as a final. Nothing here replaces the placeholder policy: the build stays playable with
-> procedural art (ADR-005 and ADR-006, `16` §5).
+> procedural art (ADR-005 and ADR-006, `16` §4).
 
 **Coverage:** 41/41 manifest slots (`key_art`, `logo`, 2 heroes, 12 enemies, 4 tiles,
 `seat_plate`, 8 sites, 12 card motifs). Machine check:
@@ -27,29 +27,27 @@ print(len(ids), set(x['id'] for x in m['slots'])-ids)"   # → 41 set()
 
 ## 0. TL;DR — how to use this pack
 
-1. **Pick a tool** (§2). For a hobbyist on a Mac, the recommended default is
-   **ComfyUI + FLUX.1 [schnell]** locally (free, Apache-2.0) or **Midjourney Basic** if you
-   would rather pay than tinker. Avoid FLUX.1 [dev] for anything public (non-commercial
-   licence — ⚠️ verify).
-2. **Generate the style lock first** (§4.1): one hero, one enemy token, one card motif and
-   one tile. Do not batch the other 37 slots until these 4 pass the checklist in §7.
-3. **Per slot:** open [`art/prompts.json`](../../art/prompts.json), copy `style_block` +
-   `negative_prompt` into the tool's style/negative fields (if it has them), then copy the
-   slot's `prompt` (the slot prompts are already standalone; prepending the style block just
-   reinforces it) and append any slot `negative` additions to the global negative.
+1. **Open the ChatGPT desktop app** (primary route; Grok Imagine as fallback — §2). No local
+   models, no CLI, no API key setup.
+2. **Generate the style lock first** (§4.1) under the current style block: one hero, one enemy
+   token, one card motif and one tile. Do not batch the other 37 slots until these 4 pass the
+   checklist in §7.
+3. **Per slot:** open [`art/PROMPTS.md`](../../art/PROMPTS.md) (or `art/prompts.json`), paste
+   the slot prompt plus its inline **Avoid** list into the chat, state the aspect ratio, and
+   attach the approved style-lock image(s) as references. The slot prompts are standalone.
 4. **Iterate in 3 rounds** (§4.4): 6–12 cheap thumbnails → pick 2–3 → refine → final.
 5. **Post-process** (§4.5): inpaint defects, cut out background where required, upscale,
    grade to the palette, crop/mask tiles to hex, export web sizes.
-6. **Log and mark up** (§9): tool + model version + seed + prompt ref + licence check date
+6. **Log and mark up** (§9): tool + model version + prompt ref + licence check date
    in the prompt log, then set `status`/`art_ref` on the manifest slot. Swap into the build
    via the content pack only.
 7. Work **P0 first** (heroes → enemies → tiles → Seat plate), P1 next, and do the **logo
    last and not with AI** (§5.8).
 
-**What it should cost and take** (⚠️ estimates, not quotes): local/API generation can be
-near-free-to-~$40 for the whole set; a paid subscription for 1–2 months is the realistic
-cash outlay. Editing time dominates: budget roughly **20–40 focused hours** for all 41
-finished pieces including reruns, if you are new to the tools.
+**What it should cost and take** (⚠️ estimates, not quotes): one to two months of a ChatGPT
+plan (or Grok) is the realistic cash outlay. Editing time dominates: budget roughly
+**20–40 focused hours** for all 41 finished pieces including reruns, if you are new to the
+tools.
 
 ---
 
@@ -62,10 +60,9 @@ finished pieces including reruns, if you are new to the tools.
 | `docs/design/18-ai-art-prompts.md` (this file) | Strategy, tool guidance, prompt architecture, consistency workflow, checklists, rights/ethics, pipeline integration | Not an image asset; not a substitute for `16`'s technical specs |
 | `art/prompts.json` | Valid JSON: `schema_version`, `style_block`, `negative_prompt`, `palette`, and 41 `slots` (id, category, priority, size, aspect ratio, `export_hint`, full prompt, slot negative additions, notes) | Not a generator config, not a seed file, not "tested prompts" |
 
-The prompts are written as **natural-language paragraphs** so that the same text works in
-Midjourney, DALL·E/ChatGPT images, Firefly, Ideogram, Flux and SDXL-style interfaces
-(§2.4). Hex codes and palette names are included as *steering*, not guarantees — the final
-colour match happens in post (§4.5).
+The prompts are written as **natural-language paragraphs** so they paste cleanly into
+chat-style image tools (ChatGPT, Grok — §2.3). Hex codes and palette names are included as
+*steering*, not guarantees — the final colour match happens in post (§4.5).
 
 ### 1.2 Decision context — ADR-006
 
@@ -86,105 +83,62 @@ this pack:
    references, no official card names, no official art as image input, no living-artist
    style names (§8.2).
 
-`16-art-brief.md` carries a matching banner ("Update 2026-10-24 — ADR-006"); its §4/§6
-commissioning, budget and contract sections are kept as a **fallback** if AI quality proves
-insufficient for a given asset. This pack does not rewrite the decision log or the brief —
-it implements them. ADR-007 keeps the working names (Emberwold, Emberwold) internal until
-v1 is playable, which is why the wordmark is deliberately P2 and should not be published
-early (§5.8).
+`16-art-brief.md` is now direction + specs + acceptance only; the old commissioning, budget
+and contract sections were removed when the AI route was adopted (ADR-006). This pack does
+not rewrite the decision log or the brief — it implements them. ADR-007 keeps public
+branding deferred until v1, which is why the wordmark is deliberately P2 and should not be
+published early (§5.8).
 
 ### 1.3 What survives from `16-art-brief.md`
 
 | `16` section | Status under AI generation |
 |---|---|
-| §2 art direction, palette, composition rules | **Unchanged — the art direction is the spec.** AI must hit it, not redefine it. |
-| §3 sizes, formats, naming | **Unchanged**, except "layered source (PSD/CLIP/KRA)" is replaced by "kept generation set + final layered working file". |
-| §6.3 style lock, §6.5 review loop | **Unchanged in spirit**: 3–5 golden pieces; 2 review rounds. |
-| §4 budget tiers, §6 commissioning/contract checklist, §9 illustrator schedule | **Fallback per ADR-006**: kept for reference if AI quality is insufficient for an asset. For AI-generated assets, tool licences and AI-use disclosure replace contract/payment terms (§8). |
-| §5 placeholder policy | **Unchanged and non-negotiable.** AI art is not allowed to block engineering either. |
-| §8 acceptance checklist | **Unchanged** and extended with AI-specific checks (§7). |
+| §2 art direction, palette, composition rules | **The spec.** AI must hit it, not redefine it. |
+| §3 sizes, formats, naming | **The spec**; "layered source" becomes "kept generation set + layered working file where possible". |
+| §4 placeholder policy | **Non-negotiable.** AI art must not block engineering either. |
+| §5 pipeline and conventions | Applies unchanged. |
+| §6 acceptance checklist | **The spec**, extended with AI-specific checks in §7.2 of this doc. |
 
 ---
 
 ## 2. Tool landscape and recommendation
 
-### 2.1 What the job actually needs
+### 2.1 What the job needs
 
-Requirements, in priority order for *this* project:
+Requirements, in priority order: strong long-prompt following; image-reference consistency;
+no generated text; cheap or free; clear licence for private hobby use. Local models are **not**
+required — the owner generates externally.
 
-1. **Prompt following** for long, specific, palette-and-composition-heavy prompts.
-2. **Consistency controls** (image references, character references, seeds).
-3. **No text rendering** (we never want generated lettering; see §5.8 for the logo).
-4. **Cheap or free**, because this is a hobby project (ADR-001).
-5. **Clear licence for the intended use** (private hobby vs public/portfolio vs — later and
-   only if ever — commercial). This is the single most important non-art criterion.
-6. **Local option** so assets don't depend on a subscription.
+### 2.2 Selected tools (owner route)
 
-### 2.2 Comparison
-
-⚠️ **All prices, plan names and licence headlines below are approximate and drift
-constantly — verify current terms before paying or publishing.** Links in §10.
-
-| Tool | Best for | Strengths | Weaknesses | Cost band ⚠️ | Licence headline ⚠️ |
-|---|---|---|---|---|---|
-| **Midjourney** | Key art, heroes, polished finish | Best aesthetic-per-effort; `--sref`/`--cref` consistency; great painterly look | No true negative prompt; less exact control; images public on lower tiers; no clip-accurate sizes | ~$10–120/mo by tier (basic ~$10) | Subscription terms; commercial use on paid plans generally allowed, with revenue-tier rules; **images are public on lower tiers** |
-| **Stable Diffusion + ComfyUI** (local) | Everything, especially tokens/tiles/motifs | Free after setup; exact sizes; negatives; seeds; inpainting; LoRA/IP-Adapter; full control | Setup effort; hardware; quality depends on checkpoint | Free software + hardware/electricity | Software GPL; **model/checkpoint licences vary** — SDXL family uses CreativeML OpenRAIL++-M (commercial allowed with use restrictions); community checkpoints/LoRAs can be non-commercial |
-| **FLUX.1 [schnell]** (local/API) | General production, strong prompt following | Apache-2.0 (permissive); fast; good with long prompts; cheap API | Weaker flat/emblem style; needs guidance tuning; negatives not native to base Flux | Free locally; API cents per image ⚠️ | **Apache 2.0 — commercially usable** (verify model card) |
-| **FLUX.1 [dev]** | Higher-fidelity experiments | Excellent quality/control tuning | **Non-commercial licence**; unsuitable for anything public/published without a commercial licence | Free locally / licence required for commercial | **BFL Non-Commercial License — do not ship** without a commercial deal ⚠️ |
-| **FLUX.1 [pro]** | Managed API quality | Good prompt following at API scale | Per-image cost; vendor dependency | Per-image / credit pricing ⚠️ | Commercial API terms — read them ⚠️ |
-| **Adobe Firefly** | "Safest commercial paper trail" | Trained on licensed/public-domain content per Adobe; integrated retouching; commercial-use posture | Less stylistically bold; presets pull toward generic; weaker fine art control | ~$10–30/mo by plan; free tier limited ⚠️ | Adobe generative-AI terms; commercial use intended, some features/regions excluded — **verify** ⚠️ |
-| **Ideogram** | Text rendering, posters | Good typography (irrelevant to us); easy UI | Weaker painterly consistency; free tier limits | Free tier + ~$8–20/mo ⚠️ | Free vs paid terms differ; check commercial rights ⚠️ |
-| **DALL·E / ChatGPT images** | Fast concept exploration | Conversational iteration; strong prompt comprehension; decent painterly look | Little seed/style control; tends to add text/captions; less consistent across a set | ~$20/mo ChatGPT Plus; API per image ⚠️ | OpenAI terms: output assigned to user, commercial use allowed subject to policies ⚠️ |
-
-**Also relevant (free/open-source post tools):** ComfyUI, Krita, GIMP, Inkscape,
-[rembg](https://github.com/danielgatis/rembg), [Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN),
-[SIL OFL fonts](https://openfontlicense.org). For Apple Silicon, Draw Things or ComfyUI with
-quantised models makes local FLUX/SDXL practical.
-
-### 2.3 Recommendation for this hobbyist
-
-| Rank | Route | Why |
+| Tool | Why it is the route | Watch-outs |
 |---|---|---|
-| **Primary** | **ComfyUI + FLUX.1 [schnell]** locally (quantised/GGUF on Apple Silicon if needed) | Apache-2.0 output rights, no subscription, full seed/negative/inpainting control, strong long-prompt following. Best licence-plus-control combination for a set you may publish. |
-| **Fallback** | **Midjourney Basic (~$10/mo ⚠️)** for key art / hero portraits only | If local setup is unappealing: best aesthetic per hour, `--sref` keeps the set coherent. Use it for the 3–5 "hero" pieces, not all 41. Note public gallery on lower tiers. |
-| **Public-release-safe** | **Adobe Firefly** (and/or a commercial FLUX licence) for anything that ships publicly | The safest *documented* training-data/commercial-use posture, at the cost of some style boldness. Only matters if/when the project leaves private/portfolio use. |
-| **Avoid** | FLUX.1 [dev] for shipped/public art; free tiers whose terms forbid commercial use; any checkpoint/LoRA that is non-commercial; any model used to imitate a named living artist | Licence/copyright risk is the one risk that can't be fixed in post. |
+| **ChatGPT desktop app** (OpenAI image generation) | Primary. Strong long-prompt adherence, reference-image attachment, in-thread iteration, Canvas view for comparing variants | Plan/workspace image limits; no reliable seed control; occasionally adds captions/signatures |
+| **Grok Imagine** ([grok.com/imagine](https://grok.com/imagine) or the Grok app) | Fallback. Fast, cheap iteration; reference-image upload; aspect-ratio selection | ⚠️ Verify current terms before any public use; long palette-heavy prompts may drift |
 
-**Do not over-buy.** The whole set can be done on the primary route for ~$0 + time. A
-subscription is a convenience purchase, not a requirement.
+**Not used:** local FLUX/SDXL/ComfyUI (owner: no local models/GPU), Midjourney, Firefly,
+Ideogram. Revisit only if quality or licensing requirements change.
 
-### 2.4 Model adaptation cheat sheet
+### 2.3 Model adaptation cheat sheet (chat tools)
 
-The pack is written to be portable. Same text, different plumbing:
+| Interface | How to feed the pack | Aspect ratio | Negative handling | Consistency levers |
+|---|---|---|---|---|
+| **ChatGPT desktop app** | Paste the slot prompt as-is, then the inline Avoid list, then state the ratio; attach 1–3 approved reference images | Request 1:1 / 4:3 / portrait in words; crop precisely in post | No separate negative field — keep the Avoid list in the same message | Attach the golden style-lock image(s): "match the attached style, palette, linework and light" |
+| **Grok Imagine** | Same; use its reference-image upload and aspect preset | Set ratio in the UI | Same | Same reference-image discipline |
+| **Bulk scripting** | `art/prompts.json` is machine-readable if you ever script a batch | From `aspect_ratio`/`size_px` | As above | Pin one model version for the batch |
 
-| Interface | How to feed the pack | Aspect ratio | Negative handling | Consistency levers | Gotchas |
-|---|---|---|---|---|---|
-| **Midjourney** | Paste `style_block`, then the slot prompt, then `--ar … --style raw --no text, watermark, signature, border, frame` | `--ar 1:1`, `16:9`, `4:3`; tiles `--ar 13:15` (closest to 32:37) | `--no` only; keep it short (long negatives are weak) | `--sref <style image URL>`, `--cref <hero ref>`, `--seed`, `--stylize` 50–150 | No exact pixel sizes; upscale separately; lower tiers are public |
-| **Stable Diffusion (A1111/ComfyUI)** | Slot prompt in the positive field; **move the "no text…" clauses into the negative field**; global negative + slot additions in negative | Exact (e.g. 1024×1024, 2048×2368) | Full negative prompt; CFG ~4–7 | Fixed seed, same checkpoint, IP-Adapter/ControlNet reference, LoRA trained on your style lock | "text" in a positive prompt can summon text — keep exclusions in the negative |
-| **FLUX (ComfyUI/API/playground)** | Slot prompt + `style_block`; base Flux has little negative support | Exact sizes supported | Weak; prefer produce-and-select, then inpaint/paint out | Seed + image reference/init; same model version | Guidance ~2–4; do not expect hex accuracy |
-| **Firefly** | Natural-language paragraph; drop most hex codes and the negative list; use the reference-image/style controls | Presets only (1:1, 4:3, 16:9) | None | Style/reference image; re-roll | Its style engine will "prettify"; grade back to our palette |
-| **Ideogram** | Natural-language paragraph; turn Magic Prompt **off/low** to avoid drift | Presets | None | Seed (paid), remix | Strong at text — keep "no text" demands explicit |
-| **DALL·E / ChatGPT images** | Paste the slot prompt as-is; ask for the exact aspect ratio; iterate conversationally | Request in words | None | Same prompt + "same character as before" in-thread; no real seed | It loves adding captions/signatures — check and inpaint out |
-| **Bulk scripting** | `art/prompts.json` is machine-readable; loop over `slots[]` and feed `prompt` + `negative` to an API | From `aspect_ratio`/`size_px` | As above | Store the returned seed per slot | Keep the same model version pinned for the whole batch |
+### 2.4 Selected route (owner decision, 2026-10-25)
 
-### 2.5 Selected route (owner decision, 2026-10-24)
+The owner generates externally in the **ChatGPT desktop app only** — no Codex CLI, no API
+key, no local models. Grok Imagine remains the fallback.
 
-The owner will generate externally — **no local models / no local GPU setup**. Rendering happens
-in **OpenAI image generation** (ChatGPT image tools / OpenAI image API) or **Grok Imagine**;
-prompts are pasted from the copy-paste sheet.
-
-- **Use [`../../art/PROMPTS.md`](../../art/PROMPTS.md)**: one prompt per asset, with the avoid-list
-  inlined (neither tool exposes a true negative-prompt field).
-- **Codex note:** OpenAI Codex is a coding agent; it does not render images itself. Use the
-  OpenAI image-generation surface (ChatGPT image generation or the image API) for rendering;
-  Grok Imagine is the other route. ⚠️ Verify current tool capabilities/limits before a batch.
-- **Consistency comes from reference images** (paste/attach style-lock images in the chat), not
-  seeds — neither route gives reliable seed control in chat.
+- **Prompts:** copy from [`art/PROMPTS.md`](../../art/PROMPTS.md); every slot prompt is
+  standalone and already contains the style block and an inline Avoid list.
+- **Consistency:** attach the approved style-lock images in the chat; neither route gives
+  reliable seed control.
 - **Licences:** hobby/private use only for now (ADR-001). If the project is ever shared
-  publicly, re-check OpenAI/Grok terms plus the model-level licences in §8.3. OpenAI's terms
-  assign output to the user subject to policy; Grok terms ⚠️ verify before publishing.
-- **Owner confirmed:** Veska Rhee is a woman and Bered Kask is a man — the existing prompts
-  already match; only appearance/age remains a creative choice.
+  publicly, re-check OpenAI/Grok terms (§8.3) before publishing.
+- **Owner confirmed:** Veska Rhee is a woman and Bered Kask is a man; the prompts match.
 
 ---
 
@@ -221,9 +175,9 @@ and frames.
 
 ### 3.2 Global negative prompt (canonical text)
 
-Lives in `art/prompts.json` → `negative_prompt`. Use it in SD/ComfyUI-style tools; for
-Midjourney use a trimmed `--no …` equivalent; for Firefly/DALL·E it is guidance only — do
-the removal in post.
+Lives in `art/prompts.json` → `negative_prompt`. Chat tools have no separate negative
+field, so each slot prompt carries its Avoid list inline (the practical route). Keep this
+list for tools that do expose a negative field.
 
 ```text
 text, letters, words, numbers, captions, typography, watermark, signature, artist name,
@@ -271,7 +225,7 @@ the central 80 %".
    of". The style is this document's written description, not a person.
 3. **Never use official art, scans, screenshots, card images or any third-party IP as image
    input** — no img2img, no ControlNet reference, no `--sref`, no inpainting source, no
-   upscaler source. Not even privately (`16` §5.3, ADR-002).
+   upscaler source. Not even privately (`16` §4 item 3, ADR-002).
 4. **No real people's likenesses**, no copyrighted characters, no trademarked logos or
    trade dress in prompts or references.
 5. **Abstract glyphs only.** Banners, shields, doors, steles and sigils carry abstract
@@ -283,9 +237,8 @@ the central 80 %".
    soften — it breaks the Ember/Gloam read.
 7. **Hex codes are intent, not output.** Grade to the palette afterwards (§4.5); do not
    reject a good composition only because #E0662E came out as #D96A31.
-8. **No "no text" in positive prompts for SD.** In SD-style tools those words go in the
-   negative field. In Flux/MJ/DALL·E-style tools, positive phrasing plus post-removal is the
-   practical route.
+8. **Keep exclusions explicit.** Chat tools have no negative field — keep the Avoid list in
+   the same message. If a tool does expose a negative field, move the exclusions there.
 
 ### 3.5 Keeping doc and JSON in sync
 
@@ -302,9 +255,9 @@ AI generation is fast; **consistency is the work**. Run the phases in order.
 
 ```
 Phase 0  setup      palette swatches, folders, prompt log, licence snapshot
-Phase 1  style lock 4-5 golden pieces, reviewed against 16 §8 + §7 of this doc
+Phase 1  style lock 4-5 golden pieces, reviewed against 16 §6 + §7 of this doc
 Phase 2  sheets     hero turnaround, enemy family sheets, site/tile design language
-Phase 3  conditions same model+version, same seed families, style refs, same negatives
+Phase 3  conditions same model version, same style references, same Avoid list
 Phase 4  3 rounds   thumbnails -> shortlist -> refine -> final (per piece)
 Phase 5  post       inpaint -> cut out -> upscale -> grade -> hex crop -> export
 Phase 6  review     acceptance checklist -> manifest update -> content-pack art_ref
@@ -313,12 +266,13 @@ Phase 6  review     acceptance checklist -> manifest update -> content-pack art_
 ### 4.1 Phase 1 — style lock (do this before batching anything)
 
 1. Generate **one of each**: a hero bust (`hero_emberdrinker`), an enemy token
-   (`enemy_slot_01`), a card motif (`motif_05_ember`) and a tile (`tile_countryside_1`).
+   (`enemy_slot_01`), a card motif (`motif_01_stride`) and a tile (`tile_countryside_1`).
 2. Generate **8–12 variants each** at low cost/resolution. Keep them.
-3. Review against `16` §8 and §7 of this doc: silhouette, palette, value structure, no
+3. Review against `16` §6 and §7 of this doc: silhouette, palette, value structure, no
    text, no accidental IP, readable at target size.
-4. Pick 3–5 winners as the **golden set** → save to `art/brief/style-lock/` (gitignored if
-   large) with a short note: model, version, seed, prompt version, date.
+4. Pick 3–5 winners as the **golden set** → save to `art/brief/style-lock/` with a short
+   note: tool, model, prompt version, date. Keep oversized originals in `art/source/`
+   (gitignored).
 5. From now on, every generation should be compared side-by-side with the golden set. If a
    candidate looks like a different game, reject it — even if it is beautiful.
 
@@ -326,8 +280,7 @@ Phase 6  review     acceptance checklist -> manifest update -> content-pack art_
 
 - **Heroes (character sheets):** generate front, three-quarter and profile heads on one canvas; also a hand
   study and an expression sheet. Pick one canonical face. Use it as the character reference
-  (Midjourney `--cref`, SD IP-Adapter/ControlNet, Flux image reference) for the final bust
-  and any later alt art.
+  (attach it in the chat) for the final bust and any later alt art.
 - **Enemy families:** one sheet per family before the individual slots:
   - *Gutterkin* (slots 01–04): proportions (squat, wide, bandy), hide tone, rag colour,
     armour language, weapon vocabulary.
@@ -344,10 +297,9 @@ Phase 6  review     acceptance checklist -> manifest update -> content-pack art_
 
 | Lever | What to pin | Why |
 |---|---|---|
-| Model | One checkpoint/version for the whole batch; write down its hash/name | Checkpoints silently update; seeds stop matching |
-| Sampler / CFG / steps | One setting per category (e.g. characters vs motifs) | Changes the finish |
-| Seed | A seed **family**: e.g. hero A = 100001–100020, enemies = 200001–200020, tiles = 300001–300002 | Reproducibility and family resemblance |
-| Style reference | Golden-set image(s) via `--sref` / IP-Adapter / reference-only ControlNet | The strongest consistency lever |
+| Model | One tool + model version for the whole batch; record it and the date | Models silently update |
+| Seed | No seed control in chat tools — keep the prompt text and reference images fixed instead | Reproducibility |
+| Style reference | Golden-set image(s) attached to every prompt | The strongest consistency lever |
 | Prompt skeleton | `style_block` + the same seven beats + the same no-text tail | Style drift usually starts in wording drift |
 | Negative | Global negative + category additions, unchanged | Prevents photography, 3D and painterly drift |
 | Palette | Same palette hex list in every prompt | Keeps the grade honest |
@@ -362,14 +314,14 @@ Phase 6  review     acceptance checklist -> manifest update -> content-pack art_
 
 Timebox per piece: 15–40 min for motifs/sites/tokens, 1–2 h for heroes/tiles/plate,
 2–4 h for key art (⚠️ estimate for a first-time AI workflow). **Do not polish a loser** — if
-round 1 has no candidate with a readable silhouette, rewrite the prompt or change the seed
-family instead of inpainting for an hour.
+round 1 has no candidate with a readable silhouette, rewrite the prompt or re-roll in a
+fresh chat instead of inpainting for an hour.
 
 ### 4.5 Phase 5 — post-production pipeline
 
 | Step | Tool examples | What to actually do |
 |---|---|---|
-| **Inpaint** | ComfyUI/A1111 inpaint, Photoshop generative fill, Krita | Mask only the defect; low denoise; short prompt; repaint hands, faces, letter-like marks, tile seams, cropped weapons. |
+| **Inpaint** | ChatGPT image edit, Photoshop generative fill, Krita | Mask only the defect; low denoise; short prompt; repaint hands, faces, letter-like marks, tile seams, cropped weapons. |
 | **Background removal** | `rembg` (u2net/isnet/BiRefNet), SAM | Tokens and optional site cut-outs only. Generate on flat grey (never white) for cleaner mattes. Defringe the alpha edge; check on **both** dark and light composites for halos; add 2–4 px transparent padding. |
 | **Upscale** | Real-ESRGAN ×4 (`4x-UltraSharp`), waifu2x, Topaz | Upscale the winner to the `16` §3 size, then inspect at 100 % — upscalers hallucinate rivets and fingers. Keep a non-upscaled fallback. |
 | **Palette grade** | Krita/GIMP/Photoshop curves or a shared LUT | Build one grade for the whole set. Pull midtones toward charcoal #2A221C, protect ember highlights, kill stray teal/magenta. Verify in **greyscale** (values) and with a colour-blindness preview (element colours need glyph/shape pairing anyway). |
@@ -381,7 +333,7 @@ The engine overlays all of that; baked UI makes an asset unusable when the UI ch
 
 ### 4.6 Phase 6 — review gate
 
-A piece is done only when it passes **`16` §8 acceptance + §7 checklist of this doc**, and
+A piece is done only when it passes **`16` §6 acceptance + §7 checklist of this doc**, and
 the manifest is updated. Two review rounds maximum per piece; after that, either accept or
 fall back to the placeholder (ADR-005 and ADR-006: placeholders never block).
 
@@ -483,7 +435,7 @@ fall back to the placeholder (ADR-005 and ADR-006: placeholders never block).
 
 ### 5.6 Card motifs (12)
 
-- **Purpose:** one motif is reused across many cards (the cheapest art lever — `16` §7). It
+- **Purpose:** one motif is reused across many cards (the cheapest art lever — `16` §5). It
   must be **flat, symbolic, centred, non-narrative and tintable** — a stamp, not a painting.
 - **Rule of thumb:** one symbol, two or three values, thick shapes, generous margins, no
   scene, no character action, no card frame.
@@ -589,26 +541,21 @@ is the `motif_07_renown` slot.
 ### 7.1 Pre-flight (before you generate)
 
 - [ ] Prompt copied from `prompts.json` unedited (or edited in the JSON, not only in the tool).
-- [ ] Global style block + global negative loaded; slot negative additions appended.
-- [ ] Model/checkpoint/version + seed family recorded in the prompt log.
+- [ ] Style block + slot prompt pasted with its inline Avoid list (chat tools have no
+  separate negative field).
+- [ ] Tool/model version and date recorded in the prompt log (chat tools expose no seed).
 - [ ] No source-game name, official card name, artist name, or third-party IP in the prompt.
 - [ ] No official art / third-party image in any image-input field.
 - [ ] Target size and aspect ratio set from the manifest.
 - [ ] Style-lock reference image loaded for this category.
 
-### 7.2 Acceptance checklist (per piece — adapted from `16` §8)
+### 7.2 Acceptance checklist (per piece)
 
-- [ ] Reads at target size: tokens 48/96 px, cards 96 px tall thumb, sites 128 px, tiles full map.
-- [ ] Silhouette test: recognisable as a pure black shape on white.
-- [ ] Palette fits the nine colours; element pieces have a non-colour cue (shape/glyph).
-- [ ] Warm ink linework and smooth cel shading present and consistent with the style block.
-- [ ] Soft, even lighting; Ember/Gloam read is correct for the piece.
-- [ ] No text, letters, numbers, logos, signatures, watermarks or embedded UI.
-- [ ] No baked hex grid / labels / site icons on map tiles.
-- [ ] Transparent assets have clean edges and no halos on dark **and** light backgrounds.
-- [ ] Nothing reads as a known game's character/silhouette/creature; no borrowed designs.
+Use [`16-art-brief.md` §6](16-art-brief.md) as the canonical checklist. AI-specific additions:
+
+- [ ] Ink linework and smooth cel shading present; no painterly texture or 3D gloss.
 - [ ] Matches the golden style-lock set side-by-side (same "game").
-- [ ] Layered working file + clean master kept; naming uses neutral IDs only.
+- [ ] Transparent assets have clean edges and no halos on dark **and** light backgrounds.
 - [ ] Prompt log entry complete; licence checked for the tool/model used.
 
 ### 7.3 Common failure modes and fixes
@@ -618,7 +565,7 @@ is the `motif_07_renown` slot.
 | **Gibberish text / letter-like marks** on banners, shields, sigils, carvings | Squint test; zoom 100 %; run OCR or just eyeball | Ratchet up "no text, no letters, no numbers" + negative list; inpaint/erase the marks; prefer abstract shapes; never let the model decide typography. The `logo` slot is exempt-by-route (no AI). |
 | **Extra/fused fingers, hands, limbs** | Count them; look at silhouettes | Generate more candidates (cheap), inpaint the hand with a new hand, or design around hands (armour, wraps, gloves, small token scale). Hero/motif hands are the worst — budget extra attempts. |
 | **Muddy, low-contrast values** | Greyscale view is flat grey | Add "clear flat value structure, dark ground, mid-value subject, one ember-bright accent"; reduce "moody/dark" adjectives; grade; if still flat, regenerate — don't fake contrast with a filter. |
-| **Style drift across slots** | Contact sheet vs golden set | Same checkpoint/version, same style block, style reference, seed families, same negative; reject the outlier; re-run the sheet. |
+| **Style drift across slots** | Contact sheet vs golden set | Same tool/model version, style block, reference images and Avoid list; reject the outlier and re-run the sheet. |
 | **Tile edge seams / bright rims** | 3-tile adjacency test | Fade/darken edges in post, 2–4 % hex bleed, avoid subject matter touching edges except roads; never a border line. |
 | **Token unreadable at 48 px** | Black-silhouette test at 48 px | Simplify (fewer props, thicker weapon/limbs, closer pose), raise subject fill, remove thin spikes, increase contrast, re-generate; small pieces need *less* detail. |
 | **Halo/fringe after cut-out** | Check alpha on dark and light comps | Generate on mid-grey, not white; use a better matte model (BiRefNet); defringe/contract alpha 1 px; add transparent padding. |
@@ -675,7 +622,7 @@ change — check before publishing). Keep prompt logs (§8.6) so the claim is au
   dark, the content is a board game).
 - **Never use official art or third-party copyrighted images as image input**, including
   img2img, inpainting sources, ControlNet references, Midjourney `--sref`, and upscaler
-  inputs. This mirrors `16` §5.3 and ADR-002; it is a hard rule, not a preference.
+  inputs. This mirrors `16` §4 item 3 and ADR-002; it is a hard rule, not a preference.
 - **No narrative or flavour text copied** into prompts (the art doesn't need it, and it keeps
   the clean-room boundary obvious).
 
@@ -685,19 +632,15 @@ change — check before publishing). Keep prompt logs (§8.6) so the claim is au
 and model licences change; a hobby/private build is a lower-risk context than a public or
 commercial release, but it does not erase the licence conditions. Record the licence
 name/version, URL and check date in the prompt log, and keep a local copy under
-`art/brief/licences/`.
+`art/source/licences/` (gitignored).
 
-| Model / tool | Headline (⚠️ verify) | Use it for a public build? |
+| Tool | Headline (⚠️ verify) | Use it for a public build? |
 |---|---|---|
-| **FLUX.1 [schnell]** | Apache 2.0 — permissive, commercial use generally allowed | Yes, subject to model card/terms |
-| **FLUX.1 [dev]** | Black Forest Labs **non-commercial** licence | **No** unless you buy a commercial licence |
-| **FLUX.1 [pro]** | Commercial API terms via the provider | Only under those terms |
-| **Stable Diffusion SDXL family** | CreativeML OpenRAIL++-M — commercial use permitted with use-based restrictions (no unlawful/harmful use etc.) | Usually yes; **check the exact checkpoint licence** — community checkpoints/LoRAs often differ |
-| **Community checkpoints / LoRAs** | Varies wildly (many non-commercial) | Only if the licence allows it |
-| **Midjourney** | Subscription terms; commercial use on paid plans generally allowed, with revenue-tier rules; images may be public on lower tiers | Read the current terms; many hobbyists use it commercially within terms |
-| **Adobe Firefly** | Adobe generative-AI terms; trained on licensed/public-domain content per Adobe; commercial use intended, some features/regions excluded | Strongest documented commercial-use posture of the list — still verify |
-| **Ideogram** | Free vs paid terms differ; commercial rights on paid plans | Verify the specific plan |
-| **DALL·E / ChatGPT images** | OpenAI terms: outputs assigned to the user; commercial use allowed subject to policies | Generally yes, subject to terms |
+| **OpenAI / ChatGPT images** | OpenAI terms: outputs assigned to the user; commercial use allowed subject to policies; plan/workspace limits apply | Generally yes, subject to the current terms |
+| **Grok Imagine (xAI)** | xAI terms; output ownership and commercial-use terms vary by plan ⚠️ | Verify current terms before any public use |
+
+No local models are in the route (ADR-006); if that ever changes, add the model/checkpoint
+licence here with the date checked.
 
 Also note: **the provider may change model behaviour or discontinue a model**; pin versions
 and keep masters. Free-tier research/preview models are frequently not licensed for final
@@ -724,8 +667,8 @@ rely on a summary, check current law). Practical consequences for a hobby projec
 ### 8.5 Keep prompt logs
 
 For every accepted piece, record: manifest slot id, prompt version (the JSON is versioned in
-git), tool + model version/checkpoint, seed, sampler/CFG/steps, style reference used,
-generation date, licence checked (name/date/URL), post-processing steps, final file hash.
+git), tool + model version, style reference used, generation date, licence checked
+(name/date/URL), post-processing steps, final file hash.
 This gives you reproducibility, an audit trail for disclosure, and a defence if a tool's
 terms change. Suggested schema (additive to the manifest, owner approval — the manifest is
 not this file's lane; see §9.1).
@@ -736,10 +679,10 @@ not this file's lane; see §9.1).
 |---|---|
 | Slot | `enemy_slot_05` |
 | Prompt source | `art/prompts.json` v1.0.0 → `slots[8].prompt` |
-| Tool / model | ComfyUI 0.x + FLUX.1 [schnell] fp8 |
-| Seed / sampler / guidance | `200005` / euler / 3.5 |
+| Tool / model | ChatGPT desktop app (record the model/version if shown) |
+| Ratio / iteration | 1:1; 3 rounds, variant 2 kept |
 | Style reference | `art/brief/style-lock/token_gutterkin.png` |
-| Licence checked | FLUX.1-schnell Apache 2.0, model card URL, 2026-10-25 |
+| Licence checked | OpenAI terms, URL, 2026-10-25 |
 | Post | inpaint tail; rembg BiRefNet; Real-ESRGAN ×2; grade LUT `emberwold_v1` |
 | Final | `art/final/enemy/wyrmspawn_cinder@2x.png` (sha256 …) |
 | Reviewer / date | owner / 2026-10-25 |
@@ -758,12 +701,11 @@ additive fields once art starts landing:
 | `status` | `placeholder` → `wip` → `review` → `final` / `rejected` | Production state (already exists) |
 | `art_ref` | `art/final/<category>/<neutral_id>@2x.png` | Content-pack reference; data-only swap |
 | `source` | `AI-generated (<tool>, <model version>, <date>) — edited by owner` | Credits/disclosure |
-| `ai_tool` / `ai_model` | e.g. `ComfyUI`, `FLUX.1 [schnell]` | Reproducibility |
-| `ai_seed` | integer | Reproducibility |
+| `ai_tool` / `ai_model` | e.g. `ChatGPT desktop app`, model version if shown | Reproducibility |
 | `ai_prompt_ref` | `art/prompts.json#enemy_slot_05` | Traceability |
 | `ai_licence` | `Apache-2.0 (checked 2026-10-25)` | Licence audit |
 | `ai_post` | `rembg, Real-ESRGAN x2, grade LUT v1` | Provenance |
-| `reviewed` | `owner, 2026-10-25` | Acceptance gate (`16` §8 + §7 here) |
+| `reviewed` | `owner, 2026-10-25` | Acceptance gate (`16` §6 + §7 here) |
 
 ### 9.2 Naming and folders
 
@@ -825,12 +767,12 @@ its replacement passes review. If a piece fails twice, ship the placeholder and 
 | Risk | Mitigation |
 |---|---|
 | Tool licence changes or model removed | Pin versions, snapshot licenses, keep masters + layered files; prefer permissive models for finals. |
-| Style drift / "AI look" across the set | Style lock + family sheets + fixed seeds + a single shared grade. |
+| Style drift / "AI look" across the set | Style lock + family sheets + fixed reference images + a single shared grade. |
 | Readability failures at game size | Target-size tests in §7 before accepting anything; design first, polish second. |
 | Time sink chasing "perfect" generations | Timeboxed 3-round loop; placeholder fallback is a supported state. |
 | Accidental IP bleed | No named references, abstract-only glyphs, unfamiliar silhouette design, review every piece against known designs. |
 | Copyright/registration confusion | Disclose AI use; keep human-authorship evidence; don't claim exclusivity over raw outputs (§8.4). |
-| Public release changes the analysis | Re-verify every licence at release time; consider Firefly/commercial-licensed models for shipped assets. |
+| Public release changes the analysis | Re-verify every licence at release time; consider a licence-clean route for shipped assets. |
 
 ---
 
@@ -838,19 +780,19 @@ its replacement passes review. If a piece fails twice, ship the placeholder and 
 
 1. **Hero specifics:** ✅ gender confirmed by owner (Veska = woman, Bered = man); prompts
    already match. Age/appearance remain open for alt art (§5.1).
-2. **Public release intent:** if the game will be shared publicly, prefer a licence-clean
-   model (FLUX [schnell] / Firefly) for *shipped* art and re-check storefront AI disclosure
-   policies ⚠️.
+2. **Public release intent:** if the game will be shared publicly, re-check OpenAI/Grok terms
+   and storefront AI-disclosure policies, and consider a licence-clean route for *shipped*
+   art ⚠️.
 3. **Licence re-check:** ADR-006 requires a per-generator licence check before any public
    release; the table in §8.3 is ⚠️ and must be re-verified at that point.
-4. **Local hardware:** ✅ resolved — no local models; generation is external via OpenAI image
-   generation or Grok Imagine (§2.5). Local FLUX/SDXL/ComfyUI guidance in §2 is no longer the
-   active route (retained for reference).
+4. **Local hardware:** ✅ resolved — no local models; generation is external in the ChatGPT
+   desktop app, with Grok Imagine as fallback (§2.4).
 5. **Wordmark:** design route, font pair and name screen (`15` §11) still open; do not ship
    an AI-lettered logo, and do not publish a lockup while the name is still internal
    (ADR-007).
-6. **Prompt testing:** none of these prompts has been run yet; calibrate round 1 and adjust
-   the JSON (style tail wording, seed families) from what the chosen tool actually does.
+6. **Prompt testing:** only the four v1 style-lock prompts have been run (then discarded with
+   the v2 style change); the v2 style lock has not been generated yet. Calibrate round 1 from
+   the first new style-lock image and adjust the JSON wording if needed.
 
 ---
 
@@ -869,20 +811,13 @@ its replacement passes review. If a piece fails twice, ship the placeholder and 
 **Tool licences and terms (canonical entry points — ⚠️ not re-fetched for this draft; verify
 current text, pricing and model cards before acting):**
 
-- FLUX.1 [schnell] (Apache 2.0) — <https://huggingface.co/black-forest-labs/FLUX.1-schnell>
-- FLUX.1 [dev] (non-commercial licence) — <https://huggingface.co/black-forest-labs/FLUX.1-dev>
-- Black Forest Labs (FLUX [pro], licensing) — <https://blackforestlabs.ai/>
-- Stable Diffusion XL model card / licence — <https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0>
-- CreativeML OpenRAIL++-M — <https://github.com/CompVis/stable-diffusion/blob/main/LICENSE>
-- Midjourney terms — <https://www.midjourney.com/legal/terms>
-- Adobe Firefly / generative-AI legal — <https://www.adobe.com/products/firefly.html>, <https://www.adobe.com/legal/licenses-terms/adobe-gen-ai.html>
 - OpenAI terms of use — <https://openai.com/policies/terms-of-use>
-- Ideogram terms (via site footer) — <https://ideogram.ai/>
+- OpenAI image generation docs — <https://learn.chatgpt.com/docs/image-generation>
+- Grok Imagine — <https://grok.com/imagine> (terms via the xAI/Grok site)
 - US Copyright Office, AI and copyright — <https://www.copyright.gov/ai/>
 
-**Tools used in the workflow:**
+**Post-processing tools** (not generation):
 
-- ComfyUI — <https://github.com/comfyanonymous/ComfyUI>
 - rembg (background removal) — <https://github.com/danielgatis/rembg>
 - Real-ESRGAN (upscaling) — <https://github.com/xinntao/Real-ESRGAN>
 - Krita / GIMP / Inkscape — <https://krita.org>, <https://www.gimp.org>, <https://inkscape.org>

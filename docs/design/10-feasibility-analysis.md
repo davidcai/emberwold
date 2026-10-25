@@ -231,6 +231,8 @@ the discipline required is entirely about *not* building the full game.
 
 ## 10. Decisions needed from you
 
+> **Resolved 2026-10-24** — all six were answered; see [`00-decisions.md`](00-decisions.md). Kept as the research-phase record.
+
 1. **Purpose** — personal/portfolio, free fan release, or commercial? (Determines whether we
    design around licensing at all.)
 2. **Platform** — web-first (fastest to playable) vs. Steam/desktop vs. mobile-first?

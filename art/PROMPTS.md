@@ -4,10 +4,10 @@
 
 > **Reality note:** no images were generated for this repo. This is the prompt pack to run in your chosen tool.
 
-## How to use this in OpenAI image generation or Grok Imagine
+## How to use this in the ChatGPT desktop app or Grok Imagine
 
 1. **Style-lock first (4 images):** `hero_emberdrinker`, `enemy_slot_01`, `motif_01_stride`, `tile_countryside_1`. Expect 3–5 rounds each. These 4 become your reference set.
-2. **Feed references forward.** Tools with image-reference input (OpenAI image generation, Grok Imagine) accept the locked images as style/character references — attach 1–3 of them to every later prompt. Paste the prompt first, then attach references with a line like: *"Match the attached art style, palette and rendering."*
+2. **Feed references forward.** ChatGPT and Grok Imagine accept the locked images as style/character references — attach 1–3 of them to every later prompt. Paste the prompt first, then attach references with a line like: *"Match the attached art style, palette and rendering."*
 3. **No negative-prompt field?** Most chat-style image tools ignore separate negatives. Every slot below includes the global **Avoid** list inline — keep it in the same message, after the prompt.
 4. **Aspect ratio:** set it in the tool UI to the slot's `aspect` (square, portrait, landscape, 16:9). Do not let the tool crop heroes/enemies to landscape.
 5. **Save as:** `art/final/<category>/<id>@2x.png` (see `export_hint`), then update `art/manifest.json` (`status: final`, `art_ref`).
@@ -588,4 +588,4 @@ DO NOT GENERATE THIS SLOT WITH AN IMAGE MODEL. This is a wordmark, not an illust
 6. Update `art/manifest.json` (`status: final`, `art_ref`, note the tool/seed if offered).
 7. Silhouette test before accepting: recognizable in solid black at 48–96 px.
 
-**Next:** generate the 4 style-lock images and drop them in `art/final/style-lock/`; the rest follows the same sheet.
+**Next:** generate the 4 style-lock images (v2 style) and drop them in `art/brief/style-lock/`; the rest follows the same sheet.

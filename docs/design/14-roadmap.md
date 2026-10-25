@@ -116,7 +116,7 @@ current level (it compresses implementation, not playtesting or art).
 |---|---|---|---|
 | **Legal/name decision** | before M5 (T1 public build) | Chosen release path + public name + asset-rights checklist (`06`) | Lead/owner |
 | **Re-theme** | M0–M1 (before first public string) | Apply `15-retheme-bible.md`: names/terminology/content-pack strings; remove forbidden terms; screen public name | Lead/designer |
-| **Art** | pilot after M3; production art from M5 | Slot-based deliverables per `16-art-brief.md` + `art/manifest.json`; placeholders never block | Artist/designer |
+| **Art** | style lock after M3; production art from M5 | Slot-based deliverables per `16-art-brief.md` + `art/manifest.json`; AI-generated (ADR-006), placeholders never block | Owner (AI art) |
 | **Audio** | M5+ | 3–5 ambient loops, ~30 SFX, UI sounds | Contract composer |
 | **Playtest cohort** | from M4 | 5–8 board-game players, weekly build, structured feedback | Lead |
 | **Community/legal scanning** | continuous | Watch upstream project, WizKids announcements, fan expectations | Lead |
@@ -128,8 +128,8 @@ Rough budget ranges, to be refined only when the release path is chosen (`06`/`0
 
 | Item | Range | Notes |
 |---|---|---|
-| Art (MVP, ~60–80 assets) | $2k–$8k commissioned; $0 if placeholder/CC0 | Style consistency is the risk, not volume |
-| Art (Classic, ~150–250 assets) | $8k–$25k | Card frames + hero/enemy portraits dominate |
+| Art (MVP, 41 slots) | ⚠️ tool subscription only (ADR-006); no commissioning | Style consistency is the risk, not volume |
+| Art (Classic, ~150–250 assets) | ⚠️ same route, more time; no commissioning | Card frames + hero/enemy portraits dominate |
 | Audio | $300–$2k | Royalty-free acceptable for v1 |
 | Fonts | $0 (SIL OFL) | Do not ship commercial fonts unlicensed |
 | Playtest incentives | $0–$500 | Friends/community |

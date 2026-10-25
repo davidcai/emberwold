@@ -14,7 +14,7 @@ for names, tone and copy until a public name is screened.
 ## 1. Goals of the re-theme
 
 1. **Legal clarity.** No Mage Knight names, text, art, logo, card frames or trade dress.
-2. **Coherence.** One world, one voice, one visual language — so commissioned art looks like
+2. **Coherence.** One world, one voice, one visual language — so generated art looks like
    it belongs to a game, not a parts bin.
 3. **Practicality.** Names short enough for cards (≤ ~20 chars), easy to translate later,
    and mechanically transparent (a player should guess what "Shardmine" is).
@@ -187,8 +187,8 @@ Specific enemy names are authored per unit in the content pack (e.g. "Gutterkin 
   common colour-blindness (pair each with a shape/glyph).
 * **Card frames:** hand-cut leather border with a brass corner; element stripe; no
   reproduction of any existing game's frame.
-* **Icons:** silhouette-first, 2 px keyline, readable at 16 px; commissioned icons avoided
-  where an open icon set works (`07`).
+* **Icons:** silhouette-first, 2 px keyline, readable at 16 px; custom icons avoided where
+  an open icon set works (`07`).
 * **Typography:** SIL OFL faces only (e.g. Cinzel/EB Garamond for display, Inter/Source Sans
   for UI — final pair chosen in the art brief).
 

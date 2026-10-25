@@ -57,7 +57,7 @@ duplicating them.
 | 12 | [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) | Tiers, milestones, gates, first two weeks |
 | — | [`docs/design/00-decisions.md`](docs/design/00-decisions.md) | **The decisions log** (purpose, IP, platform, scope, art) |
 | — | [`docs/design/15-retheme-bible.md`](docs/design/15-retheme-bible.md) | Original world, names, terminology, copy rules |
-| — | [`docs/design/16-art-brief.md`](docs/design/16-art-brief.md) | Art direction, specs, acceptance (commissioning fallback) |
+| — | [`docs/design/16-art-brief.md`](docs/design/16-art-brief.md) | Art direction, specs, acceptance (AI-generated art, ADR-006) |
 | — | [`docs/design/17-platform-analysis.md`](docs/design/17-platform-analysis.md) | Platform analysis + recommended stack |
 | — | [`docs/design/18-ai-art-prompts.md`](docs/design/18-ai-art-prompts.md) | AI art workflow + per-slot prompts |
 | — | [`AGENTS.md`](AGENTS.md) | Rules for AI coding agents (read before editing) |

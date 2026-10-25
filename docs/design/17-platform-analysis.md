@@ -217,8 +217,9 @@ deliberate second edition), not a conversion of this one.
   (reducer, content pipeline, legal actions, testing) stands.
 - `14-roadmap.md`: T0 task 1 becomes "Vite + React + TS monorepo scaffold"; Tauri is a
   post-v1 packaging task.
-- Art: `16-art-brief.md` commissioning sections become a fallback; the AI workflow is
-  `18-ai-art-prompts.md`.
+- Art: direction/specs/acceptance in `16-art-brief.md`; the AI workflow is
+  `18-ai-art-prompts.md` (external ChatGPT desktop app, Grok fallback; commissioning is not
+  planned, ADR-006).
 
 ## Sources
 
