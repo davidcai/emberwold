@@ -1,5 +1,10 @@
 # Style-lock golden set — T1 "First Conquest"
 
+> **Obsolete (2026-10-25):** superseded by the v2 art direction in
+> [`../style-direction.md`](../style-direction.md). The four reviewed PNGs were removed from the
+> repo; regenerate the style lock in the new style. This note is kept only as a record of the v1
+> review.
+
 Date: 2026-10-24
 Tool: ChatGPT desktop app (OpenAI image generation; model not exposed in-app — record `gpt-image-2` if confirmed).
 Prompt source: [art/PROMPTS.md](../../PROMPTS.md), generated from [art/prompts.json](../../prompts.json) v1.0.0 (2026-10-24).
