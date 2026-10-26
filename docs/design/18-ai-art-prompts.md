@@ -182,14 +182,15 @@ list for tools that do expose a negative field.
 ```text
 text, letters, words, numbers, captions, typography, watermark, signature, artist name,
 logo, lettered emblem, border, frame, card frame, UI, HUD, interface, buttons, hex grid,
-grid lines, grid overlay, map labels, arrows, annotations, photorealistic, photograph,
-3D render, CGI, octane render, ray tracing, plastic, glossy, chrome, metallic shine,
-neon, oversaturated, HDR glow, lens flare, bloom, heavy bokeh, motion blur, oil
-painting, impasto, dry-brush texture, canvas texture, painterly, dramatic chiaroscuro,
-low contrast, muddy values, flat gray lighting, sketch, unfinished, concept sketch
-lines, extra limbs, extra arms, extra fingers, fused fingers, deformed hands, malformed
-hands, duplicate subject, multiple heads, floating objects, cluttered background, white
-background, studio backdrop, official game art, fan art, photobash
+grid lines, grid overlay, map labels, UI arrows, map arrows, movement markers,
+annotations, photorealistic, photograph, 3D render, CGI, octane render, ray tracing,
+plastic, glossy, chrome, metallic shine, neon, oversaturated, HDR glow, lens flare,
+bloom, heavy bokeh, motion blur, oil painting, impasto, dry-brush texture, canvas
+texture, painterly, dramatic chiaroscuro, low contrast, muddy values, flat gray
+lighting, sketch, unfinished, concept sketch lines, extra limbs, extra arms, extra
+fingers, fused fingers, deformed hands, malformed hands, duplicate subject, multiple
+heads, floating objects, cluttered background, white background, studio backdrop,
+official game art, fan art, photobash
 ```
 
 Per-slot `negative` entries in `prompts.json` are **additions** to append to the global list
