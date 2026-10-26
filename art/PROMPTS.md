@@ -2,7 +2,7 @@
 
 **Generated from [`prompts.json`](prompts.json)** · spec: [`../docs/design/16-art-brief.md`](../docs/design/16-art-brief.md) · workflow: [`../docs/design/18-ai-art-prompts.md`](../docs/design/18-ai-art-prompts.md)
 
-> **Reality note:** no images were generated for this repo. This is the prompt pack to run in your chosen tool.
+> **Reality note:** art for the T1 set was generated externally in the ChatGPT desktop app and post-processed in-repo on 2026-10-25 — 40 AI slots plus 12 motif icon variants are committed as WebP finals under `art/<category>/<neutral_id>@2x.webp`. This sheet remains the source for regeneration and re-rolls; only the P2 vector logo is not AI.
 
 ## How to use this in the ChatGPT desktop app or Grok Imagine
 
