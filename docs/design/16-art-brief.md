@@ -93,10 +93,14 @@ art where the frame does the ornament and the illustration does the story.
 | Card motifs | 1024×768 px, PNG, two variants: tinted (background) + transparent (icon) |
 | Key art | 3840×2160 px, PNG |
 | Variants | Each P0 piece also delivered at web size (≤ 512 px, WebP) |
-| Naming | `art/<category>/<neutral_id>@2x.png` — e.g. `art/hero/emberdrinker_portrait@2x.png` |
+| Naming | `art/<category>/<neutral_id>@2x.webp` committed — e.g. `art/hero/emberdrinker_portrait@2x.webp` |
 
 `art/manifest.json` is canonical for per-slot sizes and IDs. Naming uses **neutral IDs** from
 the content pack, never the working titles.
+
+The PNG sizes above are **master specs**. The repo ships lossy WebP (q≈90) at ≥2× display
+size; full-resolution PNG masters use the same names, live beside the WebP files, and are
+local-only/gitignored. See `18-ai-art-prompts.md` §9.2 for the packaging decision.
 
 ## 4. Placeholder policy (non-negotiable)
 

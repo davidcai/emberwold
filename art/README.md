@@ -17,8 +17,9 @@ This folder holds the **art production manifest**, not the art itself.
    extracted card images here — not even temporarily.
 2. **Neutral IDs only** in filenames (`hero/emberdrinker_portrait@2x.png`), never working
    titles or IP-bearing names.
-3. `source/` holds layered originals and is gitignored (large binaries). Only web-ready finals
-   and the manifest are committed.
+3. `source/` holds layered originals and is gitignored (large binaries). Committed finals are
+   WebP at ≥2× display size (`@2x.webp`); full-resolution PNG masters (`@2x.png`) live
+   beside them but are gitignored. See `18-ai-art-prompts.md` §9.2.
 4. A piece is not "done" until it passes the acceptance checklist in
    `docs/design/16-art-brief.md` §6 and the manifest is updated (`status: final`,
    `art_ref`, `source` credit).
@@ -33,5 +34,5 @@ art/
   brief/style-lock/   # approved golden references — PNG masters local-only (gitignored), notes.md tracked
   source/             # layered originals + licence snapshots (gitignored)
   enemy/ hero/ tile/ site/ card_motif/ city_plate/ key_art/
-                      # accepted PNG/WebP masters, named by neutral ID
+                      # committed WebP finals (@2x.webp) + local-only PNG masters (@2x.png)
 ```

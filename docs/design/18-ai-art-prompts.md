@@ -701,7 +701,8 @@ additive fields once art starts landing:
 | Field | Values | Purpose |
 |---|---|---|
 | `status` | `placeholder` → `wip` → `review` → `final` / `rejected` | Production state (already exists) |
-| `art_ref` | `art/<category>/<neutral_id>@2x.png` | Content-pack reference; data-only swap |
+| `art_ref` | `art/<category>/<neutral_id>@2x.webp` | Content-pack reference; data-only swap |
+| `icon_ref` | `art/card_motif/<neutral_id>_icon@2x.webp` | Transparent icon variant (motifs only) |
 | `source` | `AI-generated (<tool>, <model version>, <date>) — edited by owner` | Credits/disclosure |
 | `ai_tool` / `ai_model` | e.g. `ChatGPT desktop app`, model version if shown | Reproducibility |
 | `ai_prompt_ref` | `art/prompts.json#enemy_slot_05` | Traceability |
@@ -711,13 +712,13 @@ additive fields once art starts landing:
 
 ### 9.2 Naming and folders
 
-Neutral IDs only (`15` §9, `16` §3): `art/<category>/<neutral_id>@2x.png`. Examples:
+Neutral IDs only (`15` §9, `16` §3): `art/<category>/<neutral_id>@2x.webp`. Examples:
 
 ```text
-art/hero/emberdrinker_portrait@2x.png        art/enemy/gutterkin_skirmisher@2x.png
-art/tile/starting_a@2x.png                   art/site/hearthstead@2x.png
-art/card_motif/stride@2x.png                 art/key_art/key_art@2x.png
-art/city_plate/seat_plate@2x.png             art/branding/logo.svg   (hand-built, not AI)
+art/hero/emberdrinker_portrait@2x.webp       art/enemy/gutterkin_skirmisher@2x.webp
+art/tile/starting_a@2x.webp                  art/site/hearthstead@2x.webp
+art/card_motif/stride@2x.webp                art/key_art/key_art@2x.webp
+art/card_motif/stride_icon@2x.webp           art/branding/logo.svg   (hand-built, not AI)
 ```
 
 Proposed layout (extends `art/README.md`):
@@ -728,10 +729,20 @@ art/
   brief/licences/       licence snapshots (name, URL, date, PDF/text)
   source/               working files, layered masters, per-piece generation sets (gitignored)
   enemy/ hero/ tile/ site/ card_motif/ city_plate/ key_art/ branding/
-                        # accepted masters, neutral-ID names (commit small; LFS if >50 MB)
+                        # committed WebP finals (neutral-ID names) + local-only PNG masters
+                        # (same folder, gitignored; see packaging note below)
   manifest.json         slot state
   prompts.json          this pack's machine-readable prompts
 ```
+
+**Repository packaging (owner decision, 2026-10-25):** committed finals are lossy WebP
+(q≈90) at ≥2× display size — `art/<category>/<neutral_id>@2x.webp` plus
+`<neutral_id>_icon@2x.webp` for motif icons. Full-resolution PNG masters use the same names
+with `.png`, live in the same folders, and are **local-only** (gitignored) so the public repo
+stays ~4 MB instead of ~80 MB. `art_ref`/`icon_ref` point at the committed WebP. **Format
+fidelity:** PNG and lossless WebP are exact under any rescale; lossy WebP adds error that only
+shows if you upscale after encoding — committing at ≥2× display size means the engine only
+downscales, and WebP alpha is lossless, so cut-out edges never degrade.
 
 **Never put AI tool names, hero working titles or IP-bearing names in filenames**; the neutral
 ID is the contract. Content-pack `art_ref` is the only place the build learns an asset path.
