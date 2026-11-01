@@ -303,6 +303,19 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     readies two level-2 units then closes), all 7 traces re-recorded/rehashed and verified
     against contentHash `3cfc1f9f…`, 8 e2e, fuzz 10k seed 1 clean, lint/format/typecheck green.
 
+37. **UI explanation pass (done)**: response to in-browser annotations asking what tactics and
+    hand cards do. Tactics: each pick now shows its turn-order seat, day/night row and effect
+    category from the data file, plus a visible note that tactic abilities are still
+    unimplemented content debt. Hand: cards render as card tiles (colour edge, kind badge,
+    Basic / Powered labels, mana colour) with a per-card keyword glossary toggle; the Legend
+    panel now carries the full keyword glossary (sideways, powered, mana colours, wounds,
+    armour, fortified, units, command slots, round cap). Narrow (≤600px) topbars wrap instead
+    of overflowing. `TacticDef` gained `turnOrder` / `timeOfDay` / `effectKind` from
+    `game-data/tactics.json`; contentHash `632a97cd…`, all 7 traces re-recorded/rehashed,
+    new `e2e/help.spec.ts`. Evidence: 89 tests, 9 e2e, fuzz 1000 actions seed 1 clean, lint /
+    format / typecheck green, build 336.39 kB JS (98.58 kB gzip) + 8.84 kB CSS (2.34 kB gzip)
+    ≈ 100.9 kB gzipped.
+
 ## Next (ordered; first item is the exact next action)
 
 Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a

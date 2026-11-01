@@ -24,6 +24,15 @@ describe("@emberwold/content", () => {
       crystals: ["green", "green", "blue"],
     });
     expect(Object.keys(bundle.tactics ?? {})).toHaveLength(12);
+    expect(bundle.tactics?.["tactic:early_bird"]).toMatchObject({
+      turnOrder: 1,
+      timeOfDay: "day",
+      effectKind: "none",
+    });
+    expect(bundle.tactics?.["tactic:from_the_dusk"]).toMatchObject({
+      turnOrder: 1,
+      timeOfDay: "night",
+    });
     expect(bundle.scenario.aaOffer).toHaveLength(3);
     expect(bundle.scenario.spellOffer).toHaveLength(3);
     expect(bundle.scenario.spellDeck).toHaveLength(0);

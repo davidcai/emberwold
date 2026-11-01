@@ -193,6 +193,12 @@ export interface ScenarioCity {
 export interface TacticDef {
   readonly id: string;
   readonly name: string;
+  /** 1-6; lower numbers act first in the full turn-order rules. */
+  readonly turnOrder: number;
+  /** Day or night tactic row; solo First Conquest uses both rows across the three rounds. */
+  readonly timeOfDay: "day" | "night";
+  /** Coarse effect category from the data file; the effect itself is not implemented yet. */
+  readonly effectKind: "none" | "on_pick" | "activated" | "ongoing";
 }
 
 export interface LevelStats {

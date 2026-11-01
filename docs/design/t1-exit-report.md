@@ -1,6 +1,6 @@
 # T1 First Conquest — exit report (engineering)
 
-**Status:** v1.1 (2026-10-31, final engineering audit) · **Owner:** Lead · **Companions:**
+**Status:** v1.2 (2026-10-31, UI explanation pass + refreshed build evidence) · **Owner:** Lead · **Companions:**
 [`11-mvp-scope.md`](./11-mvp-scope.md), [`14-roadmap.md`](./14-roadmap.md),
 [`spike-report.md`](./spike-report.md), [`00-decisions.md`](./00-decisions.md)
 
@@ -20,7 +20,7 @@ listed in §8.
   round/day-night/tactic/site/offer/skill/unit surfaces, game-over debrief and tutorial
   prompts; Playwright replays the whole 78-action winning scenario through the real UI and
   asserts the debrief. The only open M4 exit item is the 60 fps measurement on the baseline
-  laptop; the app ships ~95 KB gzipped. §7 records the checks.
+  laptop; the app ships ~101 KB gzipped. §7 records the checks.
 - **11 §9 (v1.0 definition of done) — partially met.** The game loop, scoring, save/undo and
   golden-trace requirements are met; content breadth (2nd hero, 4 artifacts, the rest of the
   MVP Advanced Actions/Spells), tutorial validation, measured performance and the legal
@@ -57,19 +57,19 @@ PR #2 (`606975c`).
 Run from the repo root:
 
 ```bash
-pnpm verify              # typecheck + lint + 78 tests + dependency boundaries + 7 golden traces
-pnpm test:e2e            # Playwright: save/continue, undo, mid-combat continue, tutorial, site-heal + victory replays
+pnpm verify              # typecheck + lint + 89 tests + dependency boundaries + 7 golden traces
+pnpm test:e2e            # Playwright: save/continue, undo, mid-combat continue, tutorial, keyword help, site-heal + victory replays
 pnpm fuzz --turns=10000 --seed=1   # 127 games, 0 invariant/termination failures (also in CI)
 pnpm content:check       # generated bundle is current
-pnpm build               # client production build (≈95 KB gzipped initial load)
+pnpm build               # client production build (≈101 KB gzipped initial load)
 pnpm exec tsx tools/golden-traces/src/verify.ts   # explicit trace report
 ```
 
 At the time of writing: **89 tests**, contentHash
-`3cfc1f9f5fe2e49bbac409e043b4fc2c2eefead917161e84ba0e36e9102c9589`, data validator
+`632a97cd7b3dd44918c78515dcd25664b34d144f6430463cb1a99f127f5ebcf3`, data validator
 `checks: 9662 errors: 0 warnings: 0`, CI fuzz 10,000 actions green (seed 1: 127 games,
-0 invariant/termination failures), production build 330.82 kB JS (96.61 kB gzip) +
-7.59 kB CSS (2.08 kB gzip) ≈ 98.7 kB gzipped initial load.
+0 invariant/termination failures), production build 336.39 kB JS (98.58 kB gzip) +
+8.84 kB CSS (2.34 kB gzip) ≈ 100.9 kB gzipped initial load.
 
 Golden traces (`tools/golden-traces/`, recorded against the contentHash above; `traces:check`
 replays every action and compares state hashes _and_ the expected outcome/score where present):
@@ -92,7 +92,7 @@ replays every action and compares state hashes _and_ the expected outcome/score 
 | Basic Actions      | 1 full 16-instance deck per hero | 16 basic definitions across the two heroes (12 goldyx + 4 arythea-only, 16-instance decks)         | done for both heroes                                  |
 | Skills             | ≈6 reachable per hero            | 20 definitions (10 per hero), 10 in the hero's skill deck, fixed order                             | activation done; choice/shuffle deferred              |
 | Advanced Actions   | 12                               | 10 (only those whose full effect tree is implemented)                                              | 2 outstanding (`blood_ritual`, `in_need`)             |
-| Spells             | 6                                | 2 (`fireball`, `ice_bolt`)                                                                         | 4 outstanding (targeting/ready-unit effects)          |
+| Spells             | 6                                | 3 (`fireball`, `snowstorm`, `restoration`)                                                         | 3 outstanding (`whirlwind`, `expose`, `cure`)         |
 | Artifacts          | 4                                | 0                                                                                                  | T1 debt (`gain_fame` / endless-mana ops)              |
 | Units              | 6                                | 6                                                                                                  | done, basic abilities only                            |
 | Enemies            | 10 regular + 2 city              | 12 (10 regular pools + 2 garrison)                                                                 | done                                                  |
@@ -154,7 +154,9 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
 - **Combat fidelity waiver (M2-1):** no official worked-example replay; arithmetic is
   unit-tested against rulebook numbers (unchanged from the spike, documented).
 - **Tactic effects deferred:** 12 tactic records are data placeholders; only selection/order
-  is implemented (no tactic effect has been invented).
+  is implemented (no tactic effect has been invented). The client now shows each pick's
+  turn-order seat, day/night row and effect category, and states plainly that tactic abilities
+  are not implemented yet, so the gap is visible instead of silent.
 - **Dummy is count-only:** 16 cards, 3 flips per dummy turn, End-of-Round announcement; it has
   no crystals, Advanced Action absorption, blocking figure or combat yet.
 - **Skills:** level-up grants the next skill in fixed data order (no choose-from-two/shuffle);
@@ -190,8 +192,10 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
 save/continue + undo, the full T1 surface, game-over debrief, and Playwright covering both a
 scripted trace replay and the complete winning scenario (`e2e/victory.spec.ts`, 78 actions,
 debrief assertions, no console errors) plus a mid-combat save/Continue replay of the same
-trace, and the first-three-turns tutorial panel (show/dismiss/reset/hide). Production build: 330.82 kB JS (96.61 kB gzip) + 7.59
-kB CSS (2.08 kB gzip) ≈ 98.7 kB gzipped initial load, under the 5 MB budget. An indicative
+trace, the first-three-turns tutorial panel (show/dismiss/reset/hide), and the keyword-help
+surface (`e2e/help.spec.ts`: tactic metadata notice, card-tile kinds/effect labels, per-card
+glossary, Legend). Production build: 336.39 kB JS (98.58 kB gzip) + 8.84 kB CSS
+(2.34 kB gzip) ≈ 100.9 kB gzipped initial load, under the 5 MB budget. An indicative
 headless-Chromium probe of the started run measured 60.0 fps over 3 s (181 frames, p95 frame
 time 16.7 ms, no dropped frames, 226 DOM nodes, ~14 MB JS heap); the renderer is SVG/DOM with a
 4-tile board. The 60 fps target still needs the owner's manual measurement on the 2019-laptop
@@ -199,16 +203,16 @@ baseline in a real browser.
 
 **11 §9 (v1.0 definition of done) at a glance:**
 
-| DoD item                                                  | Status                                                           |
-| --------------------------------------------------------- | ---------------------------------------------------------------- |
-| Both scenarios playable end-to-end, 2nd hero selectable   | First Conquest + 2 heroes yes; Classic preset deferred to M5     |
-| Every manifest item implemented/tested/marked implemented | no — content breadth debt (§4)                                   |
-| ≥1 full game per scenario replayed deterministically      | yes for First Conquest (`050-victory`)                           |
-| Save/resume + undo verified                               | yes (client + e2e; full-state save)                              |
-| No P0/P1 bugs; no rule deviations in tests                | no P0 known; deviations documented in §6                         |
-| Tutorial playthrough by ≥3 unfamiliar people              | owner action, not done                                           |
-| Build < 5 MB gzipped; 60 fps on baseline laptop           | build measured at ~95 KB gzipped (pass); 60 fps not measured yet |
-| Legal review of names/art/text complete                   | not done (owner/legal gate)                                      |
+| DoD item                                                  | Status                                                            |
+| --------------------------------------------------------- | ----------------------------------------------------------------- |
+| Both scenarios playable end-to-end, 2nd hero selectable   | First Conquest + 2 heroes yes; Classic preset deferred to M5      |
+| Every manifest item implemented/tested/marked implemented | no — content breadth debt (§4)                                    |
+| ≥1 full game per scenario replayed deterministically      | yes for First Conquest (`050-victory`)                            |
+| Save/resume + undo verified                               | yes (client + e2e; full-state save)                               |
+| No P0/P1 bugs; no rule deviations in tests                | no P0 known; deviations documented in §6                          |
+| Tutorial playthrough by ≥3 unfamiliar people              | owner action, not done                                            |
+| Build < 5 MB gzipped; 60 fps on baseline laptop           | build measured at ~101 KB gzipped (pass); 60 fps not measured yet |
+| Legal review of names/art/text complete                   | not done (owner/legal gate)                                       |
 
 ## 8. Remaining work and owner actions
 

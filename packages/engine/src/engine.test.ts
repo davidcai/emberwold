@@ -805,9 +805,27 @@ describe("determinism and invariants", () => {
     const content: ContentBundle = {
       ...base,
       tactics: {
-        "tactic:a": { id: "tactic:a", name: "A" },
-        "tactic:b": { id: "tactic:b", name: "B" },
-        "tactic:c": { id: "tactic:c", name: "C" },
+        "tactic:a": {
+          id: "tactic:a",
+          name: "A",
+          turnOrder: 1,
+          timeOfDay: "day",
+          effectKind: "none",
+        },
+        "tactic:b": {
+          id: "tactic:b",
+          name: "B",
+          turnOrder: 2,
+          timeOfDay: "day",
+          effectKind: "none",
+        },
+        "tactic:c": {
+          id: "tactic:c",
+          name: "C",
+          turnOrder: 3,
+          timeOfDay: "day",
+          effectKind: "none",
+        },
       },
       scenario: {
         ...base.scenario,

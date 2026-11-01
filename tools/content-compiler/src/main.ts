@@ -158,6 +158,9 @@ interface SiteItem {
 interface TacticItem {
   readonly id: string;
   readonly name: string;
+  readonly turn_order: number;
+  readonly time_of_day: "day" | "night";
+  readonly effect_kind: "none" | "on_pick" | "activated" | "ongoing";
 }
 
 interface LevelItem {
@@ -534,7 +537,13 @@ function main(): void {
     if (item === undefined) {
       fail(`tactic not found: ${tacticId}`);
     }
-    tacticDefs[item.id] = { id: item.id, name: item.name };
+    tacticDefs[item.id] = {
+      id: item.id,
+      name: item.name,
+      turnOrder: item.turn_order,
+      timeOfDay: item.time_of_day,
+      effectKind: item.effect_kind,
+    };
   }
 
   // T1 offers: Advanced Actions (monastery) and Spells (mage tower). Only cards whose whole

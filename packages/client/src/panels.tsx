@@ -5,17 +5,22 @@
  */
 import { bundle } from "@emberwold/content";
 import type { Action, GameEvent, GameState } from "@emberwold/engine";
-import type { CombatType, Element, Hex, ManaColor } from "@emberwold/shared";
-import type { ReactElement } from "react";
+import type { CardDef, CombatType, Element, Hex, ManaColor } from "@emberwold/shared";
+import { useState, type ReactElement } from "react";
 
 import type { ActionEntry } from "./groups";
 import { boardHexAt } from "./hex";
+import type { KeywordHelpEntry } from "./text";
 import {
+  CARD_KIND_LABEL,
   COMBAT_TYPE_LABEL,
   ELEMENT_LABEL,
+  KEYWORD_HELP,
+  TACTIC_EFFECT_KIND_LABEL,
   TERRAIN_LABEL,
   actionLabel,
   cardDefByInstance,
+  cardKind,
   cardNameByInstance,
   choiceOptionLabel,
   commandSlotsFor,
@@ -28,6 +33,7 @@ import {
   heroName,
   humanizeId,
   isWoundInstance,
+  keywordHelp,
   levelStatsFor,
   manaColorLabel,
   manaColorsForCrystals,
@@ -41,6 +47,7 @@ import {
   skillUsageLabel,
   skillUsed,
   summarizeNames,
+  tacticDefById,
   tacticNameById,
   unitDefById,
   unitNameById,
@@ -233,7 +240,42 @@ export function TutorialPanel({
   );
 }
 
+function TacticChoice({
+  entry,
+  onAction,
+}: {
+  readonly entry: ActionEntry;
+  readonly onAction: (action: Action) => void;
+}): ReactElement {
+  const action = entry.action;
+  const tacticId = action.type === "chooseTactic" ? action.tactic : "";
+  const def = tacticDefById(tacticId);
+  const effectLabel = def === undefined ? "" : TACTIC_EFFECT_KIND_LABEL[def.effectKind];
+  return (
+    <div className="tactic-choice">
+      <ActionButton entry={entry} label={tacticNameById(tacticId)} onAction={onAction} />
+      {def === undefined ? null : (
+        <div className="tactic-meta">
+          <span
+            className="tactic-order"
+            title="Turn-order seat and day/night row from the tactics data."
+          >
+            order {def.turnOrder} · {def.timeOfDay}
+          </span>
+          <span
+            className="tactic-effect"
+            title={`${effectLabel}. Tactic abilities are not implemented in this build yet.`}
+          >
+            {effectLabel}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function TacticPanel({ entries, state, onAction }: EntriesProps): ReactElement {
+  const choosing = entries.some((entry) => entry.action.type === "chooseTactic");
   return (
     <section className="panel tactic-panel">
       <h2>Tactics{state.tacticChoice === null ? "" : " · choose one"}</h2>
@@ -253,19 +295,26 @@ export function TacticPanel({ entries, state, onAction }: EntriesProps): ReactEl
         </p>
       )}
       <div className="actions">
-        {entries.map((entry) => (
-          <ActionButton
-            key={entry.index}
-            entry={entry}
-            label={
-              entry.action.type === "chooseTactic"
-                ? tacticNameById(entry.action.tactic)
-                : actionLabel(entry.action, state)
-            }
-            onAction={onAction}
-          />
-        ))}
+        {entries.map((entry) =>
+          entry.action.type === "chooseTactic" ? (
+            <TacticChoice key={entry.index} entry={entry} onAction={onAction} />
+          ) : (
+            <ActionButton
+              key={entry.index}
+              entry={entry}
+              label={actionLabel(entry.action, state)}
+              onAction={onAction}
+            />
+          ),
+        )}
       </div>
+      {choosing ? (
+        <p className="muted-line tactic-note" data-testid="tactic-note">
+          Each card lists its turn-order seat and day/night row. Tactic abilities are still
+          unimplemented content debt (see PROGRESS.md); for now the pick is recorded for display
+          only.
+        </p>
+      ) : null}
     </section>
   );
 }
@@ -411,7 +460,46 @@ function cardActionLabel(action: Action, state: GameState): string {
   }
 }
 
+function cardHelpIds(kind: ReturnType<typeof cardKind>, def: CardDef | undefined): string[] {
+  if (kind === "wound") {
+    return ["wound", "healing"];
+  }
+  const ids: string[] = [kind, "sideways"];
+  if (def?.effects.powered !== null && def?.effects.powered !== undefined) {
+    ids.push("powered", "mana");
+  }
+  return ids;
+}
+
+function KeywordHelpList({ ids }: { readonly ids: readonly string[] }): ReactElement {
+  const entries = ids
+    .map((id) => keywordHelp(id))
+    .filter((entry): entry is KeywordHelpEntry => entry !== undefined);
+  return (
+    <dl className="keyword-help">
+      {entries.map((entry) => (
+        <div key={entry.id}>
+          <dt>{entry.term}</dt>
+          <dd>{entry.definition}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 export function HandPanel({ entries, state, onAction }: EntriesProps): ReactElement {
+  const [openHelp, setOpenHelp] = useState<ReadonlySet<string>>(new Set());
+  const toggleHelp = (instance: string): void => {
+    setOpenHelp((current) => {
+      const next = new Set(current);
+      if (next.has(instance)) {
+        next.delete(instance);
+      } else {
+        next.add(instance);
+      }
+      return next;
+    });
+  };
   const player = state.players[0];
   const hand = player?.hand ?? [];
   const handSet = new Set<string>(hand);
@@ -438,46 +526,93 @@ export function HandPanel({ entries, state, onAction }: EntriesProps): ReactElem
       <h2>
         Hand · {hand.length} / {levelStatsFor(player?.level ?? 1).handLimit}
       </h2>
+      <p className="muted-line hand-hint">
+        Play a card for its basic effect, pay its colour mana for the powered effect, or play it
+        sideways. Each card has a keyword help toggle.
+      </p>
       <ul className="hand" data-testid="hand">
         {hand.map((instance) => {
           const def = cardDefByInstance(state, instance);
+          const kind = cardKind(def?.id);
           const actions = byCard.get(instance) ?? [];
           const wound = isWoundInstance(state, instance);
+          const powered = def?.effects.powered;
+          const poweredLabel =
+            def?.poweredBy === null || def?.poweredBy === undefined
+              ? "none"
+              : def.poweredBy === "any_basic"
+                ? "any basic"
+                : manaColorLabel(def.poweredBy);
+          const helpOpen = openHelp.has(instance);
           return (
-            <li key={instance} className={wound ? "card card-wound" : "card"}>
-              <div className="card-head">
-                {def === undefined ? null : (
-                  <span className="color-dot" data-color={def.color} aria-hidden="true" />
+            <li key={instance}>
+              <article
+                className={wound ? "card card-wound" : "card"}
+                data-kind={kind}
+                data-testid="hand-card"
+              >
+                <header className="card-head">
+                  {def === undefined ? null : (
+                    <span
+                      className="color-dot"
+                      data-color={def.color}
+                      title={`${manaColorLabel(def.color)} mana`}
+                      aria-hidden="true"
+                    />
+                  )}
+                  <strong>{def?.name ?? cardNameByInstance(state, instance)}</strong>
+                  <span className="card-kind">{CARD_KIND_LABEL[kind]}</span>
+                  {def === undefined ? null : (
+                    <span className="card-meta" title={keywordHelp("sideways")?.definition}>
+                      sideways {def.sidewaysValue}
+                    </span>
+                  )}
+                </header>
+                {wound ? (
+                  <p className="card-effects">A dead card — heals at a healing site.</p>
+                ) : def === undefined ? null : (
+                  <div className="card-effects">
+                    <p>
+                      <span
+                        className="effect-tag"
+                        title="The effect when the card is played without paying mana."
+                      >
+                        Basic
+                      </span>
+                      <span>{effectSummary(def.effects.basic)}</span>
+                    </p>
+                    {powered === null || powered === undefined ? null : (
+                      <p>
+                        <span className="effect-tag" title={keywordHelp("powered")?.definition}>
+                          Powered · {poweredLabel}
+                        </span>
+                        <span>{effectSummary(powered)}</span>
+                      </p>
+                    )}
+                  </div>
                 )}
-                <strong>{def?.name ?? cardNameByInstance(state, instance)}</strong>
+                <div className="card-actions">
+                  {actions.map((entry) => (
+                    <ActionButton
+                      key={entry.index}
+                      entry={entry}
+                      label={cardActionLabel(entry.action, state)}
+                      onAction={onAction}
+                    />
+                  ))}
+                </div>
                 {def === undefined ? null : (
-                  <span className="card-meta">sideways {def.sidewaysValue}</span>
+                  <button
+                    type="button"
+                    className="card-help-toggle"
+                    aria-expanded={helpOpen}
+                    onClick={() => toggleHelp(instance)}
+                  >
+                    {helpOpen ? "Hide keywords" : "Keywords"}
+                  </button>
                 )}
-              </div>
-              {def === undefined ? null : (
-                <p className="card-effects">
-                  {effectSummary(def.effects.basic)}
-                  {def.effects.powered === null
-                    ? ""
-                    : ` · powered (${
-                        def.poweredBy === null
-                          ? "none"
-                          : def.poweredBy === "any_basic"
-                            ? "any basic"
-                            : manaColorLabel(def.poweredBy)
-                      }): ${effectSummary(def.effects.powered)}`}
-                </p>
-              )}
-              <div className="card-actions">
-                {actions.map((entry) => (
-                  <ActionButton
-                    key={entry.index}
-                    entry={entry}
-                    label={cardActionLabel(entry.action, state)}
-                    onAction={onAction}
-                  />
-                ))}
-              </div>
+                {helpOpen ? <KeywordHelpList ids={cardHelpIds(kind, def)} /> : null}
+              </article>
             </li>
           );
         })}
@@ -944,34 +1079,12 @@ export function LegendPanel(): ReactElement {
     <details className="panel legend-panel" data-testid="legend">
       <summary>Legend & keywords</summary>
       <dl>
-        <div>
-          <dt>move</dt>
-          <dd>spent moving between tiles; terrain costs change between day and night.</dd>
-        </div>
-        <div>
-          <dt>influence</dt>
-          <dd>spent at sites: healing, advanced actions, spells, recruiting units.</dd>
-        </div>
-        <div>
-          <dt>fame</dt>
-          <dd>levels you up; each level grants skill draws and better stats.</dd>
-        </div>
-        <div>
-          <dt>crystals</dt>
-          <dd>persistent mana, refreshed each round; spent to power cards or buy spells.</dd>
-        </div>
-        <div>
-          <dt>source</dt>
-          <dd>the round&apos;s rolled mana dice; each die is used once.</dd>
-        </div>
-        <div>
-          <dt>dummy deck</dt>
-          <dd>the round clock: it flips after each hero turn and ends the round when empty.</dd>
-        </div>
-        <div>
-          <dt>round cap</dt>
-          <dd>the city must fall before the final round ends, or the run is a defeat.</dd>
-        </div>
+        {KEYWORD_HELP.map((entry) => (
+          <div key={entry.id}>
+            <dt>{entry.term}</dt>
+            <dd>{entry.definition}</dd>
+          </div>
+        ))}
       </dl>
     </details>
   );

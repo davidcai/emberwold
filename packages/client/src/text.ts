@@ -22,6 +22,7 @@ import type {
   LevelStats,
   ManaColor,
   SiteDef,
+  TacticDef,
   Terrain,
   UnitDef,
 } from "@emberwold/shared";
@@ -80,6 +81,136 @@ export function summarizeNames(names: readonly string[], limit = 3): string {
   return `${shown} +${names.length - limit}`;
 }
 
+export interface KeywordHelpEntry {
+  readonly id: string;
+  readonly term: string;
+  readonly definition: string;
+}
+
+/**
+ * Player-facing explanations for the rules words the client prints. Our own wording; mechanics
+ * only. The client surfaces these in the hand card help and the Legend panel.
+ */
+export const KEYWORD_HELP: readonly KeywordHelpEntry[] = [
+  {
+    id: "basic",
+    term: "basic action",
+    definition: "A card from your starting deck; the weakest but most reliable actions.",
+  },
+  {
+    id: "advanced",
+    term: "Advanced Action",
+    definition: "A stronger action card learned at a monastery; only a few are offered at a time.",
+  },
+  {
+    id: "spell",
+    term: "spell",
+    definition: "A card bought at a Shardspire. Its powered effect usually needs a matching mana.",
+  },
+  {
+    id: "sideways",
+    term: "sideways",
+    definition:
+      "Play any card sideways for 1 Move, 1 Influence, 1 Attack or 1 Block — your choice — instead of its printed effect.",
+  },
+  {
+    id: "powered",
+    term: "powered",
+    definition:
+      "Pay 1 mana of the card's colour (crystal, token or source die) to use its powered effect instead of the basic one.",
+  },
+  {
+    id: "move",
+    term: "move",
+    definition: "Spent moving between tiles; terrain costs differ between day and night.",
+  },
+  {
+    id: "influence",
+    term: "influence",
+    definition: "Spent at sites: healing, advanced actions, spells and recruiting units.",
+  },
+  {
+    id: "crystals",
+    term: "crystals",
+    definition: "Persistent mana, refreshed each round; spent to power cards or buy spells.",
+  },
+  {
+    id: "round-cap",
+    term: "round cap",
+    definition: "The city must fall before the final round ends, or the run is a defeat.",
+  },
+  {
+    id: "mana",
+    term: "mana",
+    definition:
+      "Crystals are persistent mana spent once; tokens are temporary; source dice are rolled each round and each die is used once. Gold mana is available by day and black mana by night.",
+  },
+  {
+    id: "wound",
+    term: "Wound",
+    definition: "A Wound is a dead card: it fills a hand slot and does nothing until healed.",
+  },
+  {
+    id: "healing",
+    term: "healing",
+    definition:
+      "Healing sites remove Wounds from your hand; a magical glade can discard one Wound.",
+  },
+  {
+    id: "fame",
+    term: "fame",
+    definition:
+      "Fame raises your level, improving armour, hand limit and command slots, and granting skills.",
+  },
+  {
+    id: "armor",
+    term: "armor",
+    definition: "Armor reduces damage assigned to a unit; damage left over must be assigned again.",
+  },
+  {
+    id: "fortified",
+    term: "fortified",
+    definition:
+      "In the ranged & siege phase a fortified enemy can only be attacked with siege attack; otherwise it must be fought in melee.",
+  },
+  {
+    id: "source",
+    term: "source dice",
+    definition:
+      "Mana dice rolled each round; each die can be used once and is rerolled next round.",
+  },
+  {
+    id: "skill",
+    term: "skill",
+    definition: "A once-per-turn ability earned from levels; some need mana to activate.",
+  },
+  {
+    id: "unit",
+    term: "unit",
+    definition:
+      "A recruited ally that takes a command slot, can block or attack in combat, and can absorb damage once per combat.",
+  },
+  {
+    id: "command-slot",
+    term: "command slot",
+    definition: "How many units you may keep; more slots unlock with levels.",
+  },
+  {
+    id: "dummy",
+    term: "dummy deck",
+    definition:
+      "The round clock: it flips after each hero turn and ends the round when it is empty.",
+  },
+];
+
+const KEYWORD_BY_ID: Readonly<Record<string, KeywordHelpEntry>> = Object.fromEntries(
+  KEYWORD_HELP.map((entry) => [entry.id, entry]),
+);
+
+export function keywordHelp(id: string): KeywordHelpEntry | undefined {
+  return KEYWORD_BY_ID[id];
+}
+
 // ---------------------------------------------------------------------------
 // Content lookups
 // ---------------------------------------------------------------------------
@@ -104,6 +235,35 @@ export function cardNameByInstance(state: GameState, instance: string): string {
 export function isWoundInstance(state: GameState, instance: string): boolean {
   return cardDefIdOf(state, instance) === bundle.woundCard.id;
 }
+
+export type CardKind = "basic" | "advanced" | "spell" | "wound" | "artifact";
+
+export function cardKind(defId: string | undefined): CardKind {
+  if (defId === undefined) {
+    return "artifact";
+  }
+  if (defId === bundle.woundCard.id) {
+    return "wound";
+  }
+  if (defId.startsWith("advanced:")) {
+    return "advanced";
+  }
+  if (defId.startsWith("spell:")) {
+    return "spell";
+  }
+  if (defId.startsWith("artifact:")) {
+    return "artifact";
+  }
+  return "basic";
+}
+
+export const CARD_KIND_LABEL: Readonly<Record<CardKind, string>> = {
+  basic: "basic action",
+  advanced: "advanced action",
+  spell: "spell",
+  wound: "wound",
+  artifact: "artifact",
+};
 
 export function heroName(heroId: string): string {
   return bundle.heroes[heroId]?.name ?? humanizeId(heroId);
@@ -136,6 +296,17 @@ export function skillNameById(skillId: string): string {
 export function tacticNameById(tacticId: string): string {
   return bundle.tactics?.[tacticId]?.name ?? humanizeId(tacticId);
 }
+
+export function tacticDefById(tacticId: string): TacticDef | undefined {
+  return bundle.tactics?.[tacticId];
+}
+
+export const TACTIC_EFFECT_KIND_LABEL: Readonly<Record<TacticDef["effectKind"], string>> = {
+  none: "no special effect",
+  on_pick: "effect when picked",
+  activated: "activated effect",
+  ongoing: "ongoing effect",
+};
 
 export function levelDefFor(level: number): LevelDef | undefined {
   return bundle.levels?.find((entry) => entry.level === level);
@@ -255,6 +426,26 @@ export function paymentLabel(payment: ManaPayment, state: GameState): string {
   }
 }
 
+const DURATION_LABEL: Readonly<Record<"turn" | "combat", string>> = {
+  turn: "this turn",
+  combat: "this combat",
+};
+
+function ruleOverrideText(rule: string): string {
+  switch (rule) {
+    case "extra_source_die":
+      return "an extra Source die";
+    case "black_as_any_color":
+      return "black mana counts as any colour";
+    case "units_cannot_absorb_damage":
+      return "units cannot absorb damage";
+    case "ignore_rampaging_provoke":
+      return "ignore rampaging provocation";
+    default:
+      return humanizeId(rule);
+  }
+}
+
 export function effectSummary(effect: EffectOp): string {
   switch (effect.op) {
     case "choice":
@@ -289,7 +480,7 @@ export function effectSummary(effect: EffectOp): string {
       return `draw up to ${effect.dice_count} source dice (${effect.tokens_per_die} token each)`;
     case "apply_modifier": {
       if (effect.effect.op === "rule_override") {
-        return `${effect.duration} bonus (${humanizeId(effect.effect.rule)})`;
+        return `${DURATION_LABEL[effect.duration]}: ${ruleOverrideText(effect.effect.rule)}`;
       }
       if (effect.effect.op === "unit_combat_bonus") {
         return `${effect.duration} unit bonus (+${effect.effect.attack_bonus} attack, +${effect.effect.block_bonus} block)`;
@@ -306,7 +497,7 @@ export function effectSummary(effect: EffectOp): string {
     case "offer_deck_placement":
       return `put a card on the ${effect.destination} of a deck`;
     case "rule_override":
-      return `special rule (${humanizeId(effect.rule)})`;
+      return ruleOverrideText(effect.rule);
     case "card_boost":
       return `next card +${effect.bonus}`;
     case "discard_cost": {

@@ -1,6 +1,6 @@
 {
   "traceVersion": 1,
-  "contentHash": "3cfc1f9f5fe2e49bbac409e043b4fc2c2eefead917161e84ba0e36e9102c9589",
+  "contentHash": "632a97cd7b3dd44918c78515dcd25664b34d144f6430463cb1a99f127f5ebcf3",
   "engineVersion": "0.1.0-spike",
   "rulesetId": "emberwold-spike",
   "seed": 1,
@@ -39,11 +39,11 @@
     }
   ],
   "expectedHashes": [
-    "66b038703aebdf998cc56e9dc9bb0740544fa8704bcec9933c6fdee41b938949",
-    "57d4a0e022b2e4c936d13782ff9a8d84833318fbe3b65c878b600c53db8212b9",
-    "3a1ead4c65987dbd97a397b35ae73c88f96b5dd468d449e3b742de771fafe4ba",
-    "2054ccd7918dcbedf7e33476b23240c973cd701ce3ca77707a152d5a0fbe024b",
-    "753034be50a3954b17c842e445ea9cd997b5e059b1f60e31463fd56ba2833d29"
+    "954c55945fee68bcb640afc4e51e7e60824d9de3d8f1dc535deff4c68d09eca6",
+    "dc39af195409af61f42ced9fde299f9055bbdfedd1cbfce5bbe11d604bc24bef",
+    "a053438afd7cc6064fa907576814d29f236c6c8eae91764c1414341d21d7d229",
+    "c675f6516f0d945e700113606815c32f7dfe544993bfa4886dad3cc8fe993b55",
+    "fb42ea7fcea138f90f199b0746e725c3e66f0b14856c71a69d7424674b39dc36"
   ],
   "expectedOutcome": {
     "round": 1,

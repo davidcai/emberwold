@@ -1944,51 +1944,87 @@
   "tactics": {
     "tactic:early_bird": {
       "id": "tactic:early_bird",
-      "name": "Early Bird"
+      "name": "Early Bird",
+      "turnOrder": 1,
+      "timeOfDay": "day",
+      "effectKind": "none"
     },
     "tactic:rethink": {
       "id": "tactic:rethink",
-      "name": "Rethink"
+      "name": "Rethink",
+      "turnOrder": 2,
+      "timeOfDay": "day",
+      "effectKind": "on_pick"
     },
     "tactic:mana_steal": {
       "id": "tactic:mana_steal",
-      "name": "Mana Steal"
+      "name": "Mana Steal",
+      "turnOrder": 3,
+      "timeOfDay": "day",
+      "effectKind": "activated"
     },
     "tactic:planning": {
       "id": "tactic:planning",
-      "name": "Planning"
+      "name": "Planning",
+      "turnOrder": 4,
+      "timeOfDay": "day",
+      "effectKind": "ongoing"
     },
     "tactic:great_start": {
       "id": "tactic:great_start",
-      "name": "Great Start"
+      "name": "Great Start",
+      "turnOrder": 5,
+      "timeOfDay": "day",
+      "effectKind": "on_pick"
     },
     "tactic:the_right_moment": {
       "id": "tactic:the_right_moment",
-      "name": "The Right Moment"
+      "name": "The Right Moment",
+      "turnOrder": 6,
+      "timeOfDay": "day",
+      "effectKind": "activated"
     },
     "tactic:from_the_dusk": {
       "id": "tactic:from_the_dusk",
-      "name": "From the Dusk"
+      "name": "From the Dusk",
+      "turnOrder": 1,
+      "timeOfDay": "night",
+      "effectKind": "none"
     },
     "tactic:long_night": {
       "id": "tactic:long_night",
-      "name": "Long Night"
+      "name": "Long Night",
+      "turnOrder": 2,
+      "timeOfDay": "night",
+      "effectKind": "activated"
     },
     "tactic:mana_search": {
       "id": "tactic:mana_search",
-      "name": "Mana Search"
+      "name": "Mana Search",
+      "turnOrder": 3,
+      "timeOfDay": "night",
+      "effectKind": "activated"
     },
     "tactic:midnight_meditation": {
       "id": "tactic:midnight_meditation",
-      "name": "Midnight Meditation"
+      "name": "Midnight Meditation",
+      "turnOrder": 4,
+      "timeOfDay": "night",
+      "effectKind": "activated"
     },
     "tactic:preparation": {
       "id": "tactic:preparation",
-      "name": "Preparation"
+      "name": "Preparation",
+      "turnOrder": 5,
+      "timeOfDay": "night",
+      "effectKind": "on_pick"
     },
     "tactic:sparing_power": {
       "id": "tactic:sparing_power",
-      "name": "Sparing Power"
+      "name": "Sparing Power",
+      "turnOrder": 6,
+      "timeOfDay": "night",
+      "effectKind": "activated"
     }
   },
   "levels": [
@@ -2651,5 +2687,5 @@
       "powered": null
     }
   },
-  "contentHash": "3cfc1f9f5fe2e49bbac409e043b4fc2c2eefead917161e84ba0e36e9102c9589"
+  "contentHash": "632a97cd7b3dd44918c78515dcd25664b34d144f6430463cb1a99f127f5ebcf3"
 }
