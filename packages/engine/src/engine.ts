@@ -340,23 +340,7 @@ export function createGame(
     };
   });
 
-  const sites: { siteId: string; hex: Hex }[] = [];
-  for (const tilePlacement of placed) {
-    for (const info of tileHexInfos(tilePlacement, content)) {
-      if (info.site !== undefined && info.site !== null) {
-        sites.push({ siteId: `site:${info.site}`, hex: info.hex });
-      }
-    }
-  }
-  if (scenario.site !== null) {
-    sites.push({ siteId: scenario.site.siteId, hex: scenario.site.hex });
-  }
-  for (const seedSite of scenario.siteSeeds ?? []) {
-    sites.push({ siteId: seedSite.siteId, hex: seedSite.hex });
-  }
-  if (scenario.city !== undefined && scenario.city !== null) {
-    sites.push({ siteId: scenario.city.siteId, hex: scenario.city.hex });
-  }
+  const sites = sitesOnRevealedHexes(placed, content);
 
   const turn: TurnState = {
     number: 1,
@@ -834,6 +818,67 @@ function tileHexInfos(tile: PlacedTile, content: ContentBundle): HexInfo[] {
     terrain: hex.terrain,
     site: hex.site,
   }));
+}
+
+function revealedHexSet(tiles: PlacedTile[], content: ContentBundle): Set<string> {
+  const revealed = new Set<string>();
+  for (const tile of tiles) {
+    if (!tile.revealed) {
+      continue;
+    }
+    for (const info of tileHexInfos(tile, content)) {
+      revealed.add(hexKey(info.hex));
+    }
+  }
+  return revealed;
+}
+
+function candidateSites(
+  tiles: PlacedTile[],
+  content: ContentBundle,
+): { siteId: string; hex: Hex }[] {
+  const scenario = content.scenario;
+  const out: { siteId: string; hex: Hex }[] = [];
+  for (const tile of tiles) {
+    for (const info of tileHexInfos(tile, content)) {
+      if (info.site !== undefined && info.site !== null) {
+        out.push({ siteId: `site:${info.site}`, hex: info.hex });
+      }
+    }
+  }
+  if (scenario.site !== null) {
+    out.push({ siteId: scenario.site.siteId, hex: scenario.site.hex });
+  }
+  for (const seedSite of scenario.siteSeeds ?? []) {
+    out.push({ siteId: seedSite.siteId, hex: seedSite.hex });
+  }
+  if (scenario.city !== undefined && scenario.city !== null) {
+    out.push({ siteId: scenario.city.siteId, hex: scenario.city.hex });
+  }
+  return out;
+}
+
+function sitesOnRevealedHexes(
+  tiles: PlacedTile[],
+  content: ContentBundle,
+): { siteId: string; hex: Hex }[] {
+  const revealed = revealedHexSet(tiles, content);
+  return candidateSites(tiles, content).filter((site) => revealed.has(hexKey(site.hex)));
+}
+
+function seedSitesForRevealedTiles(draft: Draft, content: ContentBundle): void {
+  const revealed = revealedHexSet(draft.map.tiles, content);
+  const existing = new Set(
+    draft.map.sites.map((site) => `${site.siteId as string}@${hexKey(site.hex)}`),
+  );
+  for (const site of candidateSites(draft.map.tiles, content)) {
+    const key = `${site.siteId}@${hexKey(site.hex)}`;
+    if (existing.has(key) || !revealed.has(hexKey(site.hex))) {
+      continue;
+    }
+    draft.map.sites.push({ siteId: asSiteDefId(site.siteId), hex: site.hex });
+    existing.add(key);
+  }
 }
 
 function revealedHexes(state: GameState, content: ContentBundle): Map<string, HexInfo> {
@@ -1350,6 +1395,7 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
       hidden.revealed = true;
       draft.turn.movePoints -= content.rulesConstants.tileRevealCost;
       env.events.push({ type: "tileRevealed", tile: hidden.tileId, origin: hidden.origin });
+      seedSitesForRevealedTiles(draft, content);
       seedEnemiesForRevealedTiles(draft, content, env.events);
       return;
     }

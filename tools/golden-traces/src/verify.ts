@@ -73,9 +73,25 @@ function verifyFile(path: string, label: string): boolean {
     }
   }
 
+  if (trace.expectedResult !== undefined) {
+    const result = state.result;
+    if (result === null) {
+      return fail("expected a final GameResult but the game is still running");
+    }
+    const resultFields = ["outcome", "score", "cityConquered", "reason"] as const;
+    for (const field of resultFields) {
+      if (result[field] !== trace.expectedResult[field]) {
+        return fail(
+          `result mismatch for ${field} (expected ${String(trace.expectedResult[field])}, got ${String(result[field])})`,
+        );
+      }
+    }
+  }
+
   console.log(
     `trace verified: ${label} actions=${trace.actions.length} contentHash=${trace.contentHash.slice(0, 16)}… ` +
-      `round=${actual.round} gameOver=${actual.gameOver} fame=${actual.fame}`,
+      `round=${actual.round} gameOver=${actual.gameOver} fame=${actual.fame}` +
+      (trace.expectedResult === undefined ? "" : ` result=${trace.expectedResult.outcome}`),
   );
   return true;
 }

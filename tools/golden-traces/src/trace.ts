@@ -26,6 +26,15 @@ export interface TraceFile {
   readonly actions: readonly Action[];
   readonly expectedHashes: readonly string[];
   readonly expectedOutcome: TraceOutcome;
+  /** Present on scenario-completion traces: the final GameResult when the run ended. */
+  readonly expectedResult?: TraceResult;
+}
+
+export interface TraceResult {
+  readonly outcome: "victory" | "defeat";
+  readonly score: number;
+  readonly cityConquered: boolean;
+  readonly reason: string;
 }
 
 export function outcomeOf(

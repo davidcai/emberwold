@@ -1541,4 +1541,28 @@ describe("determinism and invariants", () => {
     outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
     expect(outcome.state.players[0]?.hand).toHaveLength(5);
   });
+  it("reveals tile sites only when the tile is explored", () => {
+    const content = createFixtureContent();
+    let state = createGame({ seed: 21 }, content).state;
+    expect(state.map.sites.map((site) => site.siteId as string)).toContain("site:portal");
+    expect(state.map.sites.map((site) => site.siteId as string)).not.toContain("site:village");
+    state = clone(state);
+    const player = state.players[0];
+    if (player === undefined) {
+      throw new Error("no player");
+    }
+    player.position = { q: 1, r: 0 };
+    state.turn.movePoints = 2;
+    const explore = getLegalActions(state, content).actions.find(
+      (action) => action.type === "explore",
+    );
+    expect(explore).toBeDefined();
+    const outcome = applyOk(state, explore as Action, content);
+    const siteIds = outcome.state.map.sites.map((site) => site.siteId as string);
+    expect(siteIds).toContain("site:village");
+    const village = outcome.state.map.sites.find(
+      (site) => (site.siteId as string) === "site:village",
+    );
+    expect(village?.hex).toEqual({ q: 2, r: 0 });
+  });
 });

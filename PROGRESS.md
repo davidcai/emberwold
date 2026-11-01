@@ -180,6 +180,22 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     draw). Evidence: 76 tests green; all 6 traces re-recorded and verify; fuzz seed 1
     (13 games / 1,000 actions, 0 invariant/termination failures); `pnpm test:e2e` 4/4.
 
+26. **T1-f victory trace + site-visibility fix done**: golden traces now carry an optional
+    `expectedResult`; `pnpm traces:check` asserts outcome/score/cityConquered/reason as well as
+    state hashes. New `tools/golden-traces/050-victory.json` is a full deterministic winning
+    line (seed 1, 78 actions, round 3, fame 7, score 17, city conquered) produced by a scripted
+    rush policy (no recruitment: reveal the countryside, travel to the village, reveal and
+    assault the city; the level-up Advanced Action `blood_rage` powered/compound — 9 attack for
+    one Wound — kills the garrison). The policy itself is scratch and is not committed; the
+    trace replays deterministically from its seed/actions. While authoring it, found and fixed a
+    real map bug: `createGame` seeded `map.sites` from every placed tile, leaking hidden
+    sites (village/monastery/city were visible before their tiles were revealed) and `explore`
+    never added newly revealed sites; sites are now seeded only for revealed hexes and added on
+    tile reveal (`sitesOnRevealedHexes`, `seedSitesForRevealedTiles`). New engine test covers
+    it. Evidence: 77 tests green; all 7 traces re-recorded and verify against contentHash
+    `e79812bee30db56be46dd6dbb1f9436badcfcbbe4dae77d5d4ae097eab9d66df`; fuzz seed 1
+    (13 games / 1,000 actions, 0 failures) clean; `pnpm test:e2e` 4/4.
+
 ## Next (ordered; first item is the exact next action)
 
 Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a
@@ -190,11 +206,10 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
    screen, tutorial prompts turns 1–3, placeholder art where it exists. The engine already
    exposes every action; this is presentation + legibility (the current fallback renders some
    actions as JSON).
-2. **T1-f winning line + exit** — find/author a deterministic full-game trace that wins the city
-   within 3 rounds (scripted policy/search over the existing actions, unit recruiting and
-   level-ups included), score/debrief check, longer fuzz in CI, docs (`11` §9 DoD status),
-   README/roadmap status, then T1 exit + PR/merge decision. (The greedy bot and beam search in
-   `/tmp/emberwold-scratch/` currently fail to win; needs a shopping/assault strategy.)
+2. **T1-f exit docs + verification** — winning line is done (Done item 26: 050-victory, score
+   17, city conquered by round 3). Remaining: debrief/score surface in the client (part of
+   T1-e), docs status (`11` §9 DoD, README, roadmap M3/M4), the T1 exit report (deviations,
+   simplifications, T1 debt), longer fuzz in CI, then the T1 exit + PR/merge decision.
 3. **T1-d2 remaining content (after the exit gates or as capacity allows)** — 4 artifacts (their
    basic effect needs `gain_fame`; powered "endless mana" deferred), remaining Advanced
    Actions/Spells (conditional/on_terrain, scaling, in_combat…), remaining hero skills, unit
@@ -218,7 +233,10 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 
 - Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`. T0 merged (PR #1 `41c8a0f`);
   the T1-a/T1-d branch merged as PR #2 (`606975c`); **T1 continues on `main`** (ADR-010) with
-  small commits, CI on every push.
+  small commits, CI on every push. T1 engine commits so far: `f49c7f1` (round clock/tactics/
+  dummy), `2134de2` (sites/offers/AA/spells), `14eb9d0` (leveling/skills), `3adc60a` (units),
+  `0ec033a` (end-of-turn draw + discard). Winning trace: `050-victory.json` seed 1, 78 actions,
+  victory score 17 at round 3 (contentHash `e79812be…`).
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +

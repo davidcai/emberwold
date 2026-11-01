@@ -27,9 +27,9 @@
     }
   ],
   "expectedHashes": [
-    "b24dfd9714acfd6cdda91fe9b5487f80e3264314f1bd305283127d3d5fa42d7c",
-    "16c7ae3581dad5caa306a2cbb331726fc41c1094b013add2413dd616e6cca53c",
-    "2a5df891a4e6b57f663a62687d921c9e3d43e79d03062470d7cc5e54580b1c0b"
+    "6345923d3a991608e06f29baefaf3ba51277d908a0b453af152176e66216e3eb",
+    "c67ade1a3c3bc5e4fa80e9a096b013a5bdf28f8839eb32851deae9cad18a6013",
+    "13c6e83abafac6ff9522a6b9a26b769f46936159e8e9bff8dc99362bbb31d195"
   ],
   "expectedOutcome": {
     "round": 1,
