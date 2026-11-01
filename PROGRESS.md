@@ -157,6 +157,19 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     from level table, skill usage limits); all 6 traces re-recorded and verify; fuzz seed 1
     clean; e2e 4/4.
 
+24. **T1-b2a done — units**: the 6 MVP units compile into the bundle with data-mapped
+    abilities (attack / ranged / siege / block / move / influence / heal / gain-mana; abilities
+    whose ops are not implemented — ready_unit, scout_peek — are deferred and not activatable).
+    Unit offer = 3 cards + 3 behind it; recruiting needs an entered inhabited site, enough
+    Influence and a free command slot (command slots come from the level table); recruited units
+    start ready. `activateUnit` spends a ready unit (ready/spent only; no unit wounds or damage
+    assignment yet), pays an optional mana cost, and applies the mapped effect (attack abilities
+    only appear in the matching combat phase). Units ready at round start and the unit offer
+    refreshes from the deck each round. Evidence: 74 tests (2 new: recruit → activate → round
+    refresh; command-slot limit); contentHash
+    `e79812bee30db56be46dd6dbb1f9436badcfcbbe4dae77d5d4ae097eab9d66df`; 6 traces re-recorded and
+    verify; fuzz seed 1 clean; e2e 4/4.
+
 ## Next (ordered; first item is the exact next action)
 
 **T1-a + T1-d(client) are done on `t1-first-conquest`; commit and open the T1 PR, then keep
@@ -165,20 +178,20 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 
 0. Commit the current T1 increment (engine/content/rules + client autosave/undo + e2e + docs),
    push `t1-first-conquest`, watch CI (`t1-*` trigger added), open the PR and merge when green.
-1. **T1-b2 units + remaining sites** — unit definitions/offers (players+2 at round start),
-   recruit at village/monastery/keep/tower (influence cost, command slots from the level table),
-   ready/spent/wounded state, activate unit abilities (data ops per unit), keep hand-limit bonus;
-   portal use; city purchase options after conquest (red artifacts / blue spells / white units /
-   green AA); fame→reputation events (assault −1, orc defeat +1).
-2. **T1-d2 remaining content** — artifacts (4 rings: basic free, powered throw-away), remaining
-   Advanced Actions/Spells whose effect ops now exist (conditional/on_terrain, scaling, …), and
-   the remaining hero skills' effects.
-3. **T1-e UI** — round/day-night indicator + tactic picker display, board origins, site/offer
-   panels (buy AA/spell/heal/recruit/skill), level-up/unit/artifact UI, score/debrief screen,
-   tutorial prompts turns 1–3, placeholder art where it exists.
-4. **T1-f verification + exit** — a full-game deterministic trace that actually wins (city
-   assault inside 3 rounds) or a scripted full game, scoring/debrief check, longer fuzz in CI,
-   docs (`11` §9 DoD), README/roadmap status, then T1 exit + PR/merge decision.
+1. **T1-e UI** — round/day-night indicator + tactic picker display, board origins, site/offer
+   panels (buy AA/spell/heal/recruit, activate skills/units), level-up/unit UI, score/debrief
+   screen, tutorial prompts turns 1–3, placeholder art where it exists. The engine already
+   exposes every action; this is presentation + legibility (the current fallback renders some
+   actions as JSON).
+2. **T1-f winning line + exit** — find/author a deterministic full-game trace that wins the city
+   within 3 rounds (scripted policy/search over the existing actions, unit recruiting and
+   level-ups included), score/debrief check, longer fuzz in CI, docs (`11` §9 DoD status),
+   README/roadmap status, then T1 exit + PR/merge decision.
+3. **T1-d2 remaining content (after the exit gates or as capacity allows)** — 4 artifacts (their
+   basic effect needs `gain_fame`; powered "endless mana" deferred), remaining Advanced
+   Actions/Spells (conditional/on_terrain, scaling, in_combat…), remaining hero skills, unit
+   wounds/damage assignment, city purchase options, keep/portal interactions, fame→reputation
+   events (assault −1, orc defeat +1). These are tracked as explicit T1 debt in the exit report.
 4. **T1-f verification + exit** — a full-game deterministic trace that actually wins (city
    assault inside 3 rounds) or a scripted full game, scoring/debrief check, longer fuzz in CI,
    docs (`11` §9 DoD), README/roadmap status, then T1 exit + PR/merge decision.

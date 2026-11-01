@@ -24,6 +24,8 @@ import type {
   SkillDef,
   TacticDef,
   TileDef,
+  UnitAbilityDef,
+  UnitDef,
 } from "@emberwold/shared";
 
 const ROOT = process.cwd();
@@ -90,6 +92,9 @@ interface SpikeConfig {
   readonly spellOfferSize?: number;
   /** T1: skill definition ids to include; the scenario skill deck defaults to the hero's. */
   readonly skills?: readonly string[];
+  /** T1: unit definition ids to include and the unit offer size (default 3). */
+  readonly units?: readonly string[];
+  readonly unitOfferSize?: number;
   readonly woundCard: CardDef;
   readonly supportedOps: readonly string[];
 }
@@ -183,6 +188,22 @@ interface SkillItem {
   readonly mvp?: boolean;
 }
 
+interface UnitAbilityItem {
+  readonly mana_cost: string | null;
+  readonly ability: { readonly op: string; readonly [key: string]: unknown };
+}
+
+interface UnitItem {
+  readonly id: string;
+  readonly name: string;
+  readonly level: number;
+  readonly influence_cost: number;
+  readonly armor: number;
+  readonly recruit_sites: readonly string[];
+  readonly abilities: readonly UnitAbilityItem[];
+  readonly mvp?: boolean;
+}
+
 interface RulesConstantsItem {
   readonly starting_hand_size: number;
   readonly hero_armor_level_1_2: number;
@@ -269,6 +290,60 @@ function rotateHex(hex: { q: number; r: number }, steps: number): { q: number; r
   return { q, r };
 }
 
+/** T1 unit-ability mapping: only abilities expressible with implemented ops become playable. */
+function mapUnitAbility(item: UnitAbilityItem): UnitAbilityDef {
+  const ability = item.ability;
+  const manaCost = item.mana_cost === null ? null : (item.mana_cost as EffectOpManaColor);
+  const text = String(ability.op);
+  const value = typeof ability["value"] === "number" ? ability["value"] : 0;
+  const element = (ability["element"] as string | undefined) ?? "physical";
+  const mapped = (effect: EffectOp | null): UnitAbilityDef => ({ manaCost, effect, text });
+  switch (ability.op) {
+    case "attack":
+      return mapped({
+        op: "gain_attack",
+        amount: value,
+        combat_type: "melee",
+        element: element as "physical",
+      });
+    case "ranged_attack":
+      return mapped({
+        op: "gain_attack",
+        amount: value,
+        combat_type: "ranged",
+        element: element as "physical",
+      });
+    case "siege_attack":
+      return mapped({
+        op: "gain_attack",
+        amount: value,
+        combat_type: "siege",
+        element: element as "physical",
+      });
+    case "block":
+      return mapped({ op: "gain_block", amount: value, element: element as "physical" });
+    case "move":
+    case "move_with_terrain_reduction":
+    case "move_with_extended_explore":
+      return mapped({ op: "gain_move", amount: value });
+    case "influence":
+      return mapped({ op: "gain_influence", amount: value });
+    case "heal":
+      return mapped({ op: "gain_healing", amount: value });
+    case "gain_mana":
+      return mapped({
+        op: "gain_mana",
+        color: ability["color"] as string as "red",
+        amount: 1,
+      });
+    default:
+      // ready_unit / scout_peek / anything else: deferred until its ops exist (T1 note).
+      return mapped(null);
+  }
+}
+
+type EffectOpManaColor = "red" | "blue" | "green" | "white" | "gold" | "black";
+
 function main(): void {
   const config = readJson<SpikeConfig>(CONFIG_PATH);
 
@@ -305,6 +380,7 @@ function main(): void {
   const spells = readJson<DataFile<CardItem>>(join(DATA_DIR, "spells.json"));
   const levels = readJson<LevelFile>(join(DATA_DIR, "levels.json"));
   const skills = readJson<DataFile<SkillItem>>(join(DATA_DIR, "skills.json"));
+  const units = readJson<DataFile<UnitItem>>(join(DATA_DIR, "units.json"));
   const keywords = readJson<{ rules_constants: RulesConstantsItem }>(
     join(DATA_DIR, "keywords.json"),
   );
@@ -529,6 +605,29 @@ function main(): void {
     }
   }
 
+  // T1 units: offers refresh each round; abilities are mapped only when implemented.
+  const unitDefs: Record<string, UnitDef> = {};
+  const unitIds =
+    config.units ?? units.items.filter((item) => item.mvp === true).map((item) => item.id);
+  for (const unitId of unitIds) {
+    const item = units.items.find((candidate) => candidate.id === unitId);
+    if (item === undefined) {
+      fail(`unit not found: ${unitId}`);
+    }
+    unitDefs[item.id] = {
+      id: item.id,
+      name: item.name,
+      level: item.level,
+      influenceCost: item.influence_cost,
+      armor: item.armor,
+      recruitSites: item.recruit_sites,
+      abilities: item.abilities.map(mapUnitAbility),
+    };
+  }
+  const unitOfferSize = config.unitOfferSize ?? 3;
+  const unitOffer = unitIds.slice(0, unitOfferSize);
+  const unitDeck = unitIds.slice(unitOfferSize);
+
   const draftBundle: Omit<ContentBundle, "contentHash"> = {
     schemaVersion: config.schemaVersion,
     rulesConstants: mapRulesConstants(keywords.rules_constants),
@@ -557,10 +656,13 @@ function main(): void {
       aaDeck,
       spellDeck,
       skillDeck,
+      unitOffer,
+      unitDeck,
     },
     tactics: tacticDefs,
     levels: levelDefs,
     skills: skillDefs,
+    units: unitDefs,
     woundCard: config.woundCard,
   };
 

@@ -26,6 +26,11 @@ describe("@emberwold/content", () => {
     expect(bundle.scenario.aaOffer).toHaveLength(3);
     expect(bundle.scenario.spellOffer).toHaveLength(2);
     expect(bundle.scenario.aaDeck).toHaveLength(2);
+    expect(bundle.units).toBeDefined();
+    expect(Object.keys(bundle.units ?? {})).toHaveLength(6);
+    expect(bundle.scenario.unitOffer).toHaveLength(3);
+    expect(bundle.scenario.unitDeck).toHaveLength(3);
+    expect(bundle.units?.["unit:peasants"]?.abilities.length).toBeGreaterThan(0);
     expect(bundle.levels).toHaveLength(10);
     expect(bundle.levels?.[1]).toEqual({
       level: 2,

@@ -1368,6 +1368,16 @@
       "skill:goldyx_source_opening",
       "skill:goldyx_universal_power",
       "skill:goldyx_white_crystal_craft"
+    ],
+    "unitOffer": [
+      "unit:foresters",
+      "unit:herbalist",
+      "unit:peasants"
+    ],
+    "unitDeck": [
+      "unit:scouts",
+      "unit:utem_crossbowmen",
+      "unit:utem_guardsmen"
     ]
   },
   "tactics": {
@@ -1831,6 +1841,232 @@
       }
     }
   },
+  "units": {
+    "unit:foresters": {
+      "id": "unit:foresters",
+      "name": "Foresters",
+      "level": 1,
+      "influenceCost": 5,
+      "armor": 4,
+      "recruitSites": [
+        "village"
+      ],
+      "abilities": [
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_block",
+            "amount": 3,
+            "element": "physical"
+          },
+          "text": "block"
+        },
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_move",
+            "amount": 0
+          },
+          "text": "move_with_terrain_reduction"
+        }
+      ]
+    },
+    "unit:herbalist": {
+      "id": "unit:herbalist",
+      "name": "Herbalist",
+      "level": 1,
+      "influenceCost": 3,
+      "armor": 2,
+      "recruitSites": [
+        "village",
+        "monastery"
+      ],
+      "abilities": [
+        {
+          "manaCost": "green",
+          "effect": {
+            "op": "gain_healing",
+            "amount": 2
+          },
+          "text": "heal"
+        },
+        {
+          "manaCost": null,
+          "effect": null,
+          "text": "ready_unit"
+        },
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_mana",
+            "color": "green",
+            "amount": 1
+          },
+          "text": "gain_mana"
+        }
+      ]
+    },
+    "unit:peasants": {
+      "id": "unit:peasants",
+      "name": "Peasants",
+      "level": 1,
+      "influenceCost": 4,
+      "armor": 3,
+      "recruitSites": [
+        "village"
+      ],
+      "abilities": [
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          "text": "attack"
+        },
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_block",
+            "amount": 2,
+            "element": "physical"
+          },
+          "text": "block"
+        },
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_influence",
+            "amount": 2
+          },
+          "text": "influence"
+        },
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_move",
+            "amount": 2
+          },
+          "text": "move"
+        }
+      ]
+    },
+    "unit:scouts": {
+      "id": "unit:scouts",
+      "name": "Scouts",
+      "level": 1,
+      "influenceCost": 4,
+      "armor": 2,
+      "recruitSites": [
+        "village",
+        "keep",
+        "mage_tower",
+        "monastery",
+        "city"
+      ],
+      "abilities": [
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_attack",
+            "amount": 1,
+            "combat_type": "siege",
+            "element": "physical"
+          },
+          "text": "siege_attack"
+        },
+        {
+          "manaCost": null,
+          "effect": null,
+          "text": "scout_peek"
+        },
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_move",
+            "amount": 0
+          },
+          "text": "move_with_extended_explore"
+        }
+      ]
+    },
+    "unit:utem_crossbowmen": {
+      "id": "unit:utem_crossbowmen",
+      "name": "Utem Crossbowmen",
+      "level": 2,
+      "influenceCost": 6,
+      "armor": 4,
+      "recruitSites": [
+        "village",
+        "keep"
+      ],
+      "abilities": [
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_attack",
+            "amount": 3,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          "text": "attack"
+        },
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_block",
+            "amount": 3,
+            "element": "physical"
+          },
+          "text": "block"
+        },
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "ranged",
+            "element": "physical"
+          },
+          "text": "ranged_attack"
+        }
+      ]
+    },
+    "unit:utem_guardsmen": {
+      "id": "unit:utem_guardsmen",
+      "name": "Utem Guardsmen",
+      "level": 2,
+      "influenceCost": 5,
+      "armor": 5,
+      "recruitSites": [
+        "village",
+        "keep"
+      ],
+      "abilities": [
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          "text": "attack"
+        },
+        {
+          "manaCost": null,
+          "effect": {
+            "op": "gain_block",
+            "amount": 4,
+            "element": "physical"
+          },
+          "text": "block"
+        }
+      ]
+    }
+  },
   "woundCard": {
     "id": "card:wound",
     "name": "Wound",
@@ -1845,5 +2081,5 @@
       "powered": null
     }
   },
-  "contentHash": "59c25590421263fe93140258a0325ffd1c3d122a250a8806d86c13c25ecbf774"
+  "contentHash": "e79812bee30db56be46dd6dbb1f9436badcfcbbe4dae77d5d4ae097eab9d66df"
 }

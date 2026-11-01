@@ -3,6 +3,7 @@ import {
   asEnemyInstanceId,
   asPlayerId,
   asSiteDefId,
+  asUnitInstanceId,
   asTileId,
   createRng,
   hashState as sharedHashState,
@@ -316,6 +317,7 @@ export function createGame(
     manaTokens: [],
     skillDeck: [...(scenario.skillDeck ?? [])],
     skills: [],
+    units: [],
   };
 
   const placed: PlacedTile[] = scenario.tiles.map((placement, index) => {
@@ -416,10 +418,12 @@ export function createGame(
     offers: {
       aa: [...(scenario.aaOffer ?? [])] as CardId[],
       spell: [...(scenario.spellOffer ?? [])] as CardId[],
+      unit: [...(scenario.unitOffer ?? [])],
     },
     offerDecks: {
       aa: [...(scenario.aaDeck ?? [])] as CardId[],
       spell: [...(scenario.spellDeck ?? [])] as CardId[],
+      unit: [...(scenario.unitDeck ?? [])],
     },
     skillUsage: { turn: [], round: [] },
   };
@@ -1177,6 +1181,36 @@ export function getLegalActions(state: GameState, content: ContentBundle): Legal
       actions.push({ epoch, type: "useSkill", skill });
     }
   }
+  // Units: recruit at any entered inhabited site; activate a ready unit's implemented abilities.
+  const unitOffer = state.offers.unit;
+  if (enteredSite && siteDef.inhabited && unitOffer.length > 0) {
+    const slots = commandSlots(content, player.level);
+    if (player.units.length < slots) {
+      unitOffer.forEach((unitId, index) => {
+        const unitDef = content.units?.[unitId];
+        if (unitDef !== undefined && state.turn.influence >= unitDef.influenceCost) {
+          actions.push({ epoch, type: "recruitUnit", index });
+        }
+      });
+    }
+  }
+  for (const unit of player.units) {
+    const unitDef = content.units?.[unit.defId];
+    if (!unit.ready || unitDef === undefined) {
+      continue;
+    }
+    unitDef.abilities.forEach((ability, abilityIndex) => {
+      if (ability.effect === null) {
+        return;
+      }
+      if (ability.manaCost !== null && pickMana(state, ability.manaCost) === null) {
+        return;
+      }
+      if (ability.effect !== null && effectApplicable(state, content, ability.effect)) {
+        actions.push({ epoch, type: "activateUnit", unit: unit.instanceId, ability: abilityIndex });
+      }
+    });
+  }
   if (canRest(state, content)) {
     const wounds = player.hand.filter((instance) =>
       isWound(content, cardOf(content, state.cardInstances, instance)),
@@ -1417,6 +1451,60 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
       }
       player.hand.splice(index, 1);
       env.events.push({ type: "woundDiscarded", count: 1 });
+      return;
+    }
+    case "recruitUnit": {
+      const site = siteAt(draft, player.position);
+      const siteDef = site === null ? undefined : content.sites[site.siteId];
+      if (
+        siteDef === undefined ||
+        !siteDef.inhabited ||
+        draft.turn.flags[`enteredSite:${hexKey(player.position)}`] !== true
+      ) {
+        throw new Error("recruit needs an entered inhabited site");
+      }
+      const unitId = draft.offers.unit[action.index];
+      const unitDef = unitId === undefined ? undefined : content.units?.[unitId];
+      if (unitId === undefined || unitDef === undefined) {
+        throw new Error("no such unit offer");
+      }
+      if (player.units.length >= commandSlots(content, player.level)) {
+        throw new Error("no free command slot");
+      }
+      if (draft.turn.influence < unitDef.influenceCost) {
+        throw new Error("not enough influence");
+      }
+      draft.turn.influence -= unitDef.influenceCost;
+      draft.offers.unit.splice(action.index, 1);
+      const instance = asUnitInstanceId(`p1:unit:${draft.actionEpoch}:${unitId}`);
+      player.units.push({ instanceId: instance, defId: unitId, ready: true });
+      env.events.push({ type: "influenceSpent", amount: unitDef.influenceCost });
+      env.events.push({ type: "unitRecruited", unit: instance, defId: unitId });
+      return;
+    }
+    case "activateUnit": {
+      const unit = player.units.find((candidate) => candidate.instanceId === action.unit);
+      const unitDef = unit === undefined ? undefined : content.units?.[unit.defId];
+      if (unit === undefined || unitDef === undefined) {
+        throw new Error("no such unit");
+      }
+      if (!unit.ready) {
+        throw new Error("unit is spent");
+      }
+      const ability = unitDef.abilities[action.ability];
+      if (ability === undefined || ability.effect === null) {
+        throw new Error("ability not implemented");
+      }
+      if (ability.manaCost !== null) {
+        const payment = action.mana ?? pickMana(draft, ability.manaCost);
+        if (payment === null || !paymentIsPossible(draft, payment, ability.manaCost)) {
+          throw new Error("unit mana not available");
+        }
+        applyManaPayment(draft, payment);
+      }
+      unit.ready = false;
+      env.events.push({ type: "unitActivated", unit: unit.instanceId, ability: action.ability });
+      applyEffect(draft, env, ability.effect);
       return;
     }
     case "challengeRampaging": {
@@ -1917,6 +2005,14 @@ function finishRound(draft: Draft, env: Env): void {
   if (draft.dummy !== null) {
     draft.dummy.cardsRemaining = draft.dummy.deckSize;
   }
+  // Units ready at round start; the unit offer refreshes from the deck (02 §3.1 / §10.2).
+  for (const unit of player.units) {
+    unit.ready = true;
+  }
+  if (draft.offers.unit.length > 0 || draft.offerDecks.unit.length > 0) {
+    draft.offerDecks.unit.push(...draft.offers.unit);
+    draft.offers.unit = draft.offerDecks.unit.splice(0, 3);
+  }
   const allTactics = scenario.tacticIds ?? Object.keys(content.tactics ?? {});
   const removed = tacticRules?.usedTacticsRemovedEachRound === false ? [] : draft.tactics.used;
   const available = allTactics.filter((tactic) => !removed.includes(tactic));
@@ -1942,6 +2038,10 @@ function heroArmor(content: ContentBundle, level: number): number {
 
 function heroHandLimit(content: ContentBundle, level: number): number {
   return levelDefOf(content, level)?.stats.handLimit ?? content.rulesConstants.heroHandLimit;
+}
+
+function commandSlots(content: ContentBundle, level: number): number {
+  return levelDefOf(content, level)?.stats.commandSlots ?? 1;
 }
 
 /** End-of-turn level-ups (02 §12/§15): each even level grants a skill and an AA card. */

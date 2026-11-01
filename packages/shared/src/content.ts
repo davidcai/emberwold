@@ -156,6 +156,24 @@ export interface LevelDef {
   readonly stats: LevelStats;
 }
 
+export interface UnitAbilityDef {
+  readonly manaCost: ManaColor | null;
+  /** Engine interpretation; null while the ability's ops are not implemented. */
+  readonly effect: EffectOp | null;
+  /** Original data op, kept for display/debug while the ability is deferred. */
+  readonly text: string;
+}
+
+export interface UnitDef {
+  readonly id: string;
+  readonly name: string;
+  readonly level: number;
+  readonly influenceCost: number;
+  readonly armor: number;
+  readonly recruitSites: readonly string[];
+  readonly abilities: readonly UnitAbilityDef[];
+}
+
 export interface SkillDef {
   readonly id: string;
   readonly name: string;
@@ -213,6 +231,9 @@ export interface SpikeScenarioDef {
   readonly spellDeck?: readonly string[];
   /** Hero skill deck for this scenario (T1: fixed data order; no shuffle yet). */
   readonly skillDeck?: readonly string[];
+  /** Unit offer (T1, players+2 cards) and the deck behind it (refreshed each round). */
+  readonly unitOffer?: readonly string[];
+  readonly unitDeck?: readonly string[];
 }
 
 export interface RulesConstants {
@@ -246,6 +267,8 @@ export interface ContentBundle {
   readonly levels?: readonly LevelDef[];
   /** Skill definitions (T1; acquisition implemented, most effects deferred). */
   readonly skills?: Readonly<Record<string, SkillDef>>;
+  /** Unit definitions (T1; abilities whose ops are implemented are activatable). */
+  readonly units?: Readonly<Record<string, UnitDef>>;
   /** Rules-defined card with no effect (02-rules-core §14.1); not in game-data yet (B7). */
   readonly woundCard: CardDef;
 }

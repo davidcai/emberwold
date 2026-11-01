@@ -1315,4 +1315,180 @@ describe("determinism and invariants", () => {
     state = outcome.state;
     expect(legalOfType(state, content, (action) => action.type === "useSkill")).toHaveLength(2);
   });
+  it("recruits a unit at a village, activates it, and refreshes it at the next round", () => {
+    const base = createFixtureContent();
+    const startTile = base.tiles["tile:start"];
+    if (startTile === undefined) {
+      throw new Error("fixture tile missing");
+    }
+    const content: ContentBundle = {
+      ...base,
+      units: {
+        "unit:test_peasant": {
+          id: "unit:test_peasant",
+          name: "Test Peasant",
+          level: 1,
+          influenceCost: 4,
+          armor: 3,
+          recruitSites: ["village"],
+          abilities: [
+            {
+              manaCost: null,
+              text: "influence",
+              effect: { op: "gain_influence", amount: 2 },
+            },
+            {
+              manaCost: null,
+              text: "attack",
+              effect: {
+                op: "gain_attack",
+                amount: 2,
+                combat_type: "melee",
+                element: "physical",
+              },
+            },
+          ],
+        },
+        "unit:test_scout": {
+          id: "unit:test_scout",
+          name: "Test Scout",
+          level: 1,
+          influenceCost: 3,
+          armor: 3,
+          recruitSites: ["village"],
+          abilities: [{ manaCost: null, text: "move", effect: { op: "gain_move", amount: 2 } }],
+        },
+      },
+      sites: {
+        ...base.sites,
+        "site:village": {
+          id: "site:village",
+          name: "Village",
+          siteKind: "inhabited",
+          fortified: false,
+          inhabited: true,
+          healing: { influencePerPoint: 3 },
+          interaction: [],
+        },
+      },
+      tiles: {
+        ...base.tiles,
+        "tile:start": {
+          ...startTile,
+          hexes: startTile.hexes.map((hex) =>
+            hex.q === 0 && hex.r === 0 ? { ...hex, site: null } : hex,
+          ),
+        },
+      },
+      levels: [{ level: 1, fame: 0, stats: { armor: 2, handLimit: 5, commandSlots: 1 } }],
+      scenario: {
+        ...base.scenario,
+        site: { siteId: "site:village", hex: { q: 0, r: 0 } },
+        unitOffer: ["unit:test_peasant"],
+        unitDeck: ["unit:test_scout"],
+      },
+    };
+    let state = createGame({ seed: 11 }, content).state;
+    state = clone(state);
+    state.turn.influence = 4;
+    state = applyOk(state, { epoch: state.actionEpoch, type: "enterSite" }, content).state;
+    const recruits = legalOfType(state, content, (action) => action.type === "recruitUnit");
+    expect(recruits).toHaveLength(1);
+    let outcome = applyOk(state, recruits[0] as Action, content);
+    state = outcome.state;
+    expect(state.players[0]?.units).toHaveLength(1);
+    expect(state.turn.influence).toBe(0);
+    expect(state.offers.unit).toEqual([]);
+    const unit = state.players[0]?.units[0];
+    expect(unit?.ready).toBe(true);
+    const activates = legalOfType(state, content, (action) => action.type === "activateUnit");
+    // Outside combat only the influence ability applies; attack stays a combat action.
+    expect(activates).toHaveLength(1);
+    outcome = applyOk(
+      state,
+      {
+        epoch: state.actionEpoch,
+        type: "activateUnit",
+        unit: unit?.instanceId as never,
+        ability: 0,
+      },
+      content,
+    );
+    state = outcome.state;
+    expect(state.turn.influence).toBe(2);
+    expect(state.players[0]?.units[0]?.ready).toBe(false);
+    expect(legalOfType(state, content, (action) => action.type === "activateUnit")).toHaveLength(0);
+    outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
+    state = outcome.state;
+    expect(state.players[0]?.units[0]?.ready).toBe(true);
+    expect(state.offers.unit).toEqual(["unit:test_scout"]);
+  });
+
+  it("stops recruiting past the command slot limit", () => {
+    const base = createFixtureContent();
+    const startTile = base.tiles["tile:start"];
+    if (startTile === undefined) {
+      throw new Error("fixture tile missing");
+    }
+    const units: ContentBundle["units"] = {
+      "unit:test_a": {
+        id: "unit:test_a",
+        name: "A",
+        level: 1,
+        influenceCost: 1,
+        armor: 1,
+        recruitSites: ["village"],
+        abilities: [],
+      },
+      "unit:test_b": {
+        id: "unit:test_b",
+        name: "B",
+        level: 1,
+        influenceCost: 1,
+        armor: 1,
+        recruitSites: ["village"],
+        abilities: [],
+      },
+    };
+    const content: ContentBundle = {
+      ...base,
+      units,
+      sites: {
+        ...base.sites,
+        "site:village": {
+          id: "site:village",
+          name: "Village",
+          siteKind: "inhabited",
+          fortified: false,
+          inhabited: true,
+          healing: null,
+          interaction: [],
+        },
+      },
+      tiles: {
+        ...base.tiles,
+        "tile:start": {
+          ...startTile,
+          hexes: startTile.hexes.map((hex) =>
+            hex.q === 0 && hex.r === 0 ? { ...hex, site: null } : hex,
+          ),
+        },
+      },
+      levels: [{ level: 1, fame: 0, stats: { armor: 2, handLimit: 5, commandSlots: 1 } }],
+      scenario: {
+        ...base.scenario,
+        site: { siteId: "site:village", hex: { q: 0, r: 0 } },
+        unitOffer: ["unit:test_a", "unit:test_b"],
+        unitDeck: [],
+      },
+    };
+    let state = createGame({ seed: 12 }, content).state;
+    state = clone(state);
+    state.turn.influence = 10;
+    state = applyOk(state, { epoch: state.actionEpoch, type: "enterSite" }, content).state;
+    const recruits = legalOfType(state, content, (action) => action.type === "recruitUnit");
+    expect(recruits).toHaveLength(2);
+    state = applyOk(state, recruits[0] as Action, content).state;
+    expect(legalOfType(state, content, (action) => action.type === "recruitUnit")).toHaveLength(0);
+  });
 });

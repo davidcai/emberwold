@@ -13,6 +13,7 @@ import type {
   SiteDefId,
   TileId,
   Terrain,
+  UnitInstanceId,
 } from "@emberwold/shared";
 
 export type RulesetId = "emberwold-spike";
@@ -47,6 +48,12 @@ export interface TurnState {
   flags: Record<string, boolean>;
 }
 
+export interface UnitState {
+  instanceId: UnitInstanceId;
+  defId: string;
+  ready: boolean;
+}
+
 export interface PlayerState {
   id: PlayerId;
   heroId: string;
@@ -65,6 +72,8 @@ export interface PlayerState {
   skillDeck: string[];
   /** Skills gained so far (effects deferred for most, T1 simplification). */
   skills: string[];
+  /** Recruited units (T1: ready/spent only; no wounded/damage assignment yet). */
+  units: UnitState[];
 }
 
 export interface SkillUsage {
@@ -187,11 +196,13 @@ export interface GameState {
 export interface OfferState {
   aa: CardId[];
   spell: CardId[];
+  unit: string[];
 }
 
 export interface OfferDecks {
   aa: CardId[];
   spell: CardId[];
+  unit: string[];
 }
 
 export interface TacticChoice {
@@ -228,6 +239,8 @@ type ActionPayload =
   | { type: "buySpell"; index: number; mana?: ManaPayment }
   | { type: "discardGladeWound" }
   | { type: "useSkill"; skill: string }
+  | { type: "recruitUnit"; index: number }
+  | { type: "activateUnit"; unit: UnitInstanceId; ability: number; mana?: ManaPayment }
   | { type: "assignDamage"; enemy: EnemyInstanceId }
   | { type: "assignAttack"; enemy: EnemyInstanceId }
   | { type: "endCombatPhase" }
@@ -268,6 +281,8 @@ export type GameEvent =
   | { type: "levelGained"; level: number }
   | { type: "skillGained"; skill: string }
   | { type: "skillUsed"; skill: string }
+  | { type: "unitRecruited"; unit: UnitInstanceId; defId: string }
+  | { type: "unitActivated"; unit: UnitInstanceId; ability: number }
   | { type: "woundDiscarded"; count: number }
   | { type: "enemySpawned"; enemy: EnemyInstanceId; defId: string }
   | { type: "combatStarted"; enemies: EnemyInstanceId[] }

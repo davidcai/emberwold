@@ -211,5 +211,14 @@
     "spell:snowstorm"
   ],
   "aaOfferSize": 3,
-  "spellOfferSize": 3
+  "spellOfferSize": 3,
+  "units": [
+    "unit:foresters",
+    "unit:herbalist",
+    "unit:peasants",
+    "unit:scouts",
+    "unit:utem_crossbowmen",
+    "unit:utem_guardsmen"
+  ],
+  "unitOfferSize": 3
 }
