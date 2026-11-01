@@ -1,6 +1,6 @@
 # 19 · T0 Spike Plan — two weeks to a playable round
 
-**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S3 done · branch `t0-spike`
+**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S4 done · branch `t0-spike`
 **Companions:** [`10-feasibility-analysis.md`](./10-feasibility-analysis.md) §6/§9 (G1),
 [`11-mvp-scope.md`](./11-mvp-scope.md) §2–§5/§10 (scope/content),
 [`12-architecture.md`](./12-architecture.md) §3.3/§5/§6/§10/§12.4/§12.6 (engine, pipeline,
@@ -11,7 +11,7 @@ tests, T0 slice), [`14-roadmap.md`](./14-roadmap.md) §0.1/§1/§5/§6 (tiers, M
 
 > **Gate status: APPROVED 2026-10-31 (ADR-009 in [`00-decisions.md`](./00-decisions.md)).**
 > The owner approved this plan and its proposed defaults. Execution is on branch `t0-spike`:
-> **S1–S3 are done** (evidence in each step); S4–S10 are not started. No T1/T2 work is
+> **S1–S4 are done** (evidence in each step); S5–S10 are not started. No T1/T2 work is
 > authorized by this plan.
 >
 > **Review record.** Two fresh-context reviewers checked this plan against the docs. Their
@@ -256,7 +256,7 @@ invariant module. Dev builds `deepFreeze` states. No `Math.random`/`Date.now` in
 
 ---
 
-### S4 — Content compiler (thin) + spike bundle
+### S4 — Content compiler (thin) + spike bundle · **done 2026-10-31**
 
 **Do.** One thin `tools/content-compiler`: read `game-data/*.json` **read-only**, invoke the
 **Python validator as the single validation gate** (per [`12`](./12-architecture.md) §6.1 —
@@ -284,7 +284,19 @@ Commit-vs-build-artifact of the generated bundle is owner decision Q12 (default:
    a modified terrain cost makes the movement-cost test fail with the modified value (no
    hard-coded copy).
 
-**Evidence:** build log with counts + hash; tamper-failure output; mutation-test result.
+**Evidence (2026-10-31, branch `t0-spike`):**
+* `pnpm content:build` → `contentHash 1d76a028139a49439c6f67d53430ac4ad646b54e8340cee42d86633b0337faa3`,
+  `16 deck instances / 13 card defs (incl. wound), 2 tiles, 3 enemies, 2 sites`; validator runs
+  inside the build (`9662/0/0`).
+* Two builds → identical bundle and hash; `pnpm content:check` on the committed tree exits 0.
+* Tamper (temp copy): manifest mismatch → `content-compiler: manifest hash mismatch for
+  game-data/heroes.json (recorded 08ec6a93..., actual 45bea59f...)`, exit 1; with the manifest
+  prefix updated the build succeeds with a different hash (`28fe3814...ae66`).
+* Unmapped op demo (config temporarily missing `discard_cost`) → `unmapped effect ops in the
+  spike selection: discard_cost`, exit 1.
+* Mutation test in `pnpm --filter @emberwold/engine test`: plains cost 2 → reachable, injected
+  cost 7 → unreachable, proving terrain costs come from the bundle (engine tests now 14/14).
+* `game-data/` untouched (no diff); `pnpm verify` → 41/41 tests, 0 lint/boundary errors.
 
 ---
 

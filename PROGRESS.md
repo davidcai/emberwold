@@ -53,6 +53,12 @@ spike report and decide go/no-go with the owner. Acceptance: G1 in
     village healing, round loop and invariant checks; `combatMath.ts` is the single combat
     arithmetic implementation. Evidence: `pnpm --filter @emberwold/engine test` → 13/13;
     `pnpm verify` → 40/40 tests, 0 lint/boundary errors.
+12. **S4 done — content compiler + spike bundle** (commit on `t0-spike`): `tools/content-compiler`
+    (read-only `game-data`, Python validator as the single gate, manifest-prefix verification,
+    full-byte content hash, op→handler coverage check) emits `packages/content` bundle:
+    16 deck instances / 12 card defs + synthetic Wound / 2 tiles / 3 enemies / village + portal;
+    `contentHash 1d76a028...faa3`; `pnpm content:check` clean; tamper/op failures demonstrated;
+    engine mutation test proves costs load from the bundle. `game-data/` untouched.
 
 ## Next (ordered; first item is the exact next action)
 
