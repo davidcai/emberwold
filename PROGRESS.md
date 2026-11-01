@@ -30,11 +30,13 @@ Blocked until the owner lifts the pre-implementation hold (`AGENTS.md` §2).
 6. Tree clean and synced: `main` = `origin/main` (confirm with `git status -sb`).
 7. Fresh-context verifier reproduced every baseline check (all PASS) and caught the earlier
    stale HEAD claim, now fixed; its only remaining blocker is owner approval for T0.
-8. **T0 spike plan written** (`docs/design/19-t0-spike-plan.md`, draft): 10 steps with a
-   command/observation acceptance check each, scope fence + spike-simplification list, data
-   findings B1–B6, golden RNG/hash vectors (independently derived and cross-checked), and a
-   fixed 2-week box. Wired into `README.md`, `docs/README.md` and `14-roadmap.md` §5.
-   **No code written**; validator still `9662 / 0 / 0` and the hold is still in force.
+8. **T0 spike plan written and reviewed** (`docs/design/19-t0-spike-plan.md`, draft v4): 10
+   steps with a command/observation acceptance check each, scope fence + spike-simplification
+   list, data findings B1–B9, golden RNG/hash vectors (independently derived and cross-checked),
+   and a fixed 2-week box. Two fresh-context reviewers checked it; their verified blockers
+   (op/def counts, G1 card count, explore action, block rules, presentation boundary) are
+   fixed — see the plan's §13 review record. Wired into `README.md`, `docs/README.md` and
+   `14-roadmap.md` §5. **No code written**; validator still `9662 / 0 / 0`; hold in force.
 
 ## Next (ordered; first item is the exact next action)
 
@@ -48,9 +50,9 @@ Blocked until the owner lifts the pre-implementation hold (`AGENTS.md` §2).
 
 ## Open questions
 
-1. **T0 approval** — blocking. The plan is written and cross-checked against the source docs;
-   approval means P5 + the §2.2 simplifications in `docs/design/19-t0-spike-plan.md`. Default
-   while unanswered: stay pre-implementation.
+1. **T0 approval** — blocking. The plan is written and twice reviewed against the source docs;
+   approval means P5 + the §2.2 simplifications + the §12 owner questions in
+   `docs/design/19-t0-spike-plan.md`. Default while unanswered: stay pre-implementation.
 2. Public branding still gated by ADR-007/008: run the `15` §11 name screen before any public
    wordmark use.
 3. The 181.8 MB archive is on the same disk as the repo; an off-machine copy (iCloud/external)
