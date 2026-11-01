@@ -30,26 +30,27 @@ Blocked until the owner lifts the pre-implementation hold (`AGENTS.md` §2).
 6. Tree clean and synced: `main` = `origin/main` (confirm with `git status -sb`).
 7. Fresh-context verifier reproduced every baseline check (all PASS) and caught the earlier
    stale HEAD claim, now fixed; its only remaining blocker is owner approval for T0.
+8. **T0 spike plan written** (`docs/design/19-t0-spike-plan.md`, draft): 10 steps with a
+   command/observation acceptance check each, scope fence + spike-simplification list, data
+   findings B1–B6, golden RNG/hash vectors (independently derived and cross-checked), and a
+   fixed 2-week box. Wired into `README.md`, `docs/README.md` and `14-roadmap.md` §5.
+   **No code written**; validator still `9662 / 0 / 0` and the hold is still in force.
 
 ## Next (ordered; first item is the exact next action)
 
-1. **Ask the owner to lift the pre-implementation hold for T0.** Do not write game code before
-   that (`AGENTS.md` §2). If approved, continue with the steps below.
-2. **M1-1 scaffold**: pnpm monorepo (`engine`, `content`, `client`, `tools`), strict TS, lint/CI;
-   `pnpm test` green.
-3. **M1-2 engine core**: `GameState` / `Action` / `Event`, `reduce(state, action) → {state, events}`,
-   seeded RNG, state hash.
-4. **M1-3 content compiler**: `game-data/` → typed bundle with schema validation and an `mvp` filter.
-5. **M1-4 trace harness + `play-cli`**: random-legal bot, 1,000 turns with zero invariant failures.
-6. **M1-5 spike content**: 1 hero deck (~16–20 cards), 2 tiles, 3 enemies, 1 site, marked `mvp: true`.
-7. **M2-1 combat**: 4-phase combat + damage assignment; a trace must match the rulebook worked example.
-8. **M2-2 minimal UI**: Pixi hex map, DOM hand, legal-action menus; a human plays one round.
-9. **M2-3 site interaction** + reward loop.
-10. **M2-4** `docs/design/spike-report.md` + G1 go/no-go with the owner.
+1. **Owner decision on P5 — approve the T0 plan and lift the pre-implementation hold.** Read
+   `docs/design/19-t0-spike-plan.md` §2 (scope + simplifications), §6 (steps), §12 (questions).
+   Default while unanswered: stay pre-implementation (`AGENTS.md` §2).
+2. **If approved:** execute the plan's steps S1–S10 in order, recording the evidence line for
+   each step; stop at its checkpoints/cut order and write `docs/design/spike-report.md` + the
+   go/no-go ADR. The old M1-1…M2-4 milestone labels map to S1–S10 (S1 = M1-1 scaffold).
+3. If the owner wants no code yet: the plan is the deliverable; do not start S1.
 
 ## Open questions
 
-1. **T0 approval** — blocking. Default while unanswered: stay pre-implementation.
+1. **T0 approval** — blocking. The plan is written and cross-checked against the source docs;
+   approval means P5 + the §2.2 simplifications in `docs/design/19-t0-spike-plan.md`. Default
+   while unanswered: stay pre-implementation.
 2. Public branding still gated by ADR-007/008: run the `15` §11 name screen before any public
    wordmark use.
 3. The 181.8 MB archive is on the same disk as the repo; an off-machine copy (iCloud/external)
@@ -64,8 +65,10 @@ Blocked until the owner lifts the pre-implementation hold (`AGENTS.md` §2).
 - Toolchain: Node and pnpm paths come from the harness `load_workspace_dependencies`; the data
   validator runs with `.venv/bin/python tools/validate_data.py`. There are no app build/test
   commands yet.
-- Source of truth docs: `docs/design/00-decisions.md` (ADR-001…008); T0 in `14-roadmap.md` §0.1/§5
-  and `12-architecture.md` §12.5; G1 in `10-feasibility-analysis.md` §9; MVP scope in `11-mvp-scope.md`.
+- Source of truth docs: `docs/design/00-decisions.md` (ADR-001…008); T0 in `14-roadmap.md`
+  §0.1/§5 and `12-architecture.md` §12.5; G1 in `10-feasibility-analysis.md` §9; MVP scope in
+  `11-mvp-scope.md`. **The executable T0 plan is `docs/design/19-t0-spike-plan.md`** (steps,
+  checks, cut order, owner questions); milestone labels M1-1…M2-4 map to plan steps S1–S10.
 - Art packaging: committed = WebP q90 at ≥2× display size (`art/*/*.webp`); full-res PNG masters
   are local-only (`art/<category>/*.png` ignored); wordmark in `art/branding/` is tracked; no font
   binaries are committed or embedded.
