@@ -2200,6 +2200,30 @@ describe("determinism and invariants", () => {
     outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
     expect(outcome.state.players[0]?.hand).toHaveLength(5);
   });
+  it("accepts every action it offers as legal", () => {
+    const { content } = setup();
+    let state = createGame({ seed: 41 }, content).state;
+    for (let step = 0; step < 20; step += 1) {
+      const { actions } = getLegalActions(state, content);
+      expect(actions.length).toBeGreaterThan(0);
+      for (const action of actions) {
+        const outcome = applyAction(state, action, content);
+        expect(
+          outcome.ok,
+          `${action.type} is offered but rejected${outcome.ok ? "" : `: ${outcome.error.code}`}`,
+        ).toBe(true);
+      }
+      const pick = actions[(step * 13 + 5) % actions.length] as Action;
+      const outcome = applyAction(state, pick, content);
+      if (!outcome.ok) {
+        throw new Error(`chosen legal action ${pick.type} rejected: ${outcome.error.code}`);
+      }
+      state = outcome.result.state;
+      if (state.gameOver) {
+        break;
+      }
+    }
+  });
   it("round-trips the full state through JSON at every random-legal step", () => {
     const { content } = setup();
     let state = createGame({ seed: 31 }, content).state;

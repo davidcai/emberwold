@@ -65,7 +65,7 @@ pnpm build               # client production build (≈95 KB gzipped initial loa
 pnpm exec tsx tools/golden-traces/src/verify.ts   # explicit trace report
 ```
 
-At the time of writing: **86 tests**, contentHash
+At the time of writing: **87 tests**, contentHash
 `a7655b6581edbe3601fcc22860a8b6ae04f9dad3257387df1e06c1c6c5761dec`, data validator
 `checks: 9662 errors: 0 warnings: 0`, CI fuzz 10,000 actions green (seed 1: 127 games,
 0 invariant/termination failures), production build 328.47 kB JS (96.06 kB gzip) +
@@ -182,7 +182,7 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
   round-limit defeat). The deterministic winning line is walked through turn by turn in
   [`t1-winning-line.md`](./t1-winning-line.md).
 - ≥5 golden traces including a city assault: 7 traces including a city-conquering full game.
-- Tests/fuzz: 86 tests, dependency boundaries, CI fuzz 10,000 actions.
+- Tests/fuzz: 87 tests, dependency boundaries, CI fuzz 10,000 actions.
 
 **M4 (playable client): engineering met.** Start→finish browser game with placeholder art,
 save/continue + undo, the full T1 surface, game-over debrief, and Playwright covering both a

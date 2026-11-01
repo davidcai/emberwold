@@ -2545,6 +2545,92 @@ export function checkInvariants(state: GameState, content: ContentBundle): reado
       problems.push(`unknown enemy ${enemy.defId}`);
     }
   }
+  // The available pool and the tactic choice options intentionally overlap: a choice is a
+  // subset of the pool. Assignments (human/dummy) and used tactics must not overlap the pool
+  // or each other.
+  const assigned = [state.tactics.human, state.tactics.dummy].filter(
+    (tactic): tactic is NonNullable<typeof tactic> => tactic !== null,
+  );
+  if (new Set(assigned).size !== assigned.length) {
+    problems.push("tactic is assigned twice");
+  }
+  if (new Set(state.tactics.used).size !== state.tactics.used.length) {
+    problems.push("tactic is used twice");
+  }
+  if (!state.gameOver) {
+    // The round-limit defeat returns before the next round's tactic pool is rebuilt, so the
+    // terminal state may legitimately still list the final picks in `available`.
+    for (const tactic of state.tactics.used) {
+      if (state.tactics.available.includes(tactic)) {
+        problems.push(`used tactic ${tactic} is still available`);
+      }
+    }
+  }
+  const removed = [...state.tactics.used, ...assigned];
+  const tacticIds = [
+    ...state.tactics.available,
+    ...removed,
+    ...(state.tacticChoice?.options ?? []),
+  ];
+  for (const tactic of tacticIds) {
+    if (content.tactics?.[tactic] === undefined) {
+      problems.push(`unknown tactic ${tactic}`);
+    }
+  }
+  if (state.tacticChoice !== null) {
+    for (const option of state.tacticChoice.options) {
+      if (!state.tactics.available.includes(option)) {
+        problems.push(`tactic choice option ${option} is not available`);
+      }
+    }
+  }
+  if (new Set(player.skills).size !== player.skills.length) {
+    problems.push("duplicate skill in player skills");
+  }
+  for (const skill of [...player.skills, ...player.skillDeck]) {
+    if (content.skills?.[skill] === undefined) {
+      problems.push(`unknown skill ${skill}`);
+    }
+  }
+  if (new Set(state.skillUsage.turn).size !== state.skillUsage.turn.length) {
+    problems.push("skill used twice in one turn");
+  }
+  if (new Set(state.skillUsage.round).size !== state.skillUsage.round.length) {
+    problems.push("skill used twice in one round");
+  }
+  for (const offer of [...state.offers.aa, ...state.offers.spell]) {
+    if (content.cards[offer] === undefined) {
+      problems.push(`unknown offered card ${offer}`);
+    }
+  }
+  for (const unit of state.offers.unit) {
+    if (content.units?.[unit] === undefined) {
+      problems.push(`unknown offered unit ${unit}`);
+    }
+  }
+  if (state.dummy !== null) {
+    if (state.dummy.cardsRemaining < 0 || state.dummy.cardsRemaining > state.dummy.deckSize) {
+      problems.push(`dummy cards remaining out of bounds: ${state.dummy.cardsRemaining}`);
+    }
+  }
+  if (state.combat !== null) {
+    for (const enemy of state.combat.enemies) {
+      if (state.map.enemies.every((mapped) => mapped.instanceId !== enemy.instanceId)) {
+        problems.push(`combat enemy ${enemy.instanceId} has no map token`);
+      }
+    }
+    for (const contribution of [...state.combat.attackPool, ...state.combat.blockPool]) {
+      if (!Number.isFinite(contribution.amount) || contribution.amount <= 0) {
+        problems.push("combat pool contribution is not a positive number");
+      }
+    }
+  }
+  if (state.turn.scheduledDeckPlacement !== undefined) {
+    const scheduled = state.turn.scheduledDeckPlacement.card;
+    if (state.cardInstances[scheduled] === undefined) {
+      problems.push("scheduled deck placement references an unknown card");
+    }
+  }
   return problems;
 }
 

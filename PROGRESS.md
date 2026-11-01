@@ -279,8 +279,10 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     `050-victory.json` up to a combat, reloads the page, uses Continue, asserts the restored
     combat phase/hand/epoch match the autosave, then finishes the trace to the victory debrief.
     A tutorial Playwright test covers the first-turns panel (shown at start, dismissible, reset by
-    a new run, hidden after the third hero turn starts). Evidence: 86 tests, 8 e2e,
-    `pnpm verify`/lint/format green.
+    a new run, hidden after the third hero turn starts). Two more engine guards: `checkInvariants`
+    now validates tactic/skill/offer/unit-wound/combat-pool/scheduled-placement consistency, and a
+    test asserts every action returned by `getLegalActions` is actually accepted (20 state steps).
+    Evidence: 87 tests, 8 e2e, fuzz 10k seeded clean (127 games), `pnpm verify`/lint/format green.
 
 35. **Final engineering audit (done)**: exit report refreshed to v1.1 with the full commit
     trail (through `59c9883`), current contentHash `a7655b65…`, 85 tests, 7 verified traces,
