@@ -68,8 +68,8 @@ pnpm exec tsx tools/golden-traces/src/verify.ts   # explicit trace report
 At the time of writing: **89 tests**, contentHash
 `3cfc1f9f5fe2e49bbac409e043b4fc2c2eefead917161e84ba0e36e9102c9589`, data validator
 `checks: 9662 errors: 0 warnings: 0`, CI fuzz 10,000 actions green (seed 1: 127 games,
-0 invariant/termination failures), production build 328.47 kB JS (96.06 kB gzip) +
-7.59 kB CSS (2.08 kB gzip) ≈ 98 kB gzipped initial load.
+0 invariant/termination failures), production build 330.82 kB JS (96.61 kB gzip) +
+7.59 kB CSS (2.08 kB gzip) ≈ 98.7 kB gzipped initial load.
 
 Golden traces (`tools/golden-traces/`, recorded against the contentHash above; `traces:check`
 replays every action and compares state hashes _and_ the expected outcome/score where present):
@@ -190,8 +190,8 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
 save/continue + undo, the full T1 surface, game-over debrief, and Playwright covering both a
 scripted trace replay and the complete winning scenario (`e2e/victory.spec.ts`, 78 actions,
 debrief assertions, no console errors) plus a mid-combat save/Continue replay of the same
-trace, and the first-three-turns tutorial panel (show/dismiss/reset/hide). Production build: 328.47 kB JS (96.06 kB gzip) + 7.59
-kB CSS (2.08 kB gzip) ≈ 98 kB gzipped initial load, under the 5 MB budget. An indicative
+trace, and the first-three-turns tutorial panel (show/dismiss/reset/hide). Production build: 330.82 kB JS (96.61 kB gzip) + 7.59
+kB CSS (2.08 kB gzip) ≈ 98.7 kB gzipped initial load, under the 5 MB budget. An indicative
 headless-Chromium probe of the started run measured 60.0 fps over 3 s (181 frames, p95 frame
 time 16.7 ms, no dropped frames, 226 DOM nodes, ~14 MB JS heap); the renderer is SVG/DOM with a
 4-tile board. The 60 fps target still needs the owner's manual measurement on the 2019-laptop
