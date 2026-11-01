@@ -3,5 +3,11 @@
   "compilerOptions": {
     "noEmit": true
   },
-  "include": ["packages/*/src/**/*.ts", "tools/*/src/**/*.ts", "*.config.ts"]
+  "include": [
+    "packages/*/src/**/*.ts",
+    "packages/*/src/**/*.tsx",
+    "tools/*/src/**/*.ts",
+    "e2e/**/*.ts",
+    "*.config.ts"
+  ]
 }

@@ -431,11 +431,7 @@
     "hero:goldyx": {
       "id": "hero:goldyx",
       "name": "Goldyx",
-      "startingCrystals": [
-        "green",
-        "green",
-        "blue"
-      ],
+      "startingCrystals": ["green", "green", "blue"],
       "startingDeck": [
         "basic:rage",
         "basic:rage",
@@ -577,9 +573,7 @@
           "terrain": "forest",
           "site": null,
           "mine_color": null,
-          "rampaging": [
-            "orc_marauder"
-          ]
+          "rampaging": ["orc_marauder"]
         }
       ]
     }
@@ -605,9 +599,7 @@
       "armor": 3,
       "fame": 2,
       "resistances": [],
-      "abilities": [
-        "fortified"
-      ]
+      "abilities": ["fortified"]
     },
     "enemy:wolf_riders": {
       "id": "enemy:wolf_riders",
@@ -618,9 +610,7 @@
       "armor": 4,
       "fame": 3,
       "resistances": [],
-      "abilities": [
-        "swift"
-      ]
+      "abilities": ["swift"]
     }
   },
   "sites": {
@@ -633,10 +623,7 @@
       "healing": {
         "influencePerPoint": 3
       },
-      "interaction": [
-        "recruit units with the village icon",
-        "buy healing: 1 point per 3 influence"
-      ]
+      "interaction": ["recruit units with the village icon", "buy healing: 1 point per 3 influence"]
     },
     "site:portal": {
       "id": "site:portal",

@@ -226,7 +226,7 @@ function explore(state: GameState): Action | null {
   return find(state, (action) => action.type === "explore");
 }
 
-function moveRevealPolicy(state: GameState): Action | null {
+export function moveRevealPolicy(state: GameState): Action | null {
   if (state.pending !== null) {
     return resolvePending(state);
   }
@@ -251,7 +251,7 @@ function moveRevealPolicy(state: GameState): Action | null {
   return playMove(state) ?? approach(state, { q: 1, r: 0 }) ?? endTurn(state) ?? rest(state);
 }
 
-function combatFirstPolicy(state: GameState): Action | null {
+export function combatFirstPolicy(state: GameState): Action | null {
   if (state.pending !== null) {
     return resolvePending(state);
   }
@@ -274,7 +274,7 @@ function combatFirstPolicy(state: GameState): Action | null {
   return approach(state, enemy.hex);
 }
 
-function healRunPolicy(state: GameState): Action | null {
+export function healRunPolicy(state: GameState): Action | null {
   if (state.pending !== null) {
     return resolvePending(state);
   }
@@ -443,4 +443,6 @@ function main(): void {
   );
 }
 
-main();
+if (process.argv[1]?.includes("record-scenario") === true) {
+  main();
+}

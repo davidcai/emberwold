@@ -1,6 +1,6 @@
 # 19 · T0 Spike Plan — two weeks to a playable round
 
-**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S8 done · branch `t0-spike`
+**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S9 done · S10 remains · branch `t0-spike`
 **Companions:** [`10-feasibility-analysis.md`](./10-feasibility-analysis.md) §6/§9 (G1),
 [`11-mvp-scope.md`](./11-mvp-scope.md) §2–§5/§10 (scope/content),
 [`12-architecture.md`](./12-architecture.md) §3.3/§5/§6/§10/§12.4/§12.6 (engine, pipeline,
@@ -11,8 +11,8 @@ tests, T0 slice), [`14-roadmap.md`](./14-roadmap.md) §0.1/§1/§5/§6 (tiers, M
 
 > **Gate status: APPROVED 2026-10-31 (ADR-009 in [`00-decisions.md`](./00-decisions.md)).**
 > The owner approved this plan and its proposed defaults. Execution is on branch `t0-spike`:
-> **S1–S8 are done** (C1 and C2 passed: movement/reveal, assault and village-heal traces are green); S9–S10 remain. No T1/T2 work is
-> authorized by this plan.
+> **S1–S9 are done** (C1, C2 and the browser check passed: movement/reveal, assault and village-heal traces are green; the
+> Playwright UI run drives the whole flow); S10 remains. No T1/T2 work is authorized by this plan.
 >
 > **Review record.** Two fresh-context reviewers checked this plan against the docs. Their
 > verified blockers — wrong op count/def count, the G1 card count, explore-as-side-effect,
@@ -454,7 +454,7 @@ assault → village heal → end turn in one trace.
 
 ---
 
-### S9 — Minimal SVG/DOM UI (G1-optional)
+### S9 — Minimal SVG/DOM UI (G1-optional) · **done 2026-10-31**
 
 **Do.** `packages/client`: Vite + React app; title/new-run screen (optional seed input);
 SVG hex board rendering tiles from state (authored origin/rotation; no rotate UI), DOM hand
@@ -477,7 +477,20 @@ names are exempt until the T1 re-theme, [`15`](./15-retheme-bible.md) §9/§10).
    continuing; notes are anonymous (no personal data committed).
 4. Forbidden-term check over code/UI sources passes (data exempt, documented).
 
-**Evidence:** dev URL; Playwright output; anonymous checklist.
+**Evidence (2026-10-31, branch `t0-spike`):**
+* Dev server: Playwright starts it via `webServer: "pnpm dev"` and `http://127.0.0.1:4173/` serves
+  the app; production build checked separately — `pnpm build` then `pnpm preview` both HTTP 200,
+  and the built `/assets/index-*.js` bundle is served (dist JS 258.23 kB / gzip 80.51 kB).
+* `pnpm test:e2e` → 1/1 passed: the spec reads only `window.__EMBERWOLD__` (state + legal actions),
+  clicks the matching `data-testid="action"` buttons, asserts every button index is inside the
+  legal set, and reaches `heroMoved` → `tileRevealed` → `combatStarted` → `siteEntered` →
+  `healGained` → `turnEnded` with zero console errors.
+* `ip.forbidden_terms`: `packages/content/src/forbidden-terms.json` is the single list;
+  `packages/content/src/ip.test.ts` scans `packages/client/src` and `packages/engine/src` literals
+  and `pnpm verify` (58 tests) is green. `game-data/` values stay exempt until the T1 re-theme
+  (documented in `15` §9/§10).
+* G1-optional **fun pass** is the owner's action (two players, anonymous notes) — not run by the
+  agent; see S10/§12 Q14.
 
 ---
 

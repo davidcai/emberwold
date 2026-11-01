@@ -57,45 +57,55 @@ spike report and decide go/no-go with the owner. Acceptance: G1 in
     (read-only `game-data`, Python validator as the single gate, manifest-prefix verification,
     full-byte content hash, op→handler coverage check) emits `packages/content` bundle:
     16 deck instances / 12 card defs + synthetic Wound / 2 tiles / 3 enemies / village + portal;
-    `contentHash 1d76a028...faa3`; `pnpm content:check` clean; tamper/op failures demonstrated;
+    `contentHash cfcf9db2...f122` (config is hashed too); `pnpm content:check` clean; tamper/op
+    failures demonstrated;
     engine mutation test proves costs load from the bundle. `game-data/` untouched.
 13. **S5 done — C1 passed** (commit `4a9f148`): trace record/verify CLIs, interactive +
     `--random` play-cli, fuzz harness; `000-smoke.json` (52 actions) replays; tampered trace
     rejected; fuzz 1,000 actions over 24 games with 0 invariant/termination failures.
     **Checkpoint C1: headless round loop replays deterministically.**
-14. **S6 done — movement/explore/round loop** (commit on `t0-spike`): engine tests cover the
+14. **S6 done — movement/explore/round loop** (commit `7c89c3d`): engine tests cover the
     Day-cost table, explore as its own 2-Move action, negative move/reveal cases, mana expiry,
-    round advance and wound recycle (19 engine tests). Authored map fixed: countryside at
-    origin `2,1` (the old placement overlapped the starting tile); compiler now rejects
-    overlapping tile placements and hashes its config into `contentHash`
+    the round loop and the T0 wounds-persist deviation (19 engine tests). Authored map fixed:
+    countryside at origin `2,1` (the old placement overlapped the starting tile); compiler now
+    rejects overlapping tile placements and hashes its config into `contentHash`
     (`cfcf9db2…f122`). `010-move-reveal.json` replays with `heroMoved`+`tileRevealed`;
     `000-smoke.json` re-recorded (44 actions).
 15. **S7 done — combat (C2)** (commit on `t0-spike`): `combatMath.test.ts` covers the 02 §7.3
     efficiency matrix, inefficient halving, swift, fortify, resistance, brutal, wounds (engine
     suite now 31 tests); `020-combat.json` (seed 3, 19 actions) replays with 2 wounds, 1 enemy
     defeated, +2 fame.
-16. **S8 done — village heal + end-to-end trace (C2 passed)** (commit on `t0-spike`):
+16. **S8 done — village heal + end-to-end trace (C2 passed)** (commit `e236ad4`):
     `030-site-heal.json` (32 actions: reveal → combat wound → travel → enterSite → 3 influence →
     heal) and `040-one-round.json` (34 actions: same then end turn after the heal). All five
     traces verify; `pnpm verify` 57 tests; fuzz 1,000 actions clean. **Checkpoint C2 passed.**
     T0 deviation documented: wounds persist across turns (T1 restores round-end recycling).
+17. **S9 done — minimal React/SVG UI + Playwright check** (branch `t0-spike`): `packages/client`
+    renders the SVG hex board, hand from bundle display names, legal-action menu built only
+    from `getLegalActions`, combat rail, event log, seed/new-run; production build 258 kB JS.
+    `pnpm test:e2e` 1/1 passes: the spec clicks only legal actions and reaches
+    heroMoved → tileRevealed → combatStarted → siteEntered → healGained → turnEnded with zero
+    console errors. `ip.forbidden_terms` list + test added (`pnpm verify` 58 tests). Dev server
+    and `pnpm preview` both serve the app (HTTP 200). G1 fun pass (owner + one new player) is
+    still the owner's action.
 
 ## Next (ordered; first item is the exact next action)
 
-Execute the approved plan's remaining steps on branch `t0-spike`, recording each step's evidence
-line in `docs/design/19-t0-spike-plan.md` before moving on. Stop at the plan's checkpoints/cut
-order; at C3 write `docs/design/spike-report.md` and decide go/no-go with the owner.
+Only **S10** remains on branch `t0-spike` (S1–S9 done, C1/C2 and the browser check passed).
 
-1. **S6 — movement/explore/rest/end-turn traces**, then S7 combat and S8 village + full-round;
-   checkpoint C2 = assault trace green (plan S6–S8 acceptance lines).
-2. Then S6 movement/explore/rest/end-turn, S7 combat, S8 village+full-round, S9 UI, S10 report —
-   in plan order with their acceptance checks.
-3. Push `t0-spike` after each step; open the PR when S10 is done (or ask the owner earlier).
+1. Write `docs/design/spike-report.md` (what was built, what was cut, evidence links, G1 table,
+   B1–B9 data findings for T1, deviations from `02`).
+2. Append **ADR-010** (T0 go/no-go) to `docs/design/00-decisions.md`; update
+   `docs/design/14-roadmap.md`, README/doc indexes and this file.
+3. Cleanup, pre-push secret scan, commit + push, watch CI, then open the `t0-spike` PR for the
+   owner (merge decision belongs to the owner unless the goal says otherwise).
+4. Owner actions left: 10-turn fun-pass checklist (S9 acceptance 3) and the final G1 verdict.
 
 ## Open questions
 
-1. **Q14 (owner):** is the browser UI required for G1? Plan default is to include S9; if time is
-   short it can be cut and G1 passes on the CLI (plan §8 cut order).
+1. **Fun pass (owner):** S9 acceptance 3 needs the owner + one unfamiliar player to play a
+   10-turn session and answer the two fixed questions; the agent cannot do this. Q14 (UI
+   required?) is resolved: S9 is included.
 2. Public branding still gated by ADR-007/008: run the `15` §11 name screen before any public
    wordmark use.
 3. The 181.8 MB archive is on the same disk as the repo; an off-machine copy (iCloud/external)
@@ -106,8 +116,8 @@ order; at C3 write `docs/design/spike-report.md` and decide go/no-go with the ow
 
 - Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`; **work branch `t0-spike`** (pushed
   after each step; PR at the end), `main` stays the pre-spike baseline.
-- History: ADR-009 approval commit is `453f1d6`; do not trust a pinned hash for "current HEAD" —
-  run `git log --oneline -1` and `git status -sb`.
+- History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
+  `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
   lint + tests + dependency boundaries; `pnpm test` alone; data validator
   `.venv/bin/python tools/validate_data.py` (local) / `python3 tools/validate_data.py` (CI, stdlib).

@@ -11,7 +11,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "eslint .",
-    "format:check": "prettier --check \"{packages,tools}/**/*.ts\"",
+    "format:check": "prettier --check \"{packages,tools}/**/*.{ts,tsx}\" \"e2e/**/*.ts\" playwright.config.ts",
     "test": "vitest run",
     "boundaries": "depcruise packages tools --config .dependency-cruiser.cjs",
     "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm boundaries",
@@ -21,17 +21,28 @@
     "trace:record": "tsx tools/golden-traces/src/record.ts",
     "play": "tsx tools/play-cli/src/cli.ts",
     "fuzz": "tsx tools/play-cli/src/fuzz.ts",
-    "trace:scenario": "tsx tools/golden-traces/src/record-scenario.ts"
+    "trace:scenario": "tsx tools/golden-traces/src/record-scenario.ts",
+    "dev": "pnpm --filter @emberwold/client dev",
+    "build": "pnpm --filter @emberwold/client build",
+    "test:e2e": "playwright test",
+    "preview": "pnpm --filter @emberwold/client preview"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.64.1",
     "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
     "dependency-cruiser": "^18.7.0",
     "eslint": "^10.14.0",
     "prettier": "^3.9.10",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "tsx": "^4.23.15",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.5",
     "vitest": "^5.0.5"
   }
 }
