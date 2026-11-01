@@ -266,23 +266,11 @@ describe("cards", () => {
 });
 
 describe("rest and turn submission", () => {
-  it("rejects endTurn before any card is played, then accepts it after a play", () => {
+  it("accepts endTurn at any time outside combat and closes the round without a dummy", () => {
     const { content, state } = setup();
     const endTurn = { epoch: state.actionEpoch, type: "endTurn" } as Action;
-    expect(getLegalActions(state, content).actions).not.toContainEqual(endTurn);
-    const given = giveCard(state, "basic:march");
-    const play = legalOfType(
-      given.state,
-      content,
-      (action) =>
-        action.type === "playCard" && action.card === given.instance && action.mode === "basic",
-    )[0] as Action;
-    const played = applyOk(given.state, play, content);
-    const ended = applyOk(
-      played.state,
-      { epoch: played.state.actionEpoch, type: "endTurn" } as Action,
-      content,
-    );
+    expect(getLegalActions(state, content).actions).toContainEqual(endTurn);
+    const ended = applyOk(state, endTurn, content);
     expect(ended.events.some((event) => event.type === "roundEnded")).toBe(true);
     expect(ended.state.round).toBe(2);
   });
@@ -774,5 +762,94 @@ describe("determinism and invariants", () => {
         expect(die.used).toBe(false);
       }
     }
+  });
+  it("runs the T1 round clock: tactics, dummy flips, final turn, next-round prep", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      tactics: {
+        "tactic:a": { id: "tactic:a", name: "A" },
+        "tactic:b": { id: "tactic:b", name: "B" },
+        "tactic:c": { id: "tactic:c", name: "C" },
+      },
+      scenario: {
+        ...base.scenario,
+        tacticIds: ["tactic:a", "tactic:b", "tactic:c"],
+        tacticRules: {
+          humanChoosesFirst: true,
+          dummyRandom: true,
+          usedTacticsRemovedEachRound: true,
+        },
+        dummy: { deckSize: 4, cardsPerTurn: 3, crystals: ["green", "green", "blue"] },
+        timeOfDayPattern: ["day", "night", "day"],
+      },
+    };
+    let state = createGame({ seed: 1 }, content).state;
+    expect(state.tacticChoice?.options).toHaveLength(3);
+    expect(state.tactics.available).toHaveLength(3);
+    const tacticActions = getLegalActions(state, content).actions;
+    expect(tacticActions.every((candidate) => candidate.type === "chooseTactic")).toBe(true);
+    state = applyOk(
+      state,
+      { epoch: state.actionEpoch, type: "chooseTactic", tactic: "tactic:a" },
+      content,
+    ).state;
+    expect(state.tacticChoice).toBeNull();
+    expect(state.tactics.human).toBe("tactic:a");
+    expect(state.tactics.dummy).not.toBeNull();
+    expect(state.turn.number).toBe(1);
+
+    // Turn 1 ends → dummy flips 3 of 4 cards, hero turn 2 starts.
+    let outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
+    state = outcome.state;
+    expect(outcome.events.some((event) => event.type === "dummyFlipped")).toBe(true);
+    expect(state.dummy?.cardsRemaining).toBe(1);
+    expect(state.endOfRoundAnnounced).toBe(false);
+    expect(state.turn.number).toBe(2);
+    expect(state.round).toBe(1);
+
+    // Turn 2 ends → dummy flips the last card and announces End of Round; hero gets one
+    // more turn before the round closes.
+    outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
+    state = outcome.state;
+    expect(state.endOfRoundAnnounced).toBe(true);
+    expect(state.turn.number).toBe(3);
+    expect(state.round).toBe(1);
+    expect(outcome.events.some((event) => event.type === "endOfRoundAnnounced")).toBe(true);
+
+    // Final turn ends → round 2 prepare: night, fresh hand, dummy refilled, tactics reduced
+    // to the unused card, and the round's two tactic picks are removed.
+    outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
+    state = outcome.state;
+    expect(state.round).toBe(2);
+    expect(state.timeOfDay).toBe("night");
+    expect(state.players[0]?.hand).toHaveLength(5);
+    expect(state.dummy?.cardsRemaining).toBe(4);
+    expect(state.tactics.used).toHaveLength(2);
+    expect(state.tacticChoice?.options).toHaveLength(1);
+    expect(state.tactics.available).toHaveLength(1);
+
+    // Round 2: pick the remaining tactic, then end the round immediately (one dummy flip).
+    state = applyOk(
+      state,
+      {
+        epoch: state.actionEpoch,
+        type: "chooseTactic",
+        tactic: state.tacticChoice?.options[0] ?? "",
+      } as Action,
+      content,
+    ).state;
+    state = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content).state;
+    state = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content).state;
+    state = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content).state;
+    expect(state.round).toBe(3);
+    expect(state.tacticChoice).toBeNull();
+
+    // Round 3 ends → defeat with reason round_limit.
+    state = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content).state;
+    state = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content).state;
+    state = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content).state;
+    expect(state.gameOver).toBe(true);
+    expect(state.result).toMatchObject({ outcome: "defeat", reason: "round_limit" });
   });
 });

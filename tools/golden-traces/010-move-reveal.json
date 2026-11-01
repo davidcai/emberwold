@@ -1,6 +1,6 @@
 {
   "traceVersion": 1,
-  "contentHash": "aa736dd9fbfe3bb358e7bf2b0d0a5a0ece71444f6768d7fca982bbb3a52b4926",
+  "contentHash": "a0c2aac5751e036846b55eda8f6169d33601aeebc855bc80ab7f297208edc866",
   "engineVersion": "0.1.0-spike",
   "rulesetId": "emberwold-spike",
   "seed": 1,
@@ -10,12 +10,17 @@
   "actions": [
     {
       "epoch": 0,
+      "type": "chooseTactic",
+      "tactic": "tactic:early_bird"
+    },
+    {
+      "epoch": 1,
       "type": "playCard",
       "card": "p1:deck:5",
       "mode": "basic"
     },
     {
-      "epoch": 1,
+      "epoch": 2,
       "type": "moveTo",
       "target": {
         "q": 1,
@@ -23,21 +28,22 @@
       }
     },
     {
-      "epoch": 2,
+      "epoch": 3,
       "type": "playCard",
       "card": "p1:deck:6",
       "mode": "basic"
     },
     {
-      "epoch": 3,
+      "epoch": 4,
       "type": "explore"
     }
   ],
   "expectedHashes": [
-    "375bc8ff75b8c8429df48080229ffb8e983f0301657bd8eea66ce421033e0059",
-    "fa3754a835427405a032cf1688acbd2b743525e0b9a74c2c04dc95bb9d04b1be",
-    "2ebf087e1e0694206c8172b14f2f922376fe2b4ea64143cb07ffe6913e1d5081",
-    "4698bc33ed3e59ba35769c807a5e14818aaa2ffde06b5346c8ecbfb2e9147bc9"
+    "793a6fe2cdb8a397423c8c521b16e53bfa83c6cb663fdb750b1b64688f621eb9",
+    "c48c550025bbbc0298a0fe6d7d4eb29af46e6a0ae53cabf5bfb5257102e3a70a",
+    "80c48ec69b7db3b5f8e683ada071ca52582c6b6f05f88998afacf99c156dc6f5",
+    "e83118a207419c33fe342c5150161aac7ca7bb61dadf0710133c5004332fb280",
+    "8a6994a7c4723f64cc3a9e0b4d507ce7cd0e3c9998b085edeb5e1313bd6b2e28"
   ],
   "expectedOutcome": {
     "round": 1,

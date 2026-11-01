@@ -50,6 +50,11 @@ function resolvePending(state: GameState): Action | null {
   return find(state, (action) => action.type === "resolveChoice");
 }
 
+/** T1 rounds open with a tactics pick; every policy takes the first offered card. */
+function chooseTacticAction(state: GameState): Action | null {
+  return find(state, (action) => action.type === "chooseTactic");
+}
+
 function cardOf(
   state: GameState,
   action: Action,
@@ -255,6 +260,9 @@ function explore(state: GameState): Action | null {
 }
 
 export function moveRevealPolicy(state: GameState): Action | null {
+  if (state.tacticChoice !== null) {
+    return chooseTacticAction(state);
+  }
   if (state.pending !== null) {
     return resolvePending(state);
   }
@@ -280,6 +288,9 @@ export function moveRevealPolicy(state: GameState): Action | null {
 }
 
 export function restPolicy(state: GameState): Action | null {
+  if (state.tacticChoice !== null) {
+    return chooseTacticAction(state);
+  }
   if (state.pending !== null) {
     return resolvePending(state);
   }
@@ -296,6 +307,9 @@ export function restPolicy(state: GameState): Action | null {
 }
 
 export function combatFirstPolicy(state: GameState): Action | null {
+  if (state.tacticChoice !== null) {
+    return chooseTacticAction(state);
+  }
   if (state.pending !== null) {
     return resolvePending(state);
   }
@@ -328,6 +342,9 @@ export function combatFirstPolicy(state: GameState): Action | null {
 }
 
 export function healRunPolicy(state: GameState): Action | null {
+  if (state.tacticChoice !== null) {
+    return chooseTacticAction(state);
+  }
   if (state.pending !== null) {
     return resolvePending(state);
   }

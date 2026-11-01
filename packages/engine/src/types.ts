@@ -158,9 +158,36 @@ export interface GameState {
   gameOver: boolean;
   /** Filled when the scenario ends (victory or defeat); null while playing. */
   result: GameResult | null;
+  /** Set while the round's tactics step is unresolved (T1). */
+  tacticChoice: TacticChoice | null;
+  tactics: TacticState;
+  /** Simplified solo dummy player; null when the scenario has none. */
+  dummy: DummyState | null;
+  /** True once End of Round has been announced; the hero gets one final turn. */
+  endOfRoundAnnounced: boolean;
+}
+
+export interface TacticChoice {
+  readonly options: string[];
+}
+
+export interface TacticState {
+  available: string[];
+  used: string[];
+  human: string | null;
+  dummy: string | null;
+}
+
+export interface DummyState {
+  /** Cards left in the dummy's current-round deed deck (count only in T1). */
+  cardsRemaining: number;
+  readonly deckSize: number;
+  readonly cardsPerTurn: number;
+  readonly crystals: BasicManaColor[];
 }
 
 type ActionPayload =
+  | { type: "chooseTactic"; tactic: string }
   | { type: "playCard"; card: CardInstanceId; mode: CardMode; mana?: ManaPayment }
   | { type: "playCardSideways"; card: CardInstanceId; as: SidewaysAs }
   | { type: "resolveChoice"; choiceId: string; optionIndex: number }
@@ -182,6 +209,9 @@ export type GameEvent =
   | { type: "roundStarted"; round: number }
   | { type: "sourceRolled"; dice: ManaColor[] }
   | { type: "turnStarted"; player: PlayerId }
+  | { type: "tacticChosen"; tactic: string; player: "human" | "dummy" }
+  | { type: "dummyFlipped"; count: number; remaining: number }
+  | { type: "endOfRoundAnnounced"; by: "dummy" | "hero" }
   | { type: "cardPlayed"; card: CardInstanceId; defId: CardId; mode: CardMode | "sideways" }
   | { type: "choiceRequested"; choiceId: string; kind: PendingChoice["kind"]; options: string[] }
   | { type: "choiceResolved"; choiceId: string; optionIndex: number }

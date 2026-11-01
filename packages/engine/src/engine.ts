@@ -29,6 +29,7 @@ import {
 import type {
   Action,
   ApplyOutcome,
+  DummyState,
   GameConfig,
   GameEvent,
   GameState,
@@ -37,6 +38,7 @@ import type {
   PendingChoice,
   PlayerState,
   PlacedTile,
+  TacticChoice,
   TurnState,
 } from "./types";
 
@@ -366,6 +368,19 @@ export function createGame(
     flags: {},
   };
 
+  const allTactics = scenario.tacticIds ?? Object.keys(content.tactics ?? {});
+  const dummyScenario = scenario.dummy ?? null;
+  const dummy: DummyState | null =
+    dummyScenario === null
+      ? null
+      : {
+          cardsRemaining: dummyScenario.deckSize,
+          deckSize: dummyScenario.deckSize,
+          cardsPerTurn: dummyScenario.cardsPerTurn,
+          crystals: [...dummyScenario.crystals],
+        };
+  const tacticChoice: TacticChoice | null =
+    allTactics.length === 0 ? null : { options: [...allTactics] };
   const timeOfDay = scenario.timeOfDayPattern?.[0] ?? "day";
   const state: GameState = {
     schemaVersion: SCHEMA_VERSION,
@@ -392,6 +407,10 @@ export function createGame(
     rng: shuffled.rng,
     gameOver: false,
     result: null,
+    tacticChoice,
+    tactics: { available: [...allTactics], used: [], human: null, dummy: null },
+    dummy,
+    endOfRoundAnnounced: false,
   };
   const draft = cloneState(state);
   seedEnemiesForRevealedTiles(draft, content, events);
@@ -402,7 +421,9 @@ export function createGame(
   events.push({ type: "gameCreated", seed: config.seed, contentHash: content.contentHash });
   events.push({ type: "roundStarted", round: 1 });
   events.push({ type: "sourceRolled", dice: draft.source.map((die) => die.color) });
-  events.push({ type: "turnStarted", player: asPlayerId("p1") });
+  if (draft.tacticChoice === null) {
+    events.push({ type: "turnStarted", player: asPlayerId("p1") });
+  }
   return { state: deepFreeze(draft) as unknown as GameState, events };
 }
 
@@ -909,13 +930,9 @@ function canRest(state: GameState, content: ContentBundle): boolean {
 }
 
 function canEndTurn(state: GameState): boolean {
-  if (state.pending !== null || state.combat !== null || state.gameOver) {
-    return false;
-  }
-  if (state.turn.rested || state.turn.playedOrDiscarded) {
-    return true;
-  }
-  return (state.players[0]?.hand.length ?? 0) === 0;
+  // T1: ending your turn is always legal outside combat (02 §4.2); the round clock is
+  // driven by the dummy player / deck depletion instead of the T0 one-turn-round shortcut.
+  return state.pending === null && state.combat === null && !state.gameOver;
 }
 
 function combatLegality(state: GameState, content: ContentBundle): Action[] {
@@ -997,6 +1014,17 @@ export function getLegalActions(state: GameState, content: ContentBundle): Legal
   const epoch = actionEpoch(state);
   if (player === undefined || state.gameOver) {
     return { epoch, player: asPlayerId("p1"), actions: [] };
+  }
+  if (state.tacticChoice !== null) {
+    return {
+      epoch,
+      player: player.id,
+      actions: state.tacticChoice.options.map((tactic) => ({
+        epoch,
+        type: "chooseTactic",
+        tactic,
+      })),
+    };
   }
   if (state.pending !== null) {
     const actions: Action[] = [];
@@ -1171,6 +1199,9 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
     throw new Error("no player");
   }
   switch (action.type) {
+    case "chooseTactic":
+      chooseTactic(draft, env, action.tactic);
+      return;
     case "playCard":
       playCard(draft, action.card, action.mode, action.mana, env);
       return;
@@ -1587,25 +1618,108 @@ function resolveCityConquest(draft: Draft, env: Env): void {
   env.events.push({ type: "gameEnded", round: draft.round, outcome: "victory", score });
 }
 
-function endTurn(draft: Draft, env: Env): void {
+function emptyTurn(number: number, handWasEmptyAtStart: boolean): TurnState {
+  return {
+    number,
+    step: "movement",
+    movePoints: 0,
+    influence: 0,
+    cardsPlayed: 0,
+    playedOrDiscarded: false,
+    rested: false,
+    handWasEmptyAtStart,
+    extraSourceDie: false,
+    cardBoost: 0,
+    flags: {},
+  };
+}
+
+/** T1 tactics step: the human picks first, then the dummy takes one of the rest at random. */
+function chooseTactic(draft: Draft, env: Env, tactic: string): void {
+  const choice = draft.tacticChoice;
+  if (choice === null || !choice.options.includes(tactic)) {
+    throw new Error("tactic not offered");
+  }
+  draft.tactics.human = tactic;
+  env.events.push({ type: "tacticChosen", tactic, player: "human" });
+  const remaining = choice.options.filter((option) => option !== tactic);
+  if (draft.dummy !== null && remaining.length > 0) {
+    const [value, next] = nextU32(draft.rng, "scenario");
+    draft.rng = next;
+    const parked = remaining[value % remaining.length];
+    if (parked !== undefined) {
+      draft.tactics.dummy = parked;
+      env.events.push({ type: "tacticChosen", tactic: parked, player: "dummy" });
+    }
+  }
+  draft.tacticChoice = null;
+  env.events.push({ type: "turnStarted", player: asPlayerId("p1") });
+  checkHeroDeckEmpty(draft, env);
+}
+
+/** Rules 02 §4.1.2: with an empty deck and hand the hero must announce End of Round. */
+function checkHeroDeckEmpty(draft: Draft, env: Env): void {
+  const player = draft.players[0];
+  if (player === undefined || draft.endOfRoundAnnounced) {
+    return;
+  }
+  if (player.deck.length === 0 && player.hand.length === 0) {
+    draft.endOfRoundAnnounced = true;
+    env.events.push({ type: "endOfRoundAnnounced", by: "hero" });
+    finishRound(draft, env);
+  }
+}
+
+function startHumanTurn(draft: Draft, env: Env): void {
+  const player = draft.players[0];
+  if (player === undefined) {
+    return;
+  }
+  draft.turn = emptyTurn(draft.turn.number + 1, player.hand.length === 0);
+  draft.combat = null;
+  env.events.push({ type: "turnStarted", player: asPlayerId("p1") });
+  checkHeroDeckEmpty(draft, env);
+}
+
+/** Simplified solo dummy (11-mvp-scope §4; full logic in the Classic preset later). */
+function dummyTurn(draft: Draft, env: Env): void {
+  const dummy = draft.dummy;
+  if (dummy === null) {
+    return;
+  }
+  if (dummy.cardsRemaining <= 0) {
+    draft.endOfRoundAnnounced = true;
+    env.events.push({ type: "endOfRoundAnnounced", by: "dummy" });
+    return;
+  }
+  const flipped = Math.min(dummy.cardsPerTurn, dummy.cardsRemaining);
+  dummy.cardsRemaining -= flipped;
+  env.events.push({ type: "dummyFlipped", count: flipped, remaining: dummy.cardsRemaining });
+  if (dummy.cardsRemaining === 0) {
+    draft.endOfRoundAnnounced = true;
+    env.events.push({ type: "endOfRoundAnnounced", by: "dummy" });
+  }
+}
+
+/** End of round → prepare the next round (02 §3.1) or finish the scenario with a defeat. */
+function finishRound(draft: Draft, env: Env): void {
   const { content } = env;
   const scenario = content.scenario;
   const player = draft.players[0];
   if (player === undefined) {
     return;
   }
-  for (const card of player.playArea) {
-    player.discard.push(card);
+  draft.endOfRoundAnnounced = false;
+  const tacticRules = scenario.tacticRules;
+  if (tacticRules?.usedTacticsRemovedEachRound !== false) {
+    for (const pick of [draft.tactics.human, draft.tactics.dummy]) {
+      if (pick !== null && !draft.tactics.used.includes(pick)) {
+        draft.tactics.used.push(pick);
+      }
+    }
   }
-  player.playArea = [];
-  player.manaTokens = [];
-  draft.turn.extraSourceDie = false;
-  draft.turn.cardBoost = 0;
-  env.events.push({ type: "turnEnded", player: player.id });
-
-  // End of round (02 §3.4 / §15.2): every hand card (including Wounds), the discard pile and
-  // the deck are shuffled into a new deed deck, then a fresh hand is drawn. The solo scenario
-  // has one hero turn per round, so turn end and round end share this pipeline.
+  // Every hand card (including Wounds), the discard pile and the deck are shuffled into a new
+  // deed deck, then a fresh hand is drawn (02 §3.4 / §15.2).
   const shuffled = shuffleWithRng([...player.deck, ...player.discard, ...player.hand], draft.rng);
   draft.rng = shuffled.rng;
   player.deck = shuffled.items;
@@ -1619,12 +1733,7 @@ function endTurn(draft: Draft, env: Env): void {
     draft.gameOver = true;
     const score = player.fame;
     draft.result = { outcome: "defeat", score, cityConquered: false, reason: "round_limit" };
-    env.events.push({
-      type: "gameEnded",
-      round: draft.round,
-      outcome: "defeat",
-      score,
-    });
+    env.events.push({ type: "gameEnded", round: draft.round, outcome: "defeat", score });
     return;
   }
 
@@ -1632,24 +1741,54 @@ function endTurn(draft: Draft, env: Env): void {
   if (pattern !== null) {
     draft.timeOfDay = pattern[draft.round - 1] ?? draft.timeOfDay;
   }
-  draft.turn = {
-    number: 1,
-    step: "movement",
-    movePoints: 0,
-    influence: 0,
-    cardsPlayed: 0,
-    playedOrDiscarded: false,
-    rested: false,
-    handWasEmptyAtStart: player.hand.length === 0,
-    extraSourceDie: false,
-    cardBoost: 0,
-    flags: {},
-  };
+  draft.turn = emptyTurn(1, player.hand.length === 0);
+  draft.combat = null;
   rollSource(draft);
   drawCards(draft, env, content.rulesConstants.startingHandSize);
+  if (draft.dummy !== null) {
+    draft.dummy.cardsRemaining = draft.dummy.deckSize;
+  }
+  const allTactics = scenario.tacticIds ?? Object.keys(content.tactics ?? {});
+  const removed = tacticRules?.usedTacticsRemovedEachRound === false ? [] : draft.tactics.used;
+  const available = allTactics.filter((tactic) => !removed.includes(tactic));
+  draft.tactics.available = available;
+  draft.tactics.human = null;
+  draft.tactics.dummy = null;
+  draft.tacticChoice = available.length > 0 ? { options: [...available] } : null;
   env.events.push({ type: "roundStarted", round: draft.round });
   env.events.push({ type: "sourceRolled", dice: draft.source.map((die) => die.color) });
-  env.events.push({ type: "turnStarted", player: player.id });
+  if (draft.tacticChoice === null) {
+    env.events.push({ type: "turnStarted", player: player.id });
+    checkHeroDeckEmpty(draft, env);
+  }
+}
+
+function endTurn(draft: Draft, env: Env): void {
+  const player = draft.players[0];
+  if (player === undefined) {
+    return;
+  }
+  for (const card of player.playArea) {
+    player.discard.push(card);
+  }
+  player.playArea = [];
+  player.manaTokens = [];
+  draft.turn.extraSourceDie = false;
+  draft.turn.cardBoost = 0;
+  env.events.push({ type: "turnEnded", player: player.id });
+
+  if (draft.endOfRoundAnnounced) {
+    finishRound(draft, env);
+    return;
+  }
+  if (draft.dummy !== null) {
+    dummyTurn(draft, env);
+    startHumanTurn(draft, env);
+    return;
+  }
+  // Scenarios without a dummy player (fixtures/T0 traces) keep the one-hero-turn-per-round
+  // compatibility shortcut so the old tests and traces stay meaningful.
+  finishRound(draft, env);
 }
 
 // ---------------------------------------------------------------------------

@@ -20,6 +20,7 @@ import type {
   HeroDef,
   RulesConstants,
   SiteDef,
+  TacticDef,
   TileDef,
 } from "@emberwold/shared";
 
@@ -68,6 +69,17 @@ interface SpikeConfig {
     readonly siteId: string;
     readonly hex: { q: number; r: number };
   }[];
+  readonly tacticIds?: readonly string[];
+  readonly tacticRules?: {
+    readonly humanChoosesFirst: boolean;
+    readonly dummyRandom: boolean;
+    readonly usedTacticsRemovedEachRound: boolean;
+  };
+  readonly dummy?: {
+    readonly deckSize: number;
+    readonly cardsPerTurn: number;
+    readonly crystals: readonly BasicManaColor[];
+  } | null;
   readonly woundCard: CardDef;
   readonly supportedOps: readonly string[];
 }
@@ -125,6 +137,11 @@ interface SiteItem {
   readonly inhabited: boolean;
   readonly healing: { readonly influence_per_point: number } | null;
   readonly interaction: readonly string[];
+}
+
+interface TacticItem {
+  readonly id: string;
+  readonly name: string;
 }
 
 interface RulesConstantsItem {
@@ -248,6 +265,7 @@ function main(): void {
   const tiles = readJson<DataFile<TileItem>>(join(DATA_DIR, "tiles.json"));
   const enemies = readJson<DataFile<EnemyItem>>(join(DATA_DIR, "enemies.json"));
   const sites = readJson<DataFile<SiteItem>>(join(DATA_DIR, "sites.json"));
+  const tactics = readJson<DataFile<TacticItem>>(join(DATA_DIR, "tactics.json"));
   const keywords = readJson<{ rules_constants: RulesConstantsItem }>(
     join(DATA_DIR, "keywords.json"),
   );
@@ -366,6 +384,16 @@ function main(): void {
     };
   }
 
+  const tacticIds = config.tacticIds ?? tactics.items.map((item) => item.id);
+  const tacticDefs: Record<string, TacticDef> = {};
+  for (const tacticId of tacticIds) {
+    const item = tactics.items.find((candidate) => candidate.id === tacticId);
+    if (item === undefined) {
+      fail(`tactic not found: ${tacticId}`);
+    }
+    tacticDefs[item.id] = { id: item.id, name: item.name };
+  }
+
   const bundle: ContentBundle = {
     schemaVersion: config.schemaVersion,
     contentHash,
@@ -387,7 +415,11 @@ function main(): void {
       timeOfDayPattern: config.timeOfDayPattern,
       siteSeeds: config.siteSeeds,
       city: config.city ?? null,
+      tacticIds,
+      tacticRules: config.tacticRules,
+      dummy: config.dummy ?? null,
     },
+    tactics: tacticDefs,
     woundCard: config.woundCard,
   };
 

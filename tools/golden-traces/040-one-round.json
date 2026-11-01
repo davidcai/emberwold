@@ -1,6 +1,6 @@
 {
   "traceVersion": 1,
-  "contentHash": "aa736dd9fbfe3bb358e7bf2b0d0a5a0ece71444f6768d7fca982bbb3a52b4926",
+  "contentHash": "a0c2aac5751e036846b55eda8f6169d33601aeebc855bc80ab7f297208edc866",
   "engineVersion": "0.1.0-spike",
   "rulesetId": "emberwold-spike",
   "seed": 4,
@@ -10,12 +10,17 @@
   "actions": [
     {
       "epoch": 0,
+      "type": "chooseTactic",
+      "tactic": "tactic:early_bird"
+    },
+    {
+      "epoch": 1,
       "type": "playCard",
       "card": "p1:deck:4",
       "mode": "basic"
     },
     {
-      "epoch": 1,
+      "epoch": 2,
       "type": "moveTo",
       "target": {
         "q": 1,
@@ -23,35 +28,35 @@
       }
     },
     {
-      "epoch": 2,
+      "epoch": 3,
       "type": "playCard",
       "card": "p1:deck:8",
       "mode": "basic"
     },
     {
-      "epoch": 3,
+      "epoch": 4,
       "type": "explore"
     },
     {
-      "epoch": 4,
+      "epoch": 5,
       "type": "playCardSideways",
       "card": "p1:deck:9",
       "as": "move"
     },
     {
-      "epoch": 5,
+      "epoch": 6,
       "type": "playCardSideways",
       "card": "p1:deck:11",
       "as": "move"
     },
     {
-      "epoch": 6,
+      "epoch": 7,
       "type": "playCardSideways",
       "card": "p1:deck:13",
       "as": "move"
     },
     {
-      "epoch": 7,
+      "epoch": 8,
       "type": "moveTo",
       "target": {
         "q": 1,
@@ -59,75 +64,104 @@
       }
     },
     {
-      "epoch": 8,
+      "epoch": 9,
       "type": "endTurn"
     },
     {
-      "epoch": 9,
-      "type": "challengeRampaging"
-    },
-    {
       "epoch": 10,
-      "type": "endCombatPhase"
+      "type": "endTurn"
     },
     {
       "epoch": 11,
-      "type": "endCombatPhase"
+      "type": "endTurn"
     },
     {
       "epoch": 12,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 13,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 14,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 15,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 16,
+      "type": "chooseTactic",
+      "tactic": "tactic:rethink"
+    },
+    {
+      "epoch": 17,
+      "type": "challengeRampaging"
+    },
+    {
+      "epoch": 18,
+      "type": "endCombatPhase"
+    },
+    {
+      "epoch": 19,
+      "type": "endCombatPhase"
+    },
+    {
+      "epoch": 20,
       "type": "assignDamage",
       "enemy": "enemy:spawn:0"
     },
     {
-      "epoch": 13,
+      "epoch": 21,
       "type": "playCard",
       "card": "p1:deck:0",
       "mode": "basic"
     },
     {
-      "epoch": 14,
+      "epoch": 22,
       "type": "resolveChoice",
-      "choiceId": "choice:14",
+      "choiceId": "choice:22",
       "optionIndex": 0
     },
     {
-      "epoch": 15,
+      "epoch": 23,
       "type": "playCard",
       "card": "p1:deck:2",
       "mode": "basic"
     },
     {
-      "epoch": 16,
+      "epoch": 24,
       "type": "resolveChoice",
-      "choiceId": "choice:16",
+      "choiceId": "choice:24",
       "optionIndex": 0
     },
     {
-      "epoch": 17,
+      "epoch": 25,
       "type": "assignAttack",
       "enemy": "enemy:spawn:0"
     },
     {
-      "epoch": 18,
+      "epoch": 26,
       "type": "playCard",
       "card": "p1:deck:4",
       "mode": "basic"
     },
     {
-      "epoch": 19,
+      "epoch": 27,
       "type": "playCard",
       "card": "p1:deck:7",
       "mode": "basic"
     },
     {
-      "epoch": 20,
+      "epoch": 28,
       "type": "playCardSideways",
       "card": "p1:deck:13",
       "as": "move"
     },
     {
-      "epoch": 21,
+      "epoch": 29,
       "type": "moveTo",
       "target": {
         "q": 2,
@@ -135,17 +169,46 @@
       }
     },
     {
-      "epoch": 22,
+      "epoch": 30,
       "type": "endTurn"
     },
     {
-      "epoch": 23,
+      "epoch": 31,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 32,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 33,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 34,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 35,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 36,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 37,
+      "type": "chooseTactic",
+      "tactic": "tactic:planning"
+    },
+    {
+      "epoch": 38,
       "type": "playCard",
       "card": "p1:deck:6",
       "mode": "basic"
     },
     {
-      "epoch": 24,
+      "epoch": 39,
       "type": "moveTo",
       "target": {
         "q": 3,
@@ -153,68 +216,83 @@
       }
     },
     {
-      "epoch": 25,
+      "epoch": 40,
       "type": "enterSite"
     },
     {
-      "epoch": 26,
+      "epoch": 41,
       "type": "playCard",
       "card": "p1:deck:11",
       "mode": "basic"
     },
     {
-      "epoch": 27,
+      "epoch": 42,
       "type": "playCardSideways",
       "card": "p1:deck:9",
       "as": "influence"
     },
     {
-      "epoch": 28,
+      "epoch": 43,
       "type": "buyHealing",
       "points": 1
     },
     {
-      "epoch": 29,
+      "epoch": 44,
       "type": "endTurn"
     }
   ],
   "expectedHashes": [
-    "8764f3a2ce95c9ccac05574afe72503658b8c383bb84924b460fb3d212689364",
-    "7d2de115778aae4b8adcac4fe7386e8a5fec6869c2462637950d973c4bc2f177",
-    "4f8db32e46050d96723765bc53964632effcec7d63b3566fe4af6cd161cce9ad",
-    "3dba2ce611e49ceaca3ed9f5c7291dd9ecb0a07ec435a482b66e5b0b7cece29d",
-    "32a06c00bfd1a9b60eb9dc0161cd5a44262e18b33b2dddcfd0555dcf4e48d64e",
-    "b7ea50b57f6d72d33d15cd7219232207d3c4705d9a7cfefa5397d4875767ba78",
-    "d902737b983b73059664b4a01d119bf9c6a013f44977d86e04e5848db6603b29",
-    "74523c9c1a76d1f1c88b8c645be0edd3e213d1e5b5f603ba8a569186258acf98",
-    "7661b8a1871ae60ebed96d5af4739e268eb2f5ffff478ca0263ef98eb8280ab3",
-    "62b1a0c2f0a559f99abdef27224d9d7694e746a83159fcfdb908f064e01029ee",
-    "2d2eceface547691768b30566e159e72f91f2a201d0413f131686663b259cf03",
-    "8dd8b3c228ec2a05fafb17532d7c13b28e4965b17216c6044b26e9b842acc6f7",
-    "287ef49c8dad6e6996906e9e6fcb751eb462d53389cc826e9caddca3fdd80d44",
-    "ae2894c31c7b023460fc33fc8cf12a1551f683b7ea92f9768c57896ba6c4f246",
-    "a1988529651f265c46229f2fd7eeeba4d77b23f1e2c09c4ba9507e7735a03e80",
-    "123ca659954434e50a888017070bc6fb632801771c97771cf166316c8b7b0b47",
-    "cbc1a24e12212c4ed267911a7b0b07e7b02f6e6913e69b1fb584fac3730f00cb",
-    "234ccc04b7eb1873aab54e4e2ded289de198b9e14eaf13bbb63d6c27d1ddea18",
-    "0efe74771ce1952f25894a50c18e4bc896e145b5d1191a7ecf44977c9c04bb18",
-    "1f2f38d2ad7f4516f84cd157765983726086b32604b1a68e2f0d73efd9a56841",
-    "129dfc077f8d89efd9764458d352c9c66cb9c8b4c8e5cb0c7a092fda18a47bf4",
-    "d97fed78c79cbbe25ad6ad60963d7e0e375b5d13e7d598a96037bf38185bfb14",
-    "069afe7ebab6b8f8065e0498643c834f6849797e5fb5f67aa584cc2a1e0b66fd",
-    "c0beb2653b9a01e512ec2d8ab896841749125778821b356e924ef35b9764ac76",
-    "b3ff9c5d620cbc66f2bd76130e1fae852ed3ab8314efb336056d188f7dea47bf",
-    "5e797e40192e44e790cd3487624a6c95cd1d2c7324effeba0de89d345ba4dee4",
-    "58a9b393b8af4319445b4fe07a0d9c5bbe9d434732275c7e91ea69ef3a49aa87",
-    "7370526e9a03e4982c52b1a71ec30cd389a22ddb6611f0bb7787fb6339ff8f56",
-    "62ff8da9575570f5f22558f0764134d74e7a2be4c854db4de6bffb605f9d95c2",
-    "aab85404d3e42b5fc84514bf775b4b726c432552577e91bc08fa64c620f51233"
+    "3cdbb0378fe0a10ae1605b5a8bfbdc9d3787309b1fe71181c2a9095c40de98a3",
+    "448ac92dd61ddc7b9f24b90fe3a32d8e77b19137dea9eb3dce1229c714d5207d",
+    "b104eba08acbd89f11f6ae243c7832d66e9f974c5a09def9e27bc7032c741182",
+    "52d0dd79219b34fe182f6ca8eafc432d5c94314edefcdd65148f5b25a368c48f",
+    "d296ec38b4f5ba96eaedc234a713228dbadce36bf530a67340c227d864ecb851",
+    "5ecfbec24447bd41869325072502a230014761be24866bb0baa08abe8d50c1ff",
+    "243b3f9120cf8e91437c7561519d08de8b8cb90dc42d76e74c796c60a747bb7b",
+    "8e65dd982b95035e99de5db25290d903886516d49f47c23f5957a2660dd52fe1",
+    "f9ceee73d550448bcffb751dc33dfde01157416e92fe5e67ca65c9bebeb57564",
+    "c84f205631b3a3662595da8796df390f6f65a6e78d8921a89a202b0d614a6d23",
+    "be69a489a0a879fdd40457fdc95bdbcfc7a05717653b44e3f11e7b1edb976187",
+    "8d802df73244aa84013efa8af89bfc2fd490f28753c3e3a3a8d252669ccf0867",
+    "c39f55037633768a0bd67458fc3106bec7fcab01930fe0018ca48b6115a7cf78",
+    "a1449b9833c63f88c2f42b11db41501c36eb8195265a0c408a0d5911b6a0ac86",
+    "345997bc35662f6512eb6a5327934a69fdeb25d19aecc1dd17db3f026b4e1e08",
+    "7857d804baa50721ea9bc03756cd6b6daa090b501ff7be1ba2c3924b1d4ece81",
+    "9005b3f3a5aba70c0a55ab725d2450fb34c9f7e0d4df0ee0ecee1a1d0cb1583a",
+    "622a02c2e3b4de01f101a83ccaa961e72293c20bf7376ba1ca931e9da78cb569",
+    "fb47fa0dd2fc46422928f8b30e9bb22dd6ea726859e4326a4ed99990035db3d5",
+    "50f5471a126834a6e84286d25793950b26ffdc668cd6849fb5246fdcf8c237e1",
+    "2df9a538f388787ee245733a8ceb851acc5b5472c3f02eeb5b869ca905020e5f",
+    "1ca10d07e4b574c428acb002e59edf073b08443842c2da7559d361a1987198de",
+    "1508bd7d9be47884d62008e0ed7cfb9197e5b004055205c6f2b70ccce81440b2",
+    "86bc45b21744124903a6be47ee764498942886e28820fe4a9f8bccb8550804f1",
+    "88488f1f068262abcd02bfa44d54adf39c422c7e05e540e060650df63851cf87",
+    "78248944ca7684e10bc1338efb3ff7f60245666b41277cb8ce14e3e2feb7ce8c",
+    "8add41490b6915a44b28c969161ca75c2c32227071e187fac23a63826109d041",
+    "e160e3af243c90bf7a0255e5ed75cedb59808a86e2a00f5e23bcc3145bf61456",
+    "1c15139207953a15ca0461c763baab70c5ac72186361aaeb637d93a21fc19612",
+    "c497b0828d859b2e0a5a74865783ae8262af1563379227232135e45ff3430d95",
+    "ab6d89e8802d49c990629e1cd54f4a2cdd57fbd72a6ec70a7bfc308394f43cc1",
+    "cffe2d92615b15651dfcdd5f6c0a4c483180e67074b3010093b2b5c32c5f0232",
+    "021abc95ceb9fa070764493dd51ec3a02d7c5bada784f545b5f51a3ab3b04368",
+    "3fdf1f891e402ded65d2409053cf9b7bf70af886f92e83613fcc87bc6fce4319",
+    "04e3e24ae20f836ddf2e0910783826592adb836938140e076d304b796189b8d6",
+    "8d0671df108e624c76da203a4736fc0405275dfa829c1c4dd1c669949a24ea79",
+    "d721da3e5acdc18ea8eb635b89e841818fd7d4fecc82d039e0accb7bddd004eb",
+    "6d9d9956d44fe2630427dd1c1abf574535c2ef217c38670bd7bfae40a6a14bf2",
+    "2a5bc5b00397443953430f41e54ce8ab744568481adaf19898757ceea504ca8e",
+    "380e0b08d34e966de281666bcfba738f346e83889c541607b7d2331df27fd2f8",
+    "a800d069db64919830a1c597676ccf5fcf0924bb3d567685335f38272ae3a5a8",
+    "d523a9cb80ab1e9503cfb4f7d890378acea81e71d5d0e3f44ebf2491ccb94d13",
+    "aee142f8e8e5a4cac3a78d6489e6dfd548ae8690d8fbd44b35fc7a6582235920",
+    "505d76f562682d688e346bce182d97fe1f4824616d6b7d125e4984aa48d1d92a",
+    "eb2e88b53ededa47a960b0d58cc26561771f62e095b969971af8ce09f4ba0629"
   ],
   "expectedOutcome": {
     "round": 3,
-    "gameOver": true,
+    "gameOver": false,
     "fame": 2,
-    "handSize": 0,
+    "handSize": 1,
     "wounds": 0,
     "defeatedEnemies": 1
   }

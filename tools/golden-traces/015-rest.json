@@ -1,6 +1,6 @@
 {
   "traceVersion": 1,
-  "contentHash": "aa736dd9fbfe3bb358e7bf2b0d0a5a0ece71444f6768d7fca982bbb3a52b4926",
+  "contentHash": "a0c2aac5751e036846b55eda8f6169d33601aeebc855bc80ab7f297208edc866",
   "engineVersion": "0.1.0-spike",
   "rulesetId": "emberwold-spike",
   "seed": 1,
@@ -10,6 +10,11 @@
   "actions": [
     {
       "epoch": 0,
+      "type": "chooseTactic",
+      "tactic": "tactic:early_bird"
+    },
+    {
+      "epoch": 1,
       "type": "rest",
       "kind": "standard",
       "discard": [
@@ -17,19 +22,20 @@
       ]
     },
     {
-      "epoch": 1,
+      "epoch": 2,
       "type": "endTurn"
     }
   ],
   "expectedHashes": [
-    "6a3392bdb014b128cb903de75b1c6fe18652eae81e85611dff446d3227ae7a2c",
-    "8e61749ad50e3345aa1b323bf093a904821b2663d5a504fc9fd4eb03c6e22773"
+    "793a6fe2cdb8a397423c8c521b16e53bfa83c6cb663fdb750b1b64688f621eb9",
+    "a1ce84e6a3176257b802d01047e4005896693761cf9d823896bdfc92e3bc2bbd",
+    "14e76ed8f48c0ca7880d0060f0ef117529f7a0363df9244451afae8d746d7744"
   ],
   "expectedOutcome": {
-    "round": 2,
+    "round": 1,
     "gameOver": false,
     "fame": 0,
-    "handSize": 5,
+    "handSize": 4,
     "wounds": 0,
     "defeatedEnemies": 0
   }

@@ -115,6 +115,18 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     Continue/new-run boot screen, in-memory undo snapshot stack; `e2e/persistence.spec.ts`
     (3 tests) plus the adapted `e2e/ui.spec.ts`; `pnpm test:e2e` 4/4 green. Engine untouched by
     this work.
+21. **T1-a2 done — real round clock, tactics, simplified dummy** (on `main`): rounds are now
+    day/night phases of ~4–6 hero turns instead of the T0 one-turn-round shortcut. A simplified
+    solo dummy (16-card count deck, flips 3 per its turn) announces End of Round when empty, the
+    hero gets one final turn, and the next round runs the real prepare pipeline (day/night flip,
+    Source reroll, hand+discard+deck shuffle incl. Wounds and fresh draw, dummy refill, tactic
+    pool refresh). Tactics are picked each round (human first, dummy random; used tactics are
+    removed per scenario rules; effects deferred — data is placeholder). Deck-empty-at-turn-start
+    forces the hero to announce End of Round. Evidence: `pnpm verify` 64 tests (25 engine) green;
+    6 re-recorded traces (000-smoke 52 actions, 010/015 short, 020 26, 030 44, 040 45) verify
+    against contentHash `a0c2aac5751e036846b55eda8f6169d33601aeebc855bc80ab7f297208edc866`;
+    fuzz seed 1 1,000 actions clean; `pnpm test:e2e` 4/4 (ui.spec now replays 030 deterministically
+    through the real UI); `pnpm content:check` clean.
 
 ## Next (ordered; first item is the exact next action)
 
@@ -124,20 +136,19 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 
 0. Commit the current T1 increment (engine/content/rules + client autosave/undo + e2e + docs),
    push `t1-first-conquest`, watch CI (`t1-*` trigger added), open the PR and merge when green.
-1. **T1-a2 tactics + dummy player** — collect/choose tactics by fame (round-order token),
-   simplified dummy player: reveal/blocking behaviour, turn end and wounds from dummy assault,
-   start-of-round offers (unit/AA/spell) scaffolding in `GameState.offers`.
-2. **T1-b sites/offers** — 6 site interactions (village heal/recruit, monastery AA purchase,
-   keep influence, mage tower spell, magical glade wound discard, mine crystal), offers refresh,
+1. **T1-b sites/offers** — 6 site interactions (village heal/recruit, monastery AA purchase,
+   keep influence, mage tower spell, magical glade wound discard, mine crystal), start-of-round
+   unit/AA/spell offers (human offer refresh; dummy deck gets removed AA cards later),
    influence/reputation spending, unit recruiting + command slots.
-3. **T1-c progression** — fame → level-up thresholds/level_stats (armor/hand/command), skill
-   tokens/offers, advanced actions/spells/artifacts acquisition, deck growth to 16+.
-4. **T1-e UI** — board origins, site/offer/choice panels, level-up/unit UI, score/debrief
-   screen, tutorial prompts turns 1–3, placeholder art where it exists.
-5. **T1-f verification + exit** — full-game deterministic trace (3 rounds, city taken) or a
-   scripted full game, scoring/debrief check, longer fuzz in CI, docs (`11` §9 DoD),
-   README/roadmap status, then T1 exit + PR/merge decision.
-6. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
+2. **T1-c progression** — fame → level-up thresholds/level_stats (armor/hand/command), skill
+   tokens/offers, advanced actions/spells/artifacts acquisition, deck growth past the 16 basics.
+3. **T1-e UI** — round/day-night indicator + tactic picker display, board origins, site/offer
+   panels, level-up/unit UI, score/debrief screen, tutorial prompts turns 1–3, placeholder art
+   where it exists.
+4. **T1-f verification + exit** — a full-game deterministic trace that actually wins (city
+   assault inside 3 rounds) or a scripted full game, scoring/debrief check, longer fuzz in CI,
+   docs (`11` §9 DoD), README/roadmap status, then T1 exit + PR/merge decision.
+5. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
    sign-off.
 
 ## Open questions
@@ -153,8 +164,9 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 
 ## Key facts
 
-- Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`; T0 branch `t0-spike` is merged
-  into `main` (PR #1, `41c8a0f`); **T1 work is on `t1-first-conquest`** (merge after green CI).
+- Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`. T0 merged (PR #1 `41c8a0f`);
+  the T1-a/T1-d branch merged as PR #2 (`606975c`); **T1 continues on `main`** (ADR-010) with
+  small commits, CI on every push.
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
@@ -168,6 +180,9 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
   are local-only (`art/<category>/*.png` ignored); wordmark in `art/branding/` is tracked; no font
   binaries are committed or embedded.
 - Image generation is owner-run in the ChatGPT desktop app; the agent never generates images.
+- **T1 simplifications still open** (documented, not bugs): tactic card effects are deferred
+  (data placeholder); the dummy is count-only (no crystals/AA absorption/blocking figure yet);
+  combat fidelity waivers from the spike report §6 still apply until T1 exit.
 - Gotchas: (a) the harness sandbox blocks writes outside the workspace — iCloud/backup copies need
   approval or a manual step; (b) fontTools C extensions fail on this host (pure-Python works after
   deleting the `.so` files); (c) `qlmanage` is sandbox-blocked — rasterise SVG with `sips` (Chrome

@@ -137,6 +137,27 @@ export interface ScenarioCity {
   readonly fame?: number;
 }
 
+export interface TacticDef {
+  readonly id: string;
+  readonly name: string;
+}
+
+export interface ScenarioTacticRules {
+  /** Solo rule: the human always chooses first, the dummy picks afterwards (02 §3.2/§17.1). */
+  readonly humanChoosesFirst: boolean;
+  readonly dummyRandom: boolean;
+  /** Solo rule: each Tactic is used once; after a round the picks are removed (02 §17.1). */
+  readonly usedTacticsRemovedEachRound: boolean;
+}
+
+export interface ScenarioDummy {
+  /** Number of deed cards the dummy starts each round with (T1 simplification: count only). */
+  readonly deckSize: number;
+  /** Cards flipped on each dummy turn. */
+  readonly cardsPerTurn: number;
+  readonly crystals: readonly BasicManaColor[];
+}
+
 export interface SpikeScenarioDef {
   readonly id: string;
   readonly roundCap: number;
@@ -154,6 +175,11 @@ export interface SpikeScenarioDef {
   readonly city?: ScenarioCity | null;
   /** Human-readable scenario name for the UI. */
   readonly name?: string;
+  /** Tactic ids available this scenario (T1; effects are deferred, T1 simplification). */
+  readonly tacticIds?: readonly string[];
+  readonly tacticRules?: ScenarioTacticRules;
+  /** Simplified solo dummy player (round clock); null/absent for scenarios without one. */
+  readonly dummy?: ScenarioDummy | null;
 }
 
 export interface RulesConstants {
@@ -177,6 +203,8 @@ export interface ContentBundle {
   readonly enemies: Readonly<Record<string, EnemyDef>>;
   readonly sites: Readonly<Record<string, SiteDef>>;
   readonly scenario: SpikeScenarioDef;
+  /** Tactic card definitions (T1; display only, effects deferred). */
+  readonly tactics?: Readonly<Record<string, TacticDef>>;
   /** Rules-defined card with no effect (02-rules-core §14.1); not in game-data yet (B7). */
   readonly woundCard: CardDef;
 }

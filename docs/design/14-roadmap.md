@@ -59,7 +59,7 @@ end turn; deterministic replay of the trace; one human can play it via CLI witho
 **Exit (G1):** a stranger can take 10 turns unaided and wants another turn. **If not: stop,
 re-scope to T0.5 (smaller) or abandon — this is the cheapest place to quit.**
 
-### M3 — Core solo loop (T1, weeks 3–7) — **in progress**
+### M3 — Core solo loop (T1, weeks 3–7) — **in progress** (round clock/tactics/dummy landed)
 
 Round/day-night loop, turn phases, movement/explore, core sites (6 types), combat, wounds/
 rest/heal, level-up + skills, dummy player, mana economy, scenario end + scoring, ~16 basic

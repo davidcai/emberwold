@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentHash": "aa736dd9fbfe3bb358e7bf2b0d0a5a0ece71444f6768d7fca982bbb3a52b4926",
+  "contentHash": "a0c2aac5751e036846b55eda8f6169d33601aeebc855bc80ab7f297208edc866",
   "rulesConstants": {
     "startingHandSize": 5,
     "heroArmor": 2,
@@ -1082,6 +1082,84 @@
         "enemy:swordsmen"
       ],
       "fame": 10
+    },
+    "tacticIds": [
+      "tactic:early_bird",
+      "tactic:rethink",
+      "tactic:mana_steal",
+      "tactic:planning",
+      "tactic:great_start",
+      "tactic:the_right_moment",
+      "tactic:from_the_dusk",
+      "tactic:long_night",
+      "tactic:mana_search",
+      "tactic:midnight_meditation",
+      "tactic:preparation",
+      "tactic:sparing_power"
+    ],
+    "tacticRules": {
+      "humanChoosesFirst": true,
+      "dummyRandom": true,
+      "usedTacticsRemovedEachRound": true
+    },
+    "dummy": {
+      "deckSize": 16,
+      "cardsPerTurn": 3,
+      "crystals": [
+        "green",
+        "green",
+        "blue"
+      ]
+    }
+  },
+  "tactics": {
+    "tactic:early_bird": {
+      "id": "tactic:early_bird",
+      "name": "Early Bird"
+    },
+    "tactic:rethink": {
+      "id": "tactic:rethink",
+      "name": "Rethink"
+    },
+    "tactic:mana_steal": {
+      "id": "tactic:mana_steal",
+      "name": "Mana Steal"
+    },
+    "tactic:planning": {
+      "id": "tactic:planning",
+      "name": "Planning"
+    },
+    "tactic:great_start": {
+      "id": "tactic:great_start",
+      "name": "Great Start"
+    },
+    "tactic:the_right_moment": {
+      "id": "tactic:the_right_moment",
+      "name": "The Right Moment"
+    },
+    "tactic:from_the_dusk": {
+      "id": "tactic:from_the_dusk",
+      "name": "From the Dusk"
+    },
+    "tactic:long_night": {
+      "id": "tactic:long_night",
+      "name": "Long Night"
+    },
+    "tactic:mana_search": {
+      "id": "tactic:mana_search",
+      "name": "Mana Search"
+    },
+    "tactic:midnight_meditation": {
+      "id": "tactic:midnight_meditation",
+      "name": "Midnight Meditation"
+    },
+    "tactic:preparation": {
+      "id": "tactic:preparation",
+      "name": "Preparation"
+    },
+    "tactic:sparing_power": {
+      "id": "tactic:sparing_power",
+      "name": "Sparing Power"
     }
   },
   "woundCard": {

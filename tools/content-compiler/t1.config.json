@@ -169,5 +169,33 @@
     "card_boost",
     "change_reputation",
     "discard_cost"
-  ]
+  ],
+  "tacticIds": [
+    "tactic:early_bird",
+    "tactic:rethink",
+    "tactic:mana_steal",
+    "tactic:planning",
+    "tactic:great_start",
+    "tactic:the_right_moment",
+    "tactic:from_the_dusk",
+    "tactic:long_night",
+    "tactic:mana_search",
+    "tactic:midnight_meditation",
+    "tactic:preparation",
+    "tactic:sparing_power"
+  ],
+  "tacticRules": {
+    "humanChoosesFirst": true,
+    "dummyRandom": true,
+    "usedTacticsRemovedEachRound": true
+  },
+  "dummy": {
+    "deckSize": 16,
+    "cardsPerTurn": 3,
+    "crystals": [
+      "green",
+      "green",
+      "blue"
+    ]
+  }
 }

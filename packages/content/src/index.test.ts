@@ -15,6 +15,14 @@ describe("@emberwold/content", () => {
     expect(bundle.scenario.timeOfDayPattern).toEqual(["day", "night", "day"]);
     expect(bundle.scenario.city?.level).toBe(4);
     expect(bundle.scenario.city?.garrison).toHaveLength(2);
+    expect(bundle.scenario.tacticIds).toHaveLength(12);
+    expect(bundle.scenario.tacticRules?.usedTacticsRemovedEachRound).toBe(true);
+    expect(bundle.scenario.dummy).toEqual({
+      deckSize: 16,
+      cardsPerTurn: 3,
+      crystals: ["green", "green", "blue"],
+    });
+    expect(Object.keys(bundle.tactics ?? {})).toHaveLength(12);
     expect(bundle.rulesConstants.tileRevealCost).toBe(2);
   });
 });
