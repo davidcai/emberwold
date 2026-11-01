@@ -249,6 +249,17 @@ function collectOps(effect: EffectOp, out: Set<string>): void {
   }
   if (effect.op === "apply_modifier") {
     out.add(effect.effect.op);
+    if (effect.effect.op === "terrain_cost" && typeof effect.effect.terrain === "object") {
+      out.add(effect.effect.terrain.op);
+    }
+  }
+  if (effect.op === "conditional") {
+    out.add(effect.condition.op);
+    collectOps(effect.then_effect, out);
+    collectOps(effect.else_effect, out);
+  }
+  if (effect.op === "scaling") {
+    collectOps(effect.base_effect, out);
   }
 }
 

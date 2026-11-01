@@ -466,6 +466,12 @@ function effectApplicable(state: GameState, content: ContentBundle, effect: Effe
         }) ?? false
       );
     }
+    case "conditional": {
+      const branch = state.combat !== null ? effect.then_effect : effect.else_effect;
+      return effectApplicable(state, content, branch);
+    }
+    case "scaling":
+      return effectApplicable(state, content, effect.base_effect);
     case "take_wound":
       return state.combat !== null;
     case "gain_attack": {
@@ -663,6 +669,20 @@ function applyEffect(draft: Draft, env: Env, effect: EffectOp): void {
         kind: "discardCost",
         options: pending.options,
       });
+      return;
+    }
+    case "conditional": {
+      const branch = draft.combat !== null ? effect.then_effect : effect.else_effect;
+      applyEffect(draft, env, branch);
+      return;
+    }
+    case "scaling": {
+      const count = scalingCount(draft, effect.factor);
+      let bonus = effect.bonus_per_count * count;
+      if (effect.maximum !== null) {
+        bonus = Math.min(bonus, effect.maximum);
+      }
+      applyScaledEffect(draft, env, effect.base_effect, bonus);
       return;
     }
     case "take_wound": {
@@ -906,7 +926,13 @@ function terrainCost(state: GameState, content: ContentBundle, terrain: string):
   )[terrain];
   const base = entry === null || entry === undefined ? null : entry[state.timeOfDay];
   const modifier = state.turn.terrainModifier;
-  if (modifier === undefined || (modifier.terrain !== "all" && modifier.terrain !== terrain)) {
+  const modifierTerrain =
+    modifier === undefined
+      ? null
+      : typeof modifier.terrain === "object"
+        ? modifier.terrain.terrain
+        : modifier.terrain;
+  if (modifier === undefined || (modifierTerrain !== "all" && modifierTerrain !== terrain)) {
     return base;
   }
   if (modifier.replace_cost !== undefined) {
@@ -2352,6 +2378,35 @@ export function getReachableHexes(
   content: ContentBundle,
 ): ReadonlyMap<string, number> {
   return reachableHexes(state, content);
+}
+
+function scalingCount(draft: GameState, factor: string): number {
+  switch (factor) {
+    case "per_enemy_blocked":
+      return draft.combat?.enemies.filter((enemy) => enemy.blocked).length ?? 0;
+    default:
+      // Only factors with a defined engine meaning are compiled into the bundle; keep the rest
+      // loud instead of silently applying an invented count.
+      throw new Error(`unsupported scaling factor: ${factor}`);
+  }
+}
+
+function applyScaledEffect(draft: Draft, env: Env, effect: EffectOp, bonus: number): void {
+  if (bonus <= 0) {
+    applyEffect(draft, env, effect);
+    return;
+  }
+  switch (effect.op) {
+    case "gain_attack":
+    case "gain_block":
+    case "gain_influence":
+    case "gain_move":
+      applyEffect(draft, env, { ...effect, amount: effect.amount + bonus });
+      return;
+    default:
+      applyEffect(draft, env, effect);
+      return;
+  }
 }
 
 export function hashState(state: GameState): string {

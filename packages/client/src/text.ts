@@ -290,7 +290,11 @@ export function effectSummary(effect: EffectOp): string {
         return `${effect.duration} bonus (${humanizeId(effect.effect.rule)})`;
       }
       const cost = effect.effect.replace_cost ?? effect.effect.amount;
-      return `${effect.duration} modifier (${humanizeId(effect.effect.terrain)} terrain cost ${cost})`;
+      const terrain =
+        typeof effect.effect.terrain === "string"
+          ? effect.effect.terrain
+          : effect.effect.terrain.terrain;
+      return `${effect.duration} modifier (${humanizeId(terrain)} terrain cost ${cost})`;
     }
     case "rule_override":
       return `special rule (${humanizeId(effect.rule)})`;

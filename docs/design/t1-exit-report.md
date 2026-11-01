@@ -40,6 +40,7 @@ listed in §8.
 | `0ec033a` | End-of-turn draw to the modified hand limit (02 §15.1) and `discardCard`; the missing draw deadlocked the 3-round game once the hand filled with unplayable cards. |
 | `8a7ee5c` | Site visibility fix (`map.sites` seeded only for revealed tiles and added on reveal), `expectedResult` golden-trace assertions, `050-victory.json` winning line. |
 | `61a83e1` | CI fuzz raised to 10,000 actions per push. |
+| (effect-op increment) | `conditional`/`scaling`/`terrain_specific` ops + Counterattack, Frost Bridge, Refreshing Walk. |
 | (reputation increment) | Reputation events: city assault −1, defeating rampaging green/brown enemies +1/+2. |
 | (2nd-hero increment) | Second hero selectable: two heroes compiled with per-hero decks/crystals/skill decks, `GameConfig.heroId`, client hero selector, hero e2e test. |
 | (unit-wounds increment) | Unit damage assignment (armor absorption, Poison/Paralyze/Assassination), unit healing at sites, wounded units cannot activate; schemaVersion 2. |
@@ -62,7 +63,7 @@ pnpm build               # client production build (≈95 KB gzipped initial loa
 pnpm exec tsx tools/golden-traces/src/verify.ts   # explicit trace report
 ```
 
-At the time of writing: **82 tests**, contentHash
+At the time of writing: **83 tests**, contentHash
 `15c81fb0202e97c7c6b403d5f4e39f8fb909e0be3335ef38d37bf723db5d0bdd`, data validator
 `checks: 9662 errors: 0 warnings: 0`, CI fuzz 10,000 actions green.
 
@@ -86,7 +87,7 @@ replays every action and compares state hashes *and* the expected outcome/score 
 | Heroes | 1 at M1, 2 at v1.0 | 2 selectable heroes (`hero:goldyx`, `hero:arythea`) with their own decks, crystals and skill decks | done (child-playstyle differentiation is tuning work) |
 | Basic Actions | 1 full 16-instance deck per hero | 16 basic definitions across the two heroes (12 goldyx + 4 arythea-only, 16-instance decks) | done for both heroes |
 | Skills | ≈6 reachable per hero | 20 definitions (10 per hero), 10 in the hero's skill deck, fixed order | activation done; choice/shuffle deferred |
-| Advanced Actions | 12 | 5 (only those whose full effect tree is implemented) | remainder = T1 debt |
+| Advanced Actions | 12 | 8 (only those whose full effect tree is implemented) | remainder = T1 debt |
 | Spells | 6 | 2 | remainder = T1 debt |
 | Artifacts | 4 | 0 | T1 debt (`gain_fame` / endless-mana ops) |
 | Units | 6 | 6 | done, basic abilities only |
@@ -153,7 +154,7 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
   mapped subset only).
 - **Sites:** keep/mage-tower garrisons and ownership, city colour purchase options and portal
   removal are deferred; healing, the six MVP site benefits and conquest reputation are in.
-- **Content breadth:** 4 artifacts, 7 of 12 MVP Advanced Actions, 4 of 6 MVP spells and the
+- **Content breadth:** 4 artifacts, 4 of 12 MVP Advanced Actions, 4 of 6 MVP spells and the
   Classic preset are not in the bundle yet (artifacts additionally need an authored acquisition
   path that does not invent rules).
 - **Scoring:** base fame + city bonus (10) is implemented; the tuned row/goal table in

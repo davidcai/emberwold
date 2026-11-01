@@ -251,15 +251,26 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     (new: city assault −1, rampaging +1/+2), 7 traces re-recorded/rehashed and verified (020
     and 030/040 now include the reputation event), 6 e2e, fuzz 10k clean.
 
+32. **T1-d2e done — effect-op pack + 3 more Advanced Actions**: shared `EffectOp` gained
+    `conditional` (in_combat / on_terrain), `scaling` (engine supports `per_enemy_blocked`) and a
+    terrain-selector form of `terrain_cost` (`terrain_specific`); the engine evaluates the
+    conditional branch, scales the base attack/influence/block/move, and applies targeted
+    terrain costs. Compiler collects the nested condition/base ops. Three more MVP Advanced
+    Actions now compile: Counterattack (scaling per blocked enemy), Frost Bridge (swamp/lake
+    terrain at cost 1) and Refreshing Walk (move+heal outside combat, move in combat), taking
+    the bundle to 8 of 12 AA. Bundle digest `7c15b1a9…`; 83 tests (new: conditional branches,
+    scaling attack, targeted swamp cost), all 7 traces re-recorded/rehashed and verified, 6 e2e,
+    fuzz 10k clean.
+
 ## Next (ordered; first item is the exact next action)
 
 Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a
 PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap.md` M3–M4.
 
-1. **T1-d2e content increment (next)** — remaining Advanced Actions/Spells (interpreter ops
-   such as conditional/on_terrain/scaling), keep/mage-tower garrisons and city colour options,
-   the 4 artifacts (acquisition rules still need an authored reward path), dummy fidelity and
-   tactic effects. Each increment:
+1. **T1-d2f content increment (next)** — remaining Advanced Actions (blood_ritual,
+   into_the_heat, steady_tempo, in_need) and Spells (restoration, whirlwind, expose, cure) need
+   mana-choice/targeting/schedule/unit-bonus ops; also keep/mage-tower garrisons and city colour
+   options, the 4 artifacts (acquisition path), dummy fidelity and tactic effects. Each increment:
    compiler + engine + tests + traces re-recorded, then a small commit.
 2. **T1 exit bookkeeping (done for engineering; owner gates open)** — ADR-011 records the
    engineering GO, `docs/design/t1-exit-report.md` v1.0 and roadmap/README/docs status are
@@ -296,7 +307,7 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
-  lint + 82 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (6
+  lint + 83 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (6
   tests: hero select, 3 persistence, 2 full-scenario replays); `pnpm test` alone; data validator
   `.venv/bin/python tools/validate_data.py` (local) / `python3 tools/validate_data.py` (CI, stdlib).
 - Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…010**); T0 plan and steps in

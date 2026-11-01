@@ -773,6 +773,166 @@
         }
       }
     },
+    "advanced:counterattack": {
+      "id": "advanced:counterattack",
+      "name": "Counterattack",
+      "color": "red",
+      "poweredBy": "red",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "scaling",
+          "factor": "per_enemy_blocked",
+          "base_effect": {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          "bonus_per_count": 2,
+          "maximum": null
+        },
+        "powered": {
+          "op": "scaling",
+          "factor": "per_enemy_blocked",
+          "base_effect": {
+            "op": "gain_attack",
+            "amount": 4,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          "bonus_per_count": 3,
+          "maximum": null
+        }
+      }
+    },
+    "advanced:frost_bridge": {
+      "id": "advanced:frost_bridge",
+      "name": "Frost Bridge",
+      "color": "blue",
+      "poweredBy": "blue",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "swamp"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 1
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "lake"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 1
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "terrain_cost",
+                "terrain": {
+                  "op": "terrain_specific",
+                  "terrain": "swamp"
+                },
+                "amount": 0,
+                "minimum": 0,
+                "replace_cost": 1
+              },
+              "duration": "turn",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      }
+    },
+    "advanced:refreshing_walk": {
+      "id": "advanced:refreshing_walk",
+      "name": "Refreshing Walk",
+      "color": "green",
+      "poweredBy": "green",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "conditional",
+          "condition": {
+            "op": "in_combat"
+          },
+          "then_effect": {
+            "op": "gain_move",
+            "amount": 2
+          },
+          "else_effect": {
+            "op": "compound",
+            "effects": [
+              {
+                "op": "gain_move",
+                "amount": 2
+              },
+              {
+                "op": "gain_healing",
+                "amount": 1
+              }
+            ]
+          }
+        },
+        "powered": {
+          "op": "conditional",
+          "condition": {
+            "op": "in_combat"
+          },
+          "then_effect": {
+            "op": "gain_move",
+            "amount": 4
+          },
+          "else_effect": {
+            "op": "compound",
+            "effects": [
+              {
+                "op": "gain_move",
+                "amount": 4
+              },
+              {
+                "op": "gain_healing",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      }
+    },
     "spell:fireball": {
       "id": "spell:fireball",
       "name": "Fireball",
@@ -1584,7 +1744,10 @@
     ],
     "aaDeck": [
       "advanced:ice_bolt",
-      "advanced:crushing_bolt"
+      "advanced:crushing_bolt",
+      "advanced:counterattack",
+      "advanced:frost_bridge",
+      "advanced:refreshing_walk"
     ],
     "spellDeck": [],
     "skillDeck": [
@@ -1977,7 +2140,16 @@
       "name": "Glittering Fortune",
       "hero": "goldyx",
       "usageType": "once_per_turn",
-      "effect": null
+      "effect": {
+        "op": "scaling",
+        "factor": "per_crystal_color",
+        "base_effect": {
+          "op": "gain_influence",
+          "amount": 0
+        },
+        "bonus_per_count": null,
+        "maximum": null
+      }
     },
     "skill:goldyx_green_crystal_craft": {
       "id": "skill:goldyx_green_crystal_craft",
@@ -2311,5 +2483,5 @@
       "powered": null
     }
   },
-  "contentHash": "15c81fb0202e97c7c6b403d5f4e39f8fb909e0be3335ef38d37bf723db5d0bdd"
+  "contentHash": "7c15b1a9b6c92691d6c6571527b8cec88469f9819b043c557382f4740eab0850"
 }

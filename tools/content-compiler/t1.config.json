@@ -2,7 +2,10 @@
   "schemaVersion": 1,
   "scenarioId": "scenario:first-conquest",
   "scenarioName": "First Conquest",
-  "heroes": ["hero:goldyx", "hero:arythea"],
+  "heroes": [
+    "hero:goldyx",
+    "hero:arythea"
+  ],
   "roundCap": 3,
   "timeOfDayPattern": [
     "day",
@@ -170,7 +173,12 @@
     "card_boost",
     "change_reputation",
     "discard_cost",
-    "take_wound"
+    "take_wound",
+    "conditional",
+    "in_combat",
+    "on_terrain",
+    "scaling",
+    "terrain_specific"
   ],
   "tacticIds": [
     "tactic:early_bird",
@@ -205,7 +213,10 @@
     "advanced:intimidate",
     "advanced:fire_bolt",
     "advanced:ice_bolt",
-    "advanced:crushing_bolt"
+    "advanced:crushing_bolt",
+    "advanced:counterattack",
+    "advanced:frost_bridge",
+    "advanced:refreshing_walk"
   ],
   "spells": [
     "spell:fireball",

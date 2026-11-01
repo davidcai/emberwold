@@ -10,14 +10,22 @@ export type CombatType = "melee" | "ranged" | "siege";
 export type Terrain =
   "plains" | "hills" | "forest" | "wasteland" | "desert" | "swamp" | "lake" | "mountain" | "city";
 
+/** A terrain target: one terrain, every terrain, or a terrain selector op from the data DSL. */
+export type TerrainSelector =
+  Terrain | "all" | { readonly op: "terrain_specific"; readonly terrain: Terrain };
+
 /** Modifier payload: replace or adjust movement cost for one terrain (or all) this turn. */
 export interface TerrainCostModifier {
   readonly op: "terrain_cost";
-  readonly terrain: Terrain | "all";
+  readonly terrain: TerrainSelector;
   readonly amount: number;
   readonly minimum?: number;
   readonly replace_cost?: number;
 }
+
+/** Conditions used by the `conditional` effect wrapper (only the ones the engine evaluates). */
+export type EffectCondition =
+  { readonly op: "in_combat" } | { readonly op: "on_terrain"; readonly terrain: Terrain };
 
 export type EffectOp =
   | { readonly op: "choice"; readonly options: readonly EffectOp[] }
@@ -56,6 +64,19 @@ export type EffectOp =
       readonly filter_wounds: boolean;
       readonly wounds_only: boolean;
       readonly then_effect: EffectOp;
+    }
+  | {
+      readonly op: "conditional";
+      readonly condition: EffectCondition;
+      readonly then_effect: EffectOp;
+      readonly else_effect: EffectOp;
+    }
+  | {
+      readonly op: "scaling";
+      readonly factor: string;
+      readonly base_effect: EffectOp;
+      readonly bonus_per_count: number;
+      readonly maximum: number | null;
     }
   | { readonly op: "take_wound" }
   | { readonly op: "change_reputation"; readonly amount: number }

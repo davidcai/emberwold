@@ -1267,6 +1267,166 @@ describe("determinism and invariants", () => {
     expect(state.offers.aa).toEqual(["advanced:test_next"]);
   });
 
+  it("applies conditional, scaling and terrain-specific effects", () => {
+    const base = createFixtureContent();
+    const startTile = base.tiles["tile:start"];
+    const countryside = base.tiles["tile:countryside"];
+    if (startTile === undefined || countryside === undefined) {
+      throw new Error("fixture tiles missing");
+    }
+    const content: ContentBundle = {
+      ...base,
+      tiles: {
+        ...base.tiles,
+        "tile:start": {
+          ...startTile,
+          hexes: startTile.hexes.map((hex) =>
+            hex.q === 1 && hex.r === 0 ? { ...hex, terrain: "swamp" } : hex,
+          ),
+        },
+      },
+      cards: {
+        ...base.cards,
+        "advanced:test_rally": {
+          id: "advanced:test_rally",
+          name: "Test Rally",
+          color: "blue",
+          poweredBy: "blue",
+          sidewaysValue: 1,
+          effects: {
+            basic: {
+              op: "conditional",
+              condition: { op: "in_combat" },
+              then_effect: {
+                op: "gain_attack",
+                amount: 2,
+                combat_type: "melee",
+                element: "physical",
+              },
+              else_effect: {
+                op: "compound",
+                effects: [
+                  { op: "gain_influence", amount: 2 },
+                  { op: "gain_healing", amount: 1 },
+                ],
+              },
+            },
+            powered: {
+              op: "scaling",
+              factor: "per_enemy_blocked",
+              base_effect: {
+                op: "gain_attack",
+                amount: 2,
+                combat_type: "melee",
+                element: "physical",
+              },
+              bonus_per_count: 2,
+              maximum: null,
+            },
+          },
+        },
+      },
+    };
+    const wall = content.tiles["tile:start"];
+    if (wall === undefined) {
+      throw new Error("fixture tile missing");
+    }
+    const give = (state: GameState) => {
+      const withCard = clone(state);
+      withCard.cardInstances["advanced:test_rally:instance" as never] =
+        "advanced:test_rally" as never;
+      withCard.players[0]!.hand.push("advanced:test_rally:instance" as never);
+      return withCard;
+    };
+    // Outside combat the conditional takes the else branch: influence + heal.
+    const initial = createGame({ seed: 14 }, content).state;
+    const wound = clone(initial);
+    wound.cardInstances["advanced:test_rally:instance" as never] = "advanced:test_rally" as never;
+    wound.cardInstances["card:wound:test" as never] = "card:wound" as never;
+    wound.players[0]!.hand.push("card:wound:test" as never);
+    const outOfCombat = give(wound);
+    const play = getLegalActions(outOfCombat, content).actions.find(
+      (action) =>
+        action.type === "playCard" && action.card === ("advanced:test_rally:instance" as never),
+    );
+    expect(play).toBeDefined();
+    const peaceful = applyOk(outOfCombat, play as Action, content);
+    expect(peaceful.state.turn.influence).toBe(2);
+    expect(peaceful.events).toContainEqual(expect.objectContaining({ type: "healGained" }));
+
+    // In combat the then branch applies attack; the powered scaling adds per blocked enemy.
+    const combat = clone(outOfCombat);
+    combat.combat = {
+      phase: "attack",
+      enemies: [
+        {
+          instanceId: "enemy:a" as never,
+          defId: "enemy:test_brute",
+          blocked: true,
+          defeated: false,
+        },
+        {
+          instanceId: "enemy:b" as never,
+          defId: "enemy:test_brute",
+          blocked: true,
+          defeated: false,
+        },
+      ],
+      attackPool: [],
+      blockPool: [],
+      pendingDamage: [],
+    };
+    const inCombat = give(clone(combat));
+    const basic = getLegalActions(inCombat, content).actions.find(
+      (action) =>
+        action.type === "playCard" &&
+        action.card === ("advanced:test_rally:instance" as never) &&
+        action.mode === "basic",
+    );
+    expect(basic).toBeDefined();
+    const fought = applyOk(inCombat, basic as Action, content);
+    expect(fought.state.combat?.attackPool).toHaveLength(1);
+    expect(fought.state.combat?.attackPool[0]?.amount).toBe(2);
+
+    // Frost-bridge-style terrain selector: swamp costs 1 this turn.
+    const bridgeContent: ContentBundle = {
+      ...content,
+      skills: {
+        "skill:test_bridge": {
+          id: "skill:test_bridge",
+          name: "Test Bridge",
+          hero: "test",
+          usageType: "once_per_turn",
+          effect: {
+            op: "apply_modifier",
+            effect: {
+              op: "terrain_cost",
+              terrain: { op: "terrain_specific", terrain: "swamp" },
+              amount: 0,
+              minimum: 0,
+              replace_cost: 1,
+            },
+            duration: "turn",
+          },
+        },
+      },
+    };
+    let bridgeState = createGame({ seed: 14 }, bridgeContent).state;
+    bridgeState = clone(bridgeState);
+    bridgeState.players[0]!.skills = ["skill:test_bridge"];
+    bridgeState.turn.movePoints = 1;
+    const before = getReachableHexes(bridgeState, bridgeContent);
+    expect(before.has(hexKeyFor({ q: 1, r: 0 }))).toBe(false);
+    const useBridge = getLegalActions(bridgeState, bridgeContent).actions.find(
+      (action) => action.type === "useSkill",
+    );
+    expect(useBridge).toBeDefined();
+    bridgeState = applyOk(bridgeState, useBridge as Action, bridgeContent).state;
+    const after = getReachableHexes(bridgeState, bridgeContent);
+    expect(after.get(hexKeyFor({ q: 1, r: 0 }))).toBe(1);
+    void wall;
+  });
+
   it("gains reputation for defeating rampaging green and brown enemies", () => {
     const base = createFixtureContent();
     const content: ContentBundle = {

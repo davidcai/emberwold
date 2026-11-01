@@ -8,7 +8,7 @@ describe("@emberwold/content", () => {
     expect(Object.keys(bundle.heroes)).toHaveLength(2);
     expect(bundle.heroes["hero:goldyx"]?.startingDeck).toHaveLength(16);
     expect(bundle.heroes["hero:arythea"]?.startingDeck).toHaveLength(16);
-    expect(Object.keys(bundle.cards)).toHaveLength(24);
+    expect(Object.keys(bundle.cards)).toHaveLength(27);
     expect(Object.keys(bundle.tiles)).toHaveLength(4);
     expect(Object.keys(bundle.enemies)).toHaveLength(12);
     expect(Object.keys(bundle.sites)).toHaveLength(8);
@@ -26,7 +26,7 @@ describe("@emberwold/content", () => {
     expect(Object.keys(bundle.tactics ?? {})).toHaveLength(12);
     expect(bundle.scenario.aaOffer).toHaveLength(3);
     expect(bundle.scenario.spellOffer).toHaveLength(2);
-    expect(bundle.scenario.aaDeck).toHaveLength(2);
+    expect(bundle.scenario.aaDeck).toHaveLength(5);
     expect(bundle.units).toBeDefined();
     expect(Object.keys(bundle.units ?? {})).toHaveLength(6);
     expect(bundle.scenario.unitOffer).toHaveLength(3);
