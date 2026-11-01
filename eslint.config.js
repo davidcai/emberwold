@@ -17,6 +17,13 @@ export default tseslint.config(
   {
     files: ["packages/engine/**/*.ts"],
     rules: {
+      "no-restricted-globals": [
+        "error",
+        { "name": "process", "message": "The engine must stay pure TypeScript." },
+        { "name": "Buffer", "message": "The engine must stay pure TypeScript." },
+        { "name": "console", "message": "The engine must stay pure TypeScript." },
+        { "name": "require", "message": "The engine must stay pure TypeScript." },
+      ],
       "no-restricted-imports": [
         "error",
         {

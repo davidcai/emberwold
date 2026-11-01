@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "hero": "hero:goldyx",
+  "tiles": [
+    {
+      "tileId": "tile:starting_a",
+      "origin": {
+        "q": 0,
+        "r": 0
+      }
+    },
+    {
+      "tileId": "tile:countryside_1",
+      "origin": {
+        "q": 2,
+        "r": 0
+      }
+    }
+  ],
+  "enemies": [
+    "enemy:prowlers",
+    "enemy:diggers",
+    "enemy:wolf_riders"
+  ],
+  "sites": [
+    "site:village",
+    "site:portal"
+  ],
+  "spawns": [
+    {
+      "enemyId": "enemy:prowlers",
+      "hex": {
+        "q": 2,
+        "r": -1
+      }
+    },
+    {
+      "enemyId": "enemy:diggers",
+      "hex": {
+        "q": 2,
+        "r": 1
+      }
+    }
+  ],
+  "roundCap": 10,
+  "startHex": {
+    "q": 0,
+    "r": 0
+  },
+  "woundCard": {
+    "id": "card:wound",
+    "name": "Wound",
+    "color": "white",
+    "poweredBy": null,
+    "sidewaysValue": 0,
+    "effects": {
+      "basic": {
+        "op": "special",
+        "id": "none"
+      },
+      "powered": null
+    }
+  },
+  "supportedOps": [
+    "choice",
+    "compound",
+    "gain_move",
+    "gain_influence",
+    "gain_attack",
+    "gain_block",
+    "gain_healing",
+    "draw_cards",
+    "gain_mana",
+    "gain_crystal",
+    "convert_mana_to_crystal",
+    "mana_draw_powered",
+    "apply_modifier",
+    "rule_override",
+    "card_boost",
+    "change_reputation",
+    "discard_cost"
+  ]
+}

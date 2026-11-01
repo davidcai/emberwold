@@ -1,0 +1,707 @@
+{
+  "schemaVersion": 1,
+  "contentHash": "1d76a028139a49439c6f67d53430ac4ad646b54e8340cee42d86633b0337faa3",
+  "rulesConstants": {
+    "startingHandSize": 5,
+    "heroArmor": 2,
+    "heroHandLimit": 5,
+    "deedDeckSize": 16,
+    "tileRevealCost": 2,
+    "terrainMoveCost": {
+      "plains": {
+        "day": 2,
+        "night": 3
+      },
+      "hills": {
+        "day": 3,
+        "night": 4
+      },
+      "forest": {
+        "day": 3,
+        "night": 5
+      },
+      "wasteland": {
+        "day": 4,
+        "night": 5
+      },
+      "desert": {
+        "day": 5,
+        "night": 3
+      },
+      "swamp": {
+        "day": 5,
+        "night": 5
+      },
+      "lake": null,
+      "mountain": null,
+      "city": {
+        "day": 2,
+        "night": 2
+      }
+    }
+  },
+  "cards": {
+    "basic:rage": {
+      "id": "basic:rage",
+      "name": "Rage",
+      "color": "red",
+      "poweredBy": "red",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 2,
+              "element": "physical"
+            }
+          ]
+        },
+        "powered": {
+          "op": "gain_attack",
+          "amount": 4,
+          "combat_type": "melee",
+          "element": "physical"
+        }
+      }
+    },
+    "basic:determination": {
+      "id": "basic:determination",
+      "name": "Determination",
+      "color": "blue",
+      "poweredBy": "blue",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "gain_block",
+              "amount": 2,
+              "element": "physical"
+            }
+          ]
+        },
+        "powered": {
+          "op": "gain_block",
+          "amount": 5,
+          "element": "physical"
+        }
+      }
+    },
+    "basic:swiftness": {
+      "id": "basic:swiftness",
+      "name": "Swiftness",
+      "color": "white",
+      "poweredBy": "white",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "gain_move",
+          "amount": 2
+        },
+        "powered": {
+          "op": "gain_attack",
+          "amount": 3,
+          "combat_type": "ranged",
+          "element": "physical"
+        }
+      }
+    },
+    "basic:march": {
+      "id": "basic:march",
+      "name": "March",
+      "color": "green",
+      "poweredBy": "green",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "gain_move",
+          "amount": 2
+        },
+        "powered": {
+          "op": "gain_move",
+          "amount": 4
+        }
+      }
+    },
+    "basic:stamina": {
+      "id": "basic:stamina",
+      "name": "Stamina",
+      "color": "blue",
+      "poweredBy": "blue",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "gain_move",
+          "amount": 2
+        },
+        "powered": {
+          "op": "gain_move",
+          "amount": 4
+        }
+      }
+    },
+    "basic:tranquility": {
+      "id": "basic:tranquility",
+      "name": "Tranquility",
+      "color": "green",
+      "poweredBy": "green",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_healing",
+              "amount": 1
+            },
+            {
+              "op": "draw_cards",
+              "count": 1
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_healing",
+              "amount": 2
+            },
+            {
+              "op": "draw_cards",
+              "count": 2
+            }
+          ]
+        }
+      }
+    },
+    "basic:promise": {
+      "id": "basic:promise",
+      "name": "Promise",
+      "color": "white",
+      "poweredBy": "white",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "gain_influence",
+          "amount": 2
+        },
+        "powered": {
+          "op": "gain_influence",
+          "amount": 4
+        }
+      }
+    },
+    "basic:threaten": {
+      "id": "basic:threaten",
+      "name": "Threaten",
+      "color": "red",
+      "poweredBy": "red",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "gain_influence",
+          "amount": 2
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_influence",
+              "amount": 5
+            },
+            {
+              "op": "change_reputation",
+              "amount": -1
+            }
+          ]
+        }
+      }
+    },
+    "basic:goldyx_crystal_joy": {
+      "id": "basic:goldyx_crystal_joy",
+      "name": "Crystal Joy",
+      "color": "blue",
+      "poweredBy": "any_basic",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "convert_mana_to_crystal"
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_crystal",
+              "color": "red"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "blue"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "green"
+            },
+            {
+              "op": "gain_crystal",
+              "color": "white"
+            }
+          ]
+        }
+      }
+    },
+    "basic:mana_draw": {
+      "id": "basic:mana_draw",
+      "name": "Mana Draw",
+      "color": "white",
+      "poweredBy": "white",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "apply_modifier",
+          "effect": {
+            "op": "rule_override",
+            "rule": "extra_source_die"
+          },
+          "duration": "turn",
+          "scope": "self_scope"
+        },
+        "powered": {
+          "op": "mana_draw_powered",
+          "dice_count": 1,
+          "tokens_per_die": 2
+        }
+      }
+    },
+    "basic:goldyx_will_focus": {
+      "id": "basic:goldyx_will_focus",
+      "name": "Will Focus",
+      "color": "green",
+      "poweredBy": "green",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_mana",
+              "color": "blue",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "white",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "red",
+              "amount": 1
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_mana",
+              "color": "blue",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "white",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "red",
+              "amount": 1
+            },
+            {
+              "op": "gain_mana",
+              "color": "gold",
+              "amount": 1
+            }
+          ]
+        }
+      }
+    },
+    "basic:improvisation": {
+      "id": "basic:improvisation",
+      "name": "Improvisation",
+      "color": "red",
+      "poweredBy": "red",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "discard_cost",
+          "count": 1,
+          "filter_wounds": true,
+          "wounds_only": false,
+          "then_effect": {
+            "op": "choice",
+            "options": [
+              {
+                "op": "gain_move",
+                "amount": 3
+              },
+              {
+                "op": "gain_influence",
+                "amount": 3
+              },
+              {
+                "op": "gain_attack",
+                "amount": 3,
+                "combat_type": "melee",
+                "element": "physical"
+              },
+              {
+                "op": "gain_block",
+                "amount": 3,
+                "element": "physical"
+              }
+            ]
+          }
+        },
+        "powered": {
+          "op": "discard_cost",
+          "count": 1,
+          "filter_wounds": true,
+          "wounds_only": false,
+          "then_effect": {
+            "op": "choice",
+            "options": [
+              {
+                "op": "gain_move",
+                "amount": 5
+              },
+              {
+                "op": "gain_influence",
+                "amount": 5
+              },
+              {
+                "op": "gain_attack",
+                "amount": 5,
+                "combat_type": "melee",
+                "element": "physical"
+              },
+              {
+                "op": "gain_block",
+                "amount": 5,
+                "element": "physical"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "card:wound": {
+      "id": "card:wound",
+      "name": "Wound",
+      "color": "white",
+      "poweredBy": null,
+      "sidewaysValue": 0,
+      "effects": {
+        "basic": {
+          "op": "special",
+          "id": "none"
+        },
+        "powered": null
+      }
+    }
+  },
+  "heroes": {
+    "hero:goldyx": {
+      "id": "hero:goldyx",
+      "name": "Goldyx",
+      "startingCrystals": [
+        "green",
+        "green",
+        "blue"
+      ],
+      "startingDeck": [
+        "basic:rage",
+        "basic:rage",
+        "basic:determination",
+        "basic:swiftness",
+        "basic:swiftness",
+        "basic:march",
+        "basic:march",
+        "basic:stamina",
+        "basic:stamina",
+        "basic:tranquility",
+        "basic:promise",
+        "basic:threaten",
+        "basic:goldyx_crystal_joy",
+        "basic:mana_draw",
+        "basic:goldyx_will_focus",
+        "basic:improvisation"
+      ]
+    }
+  },
+  "tiles": {
+    "tile:starting_a": {
+      "id": "tile:starting_a",
+      "name": "Starting A",
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "plains",
+          "site": "portal",
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "mountain",
+          "site": null,
+          "mine_color": null,
+          "rampaging": []
+        }
+      ]
+    },
+    "tile:countryside_1": {
+      "id": "tile:countryside_1",
+      "name": "Countryside 1",
+      "hexes": [
+        {
+          "q": 0,
+          "r": 0,
+          "terrain": "forest",
+          "site": "magical_glade",
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": -1,
+          "terrain": "lake",
+          "site": null,
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": 1,
+          "r": 0,
+          "terrain": "plains",
+          "site": "village",
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": 1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 1,
+          "terrain": "plains",
+          "site": null,
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": -1,
+          "r": 0,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "rampaging": []
+        },
+        {
+          "q": 0,
+          "r": -1,
+          "terrain": "forest",
+          "site": null,
+          "mine_color": null,
+          "rampaging": [
+            "orc_marauder"
+          ]
+        }
+      ]
+    }
+  },
+  "enemies": {
+    "enemy:prowlers": {
+      "id": "enemy:prowlers",
+      "name": "Prowlers",
+      "color": "green",
+      "attack": 4,
+      "attackElement": "physical",
+      "armor": 3,
+      "fame": 2,
+      "resistances": [],
+      "abilities": []
+    },
+    "enemy:diggers": {
+      "id": "enemy:diggers",
+      "name": "Diggers",
+      "color": "green",
+      "attack": 3,
+      "attackElement": "physical",
+      "armor": 3,
+      "fame": 2,
+      "resistances": [],
+      "abilities": [
+        "fortified"
+      ]
+    },
+    "enemy:wolf_riders": {
+      "id": "enemy:wolf_riders",
+      "name": "Wolf Riders",
+      "color": "green",
+      "attack": 3,
+      "attackElement": "physical",
+      "armor": 4,
+      "fame": 3,
+      "resistances": [],
+      "abilities": [
+        "swift"
+      ]
+    }
+  },
+  "sites": {
+    "site:village": {
+      "id": "site:village",
+      "name": "Village",
+      "siteKind": "inhabited",
+      "fortified": false,
+      "inhabited": true,
+      "healing": {
+        "influencePerPoint": 3
+      },
+      "interaction": [
+        "recruit units with the village icon",
+        "buy healing: 1 point per 3 influence"
+      ]
+    },
+    "site:portal": {
+      "id": "site:portal",
+      "name": "Portal",
+      "siteKind": "special",
+      "fortified": false,
+      "inhabited": false,
+      "healing": null,
+      "interaction": []
+    }
+  },
+  "scenario": {
+    "id": "scenario:spike",
+    "roundCap": 10,
+    "heroId": "hero:goldyx",
+    "tiles": [
+      {
+        "tileId": "tile:starting_a",
+        "origin": {
+          "q": 0,
+          "r": 0
+        }
+      },
+      {
+        "tileId": "tile:countryside_1",
+        "origin": {
+          "q": 2,
+          "r": 0
+        }
+      }
+    ],
+    "spawns": [
+      {
+        "enemyId": "enemy:prowlers",
+        "hex": {
+          "q": 2,
+          "r": -1
+        }
+      },
+      {
+        "enemyId": "enemy:diggers",
+        "hex": {
+          "q": 2,
+          "r": 1
+        }
+      }
+    ],
+    "site": null,
+    "startHex": {
+      "q": 0,
+      "r": 0
+    }
+  },
+  "woundCard": {
+    "id": "card:wound",
+    "name": "Wound",
+    "color": "white",
+    "poweredBy": null,
+    "sidewaysValue": 0,
+    "effects": {
+      "basic": {
+        "op": "special",
+        "id": "none"
+      },
+      "powered": null
+    }
+  }
+}
