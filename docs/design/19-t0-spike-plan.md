@@ -1,6 +1,6 @@
 # 19 · T0 Spike Plan — two weeks to a playable round
 
-**Status:** draft for owner approval (P5) · **Date:** 2026-10-31 · **Owner:** Lead
+**Status:** approved (ADR-009) · execution started 2026-10-31 · S1 done · branch `t0-spike`
 **Companions:** [`10-feasibility-analysis.md`](./10-feasibility-analysis.md) §6/§9 (G1),
 [`11-mvp-scope.md`](./11-mvp-scope.md) §2–§5/§10 (scope/content),
 [`12-architecture.md`](./12-architecture.md) §3.3/§5/§6/§10/§12.4/§12.6 (engine, pipeline,
@@ -9,11 +9,10 @@ tests, T0 slice), [`14-roadmap.md`](./14-roadmap.md) §0.1/§1/§5/§6 (tiers, M
 [`17-platform-analysis.md`](./17-platform-analysis.md) §5 (stack), and the ADRs in
 [`00-decisions.md`](./00-decisions.md).
 
-> **Execution gate.** No app scaffold or game code may start until the owner lifts the
-> pre-implementation hold ([`AGENTS.md`](../../AGENTS.md) §2; pending decision **P5** in
-> [`00-decisions.md`](./00-decisions.md)). This document is the plan only — **no step below
-> has been executed**. Approving the plan approves the scope and simplifications in §2 and
-> §10 and the owner questions in §12, not just the file.
+> **Gate status: APPROVED 2026-10-31 (ADR-009 in [`00-decisions.md`](./00-decisions.md)).**
+> The owner approved this plan and its proposed defaults. Execution is on branch `t0-spike`:
+> **S1 is done** (evidence in S1); S2–S10 are not started. No T1/T2 work is authorized by
+> this plan.
 >
 > **Review record.** Two fresh-context reviewers checked this plan against the docs. Their
 > verified blockers — wrong op count/def count, the G1 card count, explore-as-side-effect,
@@ -157,7 +156,7 @@ integration buffer = the 2-week T0 box ([`14`](./14-roadmap.md) §0.1). Step S9 
 
 ---
 
-### S1 — Approval bookkeeping, monorepo scaffold, CI
+### S1 — Approval bookkeeping, monorepo scaffold, CI · **done 2026-10-31**
 
 **Do.** **First action before any install:** append **ADR-009** ("T0 implementation approved"),
 mark **P5** decided, update [`AGENTS.md`](../../AGENTS.md) §2 (phase: implementation in
@@ -184,7 +183,17 @@ Vitest config, `.github/workflows/ci.yml` (push/PR: setup Node 22 from `.nvmrc`,
 7. **Pre-push secret scan** performed on the diff (`git diff --cached` grep for keys/tokens/
    personal data) before the first push ([`AGENTS.md`](../../AGENTS.md) §1/§7).
 
-**Evidence:** commands + output; first CI run URL; secret-scan result.
+**Evidence (2026-10-31, branch `t0-spike`, commit `453f1d6`):**
+* `pnpm verify` → typecheck ok, lint ok, `Test Files 7 passed (7)` / `Tests 7 passed (7)`,
+  `no dependency violations found (15 modules, 8 dependencies cruised)`.
+* `pnpm install --frozen-lockfile` → `Lockfile is up to date`, exit 0.
+* `python3 tools/validate_data.py` → `RESULT: OK` (nothing under `game-data/` changed).
+* Boundary rule proven to fail on purpose: a temporary `node:fs` import under
+  `packages/engine` produced `error engine-must-not-use-node-core` (probe deleted afterwards).
+* Prettier check green; diff scan for secrets/personal data clean.
+* CI run: https://github.com/davidcai/emberwold/actions/runs/41265608826 — all steps green
+  (annotation only: GitHub notes the action majors target Node 20 while runners force Node 24;
+  upgrade the action versions in a later step).
 
 ---
 

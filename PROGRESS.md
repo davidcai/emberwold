@@ -2,15 +2,16 @@
 
 > **Temporary session handoff.** Delete this file once the goal's acceptance check passes.
 > Fresh context: read this file and `git log -5`, run the baseline checks in **Done** item 1,
-> then do the first item in **Next** (it is an owner-approval gate — do not write code first).
+> then do the first item in **Next** (execute plan steps S1–S10 in order, branch `t0-spike`).
 
 ## Goal
 
-On owner approval, deliver the **T0 spike** so gate **G1** passes: one full round playable
-(movement → reveal → assault → reward → end turn), a deterministic trace replay, and no crashes;
-then write the spike report and decide go/no-go. Acceptance: G1 in
+Deliver the **T0 spike** so gate **G1** passes: one full round playable (movement → reveal →
+assault → reward → end turn), a deterministic trace replay, and no crashes; then write the
+spike report and decide go/no-go with the owner. Acceptance: G1 in
 `docs/design/10-feasibility-analysis.md` §9 and the M2 exit in `docs/design/14-roadmap.md` §1.
-Blocked until the owner lifts the pre-implementation hold (`AGENTS.md` §2).
+**Approved 2026-10-31 (ADR-009, P5 decided)**; execution follows
+`docs/design/19-t0-spike-plan.md` on branch `t0-spike`.
 
 ## Done (verified 2026-10-31)
 
@@ -30,29 +31,37 @@ Blocked until the owner lifts the pre-implementation hold (`AGENTS.md` §2).
 6. Tree clean and synced: `main` = `origin/main` (confirm with `git status -sb`).
 7. Fresh-context verifier reproduced every baseline check (all PASS) and caught the earlier
    stale HEAD claim, now fixed; its only remaining blocker is owner approval for T0.
-8. **T0 spike plan written and reviewed** (`docs/design/19-t0-spike-plan.md`, draft v4): 10
-   steps with a command/observation acceptance check each, scope fence + spike-simplification
-   list, data findings B1–B9, golden RNG/hash vectors (independently derived and cross-checked),
-   and a fixed 2-week box. Two fresh-context reviewers checked it; their verified blockers
-   (op/def counts, G1 card count, explore action, block rules, presentation boundary) are
-   fixed — see the plan's §13 review record. Wired into `README.md`, `docs/README.md` and
-   `14-roadmap.md` §5. **No code written**; validator still `9662 / 0 / 0`; hold in force.
+8. **T0 spike plan approved and reviewed** (`docs/design/19-t0-spike-plan.md`, v4): 10 steps
+   with a command/observation acceptance check each, scope fence + spike-simplification list,
+   data findings B1–B9, golden RNG/hash vectors. Two fresh-context reviewers checked it; verified
+   blockers fixed (§13 review record). Owner approved 2026-10-31 (**ADR-009**, P5 decided).
+9. **S1 done — pnpm monorepo + CI** (branch `t0-spike`, commit `453f1d6`): workspace
+   `packages/{shared,engine,content,client}` + `tools/{content-compiler,golden-traces,play-cli}`,
+   strict TS, ESLint/Prettier, Vitest, dependency-cruiser boundaries, GitHub Actions CI
+   (`pnpm verify` + stdlib Python validator). Evidence: `pnpm verify` → 7/7 tests, 0 lint/boundary
+   errors; `pnpm install --frozen-lockfile` ok; `python3 tools/validate_data.py` → `RESULT: OK`;
+   CI run https://github.com/davidcai/emberwold/actions/runs/41265608826 green. `game-data/`
+   untouched; validator still `9662 / 0 / 0`.
 
 ## Next (ordered; first item is the exact next action)
 
-1. **Owner decision on P5 — approve the T0 plan and lift the pre-implementation hold.** Read
-   `docs/design/19-t0-spike-plan.md` §2 (scope + simplifications), §6 (steps), §12 (questions).
-   Default while unanswered: stay pre-implementation (`AGENTS.md` §2).
-2. **If approved:** execute the plan's steps S1–S10 in order, recording the evidence line for
-   each step; stop at its checkpoints/cut order and write `docs/design/spike-report.md` + the
-   go/no-go ADR. The old M1-1…M2-4 milestone labels map to S1–S10 (S1 = M1-1 scaffold).
-3. If the owner wants no code yet: the plan is the deliverable; do not start S1.
+Execute the approved plan's remaining steps on branch `t0-spike`, recording each step's evidence
+line in `docs/design/19-t0-spike-plan.md` before moving on. Stop at the plan's checkpoints/cut
+order; at C3 write `docs/design/spike-report.md` and decide go/no-go with the owner.
+
+1. **S2 — `packages/shared`**: branded IDs, Mulberry32 RNG with named streams, canonical
+   JSON + sync SHA-256, golden vectors from plan Appendix A. Check: shared tests + vectors.
+2. **S3 — `packages/engine`**: state/reducer/legal actions/invariants + Rest. Check: property
+   and unit tests green.
+3. **S4 — content compiler** (thin, Python validator single gate) + spike bundle. Then S5 trace
+   harness/CLI/fuzz, S6 movement/explore/rest/end-turn, S7 combat, S8 village+full-round,
+   S9 UI, S10 report — in plan order with their acceptance checks.
+4. Push `t0-spike` after each step; open the PR when S10 is done (or ask the owner earlier).
 
 ## Open questions
 
-1. **T0 approval** — blocking. The plan is written and twice reviewed against the source docs;
-   approval means P5 + the §2.2 simplifications + the §12 owner questions in
-   `docs/design/19-t0-spike-plan.md`. Default while unanswered: stay pre-implementation.
+1. **Q14 (owner):** is the browser UI required for G1? Plan default is to include S9; if time is
+   short it can be cut and G1 passes on the CLI (plan §8 cut order).
 2. Public branding still gated by ADR-007/008: run the `15` §11 name screen before any public
    wordmark use.
 3. The 181.8 MB archive is on the same disk as the repo; an off-machine copy (iCloud/external)
@@ -61,16 +70,16 @@ Blocked until the owner lifts the pre-implementation hold (`AGENTS.md` §2).
 
 ## Key facts
 
-- Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`; branch `main`; all work pushed.
-- History: the wordmark/ADR-008 commit is `419bdb5`; this handoff file was committed on top.
-  Do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and `git status -sb`.
-- Toolchain: Node and pnpm paths come from the harness `load_workspace_dependencies`; the data
-  validator runs with `.venv/bin/python tools/validate_data.py`. There are no app build/test
-  commands yet.
-- Source of truth docs: `docs/design/00-decisions.md` (ADR-001…008); T0 in `14-roadmap.md`
-  §0.1/§5 and `12-architecture.md` §12.5; G1 in `10-feasibility-analysis.md` §9; MVP scope in
-  `11-mvp-scope.md`. **The executable T0 plan is `docs/design/19-t0-spike-plan.md`** (steps,
-  checks, cut order, owner questions); milestone labels M1-1…M2-4 map to plan steps S1–S10.
+- Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`; **work branch `t0-spike`** (pushed
+  after each step; PR at the end), `main` stays the pre-spike baseline.
+- History: ADR-009 approval commit is `453f1d6`; do not trust a pinned hash for "current HEAD" —
+  run `git log --oneline -1` and `git status -sb`.
+- Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
+  lint + tests + dependency boundaries; `pnpm test` alone; data validator
+  `.venv/bin/python tools/validate_data.py` (local) / `python3 tools/validate_data.py` (CI, stdlib).
+- Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…009**); T0 plan and steps in
+  `docs/design/19-t0-spike-plan.md`; G1 in `10-feasibility-analysis.md` §9; MVP scope in
+  `11-mvp-scope.md`; architecture in `12-architecture.md`.
 - Art packaging: committed = WebP q90 at ≥2× display size (`art/*/*.webp`); full-res PNG masters
   are local-only (`art/<category>/*.png` ignored); wordmark in `art/branding/` is tracked; no font
   binaries are committed or embedded.

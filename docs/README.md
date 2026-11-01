@@ -27,7 +27,7 @@ This folder is the complete pre-production package for **Emberwold**. It is spli
 | `design/15-retheme-bible.md` | Re-theme bible | ✅ v0.1 | Lead | Original world, names, terminology map, copy rules |
 | `design/16-art-brief.md` | Art brief | ✅ v1.0 | Lead | Direction, specs, acceptance (AI-generated art, ADR-006) |
 | `design/18-ai-art-prompts.md` | AI art prompt pack | ✅ v1 | art-prompt-writer | Tool/licence guidance, consistency workflow, 41 per-slot prompts |
-| `design/19-t0-spike-plan.md` | T0 spike plan | ⏳ draft | Lead | Executable 2-week plan for G1; **needs P5 approval** before any code |
+| `design/19-t0-spike-plan.md` | T0 spike plan | ⏳ executing | Lead | Approved (ADR-009); S1 scaffold done, S2–S10 next |
 
 Legend: ✅ complete · ⏳ in progress · ⚠️ has unverified parts (see the doc's own flags)
 
