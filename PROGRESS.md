@@ -262,15 +262,26 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     scaling attack, targeted swamp cost), all 7 traces re-recorded/rehashed and verified, 6 e2e,
     fuzz 10k clean.
 
+33. **T1-d2g done — Into the Heat + Steady Tempo (10 of 12 AA)**: engine gained combat
+    `unit_combat_bonus` modifiers (attack/block bonus applied to unit abilities while active),
+    the `units_cannot_absorb_damage` rule override (damage-assignment legality), and
+    `schedule_end_turn`/`offer_deck_placement` card returns (Steady Tempo goes to the top or
+    bottom of the deed deck instead of discard). Also fixed a real gap found while testing:
+    ready units can now activate their combat abilities during a fight (previously the combat
+    legal-action path omitted `activateUnit` entirely). Client effect text covers the new
+    modifiers. Bundle digest `a7655b65…`, cards 29, AA offer unchanged, AA deck 7; 85 tests,
+    all 7 traces re-recorded/rehashed and verified, 6 e2e, fuzz 10k clean.
+
 ## Next (ordered; first item is the exact next action)
 
 Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a
 PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap.md` M3–M4.
 
-1. **T1-d2f content increment (next)** — remaining Advanced Actions (blood_ritual,
-   into_the_heat, steady_tempo, in_need) and Spells (restoration, whirlwind, expose, cure) need
-   mana-choice/targeting/schedule/unit-bonus ops; also keep/mage-tower garrisons and city colour
-   options, the 4 artifacts (acquisition path), dummy fidelity and tactic effects. Each increment:
+1. **T1-d2h content increment (next)** — 2 Advanced Actions (blood_ritual: any-colour mana
+   choice; in_need: wound-total scaling needs an exact source rule), 4 Spells (restoration:
+   on-terrain + ready-units budget; whirlwind/expose: enemy targeting; cure: wound/disease
+   semantics), plus keep/mage-tower garrisons and city colour options, the 4 artifacts
+   (acquisition path), dummy fidelity and tactic effects. Each increment:
    compiler + engine + tests + traces re-recorded, then a small commit.
 2. **T1 exit bookkeeping (done for engineering; owner gates open)** — ADR-011 records the
    engineering GO, `docs/design/t1-exit-report.md` v1.0 and roadmap/README/docs status are
@@ -307,7 +318,7 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
-  lint + 83 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (6
+  lint + 85 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (6
   tests: hero select, 3 persistence, 2 full-scenario replays); `pnpm test` alone; data validator
   `.venv/bin/python tools/validate_data.py` (local) / `python3 tools/validate_data.py` (CI, stdlib).
 - Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…010**); T0 plan and steps in

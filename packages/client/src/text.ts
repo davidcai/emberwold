@@ -289,6 +289,9 @@ export function effectSummary(effect: EffectOp): string {
       if (effect.effect.op === "rule_override") {
         return `${effect.duration} bonus (${humanizeId(effect.effect.rule)})`;
       }
+      if (effect.effect.op === "unit_combat_bonus") {
+        return `${effect.duration} unit bonus (+${effect.effect.attack_bonus} attack, +${effect.effect.block_bonus} block)`;
+      }
       const cost = effect.effect.replace_cost ?? effect.effect.amount;
       const terrain =
         typeof effect.effect.terrain === "string"
@@ -296,6 +299,10 @@ export function effectSummary(effect: EffectOp): string {
           : effect.effect.terrain.terrain;
       return `${effect.duration} modifier (${humanizeId(terrain)} terrain cost ${cost})`;
     }
+    case "schedule_end_turn":
+      return `at end of turn, put this card on the ${effect.effect.destination} of your deck`;
+    case "offer_deck_placement":
+      return `put a card on the ${effect.destination} of a deck`;
     case "rule_override":
       return `special rule (${humanizeId(effect.rule)})`;
     case "card_boost":

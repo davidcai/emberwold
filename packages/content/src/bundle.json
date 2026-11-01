@@ -933,6 +933,106 @@
         }
       }
     },
+    "advanced:into_the_heat": {
+      "id": "advanced:into_the_heat",
+      "name": "Into the Heat",
+      "color": "red",
+      "poweredBy": "red",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "unit_combat_bonus",
+                "attack_bonus": 2,
+                "block_bonus": 2
+              },
+              "duration": "combat",
+              "scope": "all_units"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "units_cannot_absorb_damage"
+              },
+              "duration": "combat",
+              "scope": "self_scope"
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "unit_combat_bonus",
+                "attack_bonus": 3,
+                "block_bonus": 3
+              },
+              "duration": "combat",
+              "scope": "all_units"
+            },
+            {
+              "op": "apply_modifier",
+              "effect": {
+                "op": "rule_override",
+                "rule": "units_cannot_absorb_damage"
+              },
+              "duration": "combat",
+              "scope": "self_scope"
+            }
+          ]
+        }
+      }
+    },
+    "advanced:steady_tempo": {
+      "id": "advanced:steady_tempo",
+      "name": "Steady Tempo",
+      "color": "blue",
+      "poweredBy": "blue",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 2
+            },
+            {
+              "op": "schedule_end_turn",
+              "effect": {
+                "op": "offer_deck_placement",
+                "destination": "bottom",
+                "requires_non_empty_deck": true
+              }
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "gain_move",
+              "amount": 4
+            },
+            {
+              "op": "schedule_end_turn",
+              "effect": {
+                "op": "offer_deck_placement",
+                "destination": "top",
+                "requires_non_empty_deck": false
+              }
+            }
+          ]
+        }
+      }
+    },
     "spell:fireball": {
       "id": "spell:fireball",
       "name": "Fireball",
@@ -1747,7 +1847,9 @@
       "advanced:crushing_bolt",
       "advanced:counterattack",
       "advanced:frost_bridge",
-      "advanced:refreshing_walk"
+      "advanced:refreshing_walk",
+      "advanced:into_the_heat",
+      "advanced:steady_tempo"
     ],
     "spellDeck": [],
     "skillDeck": [
@@ -2483,5 +2585,5 @@
       "powered": null
     }
   },
-  "contentHash": "7c15b1a9b6c92691d6c6571527b8cec88469f9819b043c557382f4740eab0850"
+  "contentHash": "a7655b6581edbe3601fcc22860a8b6ae04f9dad3257387df1e06c1c6c5761dec"
 }

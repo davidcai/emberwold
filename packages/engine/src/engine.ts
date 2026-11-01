@@ -58,6 +58,10 @@ type PendingDraft = PendingChoice;
 interface Env {
   readonly content: ContentBundle;
   readonly events: GameEvent[];
+  /** Card currently being played, for effects that schedule that card (e.g. deck placement). */
+  sourceCard?: CardInstanceId;
+  /** True while applying a unit ability's effect, so unit combat bonuses apply. */
+  unitContext?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -447,11 +451,24 @@ function effectApplicable(state: GameState, content: ContentBundle, effect: Effe
     case "gain_crystal":
     case "convert_mana_to_crystal":
     case "mana_draw_powered":
-    case "apply_modifier":
     case "rule_override":
     case "card_boost":
     case "change_reputation":
+    case "schedule_end_turn":
+    case "offer_deck_placement":
       return state.combat === null;
+    case "apply_modifier": {
+      if (effect.effect.op === "unit_combat_bonus") {
+        return state.combat !== null;
+      }
+      if (
+        effect.effect.op === "rule_override" &&
+        effect.effect.rule === "units_cannot_absorb_damage"
+      ) {
+        return state.combat !== null;
+      }
+      return state.combat === null;
+    }
     case "discard_cost": {
       if (state.combat !== null) {
         return false;
@@ -614,16 +631,34 @@ function applyEffect(draft: Draft, env: Env, effect: EffectOp): void {
       return;
     }
     case "apply_modifier": {
-      if (effect.effect.op === "rule_override" && effect.effect.rule === "extra_source_die") {
-        draft.turn.extraSourceDie = true;
-        draft.source.push({ color: rollColor(draft, "sourceDice"), used: false });
-        events.push({
-          type: "sourceRolled",
-          dice: [draft.source[draft.source.length - 1]?.color ?? "gold"],
-        });
+      const inner = effect.effect;
+      if (inner.op === "rule_override") {
+        if (inner.rule === "extra_source_die") {
+          draft.turn.extraSourceDie = true;
+          draft.source.push({ color: rollColor(draft, "sourceDice"), used: false });
+          events.push({
+            type: "sourceRolled",
+            dice: [draft.source[draft.source.length - 1]?.color ?? "gold"],
+          });
+        }
+        if (
+          inner.rule === "units_cannot_absorb_damage" &&
+          effect.duration === "combat" &&
+          draft.combat !== null
+        ) {
+          draft.combat.unitsCannotAbsorbDamage = true;
+        }
       }
-      if (effect.effect.op === "terrain_cost" && effect.duration === "turn") {
-        draft.turn.terrainModifier = effect.effect;
+      if (inner.op === "terrain_cost" && effect.duration === "turn") {
+        draft.turn.terrainModifier = inner;
+      }
+      if (
+        inner.op === "unit_combat_bonus" &&
+        effect.duration === "combat" &&
+        draft.combat !== null
+      ) {
+        draft.combat.unitAttackBonus = (draft.combat.unitAttackBonus ?? 0) + inner.attack_bonus;
+        draft.combat.unitBlockBonus = (draft.combat.unitBlockBonus ?? 0) + inner.block_bonus;
       }
       return;
     }
@@ -685,6 +720,18 @@ function applyEffect(draft: Draft, env: Env, effect: EffectOp): void {
       applyScaledEffect(draft, env, effect.base_effect, bonus);
       return;
     }
+    case "schedule_end_turn": {
+      if (effect.effect.op === "offer_deck_placement" && env.sourceCard !== undefined) {
+        draft.turn.scheduledDeckPlacement = {
+          card: env.sourceCard,
+          destination: effect.effect.destination,
+          requiresNonEmptyDeck: effect.effect.requires_non_empty_deck,
+        };
+      }
+      return;
+    }
+    case "offer_deck_placement":
+      return;
     case "take_wound": {
       const wound = nextWoundInstance(draft, env);
       player.hand.push(wound);
@@ -695,7 +742,8 @@ function applyEffect(draft: Draft, env: Env, effect: EffectOp): void {
       if (draft.combat === null) {
         return;
       }
-      const amount = boosted(draft, effect.amount);
+      const unitBonus = env.unitContext === true ? (draft.combat.unitAttackBonus ?? 0) : 0;
+      const amount = boosted(draft, effect.amount) + unitBonus;
       draft.combat.attackPool.push({
         amount,
         element: effect.element,
@@ -708,7 +756,8 @@ function applyEffect(draft: Draft, env: Env, effect: EffectOp): void {
       if (draft.combat === null) {
         return;
       }
-      const amount = boosted(draft, effect.amount);
+      const unitBonus = env.unitContext === true ? (draft.combat.unitBlockBonus ?? 0) : 0;
+      const amount = boosted(draft, effect.amount) + unitBonus;
       draft.combat.blockPool.push({ amount, element: effect.element });
       return;
     }
@@ -1090,6 +1139,28 @@ function combatLegality(state: GameState, content: ContentBundle): Action[] {
       });
     }
   }
+  for (const unit of player.units) {
+    const unitDef = content.units?.[unit.defId];
+    if (!unit.ready || unit.wounds > 0 || unitDef === undefined) {
+      continue;
+    }
+    unitDef.abilities.forEach((ability, abilityIndex) => {
+      if (ability.effect === null) {
+        return;
+      }
+      if (ability.manaCost !== null && pickMana(state, ability.manaCost) === null) {
+        return;
+      }
+      if (effectApplicable(state, content, ability.effect)) {
+        actions.push({
+          epoch: actionEpoch(state),
+          type: "activateUnit",
+          unit: unit.instanceId,
+          ability: abilityIndex,
+        });
+      }
+    });
+  }
   if (combat.phase === "assignDamage") {
     for (const pending of combat.pendingDamage) {
       actions.push({
@@ -1104,6 +1175,7 @@ function combatLegality(state: GameState, content: ContentBundle): Action[] {
       if (
         pending.amount > 0 &&
         enemyDef !== undefined &&
+        combat.unitsCannotAbsorbDamage !== true &&
         !enemyDef.abilities.includes("assassination")
       ) {
         for (const unit of player.units) {
@@ -1644,7 +1716,9 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
       }
       unit.ready = false;
       env.events.push({ type: "unitActivated", unit: unit.instanceId, ability: action.ability });
+      env.unitContext = true;
       applyEffect(draft, env, ability.effect);
+      env.unitContext = false;
       return;
     }
     case "challengeRampaging": {
@@ -1770,7 +1844,9 @@ function playCard(
   env.events.push({ type: "cardPlayed", card, defId: def.id as never, mode });
   const effect = mode === "basic" ? def.effects.basic : def.effects.powered;
   if (effect !== null) {
+    env.sourceCard = card;
     applyEffect(draft, env, effect);
+    env.sourceCard = undefined;
   }
 }
 
@@ -2339,7 +2415,18 @@ function endTurn(draft: Draft, env: Env): void {
     player.crystals[mineColor] += 1;
     env.events.push({ type: "crystalGained", color: mineColor });
   }
+  const placement = draft.turn.scheduledDeckPlacement;
   for (const card of player.playArea) {
+    if (placement !== undefined && placement.card === card) {
+      if (!(placement.requiresNonEmptyDeck && player.deck.length === 0)) {
+        if (placement.destination === "top") {
+          player.deck.unshift(card);
+        } else {
+          player.deck.push(card);
+        }
+        continue;
+      }
+    }
     player.discard.push(card);
   }
   player.playArea = [];

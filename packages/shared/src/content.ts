@@ -25,7 +25,8 @@ export interface TerrainCostModifier {
 
 /** Conditions used by the `conditional` effect wrapper (only the ones the engine evaluates). */
 export type EffectCondition =
-  { readonly op: "in_combat" } | { readonly op: "on_terrain"; readonly terrain: Terrain };
+  | { readonly op: "in_combat" }
+  | { readonly op: "on_terrain"; readonly terrain: Terrain | readonly Terrain[] };
 
 export type EffectOp =
   | { readonly op: "choice"; readonly options: readonly EffectOp[] }
@@ -52,7 +53,13 @@ export type EffectOp =
   | {
       readonly op: "apply_modifier";
       readonly effect:
-        { readonly op: "rule_override"; readonly rule: string } | TerrainCostModifier;
+        | { readonly op: "rule_override"; readonly rule: string }
+        | TerrainCostModifier
+        | {
+            readonly op: "unit_combat_bonus";
+            readonly attack_bonus: number;
+            readonly block_bonus: number;
+          };
       readonly duration: "turn" | "combat";
       readonly scope?: string;
     }
@@ -77,6 +84,19 @@ export type EffectOp =
       readonly base_effect: EffectOp;
       readonly bonus_per_count: number;
       readonly maximum: number | null;
+    }
+  | {
+      readonly op: "schedule_end_turn";
+      readonly effect: {
+        readonly op: "offer_deck_placement";
+        readonly destination: "top" | "bottom";
+        readonly requires_non_empty_deck: boolean;
+      };
+    }
+  | {
+      readonly op: "offer_deck_placement";
+      readonly destination: "top" | "bottom";
+      readonly requires_non_empty_deck: boolean;
     }
   | { readonly op: "take_wound" }
   | { readonly op: "change_reputation"; readonly amount: number }

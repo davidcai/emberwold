@@ -261,6 +261,9 @@ function collectOps(effect: EffectOp, out: Set<string>): void {
   if (effect.op === "scaling") {
     collectOps(effect.base_effect, out);
   }
+  if (effect.op === "schedule_end_turn") {
+    collectOps(effect.effect, out);
+  }
 }
 
 function mapRulesConstants(item: RulesConstantsItem): RulesConstants {

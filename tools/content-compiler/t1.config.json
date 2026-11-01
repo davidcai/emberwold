@@ -178,7 +178,10 @@
     "in_combat",
     "on_terrain",
     "scaling",
-    "terrain_specific"
+    "terrain_specific",
+    "unit_combat_bonus",
+    "schedule_end_turn",
+    "offer_deck_placement"
   ],
   "tacticIds": [
     "tactic:early_bird",
@@ -216,7 +219,9 @@
     "advanced:crushing_bolt",
     "advanced:counterattack",
     "advanced:frost_bridge",
-    "advanced:refreshing_walk"
+    "advanced:refreshing_walk",
+    "advanced:into_the_heat",
+    "advanced:steady_tempo"
   ],
   "spells": [
     "spell:fireball",

@@ -1924,6 +1924,165 @@ describe("determinism and invariants", () => {
     expect(state.offers.unit).toEqual(["unit:test_scout"]);
   });
 
+  it("applies unit combat bonuses and blocks unit damage assignment", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      cards: {
+        ...base.cards,
+        "advanced:test_heat": {
+          id: "advanced:test_heat",
+          name: "Test Heat",
+          color: "red",
+          poweredBy: "red",
+          sidewaysValue: 1,
+          effects: {
+            basic: {
+              op: "compound",
+              effects: [
+                {
+                  op: "apply_modifier",
+                  effect: { op: "unit_combat_bonus", attack_bonus: 2, block_bonus: 2 },
+                  duration: "combat",
+                },
+                {
+                  op: "apply_modifier",
+                  effect: { op: "rule_override", rule: "units_cannot_absorb_damage" },
+                  duration: "combat",
+                },
+              ],
+            },
+            powered: null,
+          },
+        },
+      },
+      units: {
+        "unit:heat_peasant": {
+          id: "unit:heat_peasant",
+          name: "Heat Peasant",
+          level: 1,
+          influenceCost: 3,
+          armor: 3,
+          recruitSites: ["village"],
+          abilities: [
+            {
+              manaCost: null,
+              text: "attack",
+              effect: {
+                op: "gain_attack",
+                amount: 2,
+                combat_type: "melee",
+                element: "physical",
+              },
+            },
+          ],
+        },
+      },
+    };
+    let state = clone(createGame({ seed: 16 }, content).state);
+    state.players[0]!.units = [
+      { instanceId: "unit:test:1" as never, defId: "unit:heat_peasant", ready: true, wounds: 0 },
+    ];
+    state.cardInstances["advanced:test_heat:1" as never] = "advanced:test_heat" as never;
+    state.players[0]!.hand.push("advanced:test_heat:1" as never);
+    state.combat = {
+      phase: "attack",
+      enemies: [
+        {
+          instanceId: "enemy:test:1" as never,
+          defId: "enemy:test_brute",
+          blocked: false,
+          defeated: false,
+        },
+      ],
+      attackPool: [],
+      blockPool: [],
+      pendingDamage: [],
+    };
+    const play = getLegalActions(state, content).actions.find(
+      (action) => action.type === "playCard" && action.card === ("advanced:test_heat:1" as never),
+    );
+    expect(play).toBeDefined();
+    state = applyOk(state, play as Action, content).state;
+    expect(state.combat?.unitAttackBonus).toBe(2);
+    expect(state.combat?.unitBlockBonus).toBe(2);
+    expect(state.combat?.unitsCannotAbsorbDamage).toBe(true);
+    const activate = getLegalActions(state, content).actions.find(
+      (action) => action.type === "activateUnit",
+    );
+    expect(activate).toBeDefined();
+    const fought = applyOk(state, activate as Action, content);
+    expect(fought.state.combat?.attackPool).toEqual([
+      { amount: 4, element: "physical", combatType: "melee" },
+    ]);
+    const damaged = clone(fought.state);
+    damaged.combat!.phase = "assignDamage";
+    damaged.combat!.pendingDamage = [{ enemyInstanceId: "enemy:test:1" as never, amount: 5 }];
+    const assignment = getLegalActions(damaged, content).actions.filter(
+      (action) => action.type === "assignDamage",
+    );
+    expect(assignment).toHaveLength(1);
+    expect((assignment[0] as { unit?: string }).unit).toBeUndefined();
+  });
+
+  it("returns a scheduled card to the bottom of the deck instead of the discard", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      cards: {
+        ...base.cards,
+        "advanced:test_tempo": {
+          id: "advanced:test_tempo",
+          name: "Test Tempo",
+          color: "green",
+          poweredBy: "green",
+          sidewaysValue: 1,
+          effects: {
+            basic: {
+              op: "compound",
+              effects: [
+                { op: "gain_move", amount: 2 },
+                {
+                  op: "schedule_end_turn",
+                  effect: {
+                    op: "offer_deck_placement",
+                    destination: "bottom",
+                    requires_non_empty_deck: true,
+                  },
+                },
+              ],
+            },
+            powered: null,
+          },
+        },
+      },
+      scenario: {
+        ...base.scenario,
+        dummy: { deckSize: 4, cardsPerTurn: 3, crystals: [] },
+      },
+    };
+    let state = clone(createGame({ seed: 17 }, content).state);
+    state.cardInstances["advanced:test_tempo:1" as never] = "advanced:test_tempo" as never;
+    state.players[0]!.hand.push("advanced:test_tempo:1" as never);
+    state.turn.movePoints = 0;
+    const play = getLegalActions(state, content).actions.find(
+      (action) => action.type === "playCard" && action.card === ("advanced:test_tempo:1" as never),
+    );
+    expect(play).toBeDefined();
+    state = applyOk(state, play as Action, content).state;
+    expect(state.turn.movePoints).toBe(2);
+    expect(state.turn.scheduledDeckPlacement).toEqual({
+      card: "advanced:test_tempo:1",
+      destination: "bottom",
+      requiresNonEmptyDeck: true,
+    });
+    state = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content).state;
+    const player = state.players[0]!;
+    expect(player.playArea).toEqual([]);
+    expect(player.deck[player.deck.length - 1]).toBe("advanced:test_tempo:1");
+    expect(player.discard).not.toContain("advanced:test_tempo:1");
+  });
+
   it("stops recruiting past the command slot limit", () => {
     const base = createFixtureContent();
     const startTile = base.tiles["tile:start"];

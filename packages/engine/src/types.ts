@@ -49,6 +49,12 @@ export interface TurnState {
   flags: Record<string, boolean>;
   /** Turn-duration movement modifier (e.g. a skill that makes all terrain cost 0). */
   terrainModifier?: TerrainCostModifier;
+  /** Steady Tempo-style card that returns to the deed deck at end of turn instead of discard. */
+  scheduledDeckPlacement?: {
+    card: CardInstanceId;
+    destination: "top" | "bottom";
+    requiresNonEmptyDeck: boolean;
+  };
 }
 
 export interface UnitState {
@@ -143,6 +149,11 @@ export interface CombatState {
   attackPool: AttackContribution[];
   blockPool: BlockContribution[];
   pendingDamage: { enemyInstanceId: EnemyInstanceId; amount: number }[];
+  /** Into the Heat-style bonuses granted to every unit in this combat. */
+  unitAttackBonus?: number;
+  unitBlockBonus?: number;
+  /** Rule override: no damage may be assigned to units in this combat. */
+  unitsCannotAbsorbDamage?: boolean;
 }
 
 export interface PendingChoice {
