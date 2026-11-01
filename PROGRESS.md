@@ -16,6 +16,11 @@ T1 scope: [`docs/design/11-mvp-scope.md`](docs/design/11-mvp-scope.md) and
 in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art) and
 `11` §9 definition of done.
 
+**Checkpoint 2026-11-01 (verified):** HEAD `cd50485` = T1 UI explanation pass, tree clean and
+synced with `origin/main`, CI run 41283011209 green. Done items 1–37 below; the next safe step
+is still an owner content ruling (Next 1), and art integration remains an M5/owner decision
+(Next 3, Open question 6).
+
 ## Done (verified 2026-10-31)
 
 1. Pre-production package (research, rules, legal, design, `game-data/`, tooling) is committed
@@ -314,7 +319,7 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     `game-data/tactics.json`; contentHash `632a97cd…`, all 7 traces re-recorded/rehashed,
     new `e2e/help.spec.ts`. Evidence: 89 tests, 9 e2e, fuzz 1000 actions seed 1 clean, lint /
     format / typecheck green, build 336.39 kB JS (98.58 kB gzip) + 8.84 kB CSS (2.34 kB gzip)
-    ≈ 100.9 kB gzipped.
+    ≈ 100.9 kB gzipped. Commit `cd50485` pushed to `main`, CI run 41283011209 green.
 
 ## Next (ordered; first item is the exact next action)
 
@@ -330,13 +335,21 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
    placeholders). Implementing them now would invent rules; ask the owner for a ruling or wait
    for the M5 content pass. The exact gaps are listed in `docs/design/t1-exit-report.md` §6.
 2. **T1 exit bookkeeping (done for engineering; owner gates open)** — ADR-011 records the
-   engineering GO, `docs/design/t1-exit-report.md` v1.1 and roadmap/README/docs status are
-   committed; the owner still owes the fun pass, T1 deviation sign-off, G2/G3 playtest, legal
-   review, tutorial playthroughs and the 60 fps measurement.
-3. **Further T1/v1.0 content after the ruling/playtest** — remaining Advanced Actions/Spells,
+   engineering GO, `docs/design/t1-exit-report.md` v1.2 (UI explanation pass) and roadmap/
+   README/docs status are committed; the owner still owes the fun pass, T1 deviation sign-off,
+   G2/G3 playtest, legal review, tutorial playthroughs and the 60 fps measurement.
+3. **Art integration (owner timing decision; planned M5)** — all 41 art slots are `final`
+   (52 WebP, 4.2 MB, plus logo) but the client uses none of it: no `artRef` field in the
+   content types/bundle, no asset loading in `packages/client`. Roadmap puts production art
+   at M5 (roadmap matrix; `16-art-brief` §4 says swap-in via `art_ref`, no renderer change).
+   Pulling it forward needs, in order: owner re-theme ruling (art files use the new names,
+   game-data still uses pre-re-theme IDs), `artRef` plumbing (shared types → compiler from
+   `art/manifest.json` → client), lazy loading/atlas (4.2 MB vs <5 MB gzipped initial-load
+   budget) and legal review. Not scheduled in T1 exit work.
+4. **Further T1/v1.0 content after the ruling/playtest** — remaining Advanced Actions/Spells,
    hero skills, city colour purchase options, keep/mage-tower garrison conquest, dummy
    fidelity and tactic effects. These are tracked as explicit T1 debt in the exit report §6.
-4. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
+5. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
    sign-off, external playtest (G2/G3), legal review, tutorial playthroughs, 60 fps measurement.
 
 ## Open questions
@@ -354,6 +367,10 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 4. The 181.8 MB archive is on the same disk as the repo; an off-machine copy (iCloud/external)
    is still manual.
 5. Whether full-resolution PNG masters should ever be tracked in git (currently local-only).
+6. **Art integration timing (owner):** all 41 slots are final but unused; the plan has art
+   arriving at M5 (first public build), and integration is blocked on the re-theme mapping,
+   `art_ref` plumbing, load budget and legal review. Decide whether to keep it in M5 or pull a
+   dedicated art-integration increment forward after the content/re-theme ruling.
 
 ## Key facts
 
@@ -364,21 +381,28 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
   `0ec033a` (end-of-turn draw + discard), `8a7ee5c` (site visibility + winning trace),
   `61a83e1` (CI fuzz 10k), `deb2f84` (terrain-cost skill modifiers), `b082bff` (T1-e UI),
   `9fd28a2` (ADR-011), `6ed83fb` (second hero), `10ba128` (unit wounds/healing), `18473b1`
-  (reputation), `1c7a933` (conditional/scaling/terrain-specific ops + 3 AA) and `59c9883`
-  (Into the Heat/Steady Tempo, unit combat abilities). Winning trace: `050-victory.json` seed
-  1, 78 actions, victory score 17 at round 3 (contentHash `a7655b65…`).
+  (reputation), `1c7a933` (conditional/scaling/terrain-specific ops + 3 AA), `59c9883`
+  (Into the Heat/Steady Tempo, unit combat abilities), `bdfeb5a` (extended invariants +
+  legal-action checks), `2b1e014` (Restoration spell, on-terrain conditions, ready-units
+  choice), `bf48ed5` (build-size refresh) and `cd50485` (tactic/card/keyword explanations in
+  the client). Winning trace: `050-victory.json` seed 1, 78 actions, victory score 17 at
+  round 3 (contentHash `632a97cd…`).
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
-  lint + 85 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (6
-  tests: hero select, 3 persistence, 2 full-scenario replays); `pnpm test` alone; data validator
+  lint + 89 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (9
+  tests: help/keywords, hero select, 3 persistence, tutorial, site-heal replay, victory replay,
+  mid-combat continue); `pnpm test` alone; data validator
   `.venv/bin/python tools/validate_data.py` (local) / `python3 tools/validate_data.py` (CI, stdlib).
+- Current contentHash `632a97cd7b3dd44918c78515dcd25664b34d144f6430463cb1a99f127f5ebcf3`;
+  build 336.39 kB JS (98.58 kB gzip) + 8.84 kB CSS (2.34 kB gzip) ≈ 101 kB gzipped.
 - Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…011**); T0 plan and steps in
   `docs/design/19-t0-spike-plan.md`; G1 in `10-feasibility-analysis.md` §9; MVP scope in
   `11-mvp-scope.md`; architecture in `12-architecture.md`; T0 evidence in `spike-report.md`.
-- Art packaging: committed = WebP q90 at ≥2× display size (`art/*/*.webp`); full-res PNG masters
-  are local-only (`art/<category>/*.png` ignored); wordmark in `art/branding/` is tracked; no font
-  binaries are committed or embedded.
+- Art: all 41 manifest slots `final` (52 WebP, 4.2 MB) + tracked wordmark; full-res PNG
+  masters are local-only (`art/<category>/*.png` ignored); no font binaries committed. The
+  client does not reference any art yet (T1 uses placeholder/SVG UI); integration is an M5/
+  owner decision (Next 3, Open question 6).
 - Image generation is owner-run in the ChatGPT desktop app; the agent never generates images.
 - **T1 simplifications still open** (documented, not bugs): tactic card effects are deferred
   (data placeholder); the dummy is count-only (no crystals/AA absorption/blocking figure yet);
