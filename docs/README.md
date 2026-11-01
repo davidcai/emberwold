@@ -6,45 +6,46 @@ This folder is the complete pre-production package for **Emberwold**. It is spli
 
 ## Status board
 
-| Doc | Title | Status | Owner | Notes |
-|---|---|---|---|---|
-| `research/00-brief.md` | Research & design brief | ✅ v1 | Lead | Mission, sources, toolchain, conventions, ownership |
-| `research/01-game-overview.md` | Game overview & Emberwold thesis | ✅ v1 | Lead | Facts, pillars, reduction axes |
-| `research/02-rules-core.md` | Core rules spec | ✅ v1 | rules-analyst | Engine-oriented rules, 372 page citations |
-| `research/03-rules-reference.md` | Rules reference tables | ✅ v1 | rules-analyst | Sites, enemies, cards, heroes, tiles, scenarios |
-| `research/04-faq-clarifications.md` | FAQ & ambiguity register | ✅ v1 | rules-analyst | **Official FAQ recovered** + 48-item decision register |
-| `research/05-digital-precedents.md` | Digital precedents | ✅ v1 | precedent-analyst | Forensics of prior art + demand data |
-| `research/06-legal-ip.md` | Legal & IP | ✅ v1 | precedent-analyst | **Read before public release** |
-| `research/07-assets-art-inventory.md` | Assets & art inventory | ✅ v1 | precedent-analyst | Art needs, legal sources, $0 MVP plan |
-| `research/08-sources.md` | Sources & provenance | ✅ v1 | Lead | URLs, checksums, retrieval log, blocked sources |
-| `design/00-decisions.md` | **Decision log (ADRs)** | ✅ v1 | Lead | Purpose, IP strategy, platform, scope, art — **start here after the summary** |
-| `design/10-feasibility-analysis.md` | Feasibility analysis | ✅ v1 | Lead | **The verdict**, effort, risks, gates |
-| `design/11-mvp-scope.md` | MVP scope (First Conquest) | ✅ v1 | Lead | What ships in v1.0 and what doesn't |
-| `design/12-architecture.md` | Technical architecture | ✅ v1 | architect | Engine, data pipeline, UI, testing, build plan |
-| `design/13-ai-opponents.md` | AI / opponents | ✅ v1 | architect | Why AI is hard; tiered approach; MVP stance |
-| `design/14-roadmap.md` | Roadmap | ✅ v1 | Lead | Tiers, milestones, gates, next 2 weeks |
-| `design/17-platform-analysis.md` | Platform/framework analysis | ✅ v1 | Lead | Web-native recommendation (accepted), scoring, escape hatches |
-| `design/15-retheme-bible.md` | Re-theme bible | ✅ v0.1 | Lead | Original world, names, terminology map, copy rules |
-| `design/16-art-brief.md` | Art brief | ✅ v1.0 | Lead | Direction, specs, acceptance (AI-generated art, ADR-006) |
-| `design/18-ai-art-prompts.md` | AI art prompt pack | ✅ v1 | art-prompt-writer | Tool/licence guidance, consistency workflow, 41 per-slot prompts |
-| `design/19-t0-spike-plan.md` | T0 spike plan | ✅ executed | Lead | Approved (ADR-009); S1–S10 done 2026-10-31 |
-| `design/spike-report.md` | T0 spike report | ✅ v1 | Lead | G1 evidence, deviations, data findings, GO recommendation (ADR-010) |
-| `design/t1-exit-report.md` | T1 First Conquest exit report | ✅ v1 | Lead | M3/M4 evidence, rules coverage, deviations/T1 debt, v1.0 DoD status, owner gates |
+| Doc                                   | Title                              | Status      | Owner             | Notes                                                                                     |
+| ------------------------------------- | ---------------------------------- | ----------- | ----------------- | ----------------------------------------------------------------------------------------- |
+| `research/00-brief.md`                | Research & design brief            | ✅ v1       | Lead              | Mission, sources, toolchain, conventions, ownership                                       |
+| `research/01-game-overview.md`        | Game overview & Emberwold thesis   | ✅ v1       | Lead              | Facts, pillars, reduction axes                                                            |
+| `research/02-rules-core.md`           | Core rules spec                    | ✅ v1       | rules-analyst     | Engine-oriented rules, 372 page citations                                                 |
+| `research/03-rules-reference.md`      | Rules reference tables             | ✅ v1       | rules-analyst     | Sites, enemies, cards, heroes, tiles, scenarios                                           |
+| `research/04-faq-clarifications.md`   | FAQ & ambiguity register           | ✅ v1       | rules-analyst     | **Official FAQ recovered** + 48-item decision register                                    |
+| `research/05-digital-precedents.md`   | Digital precedents                 | ✅ v1       | precedent-analyst | Forensics of prior art + demand data                                                      |
+| `research/06-legal-ip.md`             | Legal & IP                         | ✅ v1       | precedent-analyst | **Read before public release**                                                            |
+| `research/07-assets-art-inventory.md` | Assets & art inventory             | ✅ v1       | precedent-analyst | Art needs, legal sources, $0 MVP plan                                                     |
+| `research/08-sources.md`              | Sources & provenance               | ✅ v1       | Lead              | URLs, checksums, retrieval log, blocked sources                                           |
+| `design/00-decisions.md`              | **Decision log (ADRs)**            | ✅ v1       | Lead              | Purpose, IP strategy, platform, scope, art — **start here after the summary**             |
+| `design/10-feasibility-analysis.md`   | Feasibility analysis               | ✅ v1       | Lead              | **The verdict**, effort, risks, gates                                                     |
+| `design/11-mvp-scope.md`              | MVP scope (First Conquest)         | ✅ v1       | Lead              | What ships in v1.0 and what doesn't                                                       |
+| `design/12-architecture.md`           | Technical architecture             | ✅ v1       | architect         | Engine, data pipeline, UI, testing, build plan                                            |
+| `design/13-ai-opponents.md`           | AI / opponents                     | ✅ v1       | architect         | Why AI is hard; tiered approach; MVP stance                                               |
+| `design/14-roadmap.md`                | Roadmap                            | ✅ v1       | Lead              | Tiers, milestones, gates, next 2 weeks                                                    |
+| `design/17-platform-analysis.md`      | Platform/framework analysis        | ✅ v1       | Lead              | Web-native recommendation (accepted), scoring, escape hatches                             |
+| `design/15-retheme-bible.md`          | Re-theme bible                     | ✅ v0.1     | Lead              | Original world, names, terminology map, copy rules                                        |
+| `design/16-art-brief.md`              | Art brief                          | ✅ v1.0     | Lead              | Direction, specs, acceptance (AI-generated art, ADR-006)                                  |
+| `design/18-ai-art-prompts.md`         | AI art prompt pack                 | ✅ v1       | art-prompt-writer | Tool/licence guidance, consistency workflow, 41 per-slot prompts                          |
+| `design/19-t0-spike-plan.md`          | T0 spike plan                      | ✅ executed | Lead              | Approved (ADR-009); S1–S10 done 2026-10-31                                                |
+| `design/spike-report.md`              | T0 spike report                    | ✅ v1       | Lead              | G1 evidence, deviations, data findings, GO recommendation (ADR-010)                       |
+| `design/t1-exit-report.md`            | T1 First Conquest exit report      | ✅ v1       | Lead              | M3/M4 evidence, rules coverage, deviations/T1 debt, v1.0 DoD status, owner gates          |
+| `design/t1-winning-line.md`           | T1 winning line reference (seed 1) | ✅ v1       | Lead              | Deterministic victory walkthrough for the fun pass, tutorial copy and regression evidence |
 
 Legend: ✅ complete · ⏳ in progress · ⚠️ has unverified parts (see the doc's own flags)
 
 ## Conventions
 
-* **Citations:** `(MKUE Rulebook, p.6)` means PDF page 6 of the official Ultimate Edition
+- **Citations:** `(MKUE Rulebook, p.6)` means PDF page 6 of the official Ultimate Edition
   rulebook in `reference/rulebooks/` (not a printed folio). Scenario rules cite the 2012
   base rulebook (which bundles the Scenario Book).
-* **Uncertainty:** `⚠️ UNVERIFIED` marks anything not directly supported by a primary source.
+- **Uncertainty:** `⚠️ UNVERIFIED` marks anything not directly supported by a primary source.
   Do not remove those flags without a citation.
-* **Data vs. prose:** rules prose lives in `docs/research/`; machine-readable content lives
+- **Data vs. prose:** rules prose lives in `docs/research/`; machine-readable content lives
   in `game-data/` and must cite provenance there.
-* **No publisher files committed:** `reference/` is gitignored (copyright). See
+- **No publisher files committed:** `reference/` is gitignored (copyright). See
   `research/08-sources.md` §1 for reproduction steps.
-* **Page structure:** research docs answer "what is true"; design docs answer "what we do".
+- **Page structure:** research docs answer "what is true"; design docs answer "what we do".
 
 ## How this was produced
 

@@ -179,7 +179,8 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
 **M3 (headless complete game): met.**
 
 - Complete winnable/losable seeded game: yes (`050-victory.json` = win; `000-smoke.json` =
-  round-limit defeat).
+  round-limit defeat). The deterministic winning line is walked through turn by turn in
+  [`t1-winning-line.md`](./t1-winning-line.md).
 - ≥5 golden traces including a city assault: 7 traces including a city-conquering full game.
 - Tests/fuzz: 86 tests, dependency boundaries, CI fuzz 10,000 actions.
 
