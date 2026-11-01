@@ -13,6 +13,7 @@ export function pickAction(state: GameState, content: ContentBundle, cursor: num
 }
 
 export function describeAction(action: Action): string {
-  const { epoch: _epoch, ...rest } = action;
-  return JSON.stringify(rest);
+  const clone: Record<string, unknown> = { ...action };
+  delete clone.epoch;
+  return JSON.stringify(clone);
 }
