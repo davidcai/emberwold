@@ -46,7 +46,7 @@ const trace: TraceFile = {
   config: { seed },
   actions,
   expectedHashes,
-  expectedOutcome: outcomeOf(state),
+  expectedOutcome: outcomeOf(state, bundle.woundCard.id),
 };
 writeFileSync(out, `${JSON.stringify(trace, null, 2)}\n`);
 console.log(

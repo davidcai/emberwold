@@ -325,6 +325,8 @@
     "round": 10,
     "gameOver": true,
     "fame": 0,
-    "handSize": 5
+    "handSize": 5,
+    "wounds": 0,
+    "defeatedEnemies": 0
   }
 }

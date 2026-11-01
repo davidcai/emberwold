@@ -86,7 +86,7 @@ function randomRun(): void {
     config: { seed },
     actions,
     expectedHashes,
-    expectedOutcome: outcomeOf(state),
+    expectedOutcome: outcomeOf(state, bundle.woundCard.id),
   };
   const path = join(tmpdir(), `emberwold-play-${seed}.json`);
   writeFileSync(path, `${JSON.stringify(trace, null, 2)}\n`);

@@ -70,6 +70,15 @@ spike report and decide go/no-go with the owner. Acceptance: G1 in
     overlapping tile placements and hashes its config into `contentHash`
     (`cfcf9db2…f122`). `010-move-reveal.json` replays with `heroMoved`+`tileRevealed`;
     `000-smoke.json` re-recorded (44 actions).
+15. **S7 done — combat (C2)** (commit on `t0-spike`): `combatMath.test.ts` covers the 02 §7.3
+    efficiency matrix, inefficient halving, swift, fortify, resistance, brutal, wounds (engine
+    suite now 31 tests); `020-combat.json` (seed 3, 19 actions) replays with 2 wounds, 1 enemy
+    defeated, +2 fame.
+16. **S8 done — village heal + end-to-end trace (C2 passed)** (commit on `t0-spike`):
+    `030-site-heal.json` (32 actions: reveal → combat wound → travel → enterSite → 3 influence →
+    heal) and `040-one-round.json` (34 actions: same then end turn after the heal). All five
+    traces verify; `pnpm verify` 57 tests; fuzz 1,000 actions clean. **Checkpoint C2 passed.**
+    T0 deviation documented: wounds persist across turns (T1 restores round-end recycling).
 
 ## Next (ordered; first item is the exact next action)
 

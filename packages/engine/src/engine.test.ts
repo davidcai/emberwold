@@ -426,7 +426,7 @@ describe("determinism and invariants", () => {
     expect(tokens).toBeGreaterThanOrEqual(0);
   });
 
-  it("recycles wounds from hand into the deck at round end", () => {
+  it("keeps wounds in hand across turns (T0 deviation, documented)", () => {
     const { content, state } = setup();
     const given = giveCard(state, "basic:march");
     const play = legalOfType(
@@ -443,10 +443,7 @@ describe("determinism and invariants", () => {
       content,
     );
     const player = ended.state.players[0];
-    expect(
-      player?.hand.filter((card) => ended.state.cardInstances[card] === "card:wound"),
-    ).toHaveLength(0);
-    expect(player?.deck.some((card) => ended.state.cardInstances[card] === "card:wound")).toBe(
+    expect(player?.hand.some((card) => ended.state.cardInstances[card] === "card:wound")).toBe(
       true,
     );
   });

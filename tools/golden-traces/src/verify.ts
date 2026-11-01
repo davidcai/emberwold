@@ -56,9 +56,16 @@ for (let step = 0; step < trace.actions.length; step += 1) {
   state = outcome.result.state;
 }
 
-const actual = outcomeOf(state);
+const actual = outcomeOf(state, bundle.woundCard.id);
 const expected = trace.expectedOutcome;
-const fields: readonly (keyof typeof expected)[] = ["round", "gameOver", "fame", "handSize"];
+const fields: readonly (keyof typeof expected)[] = [
+  "round",
+  "gameOver",
+  "fame",
+  "handSize",
+  "wounds",
+  "defeatedEnemies",
+];
 for (const field of fields) {
   if (actual[field] !== expected[field]) {
     console.error(

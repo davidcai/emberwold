@@ -1,6 +1,6 @@
 # 19 · T0 Spike Plan — two weeks to a playable round
 
-**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S6 done · branch `t0-spike`
+**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S8 done · branch `t0-spike`
 **Companions:** [`10-feasibility-analysis.md`](./10-feasibility-analysis.md) §6/§9 (G1),
 [`11-mvp-scope.md`](./11-mvp-scope.md) §2–§5/§10 (scope/content),
 [`12-architecture.md`](./12-architecture.md) §3.3/§5/§6/§10/§12.4/§12.6 (engine, pipeline,
@@ -11,7 +11,7 @@ tests, T0 slice), [`14-roadmap.md`](./14-roadmap.md) §0.1/§1/§5/§6 (tiers, M
 
 > **Gate status: APPROVED 2026-10-31 (ADR-009 in [`00-decisions.md`](./00-decisions.md)).**
 > The owner approved this plan and its proposed defaults. Execution is on branch `t0-spike`:
-> **S1–S6 are done** (C1 passed; movement/reveal trace green); S7–S10 are not started. No T1/T2 work is
+> **S1–S8 are done** (C1 and C2 passed: movement/reveal, assault and village-heal traces are green); S9–S10 remain. No T1/T2 work is
 > authorized by this plan.
 >
 > **Review record.** Two fresh-context reviewers checked this plan against the docs. Their
@@ -74,6 +74,9 @@ are the plan's scope decision and need owner sign-off.
 * Skills, Advanced Actions, Spells, Artifacts, Units, achievements, scoring, city,
   dungeon/tomb, save/undo (engine or UI), audio, animation.
 * Multiplayer/hotseat, AI opponent, desktop packaging, public branding.
+* **Wound persistence deviation:** T0 keeps Wound cards in hand across turn/round boundaries so
+  a multi-turn combat → travel → heal sequence is testable; T1 restores the 02 §15.2 round-end
+  recycle. (The spike's "round" counter advances once per turn, with no dummy player.)
 * **Combat fidelity waiver:** [`14`](./14-roadmap.md) M2-1 asks for "a trace that matches the
   rulebook worked example". The walkthrough's example enemies do not exist in `game-data` with
   matching stats (B4), so T0 verifies the combat **arithmetic** against the rulebook numbers in
@@ -378,7 +381,7 @@ not; a Rest turn counts). Round end shuffles Wounds in hand back into the deed d
 
 ---
 
-### S7 — 4-phase combat and damage assignment
+### S7 — 4-phase combat and damage assignment · **done 2026-10-31 (C2)**
 
 **Do.** `CombatState` sub-machine (rangedSiege → block → assignDamage → attack), entered by
 `challengeRampaging` (attack the spawned rampaging token); enemies revealed, undo barrier
@@ -410,10 +413,17 @@ assignment and combat math live in `combatMath.ts` as the single implementation.
 > This is the M2-1 fidelity waiver listed in §2.2: arithmetic verified against the rulebook
 > numbers; the trace uses hand-computed spike-enemy values, because the walkthrough's example
 > enemies do not match `game-data` stats (B4). Owner confirms via Q2.
+>
+> **Evidence (2026-10-31, branch `t0-spike`):** `combatMath.test.ts` (15 table tests) covers the
+> full 02 §7.3 efficiency matrix, inefficient-block halving, swift doubling, fortified
+> siege-only ranged phase, resistance halving, brutal doubling and hero wound arithmetic.
+> `020-combat.json` (seed 3, 19 actions) replays: two wounds taken, one enemy defeated (+2 fame),
+> combat ends. The recorder skips block/damage-assignment choices deliberately; the trace's
+> `expectedOutcome` records the run's wounds/defeats/fame and verification compares them.
 
 ---
 
-### S8 — Village interaction, heal reward, end-to-end round trace
+### S8 — Village interaction, heal reward, end-to-end round trace · **done 2026-10-31 (C2)**
 
 **Do.** `enterSite` at the village (no entry combat); interaction state: influence pool from
 cards played this turn → `buyHealing` action priced from content
@@ -433,7 +443,14 @@ assault → village heal → end turn in one trace.
    sequence (move, reveal, assault, heal, end turn) in one deterministic round, with
    `expectedOutcome` recording the final state (fame, wounds, round/turn).
 
-**Evidence:** trace summaries; test names.
+**Evidence (2026-10-31, branch `t0-spike`):**
+* `030-site-heal.json` (seed 1, 32 actions) replays: explore → combat (one wound) → travel to the
+  village → `enterSite` → influence gained/spent → `healGained`; content hash pinned.
+* `040-one-round.json` (seed 1, 34 actions) replays the same sequence and then ends the turn
+  after the heal (a `turnEnded` event after `healGained`), satisfying the end-to-end requirement.
+* All five committed traces pass `pnpm trace:verify`; `pnpm content:check` is clean.
+* Both heal traces share seed 1; the recorder's stop predicate requires the heal to follow the
+  village influence spend (so a card-heal cannot satisfy the check).
 
 ---
 

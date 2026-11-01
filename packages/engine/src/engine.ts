@@ -1516,18 +1516,12 @@ function endTurn(draft: Draft, env: Env): void {
   const missing = Math.max(0, handLimit - player.hand.length);
   drawCards(draft, env, missing);
 
-  // Round end: wounds in hand shuffle back into the deed deck (02 §15.2).
-  const woundsInHand = player.hand.filter((instance) =>
-    isWound(content, cardOf(content, draft.cardInstances, instance)),
-  );
-  player.hand = player.hand.filter((instance) => !woundsInHand.includes(instance));
+  // T0 deviation: wounds stay in hand across turns so a multi-turn combat -> travel -> heal
+  // sequence is testable; T1 restores the 02 §15.2 round-end recycle into the deed deck.
   const shuffled = shuffleWithRng([...player.deck, ...player.discard], draft.rng);
   draft.rng = shuffled.rng;
   player.deck = shuffled.items;
   player.discard = [];
-  const woundsAgain = shuffleWithRng([...woundsInHand], draft.rng);
-  draft.rng = woundsAgain.rng;
-  player.deck.push(...woundsAgain.items);
   env.events.push({ type: "roundEnded", round: draft.round });
 
   if (draft.round >= content.scenario.roundCap) {

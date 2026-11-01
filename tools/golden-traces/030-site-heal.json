@@ -1,0 +1,228 @@
+{
+  "traceVersion": 1,
+  "contentHash": "cfcf9db281e7b43dac922b8775d4fcb3330e3e18d7cf805d0b85282dccf4f122",
+  "engineVersion": "0.1.0-spike",
+  "rulesetId": "emberwold-spike",
+  "seed": 1,
+  "config": {
+    "seed": 1
+  },
+  "actions": [
+    {
+      "epoch": 0,
+      "type": "playCard",
+      "card": "p1:deck:5",
+      "mode": "basic"
+    },
+    {
+      "epoch": 1,
+      "type": "moveTo",
+      "target": {
+        "q": 1,
+        "r": 0
+      }
+    },
+    {
+      "epoch": 2,
+      "type": "playCard",
+      "card": "p1:deck:6",
+      "mode": "basic"
+    },
+    {
+      "epoch": 3,
+      "type": "explore"
+    },
+    {
+      "epoch": 4,
+      "type": "playCardSideways",
+      "card": "p1:deck:10",
+      "as": "move"
+    },
+    {
+      "epoch": 5,
+      "type": "playCardSideways",
+      "card": "p1:deck:2",
+      "as": "move"
+    },
+    {
+      "epoch": 6,
+      "type": "playCardSideways",
+      "card": "p1:deck:13",
+      "as": "move"
+    },
+    {
+      "epoch": 7,
+      "type": "moveTo",
+      "target": {
+        "q": 2,
+        "r": 0
+      }
+    },
+    {
+      "epoch": 8,
+      "type": "challengeRampaging"
+    },
+    {
+      "epoch": 9,
+      "type": "endCombatPhase"
+    },
+    {
+      "epoch": 10,
+      "type": "endCombatPhase"
+    },
+    {
+      "epoch": 11,
+      "type": "assignDamage",
+      "enemy": "enemy:0"
+    },
+    {
+      "epoch": 12,
+      "type": "endCombatPhase"
+    },
+    {
+      "epoch": 13,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 14,
+      "type": "playCardSideways",
+      "card": "p1:deck:12",
+      "as": "move"
+    },
+    {
+      "epoch": 15,
+      "type": "playCardSideways",
+      "card": "p1:deck:1",
+      "as": "move"
+    },
+    {
+      "epoch": 16,
+      "type": "playCardSideways",
+      "card": "p1:deck:0",
+      "as": "move"
+    },
+    {
+      "epoch": 17,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 18,
+      "type": "playCard",
+      "card": "p1:deck:8",
+      "mode": "basic"
+    },
+    {
+      "epoch": 19,
+      "type": "playCardSideways",
+      "card": "p1:deck:13",
+      "as": "move"
+    },
+    {
+      "epoch": 20,
+      "type": "playCardSideways",
+      "card": "p1:deck:9",
+      "as": "move"
+    },
+    {
+      "epoch": 21,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 22,
+      "type": "playCard",
+      "card": "p1:deck:7",
+      "mode": "basic"
+    },
+    {
+      "epoch": 23,
+      "type": "playCard",
+      "card": "p1:deck:6",
+      "mode": "basic"
+    },
+    {
+      "epoch": 24,
+      "type": "playCardSideways",
+      "card": "p1:deck:12",
+      "as": "move"
+    },
+    {
+      "epoch": 25,
+      "type": "moveTo",
+      "target": {
+        "q": 3,
+        "r": 1
+      }
+    },
+    {
+      "epoch": 26,
+      "type": "enterSite"
+    },
+    {
+      "epoch": 27,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 28,
+      "type": "enterSite"
+    },
+    {
+      "epoch": 29,
+      "type": "playCard",
+      "card": "p1:deck:10",
+      "mode": "basic"
+    },
+    {
+      "epoch": 30,
+      "type": "playCardSideways",
+      "card": "p1:deck:4",
+      "as": "influence"
+    },
+    {
+      "epoch": 31,
+      "type": "buyHealing",
+      "points": 1
+    }
+  ],
+  "expectedHashes": [
+    "13f6d3cdb1cca6e718c4d096d0e07017af507e9efff661e5453074d35dfe1755",
+    "ffa123fc53d4b2dfce7a79a44b60153dc3891edef17fa8359e09f3c7bc6d52ae",
+    "1958ca9bab3af42eaecdb19ff6a89e617ccdd166c69ae1f5e68b3727f65f7703",
+    "30de2d6bb1f6050d5caae7f421965e45a67250c68b22b80943fc29b8dc96408d",
+    "0835776ae97466a524267552e1aa548f15670686b0ab6c3c394ec2477299e610",
+    "e7d4329942f92635497e5c78781e4d879b909e971f2fb4aae974f691df93b574",
+    "1aad3568adbb44dd11e7fb368e46c0ddc4b4be5cb614d581579ab92728e4b5e1",
+    "e1369c25ad324f3e4b43365c5656a7b6316856598d749eabda48840b2d4ae124",
+    "e30f84209df6186c08300d15ae7e8eb99ad6e60160afb7bcbcaaba1d82d65cc4",
+    "479fec9cfed93cb4ec6ed3d27b543a471385021267d026481862310f460b5c53",
+    "6a693d3c201eac9f19eff326ebf581581dc1b1a87baac17d69121be245faa515",
+    "23120e589b1e5d652af54ae91f6e0d0d799c9916fd0278d47779583cc2160247",
+    "b9cf8e884f5d9008732ca2a246ef8167da5e65f5836c2438eae659b0f0da6bc2",
+    "ead9f41baaa1b15bff956f4b3f667561100d752d7f5b327260b46231bb133838",
+    "58c2af490163f6c27b1834061293d16fd35c7c43f12f714554318ce6476649df",
+    "e913fda9d57ea00828fed561ee36df5fabd843c90c8c473bd48074097b543536",
+    "38fea5a9d36d22edf788f08e9791901f759acb43290914ee0bfec755d7ce02e9",
+    "c83c27749e5ff4c050c290ffa309cb130a32c9453591887902458eb8fdfdb22e",
+    "e05e7dc7af24e8e14616cb36acef53f45d958dd77f8438ee42c9893cbe2e7756",
+    "f01eb82fdc5cb6ec82fc570aa1ce58ee065af81376282b7a31ed7c75b1b0484a",
+    "7253d0fe438f2f3a71f750ecaebb74de97a9cf8108eaae5bc33d98516de03cd6",
+    "a7671c1d48c12a9b09a8defe12b17157e8e3a826fce86af2fb17220d0ce92750",
+    "b4abfc49969b28bc07bc42dadd8f7cf246c71b87bb126cb5ea31a1a1d1d232d6",
+    "5b96b49955c373ea809130d9ded31f3070b7198a5710e936dffe786fea676d5f",
+    "ecacafaf1694fb61e3e6ca1bc61bf8d1953b15fa355d6a8289a984615a68104d",
+    "8566de238aed3f27004680369d729671b9b7ec44a179acef0c4afc0b80224378",
+    "86c1f7fd42f245413043409a6913fdc45a09ab086fed9a6d1ff0c19a738f5f02",
+    "6af64c8067f09f33b223319214874e5129164b7eb71b941089b4dd2b34b8b358",
+    "d7336c993ced84112ed8343b86e8df4e44beeb2b6b4c139c4e52e6ed371adc94",
+    "f0cb04af434cff1533d6f60bd781419a28391d178887e0aa6d6c98fa608e0200",
+    "f7b1ca0a6a50862d2bfdc0cef9582b9e96277f644cfd79b6a82b96ccb9457909",
+    "ed5a931de7e3c1e987507f839ed4977ee3538ca5a16685a4814caf5be47db80a"
+  ],
+  "expectedOutcome": {
+    "round": 5,
+    "gameOver": false,
+    "fame": 0,
+    "handSize": 2,
+    "wounds": 1,
+    "defeatedEnemies": 0
+  }
+}

@@ -43,6 +43,8 @@
     "round": 1,
     "gameOver": false,
     "fame": 0,
-    "handSize": 3
+    "handSize": 3,
+    "wounds": 0,
+    "defeatedEnemies": 0
   }
 }
