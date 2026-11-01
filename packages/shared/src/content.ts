@@ -85,6 +85,7 @@ export type EffectOp =
       readonly bonus_per_count: number;
       readonly maximum: number | null;
     }
+  | { readonly op: "ready_units_budget"; readonly total_levels: number }
   | {
       readonly op: "schedule_end_turn";
       readonly effect: {

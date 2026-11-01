@@ -181,7 +181,8 @@
     "terrain_specific",
     "unit_combat_bonus",
     "schedule_end_turn",
-    "offer_deck_placement"
+    "offer_deck_placement",
+    "ready_units_budget"
   ],
   "tacticIds": [
     "tactic:early_bird",
@@ -225,7 +226,8 @@
   ],
   "spells": [
     "spell:fireball",
-    "spell:snowstorm"
+    "spell:snowstorm",
+    "spell:restoration"
   ],
   "aaOfferSize": 3,
   "spellOfferSize": 3,

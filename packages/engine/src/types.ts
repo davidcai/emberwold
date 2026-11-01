@@ -158,11 +158,14 @@ export interface CombatState {
 
 export interface PendingChoice {
   choiceId: string;
-  kind: "effectChoice" | "discardCost";
+  kind: "effectChoice" | "discardCost" | "readyUnits";
   options: string[];
   effectOptions: EffectOp[];
   thenEffect: EffectOp | null;
   eligibleCards: CardInstanceId[];
+  /** readyUnits: total levels the player may still ready and the spent units offered. */
+  readyBudget?: number;
+  readyUnits?: UnitInstanceId[];
 }
 
 export interface GameResult {

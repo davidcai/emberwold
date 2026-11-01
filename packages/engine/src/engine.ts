@@ -13,6 +13,7 @@ import {
   type CardId,
   type CardInstanceId,
   type ContentBundle,
+  type EffectCondition,
   type EffectOp,
   type EnemyInstanceId,
   type Hex,
@@ -437,6 +438,44 @@ export function createGame(
 // Effects and legality
 // ---------------------------------------------------------------------------
 
+/** Terrain on the board hex the hero currently occupies (null when unknown/not mapped). */
+function terrainAt(state: GameState, content: ContentBundle, hex: Hex): string | null {
+  const key = hexKey(hex);
+  for (const tile of state.map.tiles) {
+    if (!tile.revealed) {
+      continue;
+    }
+    for (const info of tileHexInfos(tile, content)) {
+      if (hexKey(info.hex) === key) {
+        return info.terrain;
+      }
+    }
+  }
+  return null;
+}
+
+function conditionMet(
+  state: GameState,
+  content: ContentBundle,
+  condition: EffectCondition,
+): boolean {
+  switch (condition.op) {
+    case "in_combat":
+      return state.combat !== null;
+    case "on_terrain": {
+      const player = state.players[0];
+      if (player === undefined) {
+        return false;
+      }
+      const terrain = terrainAt(state, content, player.position);
+      const allowed = Array.isArray(condition.terrain) ? condition.terrain : [condition.terrain];
+      return terrain !== null && (allowed as readonly string[]).includes(terrain);
+    }
+    default:
+      return false;
+  }
+}
+
 function effectApplicable(state: GameState, content: ContentBundle, effect: EffectOp): boolean {
   switch (effect.op) {
     case "choice":
@@ -456,6 +495,7 @@ function effectApplicable(state: GameState, content: ContentBundle, effect: Effe
     case "change_reputation":
     case "schedule_end_turn":
     case "offer_deck_placement":
+    case "ready_units_budget":
       return state.combat === null;
     case "apply_modifier": {
       if (effect.effect.op === "unit_combat_bonus") {
@@ -484,7 +524,9 @@ function effectApplicable(state: GameState, content: ContentBundle, effect: Effe
       );
     }
     case "conditional": {
-      const branch = state.combat !== null ? effect.then_effect : effect.else_effect;
+      const branch = conditionMet(state, content, effect.condition)
+        ? effect.then_effect
+        : effect.else_effect;
       return effectApplicable(state, content, branch);
     }
     case "scaling":
@@ -527,6 +569,47 @@ function boosted(draft: Draft, amount: number): number {
     return amount + boost;
   }
   return amount;
+}
+
+/** Opens (or re-opens) the "ready spent units" choice for a total-level budget. */
+function offerReadyUnits(draft: Draft, env: Env, budget: number): void {
+  const player = draft.players[0];
+  if (player === undefined || budget <= 0) {
+    return;
+  }
+  const candidates = player.units.filter((unit) => {
+    if (unit.ready) {
+      return false;
+    }
+    const def = env.content.units?.[unit.defId];
+    return def !== undefined && def.level <= budget;
+  });
+  if (candidates.length === 0) {
+    return;
+  }
+  const pending: PendingDraft = {
+    choiceId: `choice:${draft.actionEpoch + 1}`,
+    kind: "readyUnits",
+    options: [
+      ...candidates.map((unit) => {
+        const def = env.content.units?.[unit.defId];
+        return `ready ${def?.name ?? unit.defId} (level ${def?.level ?? 0})`;
+      }),
+      "done",
+    ],
+    effectOptions: [],
+    thenEffect: null,
+    eligibleCards: [],
+    readyBudget: budget,
+    readyUnits: candidates.map((unit) => unit.instanceId),
+  };
+  draft.pending = pending;
+  env.events.push({
+    type: "choiceRequested",
+    choiceId: pending.choiceId,
+    kind: pending.kind,
+    options: pending.options,
+  });
 }
 
 function applyEffect(draft: Draft, env: Env, effect: EffectOp): void {
@@ -707,7 +790,9 @@ function applyEffect(draft: Draft, env: Env, effect: EffectOp): void {
       return;
     }
     case "conditional": {
-      const branch = draft.combat !== null ? effect.then_effect : effect.else_effect;
+      const branch = conditionMet(draft, env.content, effect.condition)
+        ? effect.then_effect
+        : effect.else_effect;
       applyEffect(draft, env, branch);
       return;
     }
@@ -718,6 +803,10 @@ function applyEffect(draft: Draft, env: Env, effect: EffectOp): void {
         bonus = Math.min(bonus, effect.maximum);
       }
       applyScaledEffect(draft, env, effect.base_effect, bonus);
+      return;
+    }
+    case "ready_units_budget": {
+      offerReadyUnits(draft, env, effect.total_levels);
       return;
     }
     case "schedule_end_turn": {
@@ -1231,23 +1320,18 @@ export function getLegalActions(state: GameState, content: ContentBundle): Legal
   }
   if (state.pending !== null) {
     const actions: Action[] = [];
-    if (state.pending.kind === "effectChoice") {
-      state.pending.effectOptions.forEach((_option, index) => {
-        actions.push({
-          epoch,
-          type: "resolveChoice",
-          choiceId: state.pending?.choiceId ?? "",
-          optionIndex: index,
-        });
-      });
-    } else {
-      state.pending.eligibleCards.forEach((card, index) => {
-        actions.push({
-          epoch,
-          type: "resolveChoice",
-          choiceId: state.pending?.choiceId ?? "",
-          optionIndex: index,
-        });
+    const choiceCount =
+      state.pending.kind === "effectChoice"
+        ? state.pending.effectOptions.length
+        : state.pending.kind === "discardCost"
+          ? state.pending.eligibleCards.length
+          : (state.pending.readyUnits?.length ?? 0) + 1;
+    for (let index = 0; index < choiceCount; index += 1) {
+      actions.push({
+        epoch,
+        type: "resolveChoice",
+        choiceId: state.pending.choiceId,
+        optionIndex: index,
       });
     }
     return { epoch, player: player.id, actions };
@@ -1912,6 +1996,29 @@ function resolveChoice(draft: Draft, choiceId: string, optionIndex: number, env:
     draft.pending = null;
     env.events.push({ type: "choiceResolved", choiceId, optionIndex });
     applyEffect(draft, env, option);
+    return;
+  }
+  if (pending.kind === "readyUnits") {
+    const unitIds = pending.readyUnits ?? [];
+    if (optionIndex >= unitIds.length) {
+      // "done": the player declines to ready anything else.
+      draft.pending = null;
+      env.events.push({ type: "choiceResolved", choiceId, optionIndex });
+      return;
+    }
+    const unit = player.units.find((candidate) => candidate.instanceId === unitIds[optionIndex]);
+    if (unit === undefined || unit.ready) {
+      throw new Error("unit is not spent");
+    }
+    const unitDef = env.content.units?.[unit.defId];
+    if (unitDef === undefined) {
+      throw new Error("unknown unit");
+    }
+    unit.ready = true;
+    draft.pending = null;
+    env.events.push({ type: "choiceResolved", choiceId, optionIndex });
+    const budget = pending.readyBudget ?? 0;
+    offerReadyUnits(draft, env, budget - unitDef.level);
     return;
   }
   const card = pending.eligibleCards[optionIndex];

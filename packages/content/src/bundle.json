@@ -1090,6 +1090,71 @@
           ]
         }
       }
+    },
+    "spell:restoration": {
+      "id": "spell:restoration",
+      "name": "Restoration",
+      "color": "green",
+      "poweredBy": "green",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "conditional",
+          "condition": {
+            "op": "on_terrain",
+            "terrain": [
+              "forest"
+            ]
+          },
+          "then_effect": {
+            "op": "gain_healing",
+            "amount": 5
+          },
+          "else_effect": {
+            "op": "gain_healing",
+            "amount": 3
+          }
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "conditional",
+              "condition": {
+                "op": "on_terrain",
+                "terrain": [
+                  "forest"
+                ]
+              },
+              "then_effect": {
+                "op": "gain_healing",
+                "amount": 5
+              },
+              "else_effect": {
+                "op": "gain_healing",
+                "amount": 3
+              }
+            },
+            {
+              "op": "conditional",
+              "condition": {
+                "op": "on_terrain",
+                "terrain": [
+                  "forest"
+                ]
+              },
+              "then_effect": {
+                "op": "ready_units_budget",
+                "total_levels": 5
+              },
+              "else_effect": {
+                "op": "ready_units_budget",
+                "total_levels": 3
+              }
+            }
+          ]
+        }
+      }
     }
   },
   "heroes": {
@@ -1840,7 +1905,8 @@
     ],
     "spellOffer": [
       "spell:fireball",
-      "spell:snowstorm"
+      "spell:snowstorm",
+      "spell:restoration"
     ],
     "aaDeck": [
       "advanced:ice_bolt",
@@ -2585,5 +2651,5 @@
       "powered": null
     }
   },
-  "contentHash": "a7655b6581edbe3601fcc22860a8b6ae04f9dad3257387df1e06c1c6c5761dec"
+  "contentHash": "3cfc1f9f5fe2e49bbac409e043b4fc2c2eefead917161e84ba0e36e9102c9589"
 }

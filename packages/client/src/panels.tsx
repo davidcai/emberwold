@@ -276,7 +276,13 @@ export function ChoicePanel({ entries, state, onAction }: EntriesProps): ReactEl
     <section className="panel choice-panel">
       <h2>
         Choose
-        {pending === null ? "" : pending.kind === "discardCost" ? " · discard a card" : " · effect"}
+        {pending === null
+          ? ""
+          : pending.kind === "discardCost"
+            ? " · discard a card"
+            : pending.kind === "readyUnits"
+              ? " · ready units"
+              : " · effect"}
       </h2>
       {pending !== null && pending.kind === "discardCost" ? (
         <p className="muted-line">

@@ -273,6 +273,8 @@ export function effectSummary(effect: EffectOp): string {
       const element = effect.element === "physical" ? "" : ` ${ELEMENT_LABEL[effect.element]}`;
       return `${effect.amount}${element} block`;
     }
+    case "ready_units_budget":
+      return `ready units with total levels up to ${effect.total_levels}`;
     case "gain_healing":
       return `heal ${effect.amount}`;
     case "draw_cards":

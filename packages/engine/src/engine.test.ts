@@ -2200,6 +2200,174 @@ describe("determinism and invariants", () => {
     outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
     expect(outcome.state.players[0]?.hand).toHaveLength(5);
   });
+  it("evaluates on_terrain conditions against the hero's current hex", () => {
+    const base = createFixtureContent();
+    const startTile = base.tiles["tile:start"];
+    const woundId = base.woundCard.id;
+    if (startTile === undefined) {
+      throw new Error("fixture tile missing");
+    }
+    const content: ContentBundle = {
+      ...base,
+      tiles: {
+        ...base.tiles,
+        "tile:start": {
+          ...startTile,
+          hexes: startTile.hexes.map((hex) =>
+            hex.q === 0 && hex.r === 1 ? { ...hex, terrain: "forest" } : hex,
+          ),
+        },
+      },
+      cards: {
+        ...base.cards,
+        "spell:test_forest": {
+          id: "spell:test_forest",
+          name: "Test Forest",
+          color: "green",
+          poweredBy: "green",
+          sidewaysValue: 1,
+          effects: {
+            basic: {
+              op: "conditional",
+              condition: { op: "on_terrain", terrain: ["forest"] },
+              then_effect: { op: "gain_healing", amount: 5 },
+              else_effect: { op: "gain_healing", amount: 3 },
+            },
+            powered: null,
+          },
+        },
+      },
+    };
+    const playWithWounds = (position: { q: number; r: number }) => {
+      let state = createGame({ seed: 15 }, content).state;
+      state = clone(state);
+      const player = state.players[0];
+      if (player === undefined) {
+        throw new Error("no player");
+      }
+      player.position = position;
+      state.cardInstances["spell:test_forest:instance" as never] = "spell:test_forest" as never;
+      player.hand.push("spell:test_forest:instance" as never);
+      for (let index = 0; index < 4; index += 1) {
+        const instance = `card:wound:t${index}` as never;
+        state.cardInstances[instance] = woundId as never;
+        player.hand.push(instance);
+      }
+      const play = getLegalActions(state, content).actions.find(
+        (action) =>
+          action.type === "playCard" &&
+          action.card === ("spell:test_forest:instance" as never) &&
+          action.mode === "basic",
+      );
+      if (play === undefined) {
+        throw new Error("card is not playable outside combat");
+      }
+      const outcome = applyAction(state, play, content);
+      if (!outcome.ok) {
+        throw new Error(`play rejected: ${outcome.error.code}`);
+      }
+      const heal = outcome.result.events.find((event) => event.type === "healGained");
+      return heal?.type === "healGained" ? heal.points : -1;
+    };
+    // Four Wounds in hand: the forest branch heals all four, the plains branch only three.
+    expect(playWithWounds({ q: 0, r: 1 })).toBe(4);
+    expect(playWithWounds({ q: 0, r: 0 })).toBe(3);
+  });
+  it("readies spent units up to the effect's total-level budget", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      units: {
+        ...(base.units ?? {}),
+        "unit:test_one": {
+          id: "unit:test_one",
+          name: "Test One",
+          level: 2,
+          influenceCost: 4,
+          armor: 2,
+          recruitSites: ["village"],
+          abilities: [],
+        },
+        "unit:test_two": {
+          id: "unit:test_two",
+          name: "Test Two",
+          level: 2,
+          influenceCost: 4,
+          armor: 2,
+          recruitSites: ["village"],
+          abilities: [],
+        },
+      },
+      cards: {
+        ...base.cards,
+        "spell:test_restore": {
+          id: "spell:test_restore",
+          name: "Test Restore",
+          color: "green",
+          poweredBy: "green",
+          sidewaysValue: 1,
+          effects: {
+            basic: {
+              op: "compound",
+              effects: [
+                { op: "gain_healing", amount: 1 },
+                { op: "ready_units_budget", total_levels: 5 },
+              ],
+            },
+            powered: null,
+          },
+        },
+      },
+    };
+    let state = createGame({ seed: 16 }, content).state;
+    state = clone(state);
+    const player = state.players[0];
+    if (player === undefined) {
+      throw new Error("no player");
+    }
+    player.units = [
+      { instanceId: "unit:test:one" as never, defId: "unit:test_one", ready: false, wounds: 0 },
+      { instanceId: "unit:test:two" as never, defId: "unit:test_two", ready: false, wounds: 0 },
+    ];
+    state.cardInstances["spell:test_restore:instance" as never] = "spell:test_restore" as never;
+    player.hand.push("spell:test_restore:instance" as never);
+    const play = getLegalActions(state, content).actions.find(
+      (action) =>
+        action.type === "playCard" && action.card === ("spell:test_restore:instance" as never),
+    );
+    if (play === undefined) {
+      throw new Error("restore card is not playable");
+    }
+    state = applyOk(state, play, content).state;
+    expect(state.pending?.kind).toBe("readyUnits");
+    expect(state.pending?.options.at(-1)).toBe("done");
+    // Both level-2 units fit in the level-5 budget: two resolutions ready both, then the
+    // remaining budget is zero and the choice closes.
+    state = applyOk(
+      state,
+      {
+        epoch: state.actionEpoch,
+        type: "resolveChoice",
+        choiceId: state.pending?.choiceId ?? "",
+        optionIndex: 0,
+      },
+      content,
+    ).state;
+    expect(state.players[0]?.units[0]?.ready).toBe(true);
+    expect(state.pending?.kind).toBe("readyUnits");
+    state = applyOk(
+      state,
+      {
+        epoch: state.actionEpoch,
+        type: "resolveChoice",
+        choiceId: state.pending?.choiceId ?? "",
+        optionIndex: 0,
+      },
+      content,
+    ).state;
+    expect(state.players[0]?.units.every((unit) => unit.ready)).toBe(true);
+    expect(state.pending).toBeNull();
+  });
   it("accepts every action it offers as legal", () => {
     const { content } = setup();
     let state = createGame({ seed: 41 }, content).state;

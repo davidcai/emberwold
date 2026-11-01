@@ -290,6 +290,19 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     (328.47 kB JS / 96.06 kB gzip + 7.59 kB CSS ≈ 98 kB gzipped). Working tree clean, CI
     green on `main`; ADR-011 records the T1 engineering GO.
 
+36. **T1-d2i done — Restoration spell, on-terrain conditions, ready-units choice**: found and
+    fixed a real engine bug while adding the spell: conditional effects always took the combat
+    branch and ignored `on_terrain` (so Restoration's forest bonus could never apply). The
+    engine now evaluates `in_combat` and `on_terrain` (single or list) against the hero's
+    current hex in both legality and application. Added the `ready_units_budget` effect (the
+    powered spell readies spent units with a total-level budget): it opens a sequential
+    `readyUnits` pending choice (one option per eligible spent unit + "done", budget consumed by
+    unit level) with engine legality/resolution and client labels. Restoration now compiles:
+    spells 3 of 6 (`fireball`, `snowstorm`, `restoration`), cards 30, spell offer 3, spell deck
+    empty. Evidence: 89 tests (new: on-terrain branch picks the forest heal, ready-budget chain
+    readies two level-2 units then closes), all 7 traces re-recorded/rehashed and verified
+    against contentHash `3cfc1f9f…`, 8 e2e, fuzz 10k seed 1 clean, lint/format/typecheck green.
+
 ## Next (ordered; first item is the exact next action)
 
 Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a
@@ -297,8 +310,8 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 
 1. **No further safe content increment without an owner ruling (next)** — the remaining
    T1-d2 debt cannot be implemented faithfully from the data/sources available: `blood_ritual`
-   (any-colour mana choice), `in_need` (wound-total scaling), `restoration`/`whirlwind`/
-   `expose` (enemy targeting + ready-unit budgets), `cure` (wound/disease semantics), the four
+   (any-colour mana choice), `in_need` (wound-total scaling), `whirlwind`/`expose` (enemy
+   targeting), `cure` (wound/disease semantics), the four
    artifacts (acquisition path is not authored), keep/mage-tower garrisons and city colour
    options (no authored garrisons/colours), dummy fidelity and tactic effects (data
    placeholders). Implementing them now would invent rules; ask the owner for a ruling or wait
@@ -356,7 +369,7 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 - Image generation is owner-run in the ChatGPT desktop app; the agent never generates images.
 - **T1 simplifications still open** (documented, not bugs): tactic card effects are deferred
   (data placeholder); the dummy is count-only (no crystals/AA absorption/blocking figure yet);
-  only Advanced Actions/Spells whose full effect tree is implemented enter the bundle (10 AA + 2 spells now); Spell powered effects use the generic mana payment (no night/black-mana rule
+  only Advanced Actions/Spells whose full effect tree is implemented enter the bundle (10 AA + 3 spells now); Spell powered effects use the generic mana payment (no night/black-mana rule
   yet); combat fidelity waivers from the spike report §6 still apply until T1 exit.
 - Gotchas: (a) the harness sandbox blocks writes outside the workspace — iCloud/backup copies need
   approval or a manual step; (b) fontTools C extensions fail on this host (pure-Python works after

@@ -65,8 +65,8 @@ pnpm build               # client production build (≈95 KB gzipped initial loa
 pnpm exec tsx tools/golden-traces/src/verify.ts   # explicit trace report
 ```
 
-At the time of writing: **87 tests**, contentHash
-`a7655b6581edbe3601fcc22860a8b6ae04f9dad3257387df1e06c1c6c5761dec`, data validator
+At the time of writing: **89 tests**, contentHash
+`3cfc1f9f5fe2e49bbac409e043b4fc2c2eefead917161e84ba0e36e9102c9589`, data validator
 `checks: 9662 errors: 0 warnings: 0`, CI fuzz 10,000 actions green (seed 1: 127 games,
 0 invariant/termination failures), production build 328.47 kB JS (96.06 kB gzip) +
 7.59 kB CSS (2.08 kB gzip) ≈ 98 kB gzipped initial load.
@@ -103,7 +103,7 @@ replays every action and compares state hashes _and_ the expected outcome/score 
 | Levels             | 10                               | 10 (official fame thresholds, stat bands)                                                          | done                                                  |
 | Keywords/abilities | ~20                              | implemented subset used by the 12 enemies + units (fortify, poison, etc. as data)                  | unchanged from spike scope                            |
 
-The bundle contains 29 card definitions (16 basic + Wound + 10 Advanced Actions + 2 spells),
+The bundle contains 30 card definitions (16 basic + Wound + 10 Advanced Actions + 3 spells),
 12 enemies, 8 sites, 6 units, 20 skills, 10 levels, 12 tactics, 4 tiles and 2 heroes. The
 Advanced Action offer is `blood_rage`/`intimidate`/`fire_bolt`; the AA deck holds the other
 seven, and the spell offer holds both spells.
@@ -126,7 +126,9 @@ seven, and the spell offer holds both spells.
   skills, level-up Advanced Action, Advanced Action/Spell purchases, healing, rest.
 - **Effect coverage:** conditional/scaling/terrain-specific effects, unit combat bonuses,
   damage-absorption overrides, end-of-turn deck placement and turn-scoped terrain modifiers
-  are implemented and tested; unknown/ambiguous effect payloads stay uncompiled (visible as
+  are implemented and tested; conditional effects evaluate in-combat and on-terrain branches and
+  spent units can be readied through a sequential budget choice; unknown/ambiguous effect
+  payloads stay uncompiled (visible as
   missing cards) rather than being approximated.
 - **Scenario:** city conquest grants `fame + 10`, victory/debrief result object; round-limit
   defeat scores fame; all end states are terminal (no soft-lock path found by 10k-action fuzz).
@@ -165,7 +167,7 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
 - **Sites:** keep/mage-tower garrisons and ownership, city colour purchase options and portal
   removal are deferred; healing, the six MVP site benefits and conquest reputation are in.
 - **Content breadth:** 4 artifacts, 2 of 12 MVP Advanced Actions (`blood_ritual`, `in_need`),
-  4 of 6 MVP spells (`restoration`, `whirlwind`, `expose`, `cure`) and the Classic preset are
+  3 of 6 MVP spells (`whirlwind`, `expose`, `cure`) and the Classic preset are
   not in the bundle yet. Those cards need engine capabilities (any-colour mana, wound-total
   scaling, enemy targeting, ready-unit budgets, cure/disease) that were not invented without a
   rules ruling; artifacts additionally need an authored acquisition path.
@@ -182,7 +184,7 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
   round-limit defeat). The deterministic winning line is walked through turn by turn in
   [`t1-winning-line.md`](./t1-winning-line.md).
 - ≥5 golden traces including a city assault: 7 traces including a city-conquering full game.
-- Tests/fuzz: 87 tests, dependency boundaries, CI fuzz 10,000 actions.
+- Tests/fuzz: 89 tests, dependency boundaries, CI fuzz 10,000 actions.
 
 **M4 (playable client): engineering met.** Start→finish browser game with placeholder art,
 save/continue + undo, the full T1 surface, game-over debrief, and Playwright covering both a
