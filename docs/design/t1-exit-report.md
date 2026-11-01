@@ -58,7 +58,7 @@ Run from the repo root:
 
 ```bash
 pnpm verify              # typecheck + lint + 78 tests + dependency boundaries + 7 golden traces
-pnpm test:e2e            # Playwright: save/continue, undo, mid-combat continue, site-heal + victory replays
+pnpm test:e2e            # Playwright: save/continue, undo, mid-combat continue, tutorial, site-heal + victory replays
 pnpm fuzz --turns=10000 --seed=1   # 127 games, 0 invariant/termination failures (also in CI)
 pnpm content:check       # generated bundle is current
 pnpm build               # client production build (≈95 KB gzipped initial load)
@@ -188,7 +188,7 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
 save/continue + undo, the full T1 surface, game-over debrief, and Playwright covering both a
 scripted trace replay and the complete winning scenario (`e2e/victory.spec.ts`, 78 actions,
 debrief assertions, no console errors) plus a mid-combat save/Continue replay of the same
-trace. Production build: 328.47 kB JS (96.06 kB gzip) + 7.59
+trace, and the first-three-turns tutorial panel (show/dismiss/reset/hide). Production build: 328.47 kB JS (96.06 kB gzip) + 7.59
 kB CSS (2.08 kB gzip) ≈ 98 kB gzipped initial load, under the 5 MB budget. An indicative
 headless-Chromium probe of the started run measured 60.0 fps over 3 s (181 frames, p95 frame
 time 16.7 ms, no dropped frames, 226 DOM nodes, ~14 MB JS heap); the renderer is SVG/DOM with a
