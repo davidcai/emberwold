@@ -2,16 +2,17 @@
 
 > **Temporary session handoff.** Delete this file once the goal's acceptance check passes.
 > Fresh context: read this file and `git log -5`, run the baseline checks in **Done** item 1,
-> then do the first item in **Next** (execute plan steps S1–S10 in order, branch `t0-spike`).
+> then do the first item in **Next**.
 
 ## Goal
 
-Deliver the **T0 spike** so gate **G1** passes: one full round playable (movement → reveal →
-assault → reward → end turn), a deterministic trace replay, and no crashes; then write the
-spike report and decide go/no-go with the owner. Acceptance: G1 in
-`docs/design/10-feasibility-analysis.md` §9 and the M2 exit in `docs/design/14-roadmap.md` §1.
-**Approved 2026-10-31 (ADR-009, P5 decided)**; execution follows
-`docs/design/19-t0-spike-plan.md` on branch `t0-spike`.
+Complete the **T1 First Conquest** core loop after the **T0 spike** (done 2026-10-31; spike
+report + ADR-010). T0 delivered a playable round, deterministic traces and a minimal UI;
+the verdict is provisional GO pending the owner's 10-turn playtest.
+T1 scope: [`docs/design/11-mvp-scope.md`](docs/design/11-mvp-scope.md) and
+[`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) M3–M4. Acceptance: the T1 exit gates
+in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art) and
+`11` §9 definition of done.
 
 ## Done (verified 2026-10-31)
 
@@ -89,17 +90,43 @@ spike report and decide go/no-go with the owner. Acceptance: G1 in
     and `pnpm preview` both serve the app (HTTP 200). G1 fun pass (owner + one new player) is
     still the owner's action.
 
+18. **S10 done — T0 spike report + ADR-010 go/no-go, T1 transition opened** (branch `t0-spike`):
+    `docs/design/spike-report.md` (G1 table, evidence, cuts/deviations/wavers, B1–B9, estimates,
+    owner actions), **ADR-010** (provisional GO, merge after green CI, T1 on `main`), roadmap
+    M1/M2 marked done, README/docs index/AGENTS §2/PROGRESS moved to T1, rest golden trace
+    `015-rest.json` added, `traces:check` + CI fuzz step added (`pnpm verify` 58 tests, 6 traces,
+    fuzz seed 1 clean). Remaining S10 action: commit/push, PR, merge (owner delegated the
+    last-mile decision via the overnight goal).
+
 ## Next (ordered; first item is the exact next action)
 
-Only **S10** remains on branch `t0-spike` (S1–S9 done, C1/C2 and the browser check passed).
+**T0 is complete; T1 First Conquest starts after the `t0-spike` PR merges to `main`.**
+Work on `main` after merge. T1 scope: `docs/design/11-mvp-scope.md` + `docs/design/14-roadmap.md`
+M3–M4. Split into increments; each ends with tests, `pnpm verify` green, a small commit, and a
+PROGRESS update. Restore the T0 deviations first (spike report §6).
 
-1. Write `docs/design/spike-report.md` (what was built, what was cut, evidence links, G1 table,
-   B1–B9 data findings for T1, deviations from `02`).
-2. Append **ADR-010** (T0 go/no-go) to `docs/design/00-decisions.md`; update
-   `docs/design/14-roadmap.md`, README/doc indexes and this file.
-3. Cleanup, pre-push secret scan, commit + push, watch CI, then open the `t0-spike` PR for the
-   owner (merge decision belongs to the owner unless the goal says otherwise).
-4. Owner actions left: 10-turn fun-pass checklist (S9 acceptance 3) and the final G1 verdict.
+0. Commit S10 (report/ADR/docs/CI/trace changes), push `t0-spike`, watch CI, open + merge PR.
+   Then `git checkout main && git pull` and delete nothing (keep the spike branch for the owner).
+1. **T1-a rules fidelity** — round/day-night loop (3 rounds Day/Night/Day, night mana source
+   rules, day/night card bonuses deferred until content needs them), restore wound recycling
+   (02 §15.2), tactics selection + simplified dummy player (blocking/wounds at turn end),
+   map rules (tile placement/rotation/adjacency, B5), city assault combat vs city level 4.
+2. **T1-b content bundle** — author `scenario:first-conquest` layout/site seeding in
+   `game-data/` (validator green, provenance markers); T1 compiler config: 4 tiles (start +
+   2 countryside + 1 city), 6 site types, 10 regular + 2 city enemies, advanced actions 12,
+   spells 6, artifacts 4, units 6, skills for 1 hero; keep `spike.config.json` for traces.
+3. **T1-c progression** — fame/level-ups (levels.json thresholds), skill offers, deck
+   acquisition (advanced action/spell/artifact via sites), unit recruiting + commands,
+   influence/reputation spending and healing rules.
+4. **T1-d save/undo** — engine serialize/replay (`saveGame`/`loadGame`), client localStorage
+   autosave, undo (snapshot stack in client; engine stays pure), plus resume tests.
+5. **T1-e UI** — full board/origins, site/offer/choice panels, level-up/unit UI, score/debrief
+   screen, tutorial prompts turns 1–3, placeholder art from `art/*.webp` where it exists.
+6. **T1-f verification + exit** — a full-game deterministic trace (3 rounds, city taken) or a
+   scripted full-game run, scoring/debrief check, longer fuzz in CI, performance sanity, docs
+   (`11` §9 DoD), README/roadmap status, then T1 exit and PR/merge decision.
+7. Owner actions left (cannot be done by the agent): 10-turn fun pass check, deviation
+   sign-off, merge of the `t0-spike` PR if not delegated.
 
 ## Open questions
 
@@ -114,8 +141,8 @@ Only **S10** remains on branch `t0-spike` (S1–S9 done, C1/C2 and the browser c
 
 ## Key facts
 
-- Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`; **work branch `t0-spike`** (pushed
-  after each step; PR at the end), `main` stays the pre-spike baseline.
+- Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`; T0 work branch `t0-spike` is
+  merged (or pending merge) into `main`; **T1 work happens on `main`**.
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +

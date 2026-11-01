@@ -47,17 +47,19 @@ history.** This rule is non-negotiable and overrides any convenience.
   rewrite public history yourself. The credential must be rotated first; history cleanup is a
   human decision.
 
-## 2. Current phase: T0 spike in progress (approved 2026-10-31)
+## 2. Current phase: T1 First Conquest in progress (started 2026-10-31)
 
-- The owner approved the T0 implementation spike (**ADR-009**, [`docs/design/00-decisions.md`](docs/design/00-decisions.md))
-  and its plan [`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md). Work on
-  branch `t0-spike`; follow the plan's steps, checkpoints and cut order.
-- **Scope is the plan, nothing more.** The spike is timeboxed to two weeks and must not grow
-  features, content or polish beyond its §2.2 scope without the owner's explicit approval.
-  T1/T2 work (full scenario, tactics, dummy player, skills, save/undo, city, etc.) stays
-  deferred to the milestones in [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md).
-- Anything **outside** the approved spike plan still follows the old rule: do not scaffold or
-  write game code for it without explicit owner approval.
+- The T0 spike is complete; its report and evidence are
+  [`docs/design/spike-report.md`](docs/design/spike-report.md) and the verdict is **ADR-010**
+  (provisional GO, owner playtest pending). The owner approved T0 in **ADR-009**.
+- **Scope is T1** — the First Conquest milestones in
+  [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) §1 M3–M4, bounded by
+  [`docs/design/11-mvp-scope.md`](docs/design/11-mvp-scope.md). Do not grow T2/Classic, AI
+  opponents, hotseat, city scenarios or public polish before the T1 exit gates; propose an ADR
+  rather than widening scope silently.
+- T0 deviations listed in the spike report §6 must be restored in T1 (wound recycling, combat
+  fidelity, map rules, dummy player, etc.); they are not "done".
+- Anything outside the T1 milestone list still needs explicit owner approval before code.
 - Documentation, game data, art prompts, decision records and tooling fixes are in scope when
   asked — but still follow the rules below.
 
@@ -133,7 +135,7 @@ history.** This rule is non-negotiable and overrides any convenience.
 ## 8. Do-not list (quick reference)
 
 1. No secrets in the repo — ever (see §1).
-2. No game code outside the approved T0 spike plan ([`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md)); no T1/T2 features before their milestone.
+2. No game code outside the approved T0/T1 scope ([`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md), [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) M3–M4); no T2/AI/hotseat before the T1 exit.
 3. No official art/PDFs/rulebook text, no copied upstream code/data.
 4. No public branding, domains, store pages or wordmarks before v1 (ADR-007); no repo renames without approval.
 5. No invented rules, citations, names or data values — mark uncertainty or ask.

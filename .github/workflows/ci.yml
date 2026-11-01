@@ -21,8 +21,11 @@ jobs:
       - name: Install
         run: pnpm install --frozen-lockfile
 
-      - name: Verify (typecheck, lint, tests, boundaries)
+      - name: Verify (typecheck, lint, tests, boundaries, golden traces)
         run: pnpm verify
+
+      - name: Random-legal fuzz (1,000 actions)
+        run: pnpm fuzz --turns=1000 --seed=1
 
       - uses: actions/setup-python@v5
         with:

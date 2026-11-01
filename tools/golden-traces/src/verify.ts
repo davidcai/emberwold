@@ -1,81 +1,101 @@
-/** `pnpm trace:verify <file>` — replays a trace and compares every state hash. */
-import { readFileSync } from "node:fs";
+/**
+ * `pnpm trace:verify <file>...` — replays traces and compares every state hash.
+ * With no arguments it verifies every `*.json` trace next to this tool (CI mode).
+ */
+import { readdirSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { bundle } from "@emberwold/content";
 import { applyAction, createGame, hashState } from "@emberwold/engine";
 
 import { outcomeOf, type TraceFile } from "./trace";
 
-const path = process.argv[2];
-if (path === undefined) {
-  console.error("usage: pnpm trace:verify <trace.json>");
+const TRACE_DIR = join(dirname(fileURLToPath(import.meta.url)), "..");
+
+function verifyFile(path: string, label: string): boolean {
+  const trace = JSON.parse(readFileSync(path, "utf8")) as TraceFile;
+  const fail = (message: string): boolean => {
+    console.error(`trace: ${label}: ${message}`);
+    return false;
+  };
+
+  if (trace.traceVersion !== 1) {
+    return fail(`unsupported traceVersion ${String(trace.traceVersion)}`);
+  }
+  if (trace.contentHash !== bundle.contentHash) {
+    return fail(`content hash mismatch (trace ${trace.contentHash}, build ${bundle.contentHash})`);
+  }
+
+  let state = createGame(trace.config, bundle).state;
+  if (hashState(state) !== hashState(createGame({ seed: trace.seed }, bundle).state)) {
+    return fail("initial state hash mismatch");
+  }
+
+  for (let step = 0; step < trace.actions.length; step += 1) {
+    const action = trace.actions[step];
+    if (action === undefined) {
+      break;
+    }
+    if (action.epoch !== state.actionEpoch) {
+      return fail(
+        `stale epoch at action ${step} (expected ${state.actionEpoch}, got ${action.epoch})`,
+      );
+    }
+    const outcome = applyAction(state, action, bundle);
+    if (!outcome.ok) {
+      return fail(`action ${step} rejected: ${outcome.error.code}`);
+    }
+    const expected = trace.expectedHashes[step];
+    if (expected !== outcome.result.stateHash) {
+      return fail(
+        `hash mismatch at action ${step}\n  expected ${expected ?? "<missing>"}\n  actual   ${outcome.result.stateHash}`,
+      );
+    }
+    state = outcome.result.state;
+  }
+
+  const actual = outcomeOf(state, bundle.woundCard.id);
+  const expectedOutcome = trace.expectedOutcome;
+  const fields: readonly (keyof typeof expectedOutcome)[] = [
+    "round",
+    "gameOver",
+    "fame",
+    "handSize",
+    "wounds",
+    "defeatedEnemies",
+  ];
+  for (const field of fields) {
+    if (actual[field] !== expectedOutcome[field]) {
+      return fail(
+        `outcome mismatch for ${field} (expected ${String(expectedOutcome[field])}, got ${String(actual[field])})`,
+      );
+    }
+  }
+
+  console.log(
+    `trace verified: ${label} actions=${trace.actions.length} contentHash=${trace.contentHash.slice(0, 16)}… ` +
+      `round=${actual.round} gameOver=${actual.gameOver} fame=${actual.fame}`,
+  );
+  return true;
+}
+
+const requested = process.argv.slice(2);
+const paths =
+  requested.length > 0
+    ? requested.map((path) => ({ path, label: path }))
+    : readdirSync(TRACE_DIR)
+        .filter((entry) => /^\d{3}-.*\.json$/.test(entry))
+        .sort()
+        .map((entry) => ({ path: join(TRACE_DIR, entry), label: entry }));
+
+if (paths.length === 0) {
+  console.error("trace: no trace files found");
   process.exit(2);
 }
 
-const trace = JSON.parse(readFileSync(path, "utf8")) as TraceFile;
-if (trace.traceVersion !== 1) {
-  console.error(`trace: unsupported traceVersion ${String(trace.traceVersion)}`);
-  process.exit(1);
+let ok = true;
+for (const { path, label } of paths) {
+  ok = verifyFile(path, label) && ok;
 }
-if (trace.contentHash !== bundle.contentHash) {
-  console.error(
-    `trace: content hash mismatch (trace ${trace.contentHash}, build ${bundle.contentHash})`,
-  );
-  process.exit(1);
-}
-
-let state = createGame(trace.config, bundle).state;
-if (hashState(state) !== hashState(createGame({ seed: trace.seed }, bundle).state)) {
-  console.error("trace: initial state hash mismatch");
-  process.exit(1);
-}
-
-for (let step = 0; step < trace.actions.length; step += 1) {
-  const action = trace.actions[step];
-  if (action === undefined) {
-    break;
-  }
-  if (action.epoch !== state.actionEpoch) {
-    console.error(
-      `trace: stale epoch at action ${step} (expected ${state.actionEpoch}, got ${action.epoch})`,
-    );
-    process.exit(1);
-  }
-  const outcome = applyAction(state, action, bundle);
-  if (!outcome.ok) {
-    console.error(`trace: action ${step} rejected: ${outcome.error.code}`);
-    process.exit(1);
-  }
-  const expected = trace.expectedHashes[step];
-  if (expected !== outcome.result.stateHash) {
-    console.error(
-      `trace: hash mismatch at action ${step}\n  expected ${expected ?? "<missing>"}\n  actual   ${outcome.result.stateHash}`,
-    );
-    process.exit(1);
-  }
-  state = outcome.result.state;
-}
-
-const actual = outcomeOf(state, bundle.woundCard.id);
-const expected = trace.expectedOutcome;
-const fields: readonly (keyof typeof expected)[] = [
-  "round",
-  "gameOver",
-  "fame",
-  "handSize",
-  "wounds",
-  "defeatedEnemies",
-];
-for (const field of fields) {
-  if (actual[field] !== expected[field]) {
-    console.error(
-      `trace: outcome mismatch for ${field} (expected ${String(expected[field])}, got ${String(actual[field])})`,
-    );
-    process.exit(1);
-  }
-}
-
-console.log(
-  `trace verified: ${path} actions=${trace.actions.length} contentHash=${trace.contentHash.slice(0, 16)}… ` +
-    `round=${actual.round} gameOver=${actual.gameOver} fame=${actual.fame}`,
-);
+process.exit(ok ? 0 : 1);

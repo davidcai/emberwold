@@ -14,7 +14,7 @@
     "format:check": "prettier --check \"{packages,tools}/**/*.{ts,tsx}\" \"e2e/**/*.ts\" playwright.config.ts",
     "test": "vitest run",
     "boundaries": "depcruise packages tools --config .dependency-cruiser.cjs",
-    "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm boundaries",
+    "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm boundaries && pnpm traces:check",
     "content:build": "node tools/content-compiler/src/main.ts",
     "content:check": "pnpm content:build && git diff --exit-code -- packages/content",
     "trace:verify": "tsx tools/golden-traces/src/verify.ts",
@@ -25,7 +25,8 @@
     "dev": "pnpm --filter @emberwold/client dev",
     "build": "pnpm --filter @emberwold/client build",
     "test:e2e": "playwright test",
-    "preview": "pnpm --filter @emberwold/client preview"
+    "preview": "pnpm --filter @emberwold/client preview",
+    "traces:check": "tsx tools/golden-traces/src/verify.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

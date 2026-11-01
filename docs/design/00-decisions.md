@@ -280,6 +280,38 @@ as a bundle rather than answering each question separately.
 
 ---
 
+## ADR-010 — T0 spike verdict: GO for T1 (provisional owner sign-off)
+
+**Date:** 2026-10-31 · **Status:** accepted (provisional; owner confirmations in Consequences)
+
+**Decision.** The owner's standing instruction ("complete the game development with minimal
+intervention, using your best judgement") delegates the T0 engineering verdict to this session.
+The T0 spike is **GO for T1**: the playable-round, deterministic-trace and no-illegal-action
+gates are evidenced in [`spike-report.md`](./spike-report.md) §1/§3, no stop/re-scope trigger
+fired, and the spike's deviations are accepted for T0 with the T1 restoration list recorded in
+the report §6. The branch `t0-spike` may be merged to `main` after CI is green; T1 work starts
+on `main` under the First Conquest milestones in [`14-roadmap.md`](./14-roadmap.md) §1.
+
+**Context.** ADR-009 approved the spike and required a go/no-go at S10. The agent can verify
+all engineering gates (traces, tests, fuzz, Playwright, invariants, CI) but cannot run the
+human G1.5 fun-pass, so the verdict is provisional on two owner confirmations: (a) the S9
+10-turn playtest ("what was confusing?", "would you play 10 more turns?"), and (b) sign-off on
+the deviation list — especially wound persistence and the M2-1 combat-fidelity waiver. Waiting
+for those would stall T1 with no engineering reason; the owner can still reverse the verdict at
+PR review or after the playtest.
+
+**Consequences.**
+- `t0-spike` merges to `main` once CI is green; `main` becomes the T1 baseline. T1 starts with
+  the core solo loop (day/night round loop, dummy player, save/undo) per the report §10.
+- The S9 fun pass stays **open** in PROGRESS and the spike report; if it fails, the roadmap's
+  stop/re-scope rule (`14` §1 M2, §6) supersedes this ADR — re-scope to T0.5 with the owner.
+- The T1 plan must restore the T0 deviations (§6 of the report) and carry the B1–B9 data tasks;
+  none may be silently kept simplified.
+- `AGENTS.md` §2 phase text moves to T1-in-progress; the public-release gates (ADR-002/007/
+  008, `15` §11 name screen, `06` legal) are unchanged, and the repo remains public-safe.
+
+---
+
 ## Pending decisions
 
 | # | Decision | Needed by | Default if no answer |

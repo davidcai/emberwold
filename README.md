@@ -19,8 +19,11 @@ Before writing game code, we answered three questions with evidence:
 3. **What do we build first?** — A deliberately reduced, shippable **First Conquest**:
    solo, 3 rounds, 4 tiles, 1 city, ~40 card definitions, 20–30 minutes, full combat rules.
 
-**Status: research + design complete; T0 implementation spike in progress** (approved
-2026-10-31, [`ADR-009`](docs/design/00-decisions.md); execution plan:
+**Status: research + design complete; T0 spike complete, T1 First Conquest in progress.**
+The T0 vertical slice (one playable round, deterministic traces, minimal browser UI) is built
+and evidenced in [`docs/design/spike-report.md`](docs/design/spike-report.md); verdict GO
+([`ADR-010`](docs/design/00-decisions.md), provisional on the owner's 10-turn playtest). T0 was
+approved 2026-10-31 ([`ADR-009`](docs/design/00-decisions.md); plan:
 [`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md)).
 
 **For AI agents:** read [`AGENTS.md`](AGENTS.md) before changing anything — it contains the
@@ -62,6 +65,7 @@ duplicating them.
 | — | [`docs/design/17-platform-analysis.md`](docs/design/17-platform-analysis.md) | Platform analysis + recommended stack |
 | — | [`docs/design/18-ai-art-prompts.md`](docs/design/18-ai-art-prompts.md) | AI art workflow + per-slot prompts |
 | — | [`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md) | T0 spike plan: 10 steps with checks, simplifications, approval gate (P5) |
+| — | [`docs/design/spike-report.md`](docs/design/spike-report.md) | T0 result, G1 evidence, deviations, data findings, T1 recommendation (ADR-010) |
 | — | [`AGENTS.md`](AGENTS.md) | Rules for AI coding agents (read before editing) |
 | — | [`art/PROMPTS.md`](art/PROMPTS.md) | Copy-paste prompts for all 41 art assets |
 | — | [`game-data/README.md`](game-data/README.md) | Machine-readable content schema + provenance |

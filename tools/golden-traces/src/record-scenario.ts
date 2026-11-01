@@ -18,6 +18,7 @@ import { outcomeOf, type TraceFile } from "./trace";
 type Policy = (state: GameState) => Action | null;
 
 const TRACE_NAMES: Readonly<Record<string, string>> = {
+  rest: "015-rest.json",
   "move-reveal": "010-move-reveal.json",
   combat: "020-combat.json",
   "site-heal": "030-site-heal.json",
@@ -251,6 +252,22 @@ export function moveRevealPolicy(state: GameState): Action | null {
   return playMove(state) ?? approach(state, { q: 1, r: 0 }) ?? endTurn(state) ?? rest(state);
 }
 
+export function restPolicy(state: GameState): Action | null {
+  if (state.pending !== null) {
+    return resolvePending(state);
+  }
+  if (state.combat !== null) {
+    return combatAction(state);
+  }
+  if (!state.turn.rested) {
+    const recovery = legal(state).find((action) => action.type === "rest");
+    if (recovery !== undefined) {
+      return recovery;
+    }
+  }
+  return endTurn(state) ?? null;
+}
+
 export function combatFirstPolicy(state: GameState): Action | null {
   if (state.pending !== null) {
     return resolvePending(state);
@@ -393,6 +410,12 @@ function main(): void {
   let policy: Policy;
   let stopWhen: StopWhen;
   switch (name) {
+    case "rest":
+      [policy, stopWhen] = [
+        restPolicy,
+        (types) => types.includes("rested") && types.includes("turnEnded"),
+      ];
+      break;
     case "move-reveal":
       [policy, stopWhen] = [moveRevealPolicy, (types) => types.includes("tileRevealed")];
       break;

@@ -34,7 +34,7 @@ plan against them without reading those assumptions.
 tooling. **Exit:** the team can answer "what do we build, in what order, and why" without
 re-reading the rulebook.
 
-### M1 — Foundations (T0, week 1)
+### M1 — Foundations (T0, week 1) ✅ done 2026-10-31
 
 | # | Task | Owner | Output |
 |---|---|---|---|
@@ -47,14 +47,14 @@ re-reading the rulebook.
 **Exit (G1):** headless game plays a full round; movement → reveal → assault → reward →
 end turn; deterministic replay of the trace; one human can play it via CLI without a crash.
 
-### M2 — Spike vertical slice (T0, week 2)
+### M2 — Spike vertical slice (T0, week 2) ✅ engineering done; G1.5 fun pass is the owner's action
 
 | # | Task | Output |
 |---|---|---|
-| 1 | Full 4-phase combat + damage assignment | Combat trace matches rulebook worked example |
+| 1 | Full 4-phase combat + damage assignment | Combat trace matches rulebook worked example — **waived M2-1**: arithmetic table-tested; the worked example's enemies are not in `game-data` (report §6) |
 | 2 | Minimal UI shell: hex map (SVG/DOM per ADR-003; Pixi only behind the renderer interface), hand, action picker driven by legal actions | Human plays with mouse |
 | 3 | Site interaction (one village or keep) + reward | Reward loop closes |
-| 4 | Spike report: what was hard, revised estimate, go/no-go | `docs/design/spike-report.md` |
+| 4 | Spike report: what was hard, revised estimate, go/no-go | [`spike-report.md`](./spike-report.md); ADR-010 = provisional GO |
 
 **Exit (G1):** a stranger can take 10 turns unaided and wants another turn. **If not: stop,
 re-scope to T0.5 (smaller) or abandon — this is the cheapest place to quit.**
@@ -138,7 +138,8 @@ Rough budget ranges, to be refined only when the release path is chosen (`06`/`0
 ## 5. First two weeks — concrete task list
 
 Detailed, checkable version with acceptance criteria: [`19-t0-spike-plan.md`](./19-t0-spike-plan.md)
-(draft; execution starts only after the owner lifts the pre-implementation hold, P5).
+(**executed 2026-10-31, S1–S10 done**; T0 evidence in [`spike-report.md`](./spike-report.md)).
+The list below is the historical plan; T1 now continues from the M3 rows above.
 
 1. Scaffold repo (packages, strict TS, CI, lint, test, format) and commit.
 2. Implement `GameState`, `Action`, `Event`, `reduce`, seeded RNG + state hash.

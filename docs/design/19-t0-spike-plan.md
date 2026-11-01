@@ -1,6 +1,6 @@
 # 19 · T0 Spike Plan — two weeks to a playable round
 
-**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S9 done · S10 remains · branch `t0-spike`
+**Status:** approved (ADR-009) · execution started 2026-10-31 · **S1–S10 done** · verdict GO (ADR-010) · branch `t0-spike`
 **Companions:** [`10-feasibility-analysis.md`](./10-feasibility-analysis.md) §6/§9 (G1),
 [`11-mvp-scope.md`](./11-mvp-scope.md) §2–§5/§10 (scope/content),
 [`12-architecture.md`](./12-architecture.md) §3.3/§5/§6/§10/§12.4/§12.6 (engine, pipeline,
@@ -11,8 +11,9 @@ tests, T0 slice), [`14-roadmap.md`](./14-roadmap.md) §0.1/§1/§5/§6 (tiers, M
 
 > **Gate status: APPROVED 2026-10-31 (ADR-009 in [`00-decisions.md`](./00-decisions.md)).**
 > The owner approved this plan and its proposed defaults. Execution is on branch `t0-spike`:
-> **S1–S9 are done** (C1, C2 and the browser check passed: movement/reveal, assault and village-heal traces are green; the
-> Playwright UI run drives the whole flow); S10 remains. No T1/T2 work is authorized by this plan.
+> **S1–S10 are done** (C1, C2 and the browser check passed: movement/reveal, assault and village-heal traces are green; the
+> Playwright UI run drives the whole flow). The S10 report is [`spike-report.md`](./spike-report.md) and the verdict is
+> ADR-010. No T1/T2 work was authorized by this plan; T1 starts under `14-roadmap.md` M3–M4.
 >
 > **Review record.** Two fresh-context reviewers checked this plan against the docs. Their
 > verified blockers — wrong op count/def count, the G1 card count, explore-as-side-effect,
@@ -494,7 +495,7 @@ names are exempt until the T1 re-theme, [`15`](./15-retheme-bible.md) §9/§10).
 
 ---
 
-### S10 — Spike report, cleanup, G1 go/no-go with the owner
+### S10 — Spike report, cleanup, G1 go/no-go with the owner · **done 2026-10-31**
 
 **Do.** Write `docs/design/spike-report.md`: what was easy/hard, the §2.2 deviation list
 (restated), data defects (§11), the M2-1 waiver, revised T1 estimate against
@@ -513,7 +514,14 @@ new ADR in [`00-decisions.md`](./00-decisions.md) (append-only) and update
    gone, branch state documented.
 5. Final pre-push scan for secrets/personal data on the whole diff.
 
-**Evidence:** report path; ADR number; clean `git status`.
+**Evidence (2026-10-31, branch `t0-spike`):**
+* Report: [`spike-report.md`](./spike-report.md) (links checked; all resolve); ADR-010 appended to
+  [`00-decisions.md`](./00-decisions.md).
+* Cleanup: `git status --porcelain` clean after the S10 commit; Playwright artifacts are
+  gitignored and absent; no temp fixtures in the repo; branch pushed and CI-green.
+* Secret scan of the full branch diff: no credentials, personal data or third-party content.
+* The go/no-go is provisionally GO (delegated under the owner's standing instruction) and open
+  on two owner confirmations — the S9 fun pass and the deviation sign-off (report §10).
 
 ## 7. Determinism and trace contract (from [`12`](./12-architecture.md) §5.3/§7.4/§10.2)
 
