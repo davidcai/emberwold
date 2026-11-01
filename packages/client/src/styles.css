@@ -217,3 +217,36 @@ button:focus-visible {
 .combat {
   border-color: var(--ember);
 }
+
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+button:disabled:hover {
+  border-color: var(--line);
+  color: var(--bone);
+}
+
+.save-note {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.resume-main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.resume {
+  width: min(520px, 100%);
+}
+
+.resume p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 13px;
+}

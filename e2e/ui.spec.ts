@@ -121,21 +121,35 @@ function choose(debug: Debug): SerializedAction | undefined {
     );
   };
 
-  if (hidden) {
-    if (firstByType(legal, "explore") !== undefined) {
-      return firstByType(legal, "explore");
+  // T1 First Conquest is a fixed 3-round map and the hero starts on a portal site. Entering it
+  // exercises the site flow; there is no time to walk to the far village any more.
+  const siteHere = state.map.sites.find((site) => sameHex(site.hex, player.position));
+  const enteredHere =
+    siteHere !== undefined &&
+    state.turn.flags[`enteredSite:${siteHere.hex.q},${siteHere.hex.r}`] === true;
+  if (siteHere !== undefined && !enteredHere) {
+    const enter = firstByType(legal, "enterSite");
+    if (enter !== undefined) {
+      return enter;
     }
-    return moveToward(FRONTIER);
   }
 
-  if (enemies.length > 0 && wounds === 0) {
+  // T1 First Conquest is fixed at 3 rounds: fight whatever has spawned before exploring further,
+  // or the run ends before the required combat. Healing then has to come from the cards in reach.
+  if (enemies.length > 0) {
     const enemy = enemies[0] as { hex: { q: number; r: number } };
     if (sameHex(player.position, enemy.hex)) {
       return firstByType(legal, "challengeRampaging") ?? endOrRest();
     }
     return moveToward(enemy.hex);
   }
-  // Wounded: skip further fights and walk to the village to heal (one fight is enough for S9).
+
+  if (hidden) {
+    if (firstByType(legal, "explore") !== undefined) {
+      return firstByType(legal, "explore");
+    }
+    return moveToward(FRONTIER);
+  }
 
   if (village !== undefined) {
     if (!sameHex(player.position, village.hex)) {
@@ -233,6 +247,12 @@ test("plays the spike flow through the real UI without ever offering an illegal 
   ]) {
     expect(types, `event ${required} occurred`).toContain(required);
   }
-  expect(debug.legal.length).toBeGreaterThan(0);
+  // The 3-round First Conquest scenario legitimately ends in a round-limit defeat; a finished run
+  // must expose no actions, and a still-running one must keep offering them past the initial draw.
+  if (debug.state.gameOver) {
+    expect(debug.legal.length, "a finished run offers no actions").toBe(0);
+  } else {
+    expect(debug.legal.length, "a live run still offers actions").toBeGreaterThan(0);
+  }
   expect(consoleErrors, "no console errors").toEqual([]);
 });
