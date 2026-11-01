@@ -222,14 +222,26 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     nested modifier ops and declares `terrain_cost`, and a test covers activation + turn reset.
     Bundle digest unchanged (payload was already emitted); 78 tests green; e2e 5/5.
 
+29. **T1-d2a done — second hero selectable**: the compiler now builds both MVP heroes
+    (`hero:goldyx`, `hero:arythea`) into `bundle.heroes`, carries `scenario.heroIds` and a
+    per-hero `skillDecks` map (10 skills each, fixed order), and validates every starting deck
+    at 16 instances. `GameConfig` gained an optional `heroId`; `createGame` picks it (default =
+    scenario hero), uses that hero's crystals/deck and skill deck and rejects unknown ids. The
+    client has a hero selector on the new-run controls (`data-testid="hero-select"`), the run
+    starts with the chosen hero, and `e2e/heroes.spec.ts` asserts arythea's crystals
+    (red2/white1), her distinct starting-deck cards, and switching back to goldyx. Evidence:
+    79 tests (engine test for hero selection), 6 e2e tests, all 7 traces re-recorded and
+    verified against contentHash `15c81fb0202e97c7c6b403d5f4e39f8fb909e0be3335ef38d37bf723db5d0bdd`,
+    fuzz 10k seed 1 clean, `pnpm build` still ~95 KB gzipped.
+
 ## Next (ordered; first item is the exact next action)
 
 Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a
 PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap.md` M3–M4.
 
-1. **T1-d2 content increment (next)** — start with the 2nd hero and the 4 artifacts; then
-   remaining Advanced Actions/Spells, unit wounds/damage assignment, keep/portal/city
-   interactions, fame→reputation events, dummy fidelity and tactic effects. Each increment:
+1. **T1-d2b content increment (next)** — the 4 artifacts (basic `gain_fame`, powered endless
+   mana), then remaining Advanced Actions/Spells, unit wounds/damage assignment,
+   keep/portal/city interactions, fame→reputation events, dummy fidelity and tactic effects. Each increment:
    compiler + engine + tests + traces re-recorded, then a small commit.
 2. **T1 exit bookkeeping (done for engineering; owner gates open)** — ADR-011 records the
    engineering GO, `docs/design/t1-exit-report.md` v1.0 and roadmap/README/docs status are
@@ -263,12 +275,12 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
   `0ec033a` (end-of-turn draw + discard), `8a7ee5c` (site visibility + winning trace),
   `61a83e1` (CI fuzz 10k), `deb2f84` (terrain-cost skill modifiers), plus the T1-e UI commit.
   Winning trace: `050-victory.json` seed 1, 78 actions, victory score 17 at round 3
-  (contentHash `e79812be…`).
+  (contentHash `15c81fb0…`).
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
-  lint + 78 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (5
-  tests: 3 persistence + 2 full-scenario replays); `pnpm test` alone; data validator
+  lint + 79 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (6
+  tests: hero select, 3 persistence, 2 full-scenario replays); `pnpm test` alone; data validator
   `.venv/bin/python tools/validate_data.py` (local) / `python3 tools/validate_data.py` (CI, stdlib).
 - Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…010**); T0 plan and steps in
   `docs/design/19-t0-spike-plan.md`; G1 in `10-feasibility-analysis.md` §9; MVP scope in

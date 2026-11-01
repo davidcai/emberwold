@@ -5,9 +5,10 @@ import { bundle, contentHash } from "./index";
 describe("@emberwold/content", () => {
   it("ships the generated First Conquest bundle", () => {
     expect(contentHash).toMatch(/^[0-9a-f]{64}$/);
-    expect(Object.keys(bundle.heroes)).toHaveLength(1);
+    expect(Object.keys(bundle.heroes)).toHaveLength(2);
     expect(bundle.heroes["hero:goldyx"]?.startingDeck).toHaveLength(16);
-    expect(Object.keys(bundle.cards)).toHaveLength(20);
+    expect(bundle.heroes["hero:arythea"]?.startingDeck).toHaveLength(16);
+    expect(Object.keys(bundle.cards)).toHaveLength(24);
     expect(Object.keys(bundle.tiles)).toHaveLength(4);
     expect(Object.keys(bundle.enemies)).toHaveLength(12);
     expect(Object.keys(bundle.sites)).toHaveLength(8);
@@ -39,6 +40,9 @@ describe("@emberwold/content", () => {
     });
     expect(Object.keys(bundle.skills ?? {})).toHaveLength(20);
     expect(bundle.scenario.skillDeck).toHaveLength(10);
+    expect(bundle.scenario.heroIds).toEqual(["hero:goldyx", "hero:arythea"]);
+    expect(bundle.scenario.skillDecks?.["hero:goldyx"]).toHaveLength(10);
+    expect(bundle.scenario.skillDecks?.["hero:arythea"]).toHaveLength(10);
     expect(bundle.rulesConstants.monasteryAaCost).toBe(6);
     expect(bundle.rulesConstants.spellCost).toBe(7);
     expect(bundle.rulesConstants.tileRevealCost).toBe(2);

@@ -135,6 +135,39 @@ describe("createGame", () => {
     expect(state.rulesetId).toBe("emberwold-spike");
     expect(state.contentHash).toBe("fixture-content-hash");
   });
+
+  it("selects the requested hero, crystals and skill deck", () => {
+    const base = createFixtureContent();
+    const baseHero = base.heroes["hero:test"];
+    if (baseHero === undefined) {
+      throw new Error("fixture hero missing");
+    }
+    const content: ContentBundle = {
+      ...base,
+      heroes: {
+        ...base.heroes,
+        "hero:test2": {
+          id: "hero:test2",
+          name: "Test Two",
+          startingCrystals: ["red", "red", "white"],
+          startingDeck: baseHero.startingDeck,
+        },
+      },
+      scenario: {
+        ...base.scenario,
+        heroIds: ["hero:test", "hero:test2"],
+        skillDecks: { "hero:test": ["skill:a"], "hero:test2": ["skill:b"] },
+      },
+    };
+    const defaultState = createGame({ seed: 12 }, content).state;
+    expect(defaultState.players[0]?.heroId).toBe("hero:test");
+    expect(defaultState.players[0]?.skillDeck).toEqual(["skill:a"]);
+    const second = createGame({ seed: 12, heroId: "hero:test2" }, content).state;
+    expect(second.players[0]?.heroId).toBe("hero:test2");
+    expect(second.players[0]?.crystals).toEqual({ red: 2, blue: 0, green: 0, white: 1 });
+    expect(second.players[0]?.skillDeck).toEqual(["skill:b"]);
+    expect(() => createGame({ seed: 12, heroId: "hero:missing" }, content)).toThrow(/unknown hero/);
+  });
 });
 
 describe("legal actions", () => {

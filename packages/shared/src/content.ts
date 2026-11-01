@@ -241,6 +241,10 @@ export interface SpikeScenarioDef {
   readonly spellDeck?: readonly string[];
   /** Hero skill deck for this scenario (T1: fixed data order; no shuffle yet). */
   readonly skillDeck?: readonly string[];
+  /** All selectable hero ids for this scenario; scenario.heroId is the default. */
+  readonly heroIds?: readonly string[];
+  /** Per-hero skill decks (falls back to skillDeck when absent). */
+  readonly skillDecks?: Readonly<Record<string, readonly string[]>>;
   /** Unit offer (T1, players+2 cards) and the deck behind it (refreshed each round). */
   readonly unitOffer?: readonly string[];
   readonly unitDeck?: readonly string[];

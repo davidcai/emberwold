@@ -48,7 +48,8 @@ const DATA_DIR =
 
 interface SpikeConfig {
   readonly schemaVersion: number;
-  readonly hero: string;
+  /** Selectable heroes; the first one is the scenario default. */
+  readonly heroes: readonly string[];
   readonly scenarioId?: string;
   readonly scenarioName?: string;
   readonly tiles: readonly {
@@ -388,38 +389,48 @@ function main(): void {
     join(DATA_DIR, "keywords.json"),
   );
 
-  const heroItem = heroes.items.find((item) => item.id === config.hero);
-  if (heroItem === undefined) {
-    fail(`hero not found: ${config.hero}`);
+  if (config.heroes.length === 0) {
+    fail("no heroes selected");
   }
-  const hero: HeroDef = {
-    id: heroItem.id,
-    name: heroItem.name,
-    startingCrystals: heroItem.starting_crystals as readonly BasicManaColor[],
-    startingDeck: heroItem.starting_deck,
-  };
-
+  const heroDefs: Record<string, HeroDef> = {};
   const cardItems = new Map(cards.items.map((item) => [item.id, item]));
   const usedOps = new Set<string>();
   const cardDefs: Record<string, CardDef> = {};
-  for (const defId of new Set(hero.startingDeck)) {
-    const item = cardItems.get(defId);
-    if (item === undefined) {
-      fail(`hero deck references unknown card: ${defId}`);
+  for (const heroId of config.heroes) {
+    const heroItem = heroes.items.find((item) => item.id === heroId);
+    if (heroItem === undefined) {
+      fail(`hero not found: ${heroId}`);
     }
-    const def: CardDef = {
-      id: item.id,
-      name: item.name,
-      color: item.color as CardDef["color"],
-      poweredBy: item.powered_by as CardDef["poweredBy"],
-      sidewaysValue: item.sideways_value,
-      effects: { basic: item.effects.basic, powered: item.effects.powered },
+    const heroDef: HeroDef = {
+      id: heroItem.id,
+      name: heroItem.name,
+      startingCrystals: heroItem.starting_crystals as readonly BasicManaColor[],
+      startingDeck: heroItem.starting_deck,
     };
-    collectOps(def.effects.basic, usedOps);
-    if (def.effects.powered !== null) {
-      collectOps(def.effects.powered, usedOps);
+    heroDefs[heroDef.id] = heroDef;
+    for (const defId of new Set(heroDef.startingDeck)) {
+      const item = cardItems.get(defId);
+      if (item === undefined) {
+        fail(`hero deck references unknown card: ${defId}`);
+      }
+      const def: CardDef = {
+        id: item.id,
+        name: item.name,
+        color: item.color as CardDef["color"],
+        poweredBy: item.powered_by as CardDef["poweredBy"],
+        sidewaysValue: item.sideways_value,
+        effects: { basic: item.effects.basic, powered: item.effects.powered },
+      };
+      collectOps(def.effects.basic, usedOps);
+      if (def.effects.powered !== null) {
+        collectOps(def.effects.powered, usedOps);
+      }
+      cardDefs[def.id] = def;
     }
-    cardDefs[def.id] = def;
+  }
+  const defaultHero = heroDefs[config.heroes[0] as string];
+  if (defaultHero === undefined) {
+    fail("no default hero");
   }
   const unsupported = [...usedOps].filter((op) => !config.supportedOps.includes(op));
   if (unsupported.length > 0) {
@@ -583,11 +594,13 @@ function main(): void {
   }
 
   // T1 skills: acquisition is implemented; the effect is only kept when its ops exist.
-  const heroName = hero.id.replace(/^hero:/, "");
   const skillIds =
     config.skills ?? skills.items.filter((item) => item.mvp === true).map((item) => item.id);
   const skillDefs: Record<string, SkillDef> = {};
-  const skillDeck: string[] = [];
+  const skillDecks: Record<string, string[]> = {};
+  for (const heroId of config.heroes) {
+    skillDecks[heroId] = [];
+  }
   for (const skillId of skillIds) {
     const item = skills.items.find((candidate) => candidate.id === skillId);
     if (item === undefined) {
@@ -603,8 +616,10 @@ function main(): void {
       usageType: item.usage_type,
       effect: supported ? item.effect : null,
     };
-    if (item.hero === heroName) {
-      skillDeck.push(item.id);
+    const heroId = `hero:${item.hero}`;
+    const deck = skillDecks[heroId];
+    if (deck !== undefined) {
+      deck.push(item.id);
     }
   }
 
@@ -635,7 +650,7 @@ function main(): void {
     schemaVersion: config.schemaVersion,
     rulesConstants: mapRulesConstants(keywords.rules_constants),
     cards: { ...cardDefs, ...additionalCards },
-    heroes: { [hero.id]: hero },
+    heroes: heroDefs,
     tiles: tileDefs,
     enemies: enemyDefs,
     sites: siteDefs,
@@ -643,7 +658,9 @@ function main(): void {
       id: config.scenarioId ?? "scenario:spike",
       name: config.scenarioName ?? "Spike",
       roundCap: config.roundCap,
-      heroId: hero.id,
+      heroId: defaultHero.id,
+      heroIds: config.heroes,
+      skillDecks,
       tiles: config.tiles,
       spawns: config.spawns,
       site: null,
@@ -658,7 +675,7 @@ function main(): void {
       spellOffer,
       aaDeck,
       spellDeck,
-      skillDeck,
+      skillDeck: skillDecks[defaultHero.id] ?? [],
       unitOffer,
       unitDeck,
     },
@@ -689,11 +706,13 @@ export default bundle;
 `;
   writeFileSync(join(CONTENT_DIR, "index.ts"), indexSource);
 
-  const deckSize = hero.startingDeck.length;
-  if (deckSize !== bundle.rulesConstants.deedDeckSize) {
-    fail(
-      `hero deck size ${deckSize} != rules deed deck size ${bundle.rulesConstants.deedDeckSize}`,
-    );
+  for (const heroDef of Object.values(heroDefs)) {
+    const deckSize = heroDef.startingDeck.length;
+    if (deckSize !== bundle.rulesConstants.deedDeckSize) {
+      fail(
+        `hero deck size ${deckSize} != rules deed deck size ${bundle.rulesConstants.deedDeckSize}`,
+      );
+    }
   }
   if (Object.keys(tileDefs).length !== config.tiles.length) {
     fail("tile count mismatch");
@@ -701,7 +720,7 @@ export default bundle;
   console.log("content-compiler: OK");
   console.log(`  contentHash: ${contentHash}`);
   console.log(
-    `  bundle: ${hero.startingDeck.length} deck instances / ${Object.keys(cardDefs).length} card defs ` +
+    `  bundle: ${Object.keys(heroDefs).length} heroes / ${Object.keys(cardDefs).length} card defs ` +
       `(incl. wound), ${Object.keys(tileDefs).length} tiles, ${Object.keys(enemyDefs).length} enemies, ` +
       `${Object.keys(siteDefs).length} sites`,
   );

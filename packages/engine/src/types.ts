@@ -322,6 +322,8 @@ export type ApplyOutcome = { ok: true; result: ApplyResult } | { ok: false; erro
 
 export interface GameConfig {
   seed: number;
+  /** Optional hero selection; defaults to the scenario's heroId. */
+  heroId?: string;
 }
 
 export type CombatTerrain = Terrain;

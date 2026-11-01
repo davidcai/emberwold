@@ -282,10 +282,12 @@ export function createGame(
 ): { state: GameState; events: GameEvent[] } {
   const events: GameEvent[] = [];
   const scenario = content.scenario;
-  const hero = content.heroes[scenario.heroId];
+  const heroId = config.heroId ?? scenario.heroId;
+  const hero = content.heroes[heroId];
   if (hero === undefined) {
-    throw new Error(`content: unknown hero ${scenario.heroId}`);
+    throw new Error(`content: unknown hero ${heroId}`);
   }
+  const skillDeck = scenario.skillDecks?.[hero.id] ?? scenario.skillDeck ?? [];
 
   const cardInstances: Record<CardInstanceId, CardId> = {};
   const deck: CardInstanceId[] = [];
@@ -315,7 +317,7 @@ export function createGame(
     playArea: [],
     crystals,
     manaTokens: [],
-    skillDeck: [...(scenario.skillDeck ?? [])],
+    skillDeck: [...skillDeck],
     skills: [],
     units: [],
   };

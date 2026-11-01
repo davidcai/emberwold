@@ -40,6 +40,7 @@ listed in §8.
 | `0ec033a` | End-of-turn draw to the modified hand limit (02 §15.1) and `discardCard`; the missing draw deadlocked the 3-round game once the hand filled with unplayable cards. |
 | `8a7ee5c` | Site visibility fix (`map.sites` seeded only for revealed tiles and added on reveal), `expectedResult` golden-trace assertions, `050-victory.json` winning line. |
 | `61a83e1` | CI fuzz raised to 10,000 actions per push. |
+| (2nd-hero increment) | Second hero selectable: two heroes compiled with per-hero decks/crystals/skill decks, `GameConfig.heroId`, client hero selector, hero e2e test. |
 | `deb2f84` | Terrain-cost skill modifiers: `TerrainCostModifier` in the content contract, turn-scoped movement modifiers (Flight makes terrain cost 0/1), compiler collects nested modifier ops; bundle digest unchanged. |
 | (T1-e UI commit) | Full First Conquest client: status/tactics/choice/combat/hand/turn/site/retinue panels, state-driven board, game-over debrief, tutorial turns 1–3, legend + event log; `e2e/victory.spec.ts` replays `050-victory.json` through the UI. |
 
@@ -59,8 +60,8 @@ pnpm build               # client production build (≈95 KB gzipped initial loa
 pnpm exec tsx tools/golden-traces/src/verify.ts   # explicit trace report
 ```
 
-At the time of writing: **78 tests**, contentHash
-`e79812bee30db56be46dd6dbb1f9436badcfcbbe4dae77d5d4ae097eab9d66df`, data validator
+At the time of writing: **79 tests**, contentHash
+`15c81fb0202e97c7c6b403d5f4e39f8fb909e0be3335ef38d37bf723db5d0bdd`, data validator
 `checks: 9662 errors: 0 warnings: 0`, CI fuzz 10,000 actions green.
 
 Golden traces (`tools/golden-traces/`, recorded against the contentHash above; `traces:check`
@@ -80,8 +81,8 @@ replays every action and compares state hashes *and* the expected outcome/score 
 
 | Category | v1.0 target | Shipped in T1 bundle | Status |
 |---|---|---|---|
-| Heroes | 1 at M1, 2 at v1.0 | 1 committed hero (`hero:goldyx`); 20 skills for both shortlisted heroes | 2nd hero deferred to M5 |
-| Basic Actions | 1 full 16-instance deck | 12 definitions → 16-instance starting deck | done for hero 1 |
+| Heroes | 1 at M1, 2 at v1.0 | 2 selectable heroes (`hero:goldyx`, `hero:arythea`) with their own decks, crystals and skill decks | done (child-playstyle differentiation is tuning work) |
+| Basic Actions | 1 full 16-instance deck per hero | 16 basic definitions across the two heroes (12 goldyx + 4 arythea-only, 16-instance decks) | done for both heroes |
 | Skills | ≈6 reachable per hero | 20 definitions (10 per hero), 10 in the hero's skill deck, fixed order | activation done; choice/shuffle deferred |
 | Advanced Actions | 12 | 5 (only those whose full effect tree is implemented) | remainder = T1 debt |
 | Spells | 6 | 2 | remainder = T1 debt |
@@ -145,8 +146,8 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
 - **Units:** no unit wounds/damage assignment; only ready/spent plus basic mapped abilities.
 - **Sites:** keep/portal interactions, city purchase options, and fame→reputation events
   (assault −1 / orc defeat +1) are deferred; healing and the six MVP site benefits are in.
-- **Content breadth:** 4 artifacts, 7 of 12 MVP Advanced Actions, 4 of 6 MVP spells, the 2nd
-  hero and the Classic preset are not in the bundle yet.
+- **Content breadth:** 4 artifacts, 7 of 12 MVP Advanced Actions, 4 of 6 MVP spells and the
+  Classic preset are not in the bundle yet.
 - **Scoring:** base fame + city bonus (10) is implemented; the tuned row/goal table in
   `game-data/scenarios.json` is still marked todo.
 - **Hidden-information save:** solo has no hidden information in the client surface; the save
@@ -172,7 +173,7 @@ still needs a manual measurement on the 2019-laptop baseline; the renderer is SV
 
 | DoD item | Status |
 |---|---|
-| Both scenarios playable end-to-end, 2nd hero selectable | First Conquest yes; Classic + 2nd hero deferred to M5 |
+| Both scenarios playable end-to-end, 2nd hero selectable | First Conquest + 2 heroes yes; Classic preset deferred to M5 |
 | Every manifest item implemented/tested/marked implemented | no — content breadth debt (§4) |
 | ≥1 full game per scenario replayed deterministically | yes for First Conquest (`050-victory`) |
 | Save/resume + undo verified | yes (client + e2e; full-state save) |
@@ -195,7 +196,7 @@ Engineering follow-ups (allowed after T1 / as capacity allows):
 
 - 60 fps measurement on the baseline laptop; optional UI polish/accessibility pass.
 - T1 exit bookkeeping: record the exit decision (ADR) and update `11` DoD status as items close.
-- T1-d2 content debt: artifacts, remaining Advanced Actions/Spells, 2nd hero, unit wounds,
+- T1-d2 content debt: artifacts, remaining Advanced Actions/Spells, unit wounds,
   keep/portal/city interactions, reputation events, dummy fidelity, tactic effects.
 - Scenario tuning pass (win rate ~50%, score weights) once the fun pass gives feedback.
 

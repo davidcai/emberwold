@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "scenarioId": "scenario:first-conquest",
   "scenarioName": "First Conquest",
-  "hero": "hero:goldyx",
+  "heroes": ["hero:goldyx", "hero:arythea"],
   "roundCap": 3,
   "timeOfDayPattern": [
     "day",

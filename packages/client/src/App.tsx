@@ -50,9 +50,11 @@ interface Run {
   readonly events: readonly GameEvent[];
 }
 
-function createRun(seed: number): Run {
+const HERO_IDS = bundle.scenario.heroIds ?? Object.keys(bundle.heroes);
+
+function createRun(seed: number, heroId: string): Run {
   // Creation events are not part of a run's history; the event log starts with the first action.
-  return { seed, state: createGame({ seed }, bundle).state, events: [] };
+  return { seed, state: createGame({ seed, heroId }, bundle).state, events: [] };
 }
 
 function parseSeed(text: string): number {
@@ -64,7 +66,8 @@ export function App(): ReactElement {
   const [bootSave] = useState(() => loadSave(contentHash));
   const [resumeOffered, setResumeOffered] = useState<boolean>(bootSave !== null);
   const [seedText, setSeedText] = useState("1");
-  const [run, setRun] = useState<Run>(() => createRun(1));
+  const [heroId, setHeroId] = useState(bundle.scenario.heroId);
+  const [run, setRun] = useState<Run>(() => createRun(1, bundle.scenario.heroId));
   const [undoStack, setUndoStack] = useState<readonly Run[]>([]);
   const [tutorialDismissed, setTutorialDismissed] = useState(false);
 
@@ -106,7 +109,7 @@ export function App(): ReactElement {
     const seed = parseSeed(seedText);
     clearSave();
     setResumeOffered(false);
-    setRun(createRun(seed));
+    setRun(createRun(seed, heroId));
     setUndoStack([]);
     setTutorialDismissed(false);
   }
@@ -195,6 +198,20 @@ export function App(): ReactElement {
               inputMode="numeric"
               onChange={(event) => setSeedText(event.target.value)}
             />
+          </label>
+          <label>
+            hero{" "}
+            <select
+              data-testid="hero-select"
+              value={heroId}
+              onChange={(event) => setHeroId(event.target.value)}
+            >
+              {HERO_IDS.map((id) => (
+                <option key={id} value={id}>
+                  {bundle.heroes[id]?.name ?? id}
+                </option>
+              ))}
+            </select>
           </label>
           <button type="button" data-testid="undo" disabled={undoStack.length === 0} onClick={undo}>
             Undo
