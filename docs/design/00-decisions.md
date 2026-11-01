@@ -1,6 +1,6 @@
 # 00 · Decision Log (ADRs)
 
-**Status:** living document · **Owner:** Lead · **Last updated:** 2026-10-24
+**Status:** living document · **Owner:** Lead · **Last updated:** 2026-10-31
 
 Decisions that change the plan. Each ADR records the choice, the reasoning, and the
 consequences so future work doesn't re-litigate them. Superseded ADRs stay in place.
@@ -251,6 +251,67 @@ committed.
 
 ---
 
+## ADR-009 — T0 implementation approved: the spike starts
+
+**Date:** 2026-10-31 · **Status:** accepted
+
+**Decision.** The owner lifted the pre-implementation hold (**P5**) and approved the T0 spike
+plan [`19-t0-spike-plan.md`](./19-t0-spike-plan.md) with its proposed defaults: hero
+`hero:goldyx` (16-card deck, 12 unique definitions), tiles `tile:starting_a` +
+`tile:countryside_1`, enemies prowlers/diggers/wolf_riders, the village site, Day-only rounds
+(cap 10), branch `t0-spike` with a PR, the minimal SVG/DOM UI included, the generated content
+bundle committed, spike selection in `tools/content-compiler/spike.config.json`, and the
+simplifications/waivers in plan §2.2 (including the M2-1 combat-fidelity waiver).
+
+**Context.** Implementation cannot start before explicit owner approval (`AGENTS.md` §2). The
+plan supplied the scope fence and 14 owner questions; the owner approved the proposed answers
+as a bundle rather than answering each question separately.
+
+**Consequences.**
+- Implementation may now start on branch `t0-spike`; `AGENTS.md` §2 and the `README.md` status
+  line reflect implementation-in-progress.
+- The spike stays timeboxed to two weeks and follows the plan's steps, checkpoints and cut
+  order. All §2.2 simplifications must appear in `docs/design/spike-report.md` and be restored
+  in T1.
+- This is **not** a public-release decision: the ADR-007/ADR-008 gates (public branding, name
+  screen) still apply, and the repository remains public-safe (no secrets, no publisher
+  content, `reference/` local).
+- Gate G1 (`10` §9) and "T0 done" (`12` §12.6) remain the acceptance criteria for the spike.
+
+---
+
+## ADR-010 — T0 spike verdict: GO for T1 (provisional owner sign-off)
+
+**Date:** 2026-10-31 · **Status:** accepted (provisional; owner confirmations in Consequences)
+
+**Decision.** The owner's standing instruction ("complete the game development with minimal
+intervention, using your best judgement") delegates the T0 engineering verdict to this session.
+The T0 spike is **GO for T1**: the playable-round, deterministic-trace and no-illegal-action
+gates are evidenced in [`spike-report.md`](./spike-report.md) §1/§3, no stop/re-scope trigger
+fired, and the spike's deviations are accepted for T0 with the T1 restoration list recorded in
+the report §6. The branch `t0-spike` may be merged to `main` after CI is green; T1 work starts
+on `main` under the First Conquest milestones in [`14-roadmap.md`](./14-roadmap.md) §1.
+
+**Context.** ADR-009 approved the spike and required a go/no-go at S10. The agent can verify
+all engineering gates (traces, tests, fuzz, Playwright, invariants, CI) but cannot run the
+human G1.5 fun-pass, so the verdict is provisional on two owner confirmations: (a) the S9
+10-turn playtest ("what was confusing?", "would you play 10 more turns?"), and (b) sign-off on
+the deviation list — especially wound persistence and the M2-1 combat-fidelity waiver. Waiting
+for those would stall T1 with no engineering reason; the owner can still reverse the verdict at
+PR review or after the playtest.
+
+**Consequences.**
+- `t0-spike` merges to `main` once CI is green; `main` becomes the T1 baseline. T1 starts with
+  the core solo loop (day/night round loop, dummy player, save/undo) per the report §10.
+- The S9 fun pass stays **open** in PROGRESS and the spike report; if it fails, the roadmap's
+  stop/re-scope rule (`14` §1 M2, §6) supersedes this ADR — re-scope to T0.5 with the owner.
+- The T1 plan must restore the T0 deviations (§6 of the report) and carry the B1–B9 data tasks;
+  none may be silently kept simplified.
+- `AGENTS.md` §2 phase text moves to T1-in-progress; the public-release gates (ADR-002/007/
+  008, `15` §11 name screen, `06` legal) are unchanged, and the repo remains public-safe.
+
+---
+
 ## Pending decisions
 
 | # | Decision | Needed by | Default if no answer |
@@ -259,4 +320,4 @@ committed.
 | P2 | ~~Art budget cap~~ | — | **Decided: AI-generated art (ADR-006)** |
 | P3 | Public product branding + name screen (repo is already `emberwold`; internal wordmark committed, ADR-008) | before any public release | no public branding work until v1 (ADR-007) |
 | P4 | Whether the game will ever be shared publicly | before release | private/portfolio only until screened |
-| P5 | T0 implementation start (lift the pre-implementation hold?) | before any app scaffold or game code | stay pre-implementation (`AGENTS.md` §2) |
+| P5 | ~~T0 implementation start (lift the pre-implementation hold?)~~ | — | **Decided: approved 2026-10-31 (ADR-009)** |

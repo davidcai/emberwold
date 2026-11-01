@@ -1,0 +1,50 @@
+{
+  "traceVersion": 1,
+  "contentHash": "cfcf9db281e7b43dac922b8775d4fcb3330e3e18d7cf805d0b85282dccf4f122",
+  "engineVersion": "0.1.0-spike",
+  "rulesetId": "emberwold-spike",
+  "seed": 1,
+  "config": {
+    "seed": 1
+  },
+  "actions": [
+    {
+      "epoch": 0,
+      "type": "playCard",
+      "card": "p1:deck:5",
+      "mode": "basic"
+    },
+    {
+      "epoch": 1,
+      "type": "moveTo",
+      "target": {
+        "q": 1,
+        "r": 0
+      }
+    },
+    {
+      "epoch": 2,
+      "type": "playCard",
+      "card": "p1:deck:6",
+      "mode": "basic"
+    },
+    {
+      "epoch": 3,
+      "type": "explore"
+    }
+  ],
+  "expectedHashes": [
+    "13f6d3cdb1cca6e718c4d096d0e07017af507e9efff661e5453074d35dfe1755",
+    "ffa123fc53d4b2dfce7a79a44b60153dc3891edef17fa8359e09f3c7bc6d52ae",
+    "1958ca9bab3af42eaecdb19ff6a89e617ccdd166c69ae1f5e68b3727f65f7703",
+    "30de2d6bb1f6050d5caae7f421965e45a67250c68b22b80943fc29b8dc96408d"
+  ],
+  "expectedOutcome": {
+    "round": 1,
+    "gameOver": false,
+    "fame": 0,
+    "handSize": 3,
+    "wounds": 0,
+    "defeatedEnemies": 0
+  }
+}

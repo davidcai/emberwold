@@ -47,15 +47,19 @@ history.** This rule is non-negotiable and overrides any convenience.
   rewrite public history yourself. The credential must be rotated first; history cleanup is a
   human decision.
 
-## 2. Current phase: pre-implementation (do not start the game)
+## 2. Current phase: T1 First Conquest in progress (started 2026-10-31)
 
-- `README.md` says research + design are complete and there is **no game code yet**. Unless the
-  human **explicitly** asks for implementation, do **not**: scaffold the app, add runtime
-  dependencies, create build config, or write game code.
-- The planned first implementation step is the T0 spike in
-  [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) §5. It requires explicit owner
-  approval; status and stack are in the ADRs and
-  [`docs/design/17-platform-analysis.md`](docs/design/17-platform-analysis.md).
+- The T0 spike is complete; its report and evidence are
+  [`docs/design/spike-report.md`](docs/design/spike-report.md) and the verdict is **ADR-010**
+  (provisional GO, owner playtest pending). The owner approved T0 in **ADR-009**.
+- **Scope is T1** — the First Conquest milestones in
+  [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) §1 M3–M4, bounded by
+  [`docs/design/11-mvp-scope.md`](docs/design/11-mvp-scope.md). Do not grow T2/Classic, AI
+  opponents, hotseat, city scenarios or public polish before the T1 exit gates; propose an ADR
+  rather than widening scope silently.
+- T0 deviations listed in the spike report §6 must be restored in T1 (wound recycling, combat
+  fidelity, map rules, dummy player, etc.); they are not "done".
+- Anything outside the T1 milestone list still needs explicit owner approval before code.
 - Documentation, game data, art prompts, decision records and tooling fixes are in scope when
   asked — but still follow the rules below.
 
@@ -112,9 +116,11 @@ history.** This rule is non-negotiable and overrides any convenience.
 - `reference/` is local-only research material. Restore it with the commands in
   `docs/research/08-sources.md` §1. Never force-add it to git.
 - Do not add generated artifacts, caches, `.venv/`, `reference/`, `art/source/` or large binaries
-  to the repo. If a genuinely large asset must be tracked, ask the human first.
-- There are no application build/test commands yet. The only current executable check is the
-  data validator above.
+  to the repo. If a genuinely large asset must be tracked, ask the human first. The generated
+  `@emberwold/content` bundle is the one approved exception (plan §12 Q12; ADR-009).
+- The application workspace is the pnpm monorepo at the repo root: `pnpm verify` runs
+  typecheck, lint, unit tests and dependency-boundary checks (`pnpm test` alone runs the
+  tests). The data validator above stays the only `game-data/` gate.
 
 ## 7. Git and publishing
 
@@ -129,7 +135,7 @@ history.** This rule is non-negotiable and overrides any convenience.
 ## 8. Do-not list (quick reference)
 
 1. No secrets in the repo — ever (see §1).
-2. No game implementation or app scaffolding before explicit approval.
+2. No game code outside the approved T0/T1 scope ([`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md), [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) M3–M4); no T2/AI/hotseat before the T1 exit.
 3. No official art/PDFs/rulebook text, no copied upstream code/data.
 4. No public branding, domains, store pages or wordmarks before v1 (ADR-007); no repo renames without approval.
 5. No invented rules, citations, names or data values — mark uncertainty or ask.

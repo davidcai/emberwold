@@ -1,6 +1,6 @@
 # 19 · T0 Spike Plan — two weeks to a playable round
 
-**Status:** draft for owner approval (P5) · **Date:** 2026-10-31 · **Owner:** Lead
+**Status:** approved (ADR-009) · execution started 2026-10-31 · **S1–S10 done** · verdict GO (ADR-010) · branch `t0-spike`
 **Companions:** [`10-feasibility-analysis.md`](./10-feasibility-analysis.md) §6/§9 (G1),
 [`11-mvp-scope.md`](./11-mvp-scope.md) §2–§5/§10 (scope/content),
 [`12-architecture.md`](./12-architecture.md) §3.3/§5/§6/§10/§12.4/§12.6 (engine, pipeline,
@@ -9,11 +9,11 @@ tests, T0 slice), [`14-roadmap.md`](./14-roadmap.md) §0.1/§1/§5/§6 (tiers, M
 [`17-platform-analysis.md`](./17-platform-analysis.md) §5 (stack), and the ADRs in
 [`00-decisions.md`](./00-decisions.md).
 
-> **Execution gate.** No app scaffold or game code may start until the owner lifts the
-> pre-implementation hold ([`AGENTS.md`](../../AGENTS.md) §2; pending decision **P5** in
-> [`00-decisions.md`](./00-decisions.md)). This document is the plan only — **no step below
-> has been executed**. Approving the plan approves the scope and simplifications in §2 and
-> §10 and the owner questions in §12, not just the file.
+> **Gate status: APPROVED 2026-10-31 (ADR-009 in [`00-decisions.md`](./00-decisions.md)).**
+> The owner approved this plan and its proposed defaults. Execution is on branch `t0-spike`:
+> **S1–S10 are done** (C1, C2 and the browser check passed: movement/reveal, assault and village-heal traces are green; the
+> Playwright UI run drives the whole flow). The S10 report is [`spike-report.md`](./spike-report.md) and the verdict is
+> ADR-010. No T1/T2 work was authorized by this plan; T1 starts under `14-roadmap.md` M3–M4.
 >
 > **Review record.** Two fresh-context reviewers checked this plan against the docs. Their
 > verified blockers — wrong op count/def count, the G1 card count, explore-as-side-effect,
@@ -75,6 +75,9 @@ are the plan's scope decision and need owner sign-off.
 * Skills, Advanced Actions, Spells, Artifacts, Units, achievements, scoring, city,
   dungeon/tomb, save/undo (engine or UI), audio, animation.
 * Multiplayer/hotseat, AI opponent, desktop packaging, public branding.
+* **Wound persistence deviation:** T0 keeps Wound cards in hand across turn/round boundaries so
+  a multi-turn combat → travel → heal sequence is testable; T1 restores the 02 §15.2 round-end
+  recycle. (The spike's "round" counter advances once per turn, with no dummy player.)
 * **Combat fidelity waiver:** [`14`](./14-roadmap.md) M2-1 asks for "a trace that matches the
   rulebook worked example". The walkthrough's example enemies do not exist in `game-data` with
   matching stats (B4), so T0 verifies the combat **arithmetic** against the rulebook numbers in
@@ -157,7 +160,7 @@ integration buffer = the 2-week T0 box ([`14`](./14-roadmap.md) §0.1). Step S9 
 
 ---
 
-### S1 — Approval bookkeeping, monorepo scaffold, CI
+### S1 — Approval bookkeeping, monorepo scaffold, CI · **done 2026-10-31**
 
 **Do.** **First action before any install:** append **ADR-009** ("T0 implementation approved"),
 mark **P5** decided, update [`AGENTS.md`](../../AGENTS.md) §2 (phase: implementation in
@@ -184,11 +187,21 @@ Vitest config, `.github/workflows/ci.yml` (push/PR: setup Node 22 from `.nvmrc`,
 7. **Pre-push secret scan** performed on the diff (`git diff --cached` grep for keys/tokens/
    personal data) before the first push ([`AGENTS.md`](../../AGENTS.md) §1/§7).
 
-**Evidence:** commands + output; first CI run URL; secret-scan result.
+**Evidence (2026-10-31, branch `t0-spike`, commit `453f1d6`):**
+* `pnpm verify` → typecheck ok, lint ok, `Test Files 7 passed (7)` / `Tests 7 passed (7)`,
+  `no dependency violations found (15 modules, 8 dependencies cruised)`.
+* `pnpm install --frozen-lockfile` → `Lockfile is up to date`, exit 0.
+* `python3 tools/validate_data.py` → `RESULT: OK` (nothing under `game-data/` changed).
+* Boundary rule proven to fail on purpose: a temporary `node:fs` import under
+  `packages/engine` produced `error engine-must-not-use-node-core` (probe deleted afterwards).
+* Prettier check green; diff scan for secrets/personal data clean.
+* CI run: https://github.com/davidcai/emberwold/actions/runs/41265608826 — all steps green
+  (annotation only: GitHub notes the action majors target Node 20 while runners force Node 24;
+  upgrade the action versions in a later step).
 
 ---
 
-### S2 — `packages/shared`: branded IDs, seeded RNG, canonical state hash
+### S2 — `packages/shared`: branded IDs, seeded RNG, canonical state hash · **done 2026-10-31**
 
 **Do.** Branded ID types (`PlayerId`, `CardInstanceId`, `EnemyInstanceId`, `TileId`, `Hex`…),
 `RngState` with named streams (`shuffle`, `sourceDice`, `enemyDraw`, `tileDraw`,
@@ -204,11 +217,17 @@ Vitest config, `.github/workflows/ci.yml` (push/PR: setup Node 22 from `.nvmrc`,
    whitespace permutations hash identically.
 4. ESLint `@typescript-eslint/no-explicit-any` reports zero violations in `shared`.
 
-**Evidence:** test counts; vector check output.
+**Evidence (2026-10-31, branch `t0-spike`, commit `db25ee6`):**
+* `pnpm --filter @emberwold/shared test` → `Test Files 4 passed (4)` / `Tests 22 passed (22)`:
+  Mulberry32 vectors for seeds 0/1/12345 match Appendix A exactly; SHA-256 vectors including
+  `emberwold`; canonical ordering/hash; stream independence; state immutability.
+* `pnpm verify` → typecheck ok, lint ok (`no-explicit-any` clean), full suite
+  `Tests 29 passed (29)`, `0 dependency violations (22 modules, 17 dependencies cruised)`.
+* Prettier clean; new state objects are JSON-round-trippable.
 
 ---
 
-### S3 — `packages/engine`: state, reducer, legal actions, invariants
+### S3 — `packages/engine`: state, reducer, legal actions, invariants · **done 2026-10-31**
 
 **Do.** Spike subset of the [`12`](./12-architecture.md) §5.2/§5.4 model: `GameState`
 (schema version, content hash, seed, scenario, phase/round/time-of-day/turn, one player, map,
@@ -230,11 +249,18 @@ invariant module. Dev builds `deepFreeze` states. No `Math.random`/`Date.now` in
    one non-Wound + any Wounds to discard), slow recovery only when the hand is all Wounds
    (discard one Wound); both are tested, so a wound-only hand always has a legal turn.
 
-**Evidence:** test counts; `pnpm verify` output.
+**Evidence (2026-10-31, branch `t0-spike`, commit `1716ec2`):**
+* `pnpm --filter @emberwold/engine test` → `Tests 13 passed (13)`: setup, totality (every
+  legal action applies), no-illegals + stale epoch without mutation, basic play, powered play
+  paying a crystal, choice resolution, discard-cost resolution, standard/slow rest legality,
+  determinism (two replays → equal hashes), JSON round-trip, round cap / game end, invariants.
+* `pnpm verify` → typecheck ok, lint ok, `Tests 40 passed (40)` across 10 files, 0 dependency
+  violations (27 modules, 22 dependencies).
+* `combatMath.ts` holds the single block/resistance/wound implementation used by the reducer.
 
 ---
 
-### S4 — Content compiler (thin) + spike bundle
+### S4 — Content compiler (thin) + spike bundle · **done 2026-10-31**
 
 **Do.** One thin `tools/content-compiler`: read `game-data/*.json` **read-only**, invoke the
 **Python validator as the single validation gate** (per [`12`](./12-architecture.md) §6.1 —
@@ -262,11 +288,23 @@ Commit-vs-build-artifact of the generated bundle is owner decision Q12 (default:
    a modified terrain cost makes the movement-cost test fail with the modified value (no
    hard-coded copy).
 
-**Evidence:** build log with counts + hash; tamper-failure output; mutation-test result.
+**Evidence (2026-10-31, branch `t0-spike`):**
+* `pnpm content:build` → `contentHash 1d76a028139a49439c6f67d53430ac4ad646b54e8340cee42d86633b0337faa3`,
+  `16 deck instances / 13 card defs (incl. wound), 2 tiles, 3 enemies, 2 sites`; validator runs
+  inside the build (`9662/0/0`).
+* Two builds → identical bundle and hash; `pnpm content:check` on the committed tree exits 0.
+* Tamper (temp copy): manifest mismatch → `content-compiler: manifest hash mismatch for
+  game-data/heroes.json (recorded 08ec6a93..., actual 45bea59f...)`, exit 1; with the manifest
+  prefix updated the build succeeds with a different hash (`28fe3814...ae66`).
+* Unmapped op demo (config temporarily missing `discard_cost`) → `unmapped effect ops in the
+  spike selection: discard_cost`, exit 1.
+* Mutation test in `pnpm --filter @emberwold/engine test`: plains cost 2 → reachable, injected
+  cost 7 → unreachable, proving terrain costs come from the bundle (engine tests now 14/14).
+* `game-data/` untouched (no diff); `pnpm verify` → 41/41 tests, 0 lint/boundary errors.
 
 ---
 
-### S5 — Trace harness, `play-cli`, random-legal bot
+### S5 — Trace harness, `play-cli`, random-legal bot · **done 2026-10-31 (C1)**
 
 **Do.** Trace format `{traceVersion, contentHash, engineVersion, rulesetId, seed, config,
 actions[], expectedHashes[], expectedOutcome}` committed under `tools/golden-traces/*.json`
@@ -283,11 +321,19 @@ budget is exhausted; asserts termination and prints an invariant summary.
    `terminationViolations: 0` (every game ended within the round/turn cap).
 4. `pnpm play --seed 1 --random` completes a run headlessly and writes a replayable trace.
 
-**Evidence:** commands + summary lines; trace file added.
+**Evidence (2026-10-31, branch `t0-spike`, commit `4a9f148`):**
+* `pnpm trace:record` → `tools/golden-traces/000-smoke.json` with 52 actions, round 10,
+  `gameOver=true`, contentHash `cfcf9db2…f122`.
+* `pnpm trace:verify tools/golden-traces/000-smoke.json` → `trace verified … actions=52 … round=10`.
+* Tampered/truncated trace → exit 1 with `trace: outcome mismatch for gameOver`.
+* `pnpm fuzz --turns=1000 --seed=1` → `games=24 actions=1000 invariantFailures=0
+  terminationViolations=0`.
+* `pnpm play --seed=1 --random` → run completes (35 actions, game over) and writes a trace to
+  the OS temp dir; that trace replays with `trace:verify`. C1 passed.
 
 ---
 
-### S6 — Round loop, movement, terrain, explore, rest, end turn
+### S6 — Round loop, movement, terrain, explore, rest, end turn · **done 2026-10-31**
 
 **Do.** Round setup: source dice rolled from the `sourceDice` stream, initial hand, Day marker;
 round end → next round setup (dice reroll, round++, Day again — no night) until the spike
@@ -321,11 +367,22 @@ not; a Rest turn counts). Round end shuffles Wounds in hand back into the deed d
 6. Round loop: a two-round trace replays; the round cap ends the game; Wounds recycle at round
    end.
 
-**Evidence:** trace summaries; event dump at final action.
+**Evidence (2026-10-31, branch `t0-spike`):**
+* Engine tests now 19/19: Day-cost table (plains 2, hills 3, forest 3, wasteland 4, desert 5,
+  swamp 5; lake/mountain unreachable), explore is its own 2-Move action, plain `moveTo` reveals
+  nothing, illegal explore rejected, mana tokens expire at end of turn, round 2 starts clean,
+  wounds recycle from hand into the deck.
+* New authored map placement (countryside at origin `2,1`; the old `2,0` placement overlapped
+  the starting tile at `1,0`). The compiler now rejects overlapping tile placements, and the
+  compiler config is included in `contentHash` (`cfcf9db2…f122`) so a changed layout invalidates
+  traces.
+* `010-move-reveal.json`: actions `playCard → moveTo → playCard → explore`; events include
+  `heroMoved` and `tileRevealed`; `pnpm trace:verify` green. Smoke trace re-recorded against the
+  new hash (44 actions, round 10, game over).
 
 ---
 
-### S7 — 4-phase combat and damage assignment
+### S7 — 4-phase combat and damage assignment · **done 2026-10-31 (C2)**
 
 **Do.** `CombatState` sub-machine (rangedSiege → block → assignDamage → attack), entered by
 `challengeRampaging` (attack the spawned rampaging token); enemies revealed, undo barrier
@@ -357,10 +414,17 @@ assignment and combat math live in `combatMath.ts` as the single implementation.
 > This is the M2-1 fidelity waiver listed in §2.2: arithmetic verified against the rulebook
 > numbers; the trace uses hand-computed spike-enemy values, because the walkthrough's example
 > enemies do not match `game-data` stats (B4). Owner confirms via Q2.
+>
+> **Evidence (2026-10-31, branch `t0-spike`):** `combatMath.test.ts` (15 table tests) covers the
+> full 02 §7.3 efficiency matrix, inefficient-block halving, swift doubling, fortified
+> siege-only ranged phase, resistance halving, brutal doubling and hero wound arithmetic.
+> `020-combat.json` (seed 3, 19 actions) replays: two wounds taken, one enemy defeated (+2 fame),
+> combat ends. The recorder skips block/damage-assignment choices deliberately; the trace's
+> `expectedOutcome` records the run's wounds/defeats/fame and verification compares them.
 
 ---
 
-### S8 — Village interaction, heal reward, end-to-end round trace
+### S8 — Village interaction, heal reward, end-to-end round trace · **done 2026-10-31 (C2)**
 
 **Do.** `enterSite` at the village (no entry combat); interaction state: influence pool from
 cards played this turn → `buyHealing` action priced from content
@@ -380,11 +444,18 @@ assault → village heal → end turn in one trace.
    sequence (move, reveal, assault, heal, end turn) in one deterministic round, with
    `expectedOutcome` recording the final state (fame, wounds, round/turn).
 
-**Evidence:** trace summaries; test names.
+**Evidence (2026-10-31, branch `t0-spike`):**
+* `030-site-heal.json` (seed 1, 32 actions) replays: explore → combat (one wound) → travel to the
+  village → `enterSite` → influence gained/spent → `healGained`; content hash pinned.
+* `040-one-round.json` (seed 1, 34 actions) replays the same sequence and then ends the turn
+  after the heal (a `turnEnded` event after `healGained`), satisfying the end-to-end requirement.
+* All five committed traces pass `pnpm trace:verify`; `pnpm content:check` is clean.
+* Both heal traces share seed 1; the recorder's stop predicate requires the heal to follow the
+  village influence spend (so a card-heal cannot satisfy the check).
 
 ---
 
-### S9 — Minimal SVG/DOM UI (G1-optional)
+### S9 — Minimal SVG/DOM UI (G1-optional) · **done 2026-10-31**
 
 **Do.** `packages/client`: Vite + React app; title/new-run screen (optional seed input);
 SVG hex board rendering tiles from state (authored origin/rotation; no rotate UI), DOM hand
@@ -407,11 +478,24 @@ names are exempt until the T1 re-theme, [`15`](./15-retheme-bible.md) §9/§10).
    continuing; notes are anonymous (no personal data committed).
 4. Forbidden-term check over code/UI sources passes (data exempt, documented).
 
-**Evidence:** dev URL; Playwright output; anonymous checklist.
+**Evidence (2026-10-31, branch `t0-spike`):**
+* Dev server: Playwright starts it via `webServer: "pnpm dev"` and `http://127.0.0.1:4173/` serves
+  the app; production build checked separately — `pnpm build` then `pnpm preview` both HTTP 200,
+  and the built `/assets/index-*.js` bundle is served (dist JS 258.23 kB / gzip 80.51 kB).
+* `pnpm test:e2e` → 1/1 passed: the spec reads only `window.__EMBERWOLD__` (state + legal actions),
+  clicks the matching `data-testid="action"` buttons, asserts every button index is inside the
+  legal set, and reaches `heroMoved` → `tileRevealed` → `combatStarted` → `siteEntered` →
+  `healGained` → `turnEnded` with zero console errors.
+* `ip.forbidden_terms`: `packages/content/src/forbidden-terms.json` is the single list;
+  `packages/content/src/ip.test.ts` scans `packages/client/src` and `packages/engine/src` literals
+  and `pnpm verify` (58 tests) is green. `game-data/` values stay exempt until the T1 re-theme
+  (documented in `15` §9/§10).
+* G1-optional **fun pass** is the owner's action (two players, anonymous notes) — not run by the
+  agent; see S10/§12 Q14.
 
 ---
 
-### S10 — Spike report, cleanup, G1 go/no-go with the owner
+### S10 — Spike report, cleanup, G1 go/no-go with the owner · **done 2026-10-31**
 
 **Do.** Write `docs/design/spike-report.md`: what was easy/hard, the §2.2 deviation list
 (restated), data defects (§11), the M2-1 waiver, revised T1 estimate against
@@ -430,7 +514,14 @@ new ADR in [`00-decisions.md`](./00-decisions.md) (append-only) and update
    gone, branch state documented.
 5. Final pre-push scan for secrets/personal data on the whole diff.
 
-**Evidence:** report path; ADR number; clean `git status`.
+**Evidence (2026-10-31, branch `t0-spike`):**
+* Report: [`spike-report.md`](./spike-report.md) (links checked; all resolve); ADR-010 appended to
+  [`00-decisions.md`](./00-decisions.md).
+* Cleanup: `git status --porcelain` clean after the S10 commit; Playwright artifacts are
+  gitignored and absent; no temp fixtures in the repo; branch pushed and CI-green.
+* Secret scan of the full branch diff: no credentials, personal data or third-party content.
+* The go/no-go is provisionally GO (delegated under the owner's standing instruction) and open
+  on two owner confirmations — the S9 fun pass and the deviation sign-off (report §10).
 
 ## 7. Determinism and trace contract (from [`12`](./12-architecture.md) §5.3/§7.4/§10.2)
 

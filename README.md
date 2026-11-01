@@ -19,8 +19,12 @@ Before writing game code, we answered three questions with evidence:
 3. **What do we build first?** — A deliberately reduced, shippable **First Conquest**:
    solo, 3 rounds, 4 tiles, 1 city, ~40 card definitions, 20–30 minutes, full combat rules.
 
-**Status: research + design complete; no game code yet.** The next step is a 2-week spike
-(`docs/design/14-roadmap.md` §5).
+**Status: research + design complete; T0 spike complete, T1 First Conquest in progress.**
+The T0 vertical slice (one playable round, deterministic traces, minimal browser UI) is built
+and evidenced in [`docs/design/spike-report.md`](docs/design/spike-report.md); verdict GO
+([`ADR-010`](docs/design/00-decisions.md), provisional on the owner's 10-turn playtest). T0 was
+approved 2026-10-31 ([`ADR-009`](docs/design/00-decisions.md); plan:
+[`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md)).
 
 **For AI agents:** read [`AGENTS.md`](AGENTS.md) before changing anything — it contains the
 agent-specific rules (public-repo secret policy, clean-room constraints, data validation, git
@@ -61,6 +65,7 @@ duplicating them.
 | — | [`docs/design/17-platform-analysis.md`](docs/design/17-platform-analysis.md) | Platform analysis + recommended stack |
 | — | [`docs/design/18-ai-art-prompts.md`](docs/design/18-ai-art-prompts.md) | AI art workflow + per-slot prompts |
 | — | [`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md) | T0 spike plan: 10 steps with checks, simplifications, approval gate (P5) |
+| — | [`docs/design/spike-report.md`](docs/design/spike-report.md) | T0 result, G1 evidence, deviations, data findings, T1 recommendation (ADR-010) |
 | — | [`AGENTS.md`](AGENTS.md) | Rules for AI coding agents (read before editing) |
 | — | [`art/PROMPTS.md`](art/PROMPTS.md) | Copy-paste prompts for all 41 art assets |
 | — | [`game-data/README.md`](game-data/README.md) | Machine-readable content schema + provenance |
@@ -74,9 +79,13 @@ docs/
   design/      feasibility, scope, architecture, AI, roadmap
   prompts/     original project prompt
 game-data/     machine-readable content (JSON + schema + effect DSL)
-tools/         data extraction/validation tooling
+packages/      engine, shared, content (generated), client - T0 spike (pnpm workspaces)
+tools/         data validation + content compiler, trace runner, play-cli
 reference/     gitignored: official PDFs + extracted text (see docs/research/08-sources.md)
 ```
+
+App commands (T0 spike): `pnpm install`, then `pnpm verify` (typecheck, lint, tests,
+dependency boundaries) or `pnpm test` for the tests alone.
 
 ## Reproducing the research
 

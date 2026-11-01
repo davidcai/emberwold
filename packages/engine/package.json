@@ -1,0 +1,15 @@
+{
+  "name": "@emberwold/engine",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@emberwold/shared": "workspace:*"
+  },
+  "scripts": {
+    "test": "vitest run --root ../.. packages/engine"
+  }
+}

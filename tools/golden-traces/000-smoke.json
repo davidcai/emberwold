@@ -1,0 +1,332 @@
+{
+  "traceVersion": 1,
+  "contentHash": "cfcf9db281e7b43dac922b8775d4fcb3330e3e18d7cf805d0b85282dccf4f122",
+  "engineVersion": "0.1.0-spike",
+  "rulesetId": "emberwold-spike",
+  "seed": 1,
+  "config": {
+    "seed": 1
+  },
+  "actions": [
+    {
+      "epoch": 0,
+      "type": "playCard",
+      "card": "p1:deck:10",
+      "mode": "basic"
+    },
+    {
+      "epoch": 1,
+      "type": "playCard",
+      "card": "p1:deck:5",
+      "mode": "powered"
+    },
+    {
+      "epoch": 2,
+      "type": "playCard",
+      "card": "p1:deck:6",
+      "mode": "basic"
+    },
+    {
+      "epoch": 3,
+      "type": "playCardSideways",
+      "card": "p1:deck:13",
+      "as": "move"
+    },
+    {
+      "epoch": 4,
+      "type": "moveTo",
+      "target": {
+        "q": 0,
+        "r": -1
+      }
+    },
+    {
+      "epoch": 5,
+      "type": "rest",
+      "kind": "standard",
+      "discard": [
+        "p1:deck:2"
+      ]
+    },
+    {
+      "epoch": 6,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 7,
+      "type": "playCardSideways",
+      "card": "p1:deck:0",
+      "as": "influence"
+    },
+    {
+      "epoch": 8,
+      "type": "playCardSideways",
+      "card": "p1:deck:9",
+      "as": "move"
+    },
+    {
+      "epoch": 9,
+      "type": "rest",
+      "kind": "standard",
+      "discard": [
+        "p1:deck:12"
+      ]
+    },
+    {
+      "epoch": 10,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 11,
+      "type": "playCardSideways",
+      "card": "p1:deck:10",
+      "as": "move"
+    },
+    {
+      "epoch": 12,
+      "type": "playCardSideways",
+      "card": "p1:deck:8",
+      "as": "influence"
+    },
+    {
+      "epoch": 13,
+      "type": "playCardSideways",
+      "card": "p1:deck:1",
+      "as": "move"
+    },
+    {
+      "epoch": 14,
+      "type": "playCard",
+      "card": "p1:deck:6",
+      "mode": "basic"
+    },
+    {
+      "epoch": 15,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 16,
+      "type": "playCard",
+      "card": "p1:deck:9",
+      "mode": "powered"
+    },
+    {
+      "epoch": 17,
+      "type": "resolveChoice",
+      "choiceId": "choice:17",
+      "optionIndex": 1
+    },
+    {
+      "epoch": 18,
+      "type": "playCardSideways",
+      "card": "p1:deck:2",
+      "as": "influence"
+    },
+    {
+      "epoch": 19,
+      "type": "rest",
+      "kind": "standard",
+      "discard": [
+        "p1:deck:7"
+      ]
+    },
+    {
+      "epoch": 20,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 21,
+      "type": "playCard",
+      "card": "p1:deck:4",
+      "mode": "basic"
+    },
+    {
+      "epoch": 22,
+      "type": "playCardSideways",
+      "card": "p1:deck:12",
+      "as": "influence"
+    },
+    {
+      "epoch": 23,
+      "type": "moveTo",
+      "target": {
+        "q": 0,
+        "r": 0
+      }
+    },
+    {
+      "epoch": 24,
+      "type": "rest",
+      "kind": "standard",
+      "discard": [
+        "p1:deck:13"
+      ]
+    },
+    {
+      "epoch": 25,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 26,
+      "type": "playCardSideways",
+      "card": "p1:deck:6",
+      "as": "move"
+    },
+    {
+      "epoch": 27,
+      "type": "playCard",
+      "card": "p1:deck:7",
+      "mode": "powered"
+    },
+    {
+      "epoch": 28,
+      "type": "rest",
+      "kind": "standard",
+      "discard": [
+        "p1:deck:1"
+      ]
+    },
+    {
+      "epoch": 29,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 30,
+      "type": "playCard",
+      "card": "p1:deck:9",
+      "mode": "basic"
+    },
+    {
+      "epoch": 31,
+      "type": "resolveChoice",
+      "choiceId": "choice:31",
+      "optionIndex": 1
+    },
+    {
+      "epoch": 32,
+      "type": "playCard",
+      "card": "p1:deck:10",
+      "mode": "powered"
+    },
+    {
+      "epoch": 33,
+      "type": "rest",
+      "kind": "standard",
+      "discard": [
+        "p1:deck:14"
+      ]
+    },
+    {
+      "epoch": 34,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 35,
+      "type": "playCardSideways",
+      "card": "p1:deck:6",
+      "as": "move"
+    },
+    {
+      "epoch": 36,
+      "type": "rest",
+      "kind": "standard",
+      "discard": [
+        "p1:deck:3"
+      ]
+    },
+    {
+      "epoch": 37,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 38,
+      "type": "playCard",
+      "card": "p1:deck:9",
+      "mode": "basic"
+    },
+    {
+      "epoch": 39,
+      "type": "resolveChoice",
+      "choiceId": "choice:39",
+      "optionIndex": 1
+    },
+    {
+      "epoch": 40,
+      "type": "rest",
+      "kind": "standard",
+      "discard": [
+        "p1:deck:15"
+      ]
+    },
+    {
+      "epoch": 41,
+      "type": "endTurn"
+    },
+    {
+      "epoch": 42,
+      "type": "rest",
+      "kind": "standard",
+      "discard": [
+        "p1:deck:1"
+      ]
+    },
+    {
+      "epoch": 43,
+      "type": "endTurn"
+    }
+  ],
+  "expectedHashes": [
+    "5beb44dd577866509200d8ef4c43cccf62f61fb141339eb3c6b37049df9bf093",
+    "46ce704b894e6973be32c98e3ca948bd78d34d89a244d71a9e0025b4a83a9941",
+    "ee561bf80ef502ff5dbdc2730e30abb4460ce1883a0f1c7bb2a24b2025ec0fd8",
+    "114e83512e618b1989c5a0550abf5c1d33ffaa76c59a4fbf75b582420d3beed5",
+    "6253cfc0426da90c7fe3434e99975e1ede0672ba2b7f19fa56a9a6f24dcd995a",
+    "f1292fa2bf1502c633df693db10d90a65fe0954848f6755e39cbcdaf8cd421ea",
+    "e85e190b43e0cc1815ece096483c17a6c6201b5fb453ed91b596c5eb6c92265c",
+    "fdf78dd72450e0e1a4c08d0875cf181159d2a3c9f52c84ce80d586893bff676a",
+    "89839e3313438526c6d2af3844cc23f6798d0019f52a35889c05a7c1daa7ca74",
+    "06953d2682a771b850f6281f577ea65ee8f1bd9b96f702d834a6dab6d3accb88",
+    "a567fea896a485646779a7ec0aea7bfdc7ec95d2592da8720e6945056d7c07a6",
+    "0d701fad2d7d44d31b6779b1c5f10095d06c9a7610aa43c3bfb0bac399679c32",
+    "b87ec38a95346df5f815a3027159a44b72e66c81ff6bb8fd68bf6059a701d695",
+    "1a895059e8f45661f7745c92abf3b9d3ce9cde528705910696db4680a077850e",
+    "c6bd519fb9242fa8222059713511042f30afbf82dd0e9d7107025add567d1ad9",
+    "e43c02456babbb9558145ccb5106fb1aaf113039f22e9fd04a0af5d7586e2c94",
+    "4adeadee565dc4dba036ef62bddc1eeec690dd1c373e39069059aee464936bf6",
+    "6b7853532e32f658545ef533d322fa6199f2ef7ef404876558e91f04ec44ffc9",
+    "071ae9b4dda75963b03e15fbdb02167f6cc35bd23459a385490b1188137425bb",
+    "8a172045721b68926ed1b59533f692c592732fe8c2985fae57a8d2f360dee62b",
+    "c0697fd21d86083d7a67585f107a4a888ab9649ad51be2df7646b846d82ecae4",
+    "a8a0eb39eff8a6757c12464a83465ffdaf8bcef8cfa012af3378a30542471867",
+    "b6dbe2e3307a0e1319a4f9fd71c1247f5f4f7923c607a6a924e6470303b56092",
+    "8a216a14201f686d53c41aadeaf4c2221f02096df524775a02dc70846796c553",
+    "20f6bcee63e562799d9c24cef86fd6501cb5ac2a1fba14766ed575518d80750e",
+    "ee5d9279d8f15db262235442c8e9fdb66f7352e7859331433bbbfa20e5880533",
+    "c19e816f3d60197c53cd27f56f142bf6b136a33a2456c0a92d27d9b921bbcee3",
+    "22264ce390a49e66b362d86300826e3c9a42f2fb1f8fe529701380b4168aacac",
+    "d836f392ac386f45b7ce005fad2733ddb47a891b6139dbe2db5bac8db48a64cc",
+    "e404d9144598bffaf18105b1d1b728a7b853ba4347faca1190eb7c2501cb90f1",
+    "3ee9164345de07043008a3886728474603185dad70c166b8b7146d72754d7d07",
+    "93533792c39b884317072f7503eb0d7b2ce10e56778a68f05405ad2edddb30f2",
+    "4b15169b5636878a0d8c86bb9cee6914b9848c8225772ad75b4bdb6b79bebec1",
+    "99cf02824f97d229daf5291bc964629fcac16c523ffb5c176428ca62f8f0ca8e",
+    "fc2c0fcab2dc25923e40f506fd2b52ffb8c7c5893d26ccd2154249b40d3de431",
+    "6064f567fcce5e760cf84a02377bdb174b84afc3f62fbe367dbf4e77f0a2e9a7",
+    "91d7b8cf89c7d88064386db33af17da70d6623a400f9f6bd5909543dcd88e5d2",
+    "c15e227982f6b3b16c29ba16eabf10ae9b2ee26db056312462b39f85484bbfad",
+    "53f6f4274e379210727fe2e6c8e6ae710c80eb647d5ffc2e281627eec81504ba",
+    "2a13eed6c20db0cdd66b21f47917a422a64b11d99dbf995116d3c7aa76fe6fc9",
+    "5728998435946251cfc652b75b17f036ecfafaed9d391e0706868c27ab01dbc5",
+    "3da7a6c8c3d0c5abcaf67ac8a86cbdf834bb4c1029d97763989749eb8f1a2420",
+    "b2a62d602cfbdafe18a7dc11478d481184de22edb3022bedcaf1a71d5712ac9b",
+    "b1e3e235abe6fb31a5a271a1b6d5c3c6b67d0294ee1586c975ded3d8f34535f7"
+  ],
+  "expectedOutcome": {
+    "round": 10,
+    "gameOver": true,
+    "fame": 0,
+    "handSize": 5,
+    "wounds": 0,
+    "defeatedEnemies": 0
+  }
+}
