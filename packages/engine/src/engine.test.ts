@@ -344,6 +344,113 @@ describe("determinism and invariants", () => {
     expect(getReachableHexes(draft, mutated).has("1,0")).toBe(false);
   });
 
+  it("loads Day terrain costs from the content bundle", () => {
+    const { content, state } = setup();
+    const draft = clone(state);
+    draft.turn.movePoints = 10;
+    const costs = getReachableHexes(draft, content);
+    expect(costs.get("1,0")).toBe(2);
+    expect(costs.get("-1,0")).toBe(2);
+    expect(costs.get("0,-1")).toBe(3);
+    expect(costs.get("0,1")).toBe(3);
+    expect(costs.get("-1,1")).toBe(3);
+    expect(costs.get("1,-1")).toBe(2);
+    expect(costs.has("-1,2")).toBe(false);
+    expect(costs.has("0,2")).toBe(false);
+  });
+
+  it("explore is its own 2-Move action and a plain move reveals nothing", () => {
+    const { content, state } = setup();
+    const draft = clone(state);
+    draft.turn.movePoints = 2;
+    draft.players[0]!.position = { q: 1, r: 0 };
+    const exploreAction = { epoch: draft.actionEpoch, type: "explore" } as Action;
+    expect(getLegalActions(draft, content).actions).toContainEqual(exploreAction);
+    const revealed = applyOk(draft, exploreAction, content);
+    expect(revealed.state.turn.movePoints).toBe(0);
+    expect(revealed.state.map.tiles[1]?.revealed).toBe(true);
+    expect(revealed.events.some((event) => event.type === "tileRevealed")).toBe(true);
+    expect(revealed.state.map.enemies).toHaveLength(2);
+    expect(checkInvariants(revealed.state, content)).toEqual([]);
+
+    const step = clone(state);
+    step.turn.movePoints = 2;
+    const moved = applyOk(
+      step,
+      { epoch: step.actionEpoch, type: "moveTo", target: { q: 1, r: 0 } } as Action,
+      content,
+    );
+    expect(moved.state.map.tiles[1]?.revealed).toBe(false);
+    expect(moved.events.some((event) => event.type === "heroMoved")).toBe(true);
+  });
+
+  it("rejects an explore that is not adjacent to an unexplored edge", () => {
+    const { content, state } = setup();
+    const draft = clone(state);
+    draft.turn.movePoints = 10;
+    draft.players[0]!.position = { q: 0, r: 1 };
+    const exploreAction = { epoch: draft.actionEpoch, type: "explore" } as Action;
+    expect(getLegalActions(draft, content).actions).not.toContainEqual(exploreAction);
+    const rejected = applyAction(draft, exploreAction, content);
+    expect(rejected.ok).toBe(false);
+  });
+
+  it("expires mana tokens at end of turn and advances to the next round", () => {
+    const { content, state } = setup();
+    const given = giveCard(state, "basic:will_focus");
+    const play = legalOfType(
+      given.state,
+      content,
+      (action) =>
+        action.type === "playCard" && action.card === given.instance && action.mode === "basic",
+    )[0] as Action;
+    const played = applyOk(given.state, play, content);
+    const tokens = played.state.players[0]?.manaTokens.length ?? 0;
+    // resolve the mana choice, which adds a token
+    const choice = legalOfType(
+      played.state,
+      content,
+      (action) => action.type === "resolveChoice",
+    )[0] as Action;
+    const gained = applyOk(played.state, choice, content);
+    expect(gained.state.players[0]?.manaTokens.length).toBeGreaterThanOrEqual(1);
+    const ended = applyOk(
+      gained.state,
+      { epoch: gained.state.actionEpoch, type: "endTurn" } as Action,
+      content,
+    );
+    expect(ended.state.players[0]?.manaTokens).toHaveLength(0);
+    expect(ended.state.round).toBe(2);
+    expect(ended.state.turn.number).toBe(1);
+    expect(ended.state.turn.movePoints).toBe(0);
+    expect(tokens).toBeGreaterThanOrEqual(0);
+  });
+
+  it("recycles wounds from hand into the deck at round end", () => {
+    const { content, state } = setup();
+    const given = giveCard(state, "basic:march");
+    const play = legalOfType(
+      given.state,
+      content,
+      (action) =>
+        action.type === "playCard" && action.card === given.instance && action.mode === "basic",
+    )[0] as Action;
+    const played = applyOk(given.state, play, content);
+    const wounded = addWounds(played.state, 1);
+    const ended = applyOk(
+      wounded.state,
+      { epoch: wounded.state.actionEpoch, type: "endTurn" } as Action,
+      content,
+    );
+    const player = ended.state.players[0];
+    expect(
+      player?.hand.filter((card) => ended.state.cardInstances[card] === "card:wound"),
+    ).toHaveLength(0);
+    expect(player?.deck.some((card) => ended.state.cardInstances[card] === "card:wound")).toBe(
+      true,
+    );
+  });
+
   it("round-trips through JSON with an identical hash", () => {
     const { state } = setup();
     expect(hashState(JSON.parse(JSON.stringify(state)))).toBe(hashState(state));

@@ -192,7 +192,12 @@ function main(): void {
     }
     hashed.push(`${file.path}:${digest}`);
   }
-  const contentHash = sha256(`${manifest.schema_version}|${[...hashed].sort().join(";")}`);
+  // The compiler config (tile placement, spawns, selection) is part of the content identity:
+  // a trace must refuse to replay if the authored spike scenario changed.
+  const configDigest = sha256(readFileSync(CONFIG_PATH));
+  const contentHash = sha256(
+    `${manifest.schema_version}|${configDigest}|${[...hashed].sort().join(";")}`,
+  );
 
   // 3. Select and map the spike subset.
   const heroes = readJson<DataFile<HeroItem>>(join(DATA_DIR, "heroes.json"));
@@ -261,6 +266,23 @@ function main(): void {
         rampaging: hex.rampaging,
       })),
     };
+  }
+
+  // Authored placements must not overlap: the same global hex on two tiles is a data bug.
+  const occupied = new Map<string, string>();
+  for (const placement of config.tiles) {
+    const def = tileDefs[placement.tileId];
+    if (def === undefined) {
+      fail(`tile not mapped: ${placement.tileId}`);
+    }
+    for (const hex of def.hexes) {
+      const key = `${placement.origin.q + hex.q},${placement.origin.r + hex.r}`;
+      const owner = occupied.get(key);
+      if (owner !== undefined) {
+        fail(`tile placement overlap at ${key}: ${owner} and ${placement.tileId}`);
+      }
+      occupied.set(key, placement.tileId);
+    }
   }
 
   const enemyDefs: Record<string, EnemyDef> = {};

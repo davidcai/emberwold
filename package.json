@@ -20,7 +20,8 @@
     "trace:verify": "tsx tools/golden-traces/src/verify.ts",
     "trace:record": "tsx tools/golden-traces/src/record.ts",
     "play": "tsx tools/play-cli/src/cli.ts",
-    "fuzz": "tsx tools/play-cli/src/fuzz.ts"
+    "fuzz": "tsx tools/play-cli/src/fuzz.ts",
+    "trace:scenario": "tsx tools/golden-traces/src/record-scenario.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

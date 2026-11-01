@@ -13,7 +13,7 @@
       "tileId": "tile:countryside_1",
       "origin": {
         "q": 2,
-        "r": 0
+        "r": 1
       }
     }
   ],
@@ -31,13 +31,13 @@
       "enemyId": "enemy:prowlers",
       "hex": {
         "q": 2,
-        "r": -1
+        "r": 0
       }
     },
     {
       "enemyId": "enemy:diggers",
       "hex": {
-        "q": 2,
+        "q": 1,
         "r": 1
       }
     }

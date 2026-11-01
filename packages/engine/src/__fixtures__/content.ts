@@ -190,6 +190,8 @@ export function createFixtureContent(): ContentBundle {
           { q: -1, r: 0, terrain: "plains", site: null, mine_color: null, rampaging: [] },
           { q: 0, r: -1, terrain: "hills", site: null, mine_color: null, rampaging: [] },
           { q: 1, r: -1, terrain: "plains", site: null, mine_color: null, rampaging: [] },
+          { q: -1, r: 2, terrain: "lake", site: null, mine_color: null, rampaging: [] },
+          { q: 0, r: 2, terrain: "mountain", site: null, mine_color: null, rampaging: [] },
         ],
       },
       "tile:countryside": {
@@ -243,7 +245,10 @@ export function createFixtureContent(): ContentBundle {
         { tileId: "tile:start", origin: { q: 0, r: 0 } },
         { tileId: "tile:countryside", origin: { q: 2, r: 0 } },
       ],
-      spawns: [{ enemyId: "enemy:test_brute", hex: { q: 2, r: 0 } }],
+      spawns: [
+        { enemyId: "enemy:test_brute", hex: { q: 2, r: 0 } },
+        { enemyId: "enemy:test_brute", hex: { q: 2, r: 1 } },
+      ],
       site: null,
       startHex: { q: 0, r: 0 },
     },

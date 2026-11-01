@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contentHash": "1d76a028139a49439c6f67d53430ac4ad646b54e8340cee42d86633b0337faa3",
+  "contentHash": "cfcf9db281e7b43dac922b8775d4fcb3330e3e18d7cf805d0b85282dccf4f122",
   "rulesConstants": {
     "startingHandSize": 5,
     "heroArmor": 2,
@@ -664,7 +664,7 @@
         "tileId": "tile:countryside_1",
         "origin": {
           "q": 2,
-          "r": 0
+          "r": 1
         }
       }
     ],
@@ -673,13 +673,13 @@
         "enemyId": "enemy:prowlers",
         "hex": {
           "q": 2,
-          "r": -1
+          "r": 0
         }
       },
       {
         "enemyId": "enemy:diggers",
         "hex": {
-          "q": 2,
+          "q": 1,
           "r": 1
         }
       }

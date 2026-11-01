@@ -63,6 +63,13 @@ spike report and decide go/no-go with the owner. Acceptance: G1 in
     `--random` play-cli, fuzz harness; `000-smoke.json` (52 actions) replays; tampered trace
     rejected; fuzz 1,000 actions over 24 games with 0 invariant/termination failures.
     **Checkpoint C1: headless round loop replays deterministically.**
+14. **S6 done — movement/explore/round loop** (commit on `t0-spike`): engine tests cover the
+    Day-cost table, explore as its own 2-Move action, negative move/reveal cases, mana expiry,
+    round advance and wound recycle (19 engine tests). Authored map fixed: countryside at
+    origin `2,1` (the old placement overlapped the starting tile); compiler now rejects
+    overlapping tile placements and hashes its config into `contentHash`
+    (`cfcf9db2…f122`). `010-move-reveal.json` replays with `heroMoved`+`tileRevealed`;
+    `000-smoke.json` re-recorded (44 actions).
 
 ## Next (ordered; first item is the exact next action)
 

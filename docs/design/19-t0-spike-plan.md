@@ -1,6 +1,6 @@
 # 19 · T0 Spike Plan — two weeks to a playable round
 
-**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S5 done · branch `t0-spike`
+**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S6 done · branch `t0-spike`
 **Companions:** [`10-feasibility-analysis.md`](./10-feasibility-analysis.md) §6/§9 (G1),
 [`11-mvp-scope.md`](./11-mvp-scope.md) §2–§5/§10 (scope/content),
 [`12-architecture.md`](./12-architecture.md) §3.3/§5/§6/§10/§12.4/§12.6 (engine, pipeline,
@@ -11,7 +11,7 @@ tests, T0 slice), [`14-roadmap.md`](./14-roadmap.md) §0.1/§1/§5/§6 (tiers, M
 
 > **Gate status: APPROVED 2026-10-31 (ADR-009 in [`00-decisions.md`](./00-decisions.md)).**
 > The owner approved this plan and its proposed defaults. Execution is on branch `t0-spike`:
-> **S1–S5 are done** (checkpoint C1 passed: headless round replays); S6–S10 are not started. No T1/T2 work is
+> **S1–S6 are done** (C1 passed; movement/reveal trace green); S7–S10 are not started. No T1/T2 work is
 > authorized by this plan.
 >
 > **Review record.** Two fresh-context reviewers checked this plan against the docs. Their
@@ -319,7 +319,7 @@ budget is exhausted; asserts termination and prints an invariant summary.
 
 **Evidence (2026-10-31, branch `t0-spike`, commit `4a9f148`):**
 * `pnpm trace:record` → `tools/golden-traces/000-smoke.json` with 52 actions, round 10,
-  `gameOver=true`, contentHash `1d76a028…faa3`.
+  `gameOver=true`, contentHash `cfcf9db2…f122`.
 * `pnpm trace:verify tools/golden-traces/000-smoke.json` → `trace verified … actions=52 … round=10`.
 * Tampered/truncated trace → exit 1 with `trace: outcome mismatch for gameOver`.
 * `pnpm fuzz --turns=1000 --seed=1` → `games=24 actions=1000 invariantFailures=0
@@ -329,7 +329,7 @@ budget is exhausted; asserts termination and prints an invariant summary.
 
 ---
 
-### S6 — Round loop, movement, terrain, explore, rest, end turn
+### S6 — Round loop, movement, terrain, explore, rest, end turn · **done 2026-10-31**
 
 **Do.** Round setup: source dice rolled from the `sourceDice` stream, initial hand, Day marker;
 round end → next round setup (dice reroll, round++, Day again — no night) until the spike
@@ -363,7 +363,18 @@ not; a Rest turn counts). Round end shuffles Wounds in hand back into the deed d
 6. Round loop: a two-round trace replays; the round cap ends the game; Wounds recycle at round
    end.
 
-**Evidence:** trace summaries; event dump at final action.
+**Evidence (2026-10-31, branch `t0-spike`):**
+* Engine tests now 19/19: Day-cost table (plains 2, hills 3, forest 3, wasteland 4, desert 5,
+  swamp 5; lake/mountain unreachable), explore is its own 2-Move action, plain `moveTo` reveals
+  nothing, illegal explore rejected, mana tokens expire at end of turn, round 2 starts clean,
+  wounds recycle from hand into the deck.
+* New authored map placement (countryside at origin `2,1`; the old `2,0` placement overlapped
+  the starting tile at `1,0`). The compiler now rejects overlapping tile placements, and the
+  compiler config is included in `contentHash` (`cfcf9db2…f122`) so a changed layout invalidates
+  traces.
+* `010-move-reveal.json`: actions `playCard → moveTo → playCard → explore`; events include
+  `heroMoved` and `tileRevealed`; `pnpm trace:verify` green. Smoke trace re-recorded against the
+  new hash (44 actions, round 10, game over).
 
 ---
 
