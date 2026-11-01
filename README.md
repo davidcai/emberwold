@@ -60,6 +60,7 @@ duplicating them.
 | — | [`docs/design/16-art-brief.md`](docs/design/16-art-brief.md) | Art direction, specs, acceptance (AI-generated art, ADR-006) |
 | — | [`docs/design/17-platform-analysis.md`](docs/design/17-platform-analysis.md) | Platform analysis + recommended stack |
 | — | [`docs/design/18-ai-art-prompts.md`](docs/design/18-ai-art-prompts.md) | AI art workflow + per-slot prompts |
+| — | [`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md) | T0 spike plan: 10 steps with checks, simplifications, approval gate (P5) |
 | — | [`AGENTS.md`](AGENTS.md) | Rules for AI coding agents (read before editing) |
 | — | [`art/PROMPTS.md`](art/PROMPTS.md) | Copy-paste prompts for all 41 art assets |
 | — | [`game-data/README.md`](game-data/README.md) | Machine-readable content schema + provenance |

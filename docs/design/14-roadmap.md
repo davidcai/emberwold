@@ -52,7 +52,7 @@ end turn; deterministic replay of the trace; one human can play it via CLI witho
 | # | Task | Output |
 |---|---|---|
 | 1 | Full 4-phase combat + damage assignment | Combat trace matches rulebook worked example |
-| 2 | Minimal UI shell: hex map (Pixi), hand, action picker driven by legal actions | Human plays with mouse |
+| 2 | Minimal UI shell: hex map (SVG/DOM per ADR-003; Pixi only behind the renderer interface), hand, action picker driven by legal actions | Human plays with mouse |
 | 3 | Site interaction (one village or keep) + reward | Reward loop closes |
 | 4 | Spike report: what was hard, revised estimate, go/no-go | `docs/design/spike-report.md` |
 
@@ -137,6 +137,9 @@ Rough budget ranges, to be refined only when the release path is chosen (`06`/`0
 
 ## 5. First two weeks — concrete task list
 
+Detailed, checkable version with acceptance criteria: [`19-t0-spike-plan.md`](./19-t0-spike-plan.md)
+(draft; execution starts only after the owner lifts the pre-implementation hold, P5).
+
 1. Scaffold repo (packages, strict TS, CI, lint, test, format) and commit.
 2. Implement `GameState`, `Action`, `Event`, `reduce`, seeded RNG + state hash.
 3. Content compiler for `game-data/` with schema validation and a `mvp` filter.
@@ -144,7 +147,7 @@ Rough budget ranges, to be refined only when the release path is chosen (`06`/`0
 5. Encode the spike content subset: 1 hero deck (16 basic actions), 2 tiles, 3 enemies, 1 site.
 6. Implement movement + terrain + tile reveal + end-turn.
 7. Implement 4-phase combat + damage assignment for 3 enemies.
-8. Minimal Pixi board + DOM hand + legal-action menus.
+8. Minimal SVG/DOM board (ADR-003) + DOM hand + legal-action menus.
 9. Write `docs/design/spike-report.md` (what was easy/hard, revised T1 estimate, decision).
 10. **Decide go/no-go** with the user.
 
