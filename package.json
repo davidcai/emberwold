@@ -16,7 +16,11 @@
     "boundaries": "depcruise packages tools --config .dependency-cruiser.cjs",
     "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm boundaries",
     "content:build": "node tools/content-compiler/src/main.ts",
-    "content:check": "pnpm content:build && git diff --exit-code -- packages/content"
+    "content:check": "pnpm content:build && git diff --exit-code -- packages/content",
+    "trace:verify": "tsx tools/golden-traces/src/verify.ts",
+    "trace:record": "tsx tools/golden-traces/src/record.ts",
+    "play": "tsx tools/play-cli/src/cli.ts",
+    "fuzz": "tsx tools/play-cli/src/fuzz.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -24,6 +28,7 @@
     "dependency-cruiser": "^18.7.0",
     "eslint": "^10.14.0",
     "prettier": "^3.9.10",
+    "tsx": "^4.23.15",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.72.1",
     "vitest": "^5.0.5"

@@ -1561,7 +1561,10 @@ function endTurn(draft: Draft, env: Env): void {
 // ---------------------------------------------------------------------------
 
 /** Exposed for the S4 mutation test: movement costs must come from the content bundle. */
-export function getReachableHexes(state: GameState, content: ContentBundle): ReadonlyMap<string, number> {
+export function getReachableHexes(
+  state: GameState,
+  content: ContentBundle,
+): ReadonlyMap<string, number> {
   return reachableHexes(state, content);
 }
 

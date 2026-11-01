@@ -1,7 +1,14 @@
 import { describe, expect, it } from "vitest";
 
 import { createFixtureContent } from "./__fixtures__/content";
-import { applyAction, checkInvariants, createGame, getLegalActions, getReachableHexes, hashState } from "./engine";
+import {
+  applyAction,
+  checkInvariants,
+  createGame,
+  getLegalActions,
+  getReachableHexes,
+  hashState,
+} from "./engine";
 import type { Action, ApplyOutcome, GameState } from "./types";
 import type { CardInstanceId, ContentBundle } from "@emberwold/shared";
 
@@ -327,7 +334,10 @@ describe("determinism and invariants", () => {
       ...content,
       rulesConstants: {
         ...content.rulesConstants,
-        terrainMoveCost: { ...content.rulesConstants.terrainMoveCost, plains: { day: 7, night: 7 } },
+        terrainMoveCost: {
+          ...content.rulesConstants.terrainMoveCost,
+          plains: { day: 7, night: 7 },
+        },
       },
     };
     expect(getReachableHexes(draft, content).has("1,0")).toBe(true);

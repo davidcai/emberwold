@@ -27,7 +27,8 @@ const ROOT = process.cwd();
 const CONFIG_PATH = join(ROOT, "tools/content-compiler/spike.config.json");
 const CONTENT_DIR = join(ROOT, "packages/content/src");
 const dataDirArg = process.argv.indexOf("--data-dir");
-const DATA_DIR = dataDirArg >= 0 ? resolve(process.argv[dataDirArg + 1] ?? "game-data") : join(ROOT, "game-data");
+const DATA_DIR =
+  dataDirArg >= 0 ? resolve(process.argv[dataDirArg + 1] ?? "game-data") : join(ROOT, "game-data");
 
 interface SpikeConfig {
   readonly schemaVersion: number;
@@ -103,7 +104,10 @@ interface RulesConstantsItem {
   readonly hero_hand_limit_level_1_2: number;
   readonly deed_deck_size: number;
   readonly tile_reveal_cost: number;
-  readonly terrain_move_cost: Record<string, { readonly day: number; readonly night: number } | null>;
+  readonly terrain_move_cost: Record<
+    string,
+    { readonly day: number; readonly night: number } | null
+  >;
 }
 
 function readJson<T>(path: string): T {
@@ -182,7 +186,9 @@ function main(): void {
     const absolute = join(DATA_DIR, file.path.replace(/^game-data\//, ""));
     const digest = sha256(readFileSync(absolute));
     if (!digest.startsWith(file.sha256)) {
-      fail(`manifest hash mismatch for ${file.path} (recorded ${file.sha256}, actual ${digest.slice(0, 16)})`);
+      fail(
+        `manifest hash mismatch for ${file.path} (recorded ${file.sha256}, actual ${digest.slice(0, 16)})`,
+      );
     }
     hashed.push(`${file.path}:${digest}`);
   }
@@ -194,7 +200,9 @@ function main(): void {
   const tiles = readJson<DataFile<TileItem>>(join(DATA_DIR, "tiles.json"));
   const enemies = readJson<DataFile<EnemyItem>>(join(DATA_DIR, "enemies.json"));
   const sites = readJson<DataFile<SiteItem>>(join(DATA_DIR, "sites.json"));
-  const keywords = readJson<{ rules_constants: RulesConstantsItem }>(join(DATA_DIR, "keywords.json"));
+  const keywords = readJson<{ rules_constants: RulesConstantsItem }>(
+    join(DATA_DIR, "keywords.json"),
+  );
 
   const heroItem = heroes.items.find((item) => item.id === config.hero);
   if (heroItem === undefined) {
@@ -330,7 +338,9 @@ export default bundle;
 
   const deckSize = hero.startingDeck.length;
   if (deckSize !== bundle.rulesConstants.deedDeckSize) {
-    fail(`hero deck size ${deckSize} != rules deed deck size ${bundle.rulesConstants.deedDeckSize}`);
+    fail(
+      `hero deck size ${deckSize} != rules deed deck size ${bundle.rulesConstants.deedDeckSize}`,
+    );
   }
   if (Object.keys(tileDefs).length !== config.tiles.length) {
     fail("tile count mismatch");

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@emberwold/engine": "workspace:*",
-    "@emberwold/shared": "workspace:*"
+    "@emberwold/shared": "workspace:*",
+    "@emberwold/content": "workspace:*"
   }
 }
