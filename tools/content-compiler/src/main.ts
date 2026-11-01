@@ -246,6 +246,9 @@ function collectOps(effect: EffectOp, out: Set<string>): void {
   if (effect.op === "discard_cost") {
     collectOps(effect.then_effect, out);
   }
+  if (effect.op === "apply_modifier") {
+    out.add(effect.effect.op);
+  }
 }
 
 function mapRulesConstants(item: RulesConstantsItem): RulesConstants {

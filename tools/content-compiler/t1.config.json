@@ -165,6 +165,7 @@
     "convert_mana_to_crystal",
     "mana_draw_powered",
     "apply_modifier",
+    "terrain_cost",
     "rule_override",
     "card_boost",
     "change_reputation",

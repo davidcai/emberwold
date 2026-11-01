@@ -10,6 +10,15 @@ export type CombatType = "melee" | "ranged" | "siege";
 export type Terrain =
   "plains" | "hills" | "forest" | "wasteland" | "desert" | "swamp" | "lake" | "mountain" | "city";
 
+/** Modifier payload: replace or adjust movement cost for one terrain (or all) this turn. */
+export interface TerrainCostModifier {
+  readonly op: "terrain_cost";
+  readonly terrain: Terrain | "all";
+  readonly amount: number;
+  readonly minimum?: number;
+  readonly replace_cost?: number;
+}
+
 export type EffectOp =
   | { readonly op: "choice"; readonly options: readonly EffectOp[] }
   | { readonly op: "compound"; readonly effects: readonly EffectOp[] }
@@ -34,7 +43,8 @@ export type EffectOp =
     }
   | {
       readonly op: "apply_modifier";
-      readonly effect: { readonly op: "rule_override"; readonly rule: string };
+      readonly effect:
+        { readonly op: "rule_override"; readonly rule: string } | TerrainCostModifier;
       readonly duration: "turn" | "combat";
       readonly scope?: string;
     }

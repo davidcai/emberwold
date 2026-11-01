@@ -613,6 +613,9 @@ function applyEffect(draft: Draft, env: Env, effect: EffectOp): void {
           dice: [draft.source[draft.source.length - 1]?.color ?? "gold"],
         });
       }
+      if (effect.effect.op === "terrain_cost" && effect.duration === "turn") {
+        draft.turn.terrainModifier = effect.effect;
+      }
       return;
     }
     case "rule_override": {
@@ -898,7 +901,18 @@ function terrainCost(state: GameState, content: ContentBundle, terrain: string):
   const entry = (
     content.rulesConstants.terrainMoveCost as Record<string, { day: number; night: number } | null>
   )[terrain];
-  return entry === null || entry === undefined ? null : entry[state.timeOfDay];
+  const base = entry === null || entry === undefined ? null : entry[state.timeOfDay];
+  const modifier = state.turn.terrainModifier;
+  if (modifier === undefined || (modifier.terrain !== "all" && modifier.terrain !== terrain)) {
+    return base;
+  }
+  if (modifier.replace_cost !== undefined) {
+    return modifier.replace_cost;
+  }
+  if (base === null) {
+    return null;
+  }
+  return Math.max(modifier.minimum ?? 0, base + modifier.amount);
 }
 
 function reachableHexes(state: GameState, content: ContentBundle): Map<string, number> {

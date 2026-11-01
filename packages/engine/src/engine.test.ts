@@ -1315,6 +1315,58 @@ describe("determinism and invariants", () => {
     state = outcome.state;
     expect(legalOfType(state, content, (action) => action.type === "useSkill")).toHaveLength(2);
   });
+  it("applies terrain-cost modifiers from skills for the rest of the turn", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      skills: {
+        "skill:test_flight": {
+          id: "skill:test_flight",
+          name: "Test Flight",
+          hero: "test",
+          usageType: "once_per_round",
+          effect: {
+            op: "compound",
+            effects: [
+              {
+                op: "apply_modifier",
+                effect: {
+                  op: "terrain_cost",
+                  terrain: "all",
+                  amount: 0,
+                  minimum: 0,
+                  replace_cost: 0,
+                },
+                duration: "turn",
+              },
+              { op: "gain_move", amount: 1 },
+            ],
+          },
+        },
+      },
+    };
+    let state = createGame({ seed: 11 }, content).state;
+    state = clone(state);
+    state.players[0]!.skills = ["skill:test_flight"];
+    state.turn.movePoints = 2;
+    const before = getReachableHexes(state, content);
+    expect(before.has(hexKeyFor({ q: 1, r: 0 }))).toBe(true);
+    expect(before.has(hexKeyFor({ q: 0, r: 1 }))).toBe(false);
+    const useSkill = getLegalActions(state, content).actions.find(
+      (action) => action.type === "useSkill",
+    );
+    expect(useSkill).toBeDefined();
+    const outcome = applyOk(state, useSkill as Action, content);
+    state = outcome.state;
+    const after = getReachableHexes(state, content);
+    expect(state.turn.movePoints).toBe(3);
+    expect(after.get(hexKeyFor({ q: 0, r: 1 }))).toBe(0);
+    expect(after.get(hexKeyFor({ q: -1, r: 1 }))).toBe(0);
+    // The modifier is turn-scoped: ending the turn clears it with the rest of the turn state.
+    const ended = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
+    expect(ended.state.turn.terrainModifier).toBeUndefined();
+  });
+
   it("recruits a unit at a village, activates it, and refreshes it at the next round", () => {
     const base = createFixtureContent();
     const startTile = base.tiles["tile:start"];

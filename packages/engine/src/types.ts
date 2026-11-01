@@ -11,6 +11,7 @@ import type {
   PlayerId,
   RngState,
   SiteDefId,
+  TerrainCostModifier,
   TileId,
   Terrain,
   UnitInstanceId,
@@ -46,6 +47,8 @@ export interface TurnState {
   extraSourceDie: boolean;
   cardBoost: number;
   flags: Record<string, boolean>;
+  /** Turn-duration movement modifier (e.g. a skill that makes all terrain cost 0). */
+  terrainModifier?: TerrainCostModifier;
 }
 
 export interface UnitState {
