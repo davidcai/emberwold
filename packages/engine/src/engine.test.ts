@@ -2200,6 +2200,32 @@ describe("determinism and invariants", () => {
     outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
     expect(outcome.state.players[0]?.hand).toHaveLength(5);
   });
+  it("round-trips the full state through JSON at every random-legal step", () => {
+    const { content } = setup();
+    let state = createGame({ seed: 31 }, content).state;
+    for (let step = 0; step < 120; step += 1) {
+      const restored = clone(state);
+      expect(hashState(restored)).toBe(hashState(state));
+      expect(checkInvariants(restored, content)).toEqual([]);
+      const { actions } = getLegalActions(state, content);
+      if (actions.length === 0) {
+        break;
+      }
+      const action = actions[(step * 17 + 3) % actions.length] as Action;
+      const original = applyAction(state, action, content);
+      const roundTripped = applyAction(restored, action, content);
+      expect(original.ok).toBe(true);
+      expect(roundTripped.ok).toBe(true);
+      if (!original.ok || !roundTripped.ok) {
+        break;
+      }
+      expect(roundTripped.result.stateHash).toBe(original.result.stateHash);
+      state = original.result.state;
+      if (state.gameOver) {
+        break;
+      }
+    }
+  });
   it("reveals tile sites only when the tile is explored", () => {
     const content = createFixtureContent();
     let state = createGame({ seed: 21 }, content).state;

@@ -18,6 +18,7 @@ interface SerializedState {
   actionEpoch: number;
   round: number;
   gameOver: boolean;
+  combat: { phase: string } | null;
   players: {
     hand: string[];
     fame: number;
@@ -144,5 +145,82 @@ test("replays the victory golden trace and shows the debrief", async ({ page }) 
   await expect(page.getByTestId("debrief-reason")).toHaveText("city conquered");
   await expect(page.locator('[data-testid="action"]')).toHaveCount(0);
   await expect(page.getByTestId("board")).toBeVisible();
+  expect(consoleErrors, "no console errors").toEqual([]);
+});
+
+test("continues a saved run from mid-combat and still reaches the victory debrief", async ({
+  page,
+}) => {
+  const consoleErrors: string[] = [];
+  page.on("console", (message) => {
+    if (message.type() === "error") {
+      consoleErrors.push(message.text());
+    }
+  });
+  page.on("pageerror", (error) => {
+    consoleErrors.push(String(error));
+  });
+
+  // A fresh Playwright context has an empty save, so the reload below can offer Continue.
+  await page.goto("/");
+  await page.getByTestId("seed").fill(String(trace.seed));
+  await page.getByTestId("new-run").first().click();
+  await page.waitForFunction(() => window.__EMBERWOLD__ !== undefined);
+
+  const readDebug = async (): Promise<Debug> =>
+    (await page.evaluate(() => window.__EMBERWOLD__)) as unknown as Debug;
+  const playTraceAction = async (action: SerializedAction, epoch: number): Promise<number> => {
+    const debug = await readDebug();
+    expect(debug.state.actionEpoch).toBe(epoch);
+    const index = debug.legal.findIndex(
+      (candidate) => JSON.stringify(candidate) === JSON.stringify(action),
+    );
+    expect(index, `trace action ${action.type} is offered by the client`).toBeGreaterThanOrEqual(0);
+    await page.locator(`[data-testid="action"][data-index="${index}"]`).first().click();
+    await page.waitForFunction(
+      (previous) => (window.__EMBERWOLD__?.state.actionEpoch ?? -1) > previous,
+      epoch,
+    );
+    return epoch + 1;
+  };
+
+  // Replay until the run is in a combat, then reload and continue from the autosave.
+  let epoch = 0;
+  let combatIndex = -1;
+  for (let index = 0; index < trace.actions.length; index += 1) {
+    epoch = await playTraceAction(trace.actions[index]!, epoch);
+    if ((await readDebug()).state.combat !== null) {
+      combatIndex = index;
+      break;
+    }
+  }
+  expect(combatIndex, "the victory trace enters a combat").toBeGreaterThanOrEqual(0);
+
+  const beforeReload = await readDebug();
+  expect(beforeReload.state.combat).not.toBeNull();
+  expect(
+    await page.evaluate(() => window.localStorage.getItem("emberwold.save.v1")),
+  ).not.toBeNull();
+
+  await page.reload();
+  await expect(page.getByTestId("resume")).toBeVisible();
+  await expect(page.getByTestId("continue")).toBeEnabled();
+  await page.getByTestId("continue").click();
+  await page.waitForFunction(() => window.__EMBERWOLD__ !== undefined);
+
+  const restored = await readDebug();
+  expect(restored.state.actionEpoch).toBe(beforeReload.state.actionEpoch);
+  expect(restored.state.combat?.phase).toBe(beforeReload.state.combat?.phase);
+  expect(restored.state.players[0]?.hand).toEqual(beforeReload.state.players[0]?.hand);
+
+  for (let index = combatIndex + 1; index < trace.actions.length; index += 1) {
+    epoch = await playTraceAction(trace.actions[index]!, epoch);
+  }
+
+  const finalDebug = await readDebug();
+  expect(finalDebug.state.result).toEqual(trace.expectedResult);
+  await expect(page.getByTestId("debrief")).toBeVisible();
+  await expect(page.getByTestId("debrief-outcome")).toHaveText(trace.expectedResult.outcome);
+  await expect(page.getByTestId("debrief-score")).toHaveText(String(trace.expectedResult.score));
   expect(consoleErrors, "no console errors").toEqual([]);
 });

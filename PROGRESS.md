@@ -272,7 +272,15 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     modifiers. Bundle digest `a7655b65…`, cards 29, AA offer unchanged, AA deck 7; 85 tests,
     all 7 traces re-recorded/rehashed and verified, 6 e2e, fuzz 10k clean.
 
-34. **Final engineering audit (done)**: exit report refreshed to v1.1 with the full commit
+34. **T1 verification hardening (done)**: an engine test now round-trips the complete game state
+    through JSON (parse/stringify) at every step of a 120-step random-legal game, asserting the
+    canonical state hash and invariants survive the save format, and the next applied action
+    produces the identical state hash from both copies. A new Playwright test replays
+    `050-victory.json` up to a combat, reloads the page, uses Continue, asserts the restored
+    combat phase/hand/epoch match the autosave, then finishes the trace to the victory debrief.
+    Evidence: 86 tests, 7 e2e, `pnpm verify`/lint/format green.
+
+35. **Final engineering audit (done)**: exit report refreshed to v1.1 with the full commit
     trail (through `59c9883`), current contentHash `a7655b65…`, 85 tests, 7 verified traces,
     6 e2e, fuzz seed 1 (127 games / 10,000 actions, 0 failures) and the production build
     (328.47 kB JS / 96.06 kB gzip + 7.59 kB CSS ≈ 98 kB gzipped). Working tree clean, CI

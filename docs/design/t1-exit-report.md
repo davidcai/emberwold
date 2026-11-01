@@ -58,14 +58,14 @@ Run from the repo root:
 
 ```bash
 pnpm verify              # typecheck + lint + 78 tests + dependency boundaries + 7 golden traces
-pnpm test:e2e            # Playwright: save/continue, undo, site-heal replay, victory replay
+pnpm test:e2e            # Playwright: save/continue, undo, mid-combat continue, site-heal + victory replays
 pnpm fuzz --turns=10000 --seed=1   # 127 games, 0 invariant/termination failures (also in CI)
 pnpm content:check       # generated bundle is current
 pnpm build               # client production build (≈95 KB gzipped initial load)
 pnpm exec tsx tools/golden-traces/src/verify.ts   # explicit trace report
 ```
 
-At the time of writing: **85 tests**, contentHash
+At the time of writing: **86 tests**, contentHash
 `a7655b6581edbe3601fcc22860a8b6ae04f9dad3257387df1e06c1c6c5761dec`, data validator
 `checks: 9662 errors: 0 warnings: 0`, CI fuzz 10,000 actions green (seed 1: 127 games,
 0 invariant/termination failures), production build 328.47 kB JS (96.06 kB gzip) +
@@ -181,12 +181,13 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
 - Complete winnable/losable seeded game: yes (`050-victory.json` = win; `000-smoke.json` =
   round-limit defeat).
 - ≥5 golden traces including a city assault: 7 traces including a city-conquering full game.
-- Tests/fuzz: 85 tests, dependency boundaries, CI fuzz 10,000 actions.
+- Tests/fuzz: 86 tests, dependency boundaries, CI fuzz 10,000 actions.
 
 **M4 (playable client): engineering met.** Start→finish browser game with placeholder art,
 save/continue + undo, the full T1 surface, game-over debrief, and Playwright covering both a
 scripted trace replay and the complete winning scenario (`e2e/victory.spec.ts`, 78 actions,
-debrief assertions, no console errors). Production build: 328.47 kB JS (96.06 kB gzip) + 7.59
+debrief assertions, no console errors) plus a mid-combat save/Continue replay of the same
+trace. Production build: 328.47 kB JS (96.06 kB gzip) + 7.59
 kB CSS (2.08 kB gzip) ≈ 98 kB gzipped initial load, under the 5 MB budget. An indicative
 headless-Chromium probe of the started run measured 60.0 fps over 3 s (181 frames, p95 frame
 time 16.7 ms, no dropped frames, 226 DOM nodes, ~14 MB JS heap); the renderer is SVG/DOM with a
