@@ -142,6 +142,21 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     `fc396620e7046d8ef48eefedf82c5a28c0730bbaa430af131c6a413ae8490685`; all 6 traces re-recorded
     (same flows) and verify; e2e 4/4; fuzz seed 1 clean.
 
+23. **T1-c2 done — leveling, skills, AA at level-up, skill activation**: `game-data/levels.json`
+    fame thresholds and stat bands are compiled into the bundle as 10 per-level entries; hero
+    armor now comes from the level table (damage assignment), and round-prep hand size uses the
+    level hand limit. At end of turn, fame thresholds level the hero up; even levels grant the
+    next skill token from the scenario skill deck (fixed data order for now, no shuffle) and the
+    top Advanced Action from the AA offer (offer replenishes; card goes on top of the deed deck
+    before the round-end shuffle). Skills are now activatable when their effect tree is
+    implemented: `useSkill` action honours once-per-turn / once-per-round usage buckets (reset
+    per turn/round). Bundle gained `levels` (10) and `skills` (20; effect kept only where the
+    engine implements its ops), plus the hero's 10-skill deck; contentHash now hashes the emitted
+    bundle itself (`59c25590421263fe93140258a0325ffd1c3d122a250a8806d86c13c25ecbf774`), so
+    bundle-shape changes invalidate traces. Evidence: 72 tests (3 new: level-up skill+AA, armor
+    from level table, skill usage limits); all 6 traces re-recorded and verify; fuzz seed 1
+    clean; e2e 4/4.
+
 ## Next (ordered; first item is the exact next action)
 
 **T1-a + T1-d(client) are done on `t1-first-conquest`; commit and open the T1 PR, then keep
@@ -150,16 +165,20 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 
 0. Commit the current T1 increment (engine/content/rules + client autosave/undo + e2e + docs),
    push `t1-first-conquest`, watch CI (`t1-*` trigger added), open the PR and merge when green.
-1. **T1-c progression** — fame → level-up thresholds/level_stats (armor/hand/command), skill
-   tokens/offers (simplified: take a skill from the hero's 10-card skill deck at even levels),
-   Advanced Action acquisition at level-up (AA offer top card → top of deck), hand-limit and
-   armor updates, and the level-up prompt in the engine action flow.
-2. **T1-b2 units + remaining sites** — unit definitions/offers (players+2 at round start),
-   recruit at village/monastery/keep/tower, command slots, ready/spent/wounded, activate unit
-   abilities; keep hand-limit bonus; portal use; city purchase options after conquest.
+1. **T1-b2 units + remaining sites** — unit definitions/offers (players+2 at round start),
+   recruit at village/monastery/keep/tower (influence cost, command slots from the level table),
+   ready/spent/wounded state, activate unit abilities (data ops per unit), keep hand-limit bonus;
+   portal use; city purchase options after conquest (red artifacts / blue spells / white units /
+   green AA); fame→reputation events (assault −1, orc defeat +1).
+2. **T1-d2 remaining content** — artifacts (4 rings: basic free, powered throw-away), remaining
+   Advanced Actions/Spells whose effect ops now exist (conditional/on_terrain, scaling, …), and
+   the remaining hero skills' effects.
 3. **T1-e UI** — round/day-night indicator + tactic picker display, board origins, site/offer
-   panels (buy AA/spell/heal/recruit), level-up/unit UI, score/debrief screen, tutorial prompts
-   turns 1–3, placeholder art where it exists.
+   panels (buy AA/spell/heal/recruit/skill), level-up/unit/artifact UI, score/debrief screen,
+   tutorial prompts turns 1–3, placeholder art where it exists.
+4. **T1-f verification + exit** — a full-game deterministic trace that actually wins (city
+   assault inside 3 rounds) or a scripted full game, scoring/debrief check, longer fuzz in CI,
+   docs (`11` §9 DoD), README/roadmap status, then T1 exit + PR/merge decision.
 4. **T1-f verification + exit** — a full-game deterministic trace that actually wins (city
    assault inside 3 rounds) or a scripted full game, scoring/debrief check, longer fuzz in CI,
    docs (`11` §9 DoD), README/roadmap status, then T1 exit + PR/merge decision.

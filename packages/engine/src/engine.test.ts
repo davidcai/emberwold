@@ -1161,4 +1161,158 @@ describe("determinism and invariants", () => {
       combatType: "melee",
     });
   });
+  it("levels up at the end of the turn, gaining a skill and an advanced action at even levels", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      levels: [
+        { level: 1, fame: 0, stats: { armor: 2, handLimit: 5, commandSlots: 1 } },
+        { level: 2, fame: 3, stats: { armor: 2, handLimit: 5, commandSlots: 1 } },
+        { level: 3, fame: 8, stats: { armor: 3, handLimit: 5, commandSlots: 2 } },
+        { level: 4, fame: 15, stats: { armor: 3, handLimit: 5, commandSlots: 2 } },
+      ],
+      cards: {
+        ...base.cards,
+        "advanced:test_reward": {
+          id: "advanced:test_reward",
+          name: "Test Reward",
+          color: "red",
+          poweredBy: "red",
+          sidewaysValue: 1,
+          effects: {
+            basic: { op: "gain_attack", amount: 1, combat_type: "melee", element: "physical" },
+            powered: null,
+          },
+        },
+        "advanced:test_next": {
+          id: "advanced:test_next",
+          name: "Test Next",
+          color: "blue",
+          poweredBy: "blue",
+          sidewaysValue: 1,
+          effects: { basic: { op: "gain_block", amount: 1, element: "physical" }, powered: null },
+        },
+      },
+      skills: {
+        "skill:test_first": {
+          id: "skill:test_first",
+          name: "First",
+          hero: "test",
+          usageType: "once_per_turn",
+          effect: null,
+        },
+      },
+      scenario: {
+        ...base.scenario,
+        aaOffer: ["advanced:test_reward"],
+        aaDeck: ["advanced:test_next"],
+        skillDeck: ["skill:test_first"],
+      },
+    };
+    let state = createGame({ seed: 8 }, content).state;
+    expect(state.players[0]?.level).toBe(1);
+    state = clone(state);
+    state.players[0]!.fame = 3;
+    const outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
+    state = outcome.state;
+    expect(state.players[0]?.level).toBe(2);
+    expect(state.players[0]?.skills).toEqual(["skill:test_first"]);
+    const gained = outcome.events.filter((event) => event.type === "cardGained");
+    expect(gained).toHaveLength(1);
+    expect((gained[0] as { source?: string }).source).toBe("level_up");
+    // The round-end shuffle re-randomises the deck, so the gained card is somewhere in it.
+    const player = state.players[0];
+    const allCards = [...(player?.hand ?? []), ...(player?.deck ?? []), ...(player?.discard ?? [])];
+    const reward = allCards.find(
+      (instance) => String(state.cardInstances[instance]) === "advanced:test_reward",
+    );
+    expect(reward).toBeDefined();
+    expect(state.offers.aa).toEqual(["advanced:test_next"]);
+  });
+
+  it("uses the level table for hero armor when assigning damage", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      levels: [
+        { level: 1, fame: 0, stats: { armor: 2, handLimit: 5, commandSlots: 1 } },
+        { level: 2, fame: 3, stats: { armor: 4, handLimit: 5, commandSlots: 1 } },
+      ],
+    };
+    let state = createGame({ seed: 9 }, content).state;
+    state = clone(state);
+    state.players[0]!.level = 2;
+    state.combat = {
+      phase: "assignDamage",
+      enemies: [
+        {
+          instanceId: "enemy:test" as never,
+          defId: "enemy:test_brute",
+          blocked: false,
+          defeated: false,
+        },
+      ],
+      attackPool: [],
+      blockPool: [],
+      pendingDamage: [{ enemyInstanceId: "enemy:test" as never, amount: 5 }],
+    };
+    const legal = legalOfType(state, content, (action) => action.type === "assignDamage");
+    expect(legal).toHaveLength(1);
+    const outcome = applyOk(state, legal[0] as Action, content);
+    // 5 damage vs armor 4 → floor(5/4) = 1 wound; with the level-1 armor 2 it would be 2.
+    expect(outcome.events).toContainEqual({
+      type: "damageAssigned",
+      enemy: "enemy:test",
+      wounds: 1,
+    });
+  });
+  it("activates gained skills with per-turn and per-round usage limits", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      skills: {
+        "skill:test_turn": {
+          id: "skill:test_turn",
+          name: "Test Turn",
+          hero: "test",
+          usageType: "once_per_turn",
+          effect: { op: "gain_influence", amount: 1 },
+        },
+        "skill:test_round": {
+          id: "skill:test_round",
+          name: "Test Round",
+          hero: "test",
+          usageType: "once_per_round",
+          effect: { op: "gain_crystal", color: "red" },
+        },
+        "skill:test_unimplemented": {
+          id: "skill:test_unimplemented",
+          name: "Test Unimplemented",
+          hero: "test",
+          usageType: "once_per_turn",
+          effect: null,
+        },
+      },
+    };
+    let state = createGame({ seed: 10 }, content).state;
+    state = clone(state);
+    state.players[0]!.skills = ["skill:test_turn", "skill:test_round", "skill:test_unimplemented"];
+    const offered = legalOfType(state, content, (action) => action.type === "useSkill");
+    expect(offered.map((action) => (action as { skill: string }).skill).sort()).toEqual([
+      "skill:test_round",
+      "skill:test_turn",
+    ]);
+    let outcome = applyOk(state, offered[0] as Action, content);
+    state = outcome.state;
+    expect(outcome.events).toContainEqual(expect.objectContaining({ type: "skillUsed" }));
+    const afterFirst = legalOfType(state, content, (action) => action.type === "useSkill");
+    expect(afterFirst).toHaveLength(offered.length - 1);
+    outcome = applyOk(state, afterFirst[0] as Action, content);
+    state = outcome.state;
+    expect(legalOfType(state, content, (action) => action.type === "useSkill")).toHaveLength(0);
+    // Ending the round resets both usage buckets.
+    outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
+    state = outcome.state;
+    expect(legalOfType(state, content, (action) => action.type === "useSkill")).toHaveLength(2);
+  });
 });

@@ -18,8 +18,10 @@ import type {
   EffectOp,
   EnemyDef,
   HeroDef,
+  LevelDef,
   RulesConstants,
   SiteDef,
+  SkillDef,
   TacticDef,
   TileDef,
 } from "@emberwold/shared";
@@ -86,6 +88,8 @@ interface SpikeConfig {
   /** How many cards each offer shows (defaults 3/3); the rest form the offer deck. */
   readonly aaOfferSize?: number;
   readonly spellOfferSize?: number;
+  /** T1: skill definition ids to include; the scenario skill deck defaults to the hero's. */
+  readonly skills?: readonly string[];
   readonly woundCard: CardDef;
   readonly supportedOps: readonly string[];
 }
@@ -148,6 +152,35 @@ interface SiteItem {
 interface TacticItem {
   readonly id: string;
   readonly name: string;
+}
+
+interface LevelItem {
+  readonly op: "fame_threshold";
+  readonly level: number;
+  readonly fame: number;
+}
+
+interface LevelStatsItem {
+  readonly min_level: number;
+  readonly max_level: number;
+  readonly armor: number;
+  readonly hand_limit: number;
+  readonly command_slots: number;
+}
+
+interface LevelFile {
+  readonly level_stats: readonly LevelStatsItem[];
+  readonly items: readonly LevelItem[];
+}
+
+interface SkillItem {
+  readonly id: string;
+  readonly name: string;
+  readonly hero: string;
+  readonly usage_type: string;
+  readonly effect: EffectOp;
+  readonly implemented?: boolean;
+  readonly mvp?: boolean;
 }
 
 interface RulesConstantsItem {
@@ -251,7 +284,6 @@ function main(): void {
   const manifest = readJson<{ files: { path: string; sha256: string }[]; schema_version: string }>(
     join(DATA_DIR, "manifest.json"),
   );
-  const hashed: string[] = [];
   for (const file of [...manifest.files].sort((a, b) => (a.path < b.path ? -1 : 1))) {
     const absolute = join(DATA_DIR, file.path.replace(/^game-data\//, ""));
     const digest = sha256(readFileSync(absolute));
@@ -260,14 +292,7 @@ function main(): void {
         `manifest hash mismatch for ${file.path} (recorded ${file.sha256}, actual ${digest.slice(0, 16)})`,
       );
     }
-    hashed.push(`${file.path}:${digest}`);
   }
-  // The compiler config (tile placement, spawns, selection) is part of the content identity:
-  // a trace must refuse to replay if the authored spike scenario changed.
-  const configDigest = sha256(readFileSync(CONFIG_PATH));
-  const contentHash = sha256(
-    `${manifest.schema_version}|${configDigest}|${[...hashed].sort().join(";")}`,
-  );
 
   // 3. Select and map the spike subset.
   const heroes = readJson<DataFile<HeroItem>>(join(DATA_DIR, "heroes.json"));
@@ -278,6 +303,8 @@ function main(): void {
   const tactics = readJson<DataFile<TacticItem>>(join(DATA_DIR, "tactics.json"));
   const advancedActions = readJson<DataFile<CardItem>>(join(DATA_DIR, "advanced-actions.json"));
   const spells = readJson<DataFile<CardItem>>(join(DATA_DIR, "spells.json"));
+  const levels = readJson<LevelFile>(join(DATA_DIR, "levels.json"));
+  const skills = readJson<DataFile<SkillItem>>(join(DATA_DIR, "skills.json"));
   const keywords = readJson<{ rules_constants: RulesConstantsItem }>(
     join(DATA_DIR, "keywords.json"),
   );
@@ -455,9 +482,55 @@ function main(): void {
   const spellOffer = spellIds.slice(0, config.spellOfferSize ?? 3);
   const spellDeck = spellIds.slice(config.spellOfferSize ?? 3);
 
-  const bundle: ContentBundle = {
+  // T1 leveling: flatten the fame thresholds and stat bands to one entry per level.
+  const levelDefs: LevelDef[] = [];
+  for (let level = 1; level <= 10; level += 1) {
+    const threshold = levels.items.find((item) => item.level === level);
+    const band = levels.level_stats.find(
+      (candidate) => candidate.min_level <= level && level <= candidate.max_level,
+    );
+    if (threshold === undefined || band === undefined) {
+      fail(`levels.json is missing level ${level}`);
+    }
+    levelDefs.push({
+      level,
+      fame: threshold.fame,
+      stats: {
+        armor: band.armor,
+        handLimit: band.hand_limit,
+        commandSlots: band.command_slots,
+      },
+    });
+  }
+
+  // T1 skills: acquisition is implemented; the effect is only kept when its ops exist.
+  const heroName = hero.id.replace(/^hero:/, "");
+  const skillIds =
+    config.skills ?? skills.items.filter((item) => item.mvp === true).map((item) => item.id);
+  const skillDefs: Record<string, SkillDef> = {};
+  const skillDeck: string[] = [];
+  for (const skillId of skillIds) {
+    const item = skills.items.find((candidate) => candidate.id === skillId);
+    if (item === undefined) {
+      fail(`skill not found: ${skillId}`);
+    }
+    const ops = new Set<string>();
+    collectOps(item.effect, ops);
+    const supported = [...ops].every((op) => config.supportedOps.includes(op));
+    skillDefs[item.id] = {
+      id: item.id,
+      name: item.name,
+      hero: item.hero,
+      usageType: item.usage_type,
+      effect: supported ? item.effect : null,
+    };
+    if (item.hero === heroName) {
+      skillDeck.push(item.id);
+    }
+  }
+
+  const draftBundle: Omit<ContentBundle, "contentHash"> = {
     schemaVersion: config.schemaVersion,
-    contentHash,
     rulesConstants: mapRulesConstants(keywords.rules_constants),
     cards: { ...cardDefs, ...additionalCards },
     heroes: { [hero.id]: hero },
@@ -483,10 +556,18 @@ function main(): void {
       spellOffer,
       aaDeck,
       spellDeck,
+      skillDeck,
     },
     tactics: tacticDefs,
+    levels: levelDefs,
+    skills: skillDefs,
     woundCard: config.woundCard,
   };
+
+  // The content hash covers the emitted bundle itself, so any selection, mapping, authored
+  // scenario or bundle-shape change invalidates old traces automatically.
+  const contentHash = sha256(JSON.stringify(draftBundle));
+  const bundle: ContentBundle = { ...draftBundle, contentHash };
 
   // 4. Emit deterministic output + stats.
   writeFileSync(join(CONTENT_DIR, "bundle.json"), `${JSON.stringify(bundle, null, 2)}\n`);

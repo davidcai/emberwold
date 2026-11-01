@@ -61,6 +61,17 @@ export interface PlayerState {
   playArea: CardInstanceId[];
   crystals: Record<BasicManaColor, number>;
   manaTokens: ManaToken[];
+  /** Skill tokens still to be gained (fixed data order in T1; no shuffle yet). */
+  skillDeck: string[];
+  /** Skills gained so far (effects deferred for most, T1 simplification). */
+  skills: string[];
+}
+
+export interface SkillUsage {
+  /** Skill ids already used this turn (once-per-turn skills). */
+  turn: string[];
+  /** Skill ids already used this round (once-per-round skills). */
+  round: string[];
 }
 
 export interface PlacedTile {
@@ -169,6 +180,8 @@ export interface GameState {
   offers: OfferState;
   /** Cards still behind each offer; a purchase shifts the next card into the offer. */
   offerDecks: OfferDecks;
+  /** Skill usage tracking for the current turn and round (T1 skill activation). */
+  skillUsage: SkillUsage;
 }
 
 export interface OfferState {
@@ -214,6 +227,7 @@ type ActionPayload =
   | { type: "buyAdvancedAction"; index: number }
   | { type: "buySpell"; index: number; mana?: ManaPayment }
   | { type: "discardGladeWound" }
+  | { type: "useSkill"; skill: string }
   | { type: "assignDamage"; enemy: EnemyInstanceId }
   | { type: "assignAttack"; enemy: EnemyInstanceId }
   | { type: "endCombatPhase" }
@@ -249,8 +263,11 @@ export type GameEvent =
       type: "cardGained";
       card: CardInstanceId;
       defId: CardId;
-      source: "monastery" | "mage_tower";
+      source: "monastery" | "mage_tower" | "level_up";
     }
+  | { type: "levelGained"; level: number }
+  | { type: "skillGained"; skill: string }
+  | { type: "skillUsed"; skill: string }
   | { type: "woundDiscarded"; count: number }
   | { type: "enemySpawned"; enemy: EnemyInstanceId; defId: string }
   | { type: "combatStarted"; enemies: EnemyInstanceId[] }

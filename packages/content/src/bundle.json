@@ -1,6 +1,5 @@
 {
   "schemaVersion": 1,
-  "contentHash": "fc396620e7046d8ef48eefedf82c5a28c0730bbaa430af131c6a413ae8490685",
   "rulesConstants": {
     "startingHandSize": 5,
     "heroArmor": 2,
@@ -1357,7 +1356,19 @@
       "advanced:ice_bolt",
       "advanced:crushing_bolt"
     ],
-    "spellDeck": []
+    "spellDeck": [],
+    "skillDeck": [
+      "skill:goldyx_flight",
+      "skill:goldyx_freezing_power",
+      "skill:goldyx_glittering_fortune",
+      "skill:goldyx_green_crystal_craft",
+      "skill:goldyx_motivation",
+      "skill:goldyx_potion_making",
+      "skill:goldyx_red_crystal_craft",
+      "skill:goldyx_source_opening",
+      "skill:goldyx_universal_power",
+      "skill:goldyx_white_crystal_craft"
+    ]
   },
   "tactics": {
     "tactic:early_bird": {
@@ -1409,6 +1420,417 @@
       "name": "Sparing Power"
     }
   },
+  "levels": [
+    {
+      "level": 1,
+      "fame": 0,
+      "stats": {
+        "armor": 2,
+        "handLimit": 5,
+        "commandSlots": 1
+      }
+    },
+    {
+      "level": 2,
+      "fame": 3,
+      "stats": {
+        "armor": 2,
+        "handLimit": 5,
+        "commandSlots": 1
+      }
+    },
+    {
+      "level": 3,
+      "fame": 8,
+      "stats": {
+        "armor": 3,
+        "handLimit": 5,
+        "commandSlots": 2
+      }
+    },
+    {
+      "level": 4,
+      "fame": 15,
+      "stats": {
+        "armor": 3,
+        "handLimit": 5,
+        "commandSlots": 2
+      }
+    },
+    {
+      "level": 5,
+      "fame": 24,
+      "stats": {
+        "armor": 3,
+        "handLimit": 6,
+        "commandSlots": 3
+      }
+    },
+    {
+      "level": 6,
+      "fame": 35,
+      "stats": {
+        "armor": 3,
+        "handLimit": 6,
+        "commandSlots": 3
+      }
+    },
+    {
+      "level": 7,
+      "fame": 48,
+      "stats": {
+        "armor": 4,
+        "handLimit": 6,
+        "commandSlots": 4
+      }
+    },
+    {
+      "level": 8,
+      "fame": 63,
+      "stats": {
+        "armor": 4,
+        "handLimit": 6,
+        "commandSlots": 4
+      }
+    },
+    {
+      "level": 9,
+      "fame": 80,
+      "stats": {
+        "armor": 4,
+        "handLimit": 7,
+        "commandSlots": 5
+      }
+    },
+    {
+      "level": 10,
+      "fame": 99,
+      "stats": {
+        "armor": 4,
+        "handLimit": 7,
+        "commandSlots": 5
+      }
+    }
+  ],
+  "skills": {
+    "skill:arythea_burning_power": {
+      "id": "skill:arythea_burning_power",
+      "name": "Burning Power",
+      "hero": "arythea",
+      "usageType": "once_per_turn",
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_attack",
+            "amount": 1,
+            "combat_type": "siege",
+            "element": "physical"
+          },
+          {
+            "op": "gain_attack",
+            "amount": 1,
+            "combat_type": "siege",
+            "element": "fire"
+          }
+        ]
+      }
+    },
+    "skill:arythea_dark_fire_magic": {
+      "id": "skill:arythea_dark_fire_magic",
+      "name": "Dark Fire Magic",
+      "hero": "arythea",
+      "usageType": "once_per_round",
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_crystal",
+            "color": "red"
+          },
+          {
+            "op": "choice",
+            "options": [
+              {
+                "op": "gain_mana",
+                "color": "red",
+                "amount": 1
+              },
+              {
+                "op": "gain_mana",
+                "color": "black",
+                "amount": 1
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "skill:arythea_dark_negotiation": {
+      "id": "skill:arythea_dark_negotiation",
+      "name": "Dark Negotiation",
+      "hero": "arythea",
+      "usageType": "once_per_turn",
+      "effect": null
+    },
+    "skill:arythea_dark_paths": {
+      "id": "skill:arythea_dark_paths",
+      "name": "Dark Paths",
+      "hero": "arythea",
+      "usageType": "once_per_turn",
+      "effect": null
+    },
+    "skill:arythea_hot_swordsmanship": {
+      "id": "skill:arythea_hot_swordsmanship",
+      "name": "Hot Swordsmanship",
+      "hero": "arythea",
+      "usageType": "once_per_turn",
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "melee",
+            "element": "physical"
+          },
+          {
+            "op": "gain_attack",
+            "amount": 2,
+            "combat_type": "melee",
+            "element": "fire"
+          }
+        ]
+      }
+    },
+    "skill:arythea_invocation": {
+      "id": "skill:arythea_invocation",
+      "name": "Invocation",
+      "hero": "arythea",
+      "usageType": "once_per_turn",
+      "effect": null
+    },
+    "skill:arythea_motivation": {
+      "id": "skill:arythea_motivation",
+      "name": "Motivation",
+      "hero": "arythea",
+      "usageType": "once_per_round",
+      "effect": null
+    },
+    "skill:arythea_polarization": {
+      "id": "skill:arythea_polarization",
+      "name": "Polarization",
+      "hero": "arythea",
+      "usageType": "once_per_turn",
+      "effect": null
+    },
+    "skill:arythea_power_of_pain": {
+      "id": "skill:arythea_power_of_pain",
+      "name": "Power Of Pain",
+      "hero": "arythea",
+      "usageType": "once_per_turn",
+      "effect": null
+    },
+    "skill:arythea_ritual_of_pain": {
+      "id": "skill:arythea_ritual_of_pain",
+      "name": "Ritual Of Pain",
+      "hero": "arythea",
+      "usageType": "interactive",
+      "effect": null
+    },
+    "skill:goldyx_flight": {
+      "id": "skill:goldyx_flight",
+      "name": "Flight",
+      "hero": "goldyx",
+      "usageType": "once_per_round",
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "compound",
+            "effects": [
+              {
+                "op": "apply_modifier",
+                "effect": {
+                  "op": "terrain_cost",
+                  "terrain": "all",
+                  "amount": 0,
+                  "minimum": 0,
+                  "replace_cost": 0
+                },
+                "duration": "turn",
+                "scope": "self_scope"
+              },
+              {
+                "op": "apply_modifier",
+                "effect": {
+                  "op": "rule_override",
+                  "rule": "ignore_rampaging_provoke"
+                },
+                "duration": "turn",
+                "scope": "self_scope"
+              },
+              {
+                "op": "gain_move",
+                "amount": 1
+              }
+            ]
+          },
+          {
+            "op": "compound",
+            "effects": [
+              {
+                "op": "apply_modifier",
+                "effect": {
+                  "op": "terrain_cost",
+                  "terrain": "all",
+                  "amount": 0,
+                  "minimum": 0,
+                  "replace_cost": 1
+                },
+                "duration": "turn",
+                "scope": "self_scope"
+              },
+              {
+                "op": "apply_modifier",
+                "effect": {
+                  "op": "rule_override",
+                  "rule": "ignore_rampaging_provoke"
+                },
+                "duration": "turn",
+                "scope": "self_scope"
+              },
+              {
+                "op": "gain_move",
+                "amount": 2
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "skill:goldyx_freezing_power": {
+      "id": "skill:goldyx_freezing_power",
+      "name": "Freezing Power",
+      "hero": "goldyx",
+      "usageType": "once_per_turn",
+      "effect": {
+        "op": "choice",
+        "options": [
+          {
+            "op": "gain_attack",
+            "amount": 1,
+            "combat_type": "siege",
+            "element": "physical"
+          },
+          {
+            "op": "gain_attack",
+            "amount": 1,
+            "combat_type": "siege",
+            "element": "ice"
+          }
+        ]
+      }
+    },
+    "skill:goldyx_glittering_fortune": {
+      "id": "skill:goldyx_glittering_fortune",
+      "name": "Glittering Fortune",
+      "hero": "goldyx",
+      "usageType": "once_per_turn",
+      "effect": null
+    },
+    "skill:goldyx_green_crystal_craft": {
+      "id": "skill:goldyx_green_crystal_craft",
+      "name": "Green Crystal Craft",
+      "hero": "goldyx",
+      "usageType": "once_per_round",
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_crystal",
+            "color": "blue"
+          },
+          {
+            "op": "gain_mana",
+            "color": "green",
+            "amount": 1
+          }
+        ]
+      }
+    },
+    "skill:goldyx_motivation": {
+      "id": "skill:goldyx_motivation",
+      "name": "Motivation",
+      "hero": "goldyx",
+      "usageType": "once_per_round",
+      "effect": null
+    },
+    "skill:goldyx_potion_making": {
+      "id": "skill:goldyx_potion_making",
+      "name": "Potion Making",
+      "hero": "goldyx",
+      "usageType": "once_per_round",
+      "effect": {
+        "op": "gain_healing",
+        "amount": 2
+      }
+    },
+    "skill:goldyx_red_crystal_craft": {
+      "id": "skill:goldyx_red_crystal_craft",
+      "name": "Red Crystal Craft",
+      "hero": "goldyx",
+      "usageType": "once_per_round",
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_crystal",
+            "color": "blue"
+          },
+          {
+            "op": "gain_mana",
+            "color": "red",
+            "amount": 1
+          }
+        ]
+      }
+    },
+    "skill:goldyx_source_opening": {
+      "id": "skill:goldyx_source_opening",
+      "name": "Source Opening",
+      "hero": "goldyx",
+      "usageType": "interactive",
+      "effect": null
+    },
+    "skill:goldyx_universal_power": {
+      "id": "skill:goldyx_universal_power",
+      "name": "Universal Power",
+      "hero": "goldyx",
+      "usageType": "once_per_round",
+      "effect": null
+    },
+    "skill:goldyx_white_crystal_craft": {
+      "id": "skill:goldyx_white_crystal_craft",
+      "name": "White Crystal Craft",
+      "hero": "goldyx",
+      "usageType": "once_per_round",
+      "effect": {
+        "op": "compound",
+        "effects": [
+          {
+            "op": "gain_crystal",
+            "color": "blue"
+          },
+          {
+            "op": "gain_mana",
+            "color": "white",
+            "amount": 1
+          }
+        ]
+      }
+    }
+  },
   "woundCard": {
     "id": "card:wound",
     "name": "Wound",
@@ -1422,5 +1844,6 @@
       },
       "powered": null
     }
-  }
+  },
+  "contentHash": "59c25590421263fe93140258a0325ffd1c3d122a250a8806d86c13c25ecbf774"
 }

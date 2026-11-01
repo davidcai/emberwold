@@ -143,6 +143,28 @@ export interface TacticDef {
   readonly name: string;
 }
 
+export interface LevelStats {
+  readonly armor: number;
+  readonly handLimit: number;
+  readonly commandSlots: number;
+}
+
+export interface LevelDef {
+  readonly level: number;
+  /** Fame needed to reach this level (0 at level 1). */
+  readonly fame: number;
+  readonly stats: LevelStats;
+}
+
+export interface SkillDef {
+  readonly id: string;
+  readonly name: string;
+  readonly hero: string;
+  /** Engine interpretation of the skill's effect; null while its ops are not implemented. */
+  readonly effect: EffectOp | null;
+  readonly usageType: string;
+}
+
 export interface ScenarioTacticRules {
   /** Solo rule: the human always chooses first, the dummy picks afterwards (02 §3.2/§17.1). */
   readonly humanChoosesFirst: boolean;
@@ -189,6 +211,8 @@ export interface SpikeScenarioDef {
   readonly aaDeck?: readonly string[];
   /** Remaining Spell deck behind the offer (offer replenishes on purchase). */
   readonly spellDeck?: readonly string[];
+  /** Hero skill deck for this scenario (T1: fixed data order; no shuffle yet). */
+  readonly skillDeck?: readonly string[];
 }
 
 export interface RulesConstants {
@@ -218,6 +242,10 @@ export interface ContentBundle {
   readonly scenario: SpikeScenarioDef;
   /** Tactic card definitions (T1; display only, effects deferred). */
   readonly tactics?: Readonly<Record<string, TacticDef>>;
+  /** Fame thresholds and per-level stats (T1 leveling). */
+  readonly levels?: readonly LevelDef[];
+  /** Skill definitions (T1; acquisition implemented, most effects deferred). */
+  readonly skills?: Readonly<Record<string, SkillDef>>;
   /** Rules-defined card with no effect (02-rules-core §14.1); not in game-data yet (B7). */
   readonly woundCard: CardDef;
 }

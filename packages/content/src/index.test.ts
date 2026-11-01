@@ -26,6 +26,14 @@ describe("@emberwold/content", () => {
     expect(bundle.scenario.aaOffer).toHaveLength(3);
     expect(bundle.scenario.spellOffer).toHaveLength(2);
     expect(bundle.scenario.aaDeck).toHaveLength(2);
+    expect(bundle.levels).toHaveLength(10);
+    expect(bundle.levels?.[1]).toEqual({
+      level: 2,
+      fame: 3,
+      stats: { armor: 2, handLimit: 5, commandSlots: 1 },
+    });
+    expect(Object.keys(bundle.skills ?? {})).toHaveLength(20);
+    expect(bundle.scenario.skillDeck).toHaveLength(10);
     expect(bundle.rulesConstants.monasteryAaCost).toBe(6);
     expect(bundle.rulesConstants.spellCost).toBe(7);
     expect(bundle.rulesConstants.tileRevealCost).toBe(2);

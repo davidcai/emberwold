@@ -314,6 +314,8 @@ export function createGame(
     playArea: [],
     crystals,
     manaTokens: [],
+    skillDeck: [...(scenario.skillDeck ?? [])],
+    skills: [],
   };
 
   const placed: PlacedTile[] = scenario.tiles.map((placement, index) => {
@@ -419,6 +421,7 @@ export function createGame(
       aa: [...(scenario.aaDeck ?? [])] as CardId[],
       spell: [...(scenario.spellDeck ?? [])] as CardId[],
     },
+    skillUsage: { turn: [], round: [] },
   };
   const draft = cloneState(state);
   seedEnemiesForRevealedTiles(draft, content, events);
@@ -1161,6 +1164,19 @@ export function getLegalActions(state: GameState, content: ContentBundle): Legal
   ) {
     actions.push({ epoch, type: "discardGladeWound" });
   }
+  for (const skill of player.skills) {
+    const def = content.skills?.[skill];
+    if (def === undefined || def.effect === null) {
+      continue;
+    }
+    const usage = def.usageType === "once_per_round" ? "round" : "turn";
+    if (state.skillUsage[usage].includes(skill)) {
+      continue;
+    }
+    if (effectApplicable(state, content, def.effect)) {
+      actions.push({ epoch, type: "useSkill", skill });
+    }
+  }
   if (canRest(state, content)) {
     const wounds = player.hand.filter((instance) =>
       isWound(content, cardOf(content, state.cardInstances, instance)),
@@ -1437,6 +1453,23 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
     case "assignAttack":
       assignAttack(draft, action.enemy, env);
       return;
+    case "useSkill": {
+      const def = env.content.skills?.[action.skill];
+      if (def === undefined || def.effect === null) {
+        throw new Error("skill not implemented");
+      }
+      if (!player.skills.includes(action.skill)) {
+        throw new Error("skill not gained");
+      }
+      const usage = def.usageType === "once_per_round" ? "round" : "turn";
+      if (draft.skillUsage[usage].includes(action.skill)) {
+        throw new Error("skill already used");
+      }
+      draft.skillUsage[usage].push(action.skill);
+      env.events.push({ type: "skillUsed", skill: action.skill });
+      applyEffect(draft, env, def.effect);
+      return;
+    }
     case "endTurn":
       endTurn(draft, env);
       return;
@@ -1658,7 +1691,7 @@ function assignDamage(draft: Draft, enemy: EnemyInstanceId, env: Env): void {
   if (player === undefined) {
     return;
   }
-  const wounds = woundsFromDamage(entry.amount, env.content.rulesConstants.heroArmor);
+  const wounds = woundsFromDamage(entry.amount, heroArmor(env.content, player.level));
   for (let i = 0; i < wounds; i += 1) {
     const instance = nextWoundInstance(draft, env);
     player.hand.push(instance);
@@ -1808,6 +1841,7 @@ function startHumanTurn(draft: Draft, env: Env): void {
   if (player === undefined) {
     return;
   }
+  draft.skillUsage.turn = [];
   draft.turn = emptyTurn(draft.turn.number + 1, player.hand.length === 0);
   draft.combat = null;
   env.events.push({ type: "turnStarted", player: asPlayerId("p1") });
@@ -1874,10 +1908,12 @@ function finishRound(draft: Draft, env: Env): void {
   if (pattern !== null) {
     draft.timeOfDay = pattern[draft.round - 1] ?? draft.timeOfDay;
   }
+  draft.skillUsage.turn = [];
+  draft.skillUsage.round = [];
   draft.turn = emptyTurn(1, player.hand.length === 0);
   draft.combat = null;
   rollSource(draft);
-  drawCards(draft, env, content.rulesConstants.startingHandSize);
+  drawCards(draft, env, heroHandLimit(content, player.level));
   if (draft.dummy !== null) {
     draft.dummy.cardsRemaining = draft.dummy.deckSize;
   }
@@ -1893,6 +1929,56 @@ function finishRound(draft: Draft, env: Env): void {
   if (draft.tacticChoice === null) {
     env.events.push({ type: "turnStarted", player: player.id });
     checkHeroDeckEmpty(draft, env);
+  }
+}
+
+function levelDefOf(content: ContentBundle, level: number) {
+  return content.levels?.find((definition) => definition.level === level);
+}
+
+function heroArmor(content: ContentBundle, level: number): number {
+  return levelDefOf(content, level)?.stats.armor ?? content.rulesConstants.heroArmor;
+}
+
+function heroHandLimit(content: ContentBundle, level: number): number {
+  return levelDefOf(content, level)?.stats.handLimit ?? content.rulesConstants.heroHandLimit;
+}
+
+/** End-of-turn level-ups (02 §12/§15): each even level grants a skill and an AA card. */
+function applyLevelUps(draft: Draft, env: Env): void {
+  const { content, events } = env;
+  const player = draft.players[0];
+  if (player === undefined || content.levels === undefined) {
+    return;
+  }
+  for (;;) {
+    const next = content.levels.find((definition) => definition.level === player.level + 1);
+    if (next === undefined || player.fame < next.fame) {
+      break;
+    }
+    player.level = next.level;
+    events.push({ type: "levelGained", level: next.level });
+    if (next.level % 2 !== 0) {
+      continue;
+    }
+    const skill = player.skillDeck.shift();
+    if (skill !== undefined) {
+      player.skills.push(skill);
+      events.push({ type: "skillGained", skill });
+    }
+    const defId = draft.offers.aa.shift();
+    if (defId !== undefined) {
+      const replacement = draft.offerDecks.aa.shift();
+      if (replacement !== undefined) {
+        draft.offers.aa.push(replacement);
+      }
+      const instance = asCardInstanceId(
+        `p1:gained:${draft.turn.number}:${draft.actionEpoch}:level`,
+      );
+      draft.cardInstances[instance] = defId;
+      player.deck.unshift(instance);
+      events.push({ type: "cardGained", card: instance, defId, source: "level_up" });
+    }
   }
 }
 
@@ -1923,6 +2009,7 @@ function endTurn(draft: Draft, env: Env): void {
   if (player === undefined) {
     return;
   }
+  applyLevelUps(draft, env);
   // Crystal mine: ending the turn on a mine yields one crystal of its colour (02 §16.4).
   const mineColor = mineColorAt(draft, env.content, player.position);
   if (mineColor !== null && player.crystals[mineColor] < 3) {
