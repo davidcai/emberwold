@@ -165,6 +165,20 @@ export interface GameState {
   dummy: DummyState | null;
   /** True once End of Round has been announced; the hero gets one final turn. */
   endOfRoundAnnounced: boolean;
+  /** Cards currently offered at sites (T1: Advanced Actions at monasteries, Spells at towers). */
+  offers: OfferState;
+  /** Cards still behind each offer; a purchase shifts the next card into the offer. */
+  offerDecks: OfferDecks;
+}
+
+export interface OfferState {
+  aa: CardId[];
+  spell: CardId[];
+}
+
+export interface OfferDecks {
+  aa: CardId[];
+  spell: CardId[];
 }
 
 export interface TacticChoice {
@@ -197,6 +211,9 @@ type ActionPayload =
   | { type: "enterSite" }
   | { type: "challengeRampaging" }
   | { type: "buyHealing"; points: number }
+  | { type: "buyAdvancedAction"; index: number }
+  | { type: "buySpell"; index: number; mana?: ManaPayment }
+  | { type: "discardGladeWound" }
   | { type: "assignDamage"; enemy: EnemyInstanceId }
   | { type: "assignAttack"; enemy: EnemyInstanceId }
   | { type: "endCombatPhase" }
@@ -228,6 +245,13 @@ export type GameEvent =
   | { type: "tileRevealed"; tile: TileId; origin: Hex }
   | { type: "siteEntered"; site: SiteDefId }
   | { type: "influenceSpent"; amount: number }
+  | {
+      type: "cardGained";
+      card: CardInstanceId;
+      defId: CardId;
+      source: "monastery" | "mage_tower";
+    }
+  | { type: "woundDiscarded"; count: number }
   | { type: "enemySpawned"; enemy: EnemyInstanceId; defId: string }
   | { type: "combatStarted"; enemies: EnemyInstanceId[] }
   | { type: "enemyBlocked"; enemy: EnemyInstanceId }

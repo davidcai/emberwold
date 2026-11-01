@@ -128,6 +128,20 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     fuzz seed 1 1,000 actions clean; `pnpm test:e2e` 4/4 (ui.spec now replays 030 deterministically
     through the real UI); `pnpm content:check` clean.
 
+22. **T1-b1 done — site purchases, offers, mine/glade, interaction reputation**: the bundle now
+    carries Advanced Action and Spell definitions (5 AA + 2 spells whose whole effect tree is
+    implemented today; the rest stay out until their ops land — documented simplification), plus
+    an AA offer (3) and spell offer (2) with decks behind them that top up on purchase. Engine:
+    monastery sells an AA for 6 Influence, a tower site sells a Spell for 7 Influence + one
+    matching mana (crystal/token/die), both put the card on top of the deed deck; magical glade
+    discards one Wound without healing it; ending the turn on a crystal mine yields one crystal;
+    entering a site applies the reputation modifier to Influence once per turn; healing stays
+    3 Inf/point at villages and 2 Inf/point at monasteries. Evidence: 69 tests green (5 new:
+    monastery purchase + offer top-up, spell purchase + mana, glade wound discard, mine income,
+    take_wound inside a combat card choice); contentHash
+    `fc396620e7046d8ef48eefedf82c5a28c0730bbaa430af131c6a413ae8490685`; all 6 traces re-recorded
+    (same flows) and verify; e2e 4/4; fuzz seed 1 clean.
+
 ## Next (ordered; first item is the exact next action)
 
 **T1-a + T1-d(client) are done on `t1-first-conquest`; commit and open the T1 PR, then keep
@@ -136,15 +150,16 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 
 0. Commit the current T1 increment (engine/content/rules + client autosave/undo + e2e + docs),
    push `t1-first-conquest`, watch CI (`t1-*` trigger added), open the PR and merge when green.
-1. **T1-b sites/offers** — 6 site interactions (village heal/recruit, monastery AA purchase,
-   keep influence, mage tower spell, magical glade wound discard, mine crystal), start-of-round
-   unit/AA/spell offers (human offer refresh; dummy deck gets removed AA cards later),
-   influence/reputation spending, unit recruiting + command slots.
-2. **T1-c progression** — fame → level-up thresholds/level_stats (armor/hand/command), skill
-   tokens/offers, advanced actions/spells/artifacts acquisition, deck growth past the 16 basics.
+1. **T1-c progression** — fame → level-up thresholds/level_stats (armor/hand/command), skill
+   tokens/offers (simplified: take a skill from the hero's 10-card skill deck at even levels),
+   Advanced Action acquisition at level-up (AA offer top card → top of deck), hand-limit and
+   armor updates, and the level-up prompt in the engine action flow.
+2. **T1-b2 units + remaining sites** — unit definitions/offers (players+2 at round start),
+   recruit at village/monastery/keep/tower, command slots, ready/spent/wounded, activate unit
+   abilities; keep hand-limit bonus; portal use; city purchase options after conquest.
 3. **T1-e UI** — round/day-night indicator + tactic picker display, board origins, site/offer
-   panels, level-up/unit UI, score/debrief screen, tutorial prompts turns 1–3, placeholder art
-   where it exists.
+   panels (buy AA/spell/heal/recruit), level-up/unit UI, score/debrief screen, tutorial prompts
+   turns 1–3, placeholder art where it exists.
 4. **T1-f verification + exit** — a full-game deterministic trace that actually wins (city
    assault inside 3 rounds) or a scripted full game, scoring/debrief check, longer fuzz in CI,
    docs (`11` §9 DoD), README/roadmap status, then T1 exit + PR/merge decision.
@@ -182,7 +197,9 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 - Image generation is owner-run in the ChatGPT desktop app; the agent never generates images.
 - **T1 simplifications still open** (documented, not bugs): tactic card effects are deferred
   (data placeholder); the dummy is count-only (no crystals/AA absorption/blocking figure yet);
-  combat fidelity waivers from the spike report §6 still apply until T1 exit.
+  only Advanced Actions/Spells whose full effect tree is implemented enter the bundle (5 AA +
+  2 spells now); Spell powered effects use the generic mana payment (no night/black-mana rule
+  yet); combat fidelity waivers from the spike report §6 still apply until T1 exit.
 - Gotchas: (a) the harness sandbox blocks writes outside the workspace — iCloud/backup copies need
   approval or a manual step; (b) fontTools C extensions fail on this host (pure-Python works after
   deleting the `.so` files); (c) `qlmanage` is sandbox-blocked — rasterise SVG with `sips` (Chrome

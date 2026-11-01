@@ -47,6 +47,7 @@ export type EffectOp =
       readonly wounds_only: boolean;
       readonly then_effect: EffectOp;
     }
+  | { readonly op: "take_wound" }
   | { readonly op: "change_reputation"; readonly amount: number }
   | { readonly op: "special"; readonly id: string };
 
@@ -180,6 +181,14 @@ export interface SpikeScenarioDef {
   readonly tacticRules?: ScenarioTacticRules;
   /** Simplified solo dummy player (round clock); null/absent for scenarios without one. */
   readonly dummy?: ScenarioDummy | null;
+  /** Advanced Action offer (T1): card definition ids currently on offer, offer index 0 first. */
+  readonly aaOffer?: readonly string[];
+  /** Spell offer (T1): card definition ids currently on offer, offer index 0 first. */
+  readonly spellOffer?: readonly string[];
+  /** Remaining Advanced Action deck behind the offer (offer replenishes on purchase). */
+  readonly aaDeck?: readonly string[];
+  /** Remaining Spell deck behind the offer (offer replenishes on purchase). */
+  readonly spellDeck?: readonly string[];
 }
 
 export interface RulesConstants {
@@ -188,6 +197,10 @@ export interface RulesConstants {
   readonly heroHandLimit: number;
   readonly deedDeckSize: number;
   readonly tileRevealCost: number;
+  /** Influence cost to learn an Advanced Action at a monastery (02 §16.2). */
+  readonly monasteryAaCost?: number;
+  /** Influence cost to buy a Spell at a mage tower, plus one matching mana (02 §16.2). */
+  readonly spellCost?: number;
   readonly terrainMoveCost: Readonly<
     Record<Terrain, { readonly day: number; readonly night: number } | null>
   >;

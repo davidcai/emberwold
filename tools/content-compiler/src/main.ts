@@ -80,6 +80,12 @@ interface SpikeConfig {
     readonly cardsPerTurn: number;
     readonly crystals: readonly BasicManaColor[];
   } | null;
+  /** T1: Advanced Action and Spell definition ids to include (data order preserved). */
+  readonly advancedActions?: readonly string[];
+  readonly spells?: readonly string[];
+  /** How many cards each offer shows (defaults 3/3); the rest form the offer deck. */
+  readonly aaOfferSize?: number;
+  readonly spellOfferSize?: number;
   readonly woundCard: CardDef;
   readonly supportedOps: readonly string[];
 }
@@ -150,6 +156,8 @@ interface RulesConstantsItem {
   readonly hero_hand_limit_level_1_2: number;
   readonly deed_deck_size: number;
   readonly tile_reveal_cost: number;
+  readonly monastery_advanced_action_cost?: number;
+  readonly spell_purchase_cost?: number;
   readonly terrain_move_cost: Record<
     string,
     { readonly day: number; readonly night: number } | null
@@ -198,6 +206,8 @@ function mapRulesConstants(item: RulesConstantsItem): RulesConstants {
     heroHandLimit: item.hero_hand_limit_level_1_2,
     deedDeckSize: item.deed_deck_size,
     tileRevealCost: item.tile_reveal_cost,
+    monasteryAaCost: item.monastery_advanced_action_cost,
+    spellCost: item.spell_purchase_cost,
     terrainMoveCost: {
       plains: terrainEntry("plains"),
       hills: terrainEntry("hills"),
@@ -266,6 +276,8 @@ function main(): void {
   const enemies = readJson<DataFile<EnemyItem>>(join(DATA_DIR, "enemies.json"));
   const sites = readJson<DataFile<SiteItem>>(join(DATA_DIR, "sites.json"));
   const tactics = readJson<DataFile<TacticItem>>(join(DATA_DIR, "tactics.json"));
+  const advancedActions = readJson<DataFile<CardItem>>(join(DATA_DIR, "advanced-actions.json"));
+  const spells = readJson<DataFile<CardItem>>(join(DATA_DIR, "spells.json"));
   const keywords = readJson<{ rules_constants: RulesConstantsItem }>(
     join(DATA_DIR, "keywords.json"),
   );
@@ -394,11 +406,60 @@ function main(): void {
     tacticDefs[item.id] = { id: item.id, name: item.name };
   }
 
+  // T1 offers: Advanced Actions (monastery) and Spells (mage tower). Only cards whose whole
+  // effect tree is implemented by the engine enter the bundle; the rest stay out for now.
+  const additionalCards: Record<string, CardDef> = {};
+  const selectOfferCards = (
+    items: readonly CardItem[],
+    ids: readonly string[],
+    kind: string,
+  ): string[] => {
+    const selected: string[] = [];
+    for (const id of ids) {
+      const item = items.find((candidate) => candidate.id === id);
+      if (item === undefined) {
+        fail(`${kind} not found: ${id}`);
+      }
+      const ops = new Set<string>();
+      collectOps(item.effects.basic, ops);
+      if (item.effects.powered !== null) {
+        collectOps(item.effects.powered, ops);
+      }
+      const unsupported = [...ops].filter((op) => !config.supportedOps.includes(op));
+      if (unsupported.length > 0) {
+        fail(`${kind} ${id} uses unsupported ops: ${unsupported.join(", ")}`);
+      }
+      for (const op of ops) {
+        usedOps.add(op);
+      }
+      additionalCards[item.id] = {
+        id: item.id,
+        name: item.name,
+        color: item.color as CardDef["color"],
+        poweredBy: item.powered_by as CardDef["poweredBy"],
+        sidewaysValue: item.sideways_value,
+        effects: { basic: item.effects.basic, powered: item.effects.powered },
+      };
+      selected.push(item.id);
+    }
+    return selected;
+  };
+  const aaIds = selectOfferCards(
+    advancedActions.items,
+    config.advancedActions ?? [],
+    "advanced action",
+  );
+  const spellIds = selectOfferCards(spells.items, config.spells ?? [], "spell");
+  const aaOffer = aaIds.slice(0, config.aaOfferSize ?? 3);
+  const aaDeck = aaIds.slice(config.aaOfferSize ?? 3);
+  const spellOffer = spellIds.slice(0, config.spellOfferSize ?? 3);
+  const spellDeck = spellIds.slice(config.spellOfferSize ?? 3);
+
   const bundle: ContentBundle = {
     schemaVersion: config.schemaVersion,
     contentHash,
     rulesConstants: mapRulesConstants(keywords.rules_constants),
-    cards: cardDefs,
+    cards: { ...cardDefs, ...additionalCards },
     heroes: { [hero.id]: hero },
     tiles: tileDefs,
     enemies: enemyDefs,
@@ -418,6 +479,10 @@ function main(): void {
       tacticIds,
       tacticRules: config.tacticRules,
       dummy: config.dummy ?? null,
+      aaOffer,
+      spellOffer,
+      aaDeck,
+      spellDeck,
     },
     tactics: tacticDefs,
     woundCard: config.woundCard,

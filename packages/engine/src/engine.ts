@@ -411,6 +411,14 @@ export function createGame(
     tactics: { available: [...allTactics], used: [], human: null, dummy: null },
     dummy,
     endOfRoundAnnounced: false,
+    offers: {
+      aa: [...(scenario.aaOffer ?? [])] as CardId[],
+      spell: [...(scenario.spellOffer ?? [])] as CardId[],
+    },
+    offerDecks: {
+      aa: [...(scenario.aaDeck ?? [])] as CardId[],
+      spell: [...(scenario.spellDeck ?? [])] as CardId[],
+    },
   };
   const draft = cloneState(state);
   seedEnemiesForRevealedTiles(draft, content, events);
@@ -464,6 +472,8 @@ function effectApplicable(state: GameState, content: ContentBundle, effect: Effe
         }) ?? false
       );
     }
+    case "take_wound":
+      return state.combat !== null;
     case "gain_attack": {
       if (state.combat === null) {
         return false;
@@ -656,6 +666,12 @@ function applyEffect(draft: Draft, env: Env, effect: EffectOp): void {
         kind: "discardCost",
         options: pending.options,
       });
+      return;
+    }
+    case "take_wound": {
+      const wound = nextWoundInstance(draft, env);
+      player.hand.push(wound);
+      events.push({ type: "woundGained", amount: 1 });
       return;
     }
     case "gain_attack": {
@@ -1116,6 +1132,35 @@ export function getLegalActions(state: GameState, content: ContentBundle): Legal
       actions.push({ epoch, type: "buyHealing", points });
     }
   }
+  const enteredSite =
+    siteDef !== undefined && state.turn.flags[`enteredSite:${hexKey(player.position)}`] === true;
+  if (enteredSite && siteDef.siteKind === "monastery" && state.offers.aa.length > 0) {
+    const cost = content.rulesConstants.monasteryAaCost ?? 6;
+    if (state.turn.influence >= cost) {
+      state.offers.aa.forEach((_offer, index) => {
+        actions.push({ epoch, type: "buyAdvancedAction", index });
+      });
+    }
+  }
+  if (enteredSite && siteDef.siteKind === "mage_tower" && state.offers.spell.length > 0) {
+    const cost = content.rulesConstants.spellCost ?? 7;
+    if (state.turn.influence >= cost) {
+      state.offers.spell.forEach((defId, index) => {
+        const spellDef = content.cards[defId];
+        if (spellDef !== undefined && pickMana(state, spellDef.color as ManaColor) !== null) {
+          actions.push({ epoch, type: "buySpell", index });
+        }
+      });
+    }
+  }
+  if (
+    siteDef !== undefined &&
+    siteDef.siteKind === "special" &&
+    siteDef.id === "site:magical_glade" &&
+    player.hand.some((instance) => isWound(content, cardOf(content, state.cardInstances, instance)))
+  ) {
+    actions.push({ epoch, type: "discardGladeWound" });
+  }
   if (canRest(state, content)) {
     const wounds = player.hand.filter((instance) =>
       isWound(content, cardOf(content, state.cardInstances, instance)),
@@ -1243,6 +1288,13 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
         throw new Error("no site here");
       }
       draft.turn.flags[`enteredSite:${hexKey(player.position)}`] = true;
+      // Reputation modifies the Influence generated during this interaction, once (02 §13).
+      if (draft.turn.flags["interactionReputation"] !== true && player.reputation !== 0) {
+        draft.turn.flags["interactionReputation"] = true;
+        const before = draft.turn.influence;
+        draft.turn.influence = Math.max(0, before + player.reputation);
+        env.events.push({ type: "influenceGained", amount: draft.turn.influence - before });
+      }
       env.events.push({ type: "siteEntered", site: asSiteDefId(site.siteId) });
       return;
     }
@@ -1268,6 +1320,87 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
       }
       env.events.push({ type: "influenceSpent", amount: cost });
       env.events.push({ type: "healGained", points: healed });
+      return;
+    }
+    case "buyAdvancedAction": {
+      const site = siteAt(draft, player.position);
+      const def = site === null ? undefined : content.sites[site.siteId];
+      const cost = content.rulesConstants.monasteryAaCost ?? 6;
+      if (def?.siteKind !== "monastery") {
+        throw new Error("monastery purchase needs a monastery");
+      }
+      if (draft.turn.flags[`enteredSite:${hexKey(player.position)}`] !== true) {
+        throw new Error("interact first");
+      }
+      const defId = draft.offers.aa[action.index];
+      if (defId === undefined) {
+        throw new Error("no such offer");
+      }
+      if (draft.turn.influence < cost) {
+        throw new Error("not enough influence");
+      }
+      draft.turn.influence -= cost;
+      draft.offers.aa.splice(action.index, 1);
+      const next = draft.offerDecks.aa.shift();
+      if (next !== undefined) {
+        draft.offers.aa.push(next);
+      }
+      const instance = asCardInstanceId(`p1:gained:${draft.turn.number}:${draft.actionEpoch}`);
+      draft.cardInstances[instance] = defId;
+      player.deck.unshift(instance);
+      env.events.push({ type: "influenceSpent", amount: cost });
+      env.events.push({ type: "cardGained", card: instance, defId, source: "monastery" });
+      return;
+    }
+    case "buySpell": {
+      const site = siteAt(draft, player.position);
+      const def = site === null ? undefined : content.sites[site.siteId];
+      const cost = content.rulesConstants.spellCost ?? 7;
+      if (def?.siteKind !== "mage_tower") {
+        throw new Error("spell purchase needs a tower site");
+      }
+      if (draft.turn.flags[`enteredSite:${hexKey(player.position)}`] !== true) {
+        throw new Error("interact first");
+      }
+      const defId = draft.offers.spell[action.index];
+      const cardDef = defId === undefined ? undefined : content.cards[defId];
+      if (defId === undefined || cardDef === undefined) {
+        throw new Error("no such offer");
+      }
+      if (draft.turn.influence < cost) {
+        throw new Error("not enough influence");
+      }
+      const payment = action.mana ?? pickMana(draft, cardDef.color as ManaColor);
+      if (payment === null || !paymentIsPossible(draft, payment, cardDef.color as ManaColor)) {
+        throw new Error("spell mana not available");
+      }
+      applyManaPayment(draft, payment);
+      draft.turn.influence -= cost;
+      draft.offers.spell.splice(action.index, 1);
+      const next = draft.offerDecks.spell.shift();
+      if (next !== undefined) {
+        draft.offers.spell.push(next);
+      }
+      const instance = asCardInstanceId(`p1:gained:${draft.turn.number}:${draft.actionEpoch}`);
+      draft.cardInstances[instance] = defId;
+      player.deck.unshift(instance);
+      env.events.push({ type: "influenceSpent", amount: cost });
+      env.events.push({ type: "cardGained", card: instance, defId, source: "mage_tower" });
+      return;
+    }
+    case "discardGladeWound": {
+      const site = siteAt(draft, player.position);
+      if (site?.siteId !== "site:magical_glade") {
+        throw new Error("not on a magical glade");
+      }
+      const index = player.hand.findIndex((instance) =>
+        isWound(content, cardOf(content, draft.cardInstances, instance)),
+      );
+      if (index < 0) {
+        throw new Error("no wound to discard");
+      }
+      player.hand.splice(index, 1);
+      env.events.push({ type: "woundDiscarded", count: 1 });
       return;
     }
     case "challengeRampaging": {
@@ -1763,10 +1896,38 @@ function finishRound(draft: Draft, env: Env): void {
   }
 }
 
+function mineColorAt(state: GameState, content: ContentBundle, hex: Hex): BasicManaColor | null {
+  for (const placed of state.map.tiles) {
+    if (!placed.revealed) {
+      continue;
+    }
+    const tile = content.tiles[placed.tileId];
+    if (tile === undefined) {
+      continue;
+    }
+    for (const hexDef of tile.hexes) {
+      if (hexDef.mine_color === null) {
+        continue;
+      }
+      const local = rotateHex({ q: hexDef.q, r: hexDef.r }, placed.rotation);
+      if (placed.origin.q + local.q === hex.q && placed.origin.r + local.r === hex.r) {
+        return hexDef.mine_color;
+      }
+    }
+  }
+  return null;
+}
+
 function endTurn(draft: Draft, env: Env): void {
   const player = draft.players[0];
   if (player === undefined) {
     return;
+  }
+  // Crystal mine: ending the turn on a mine yields one crystal of its colour (02 §16.4).
+  const mineColor = mineColorAt(draft, env.content, player.position);
+  if (mineColor !== null && player.crystals[mineColor] < 3) {
+    player.crystals[mineColor] += 1;
+    env.events.push({ type: "crystalGained", color: mineColor });
   }
   for (const card of player.playArea) {
     player.discard.push(card);

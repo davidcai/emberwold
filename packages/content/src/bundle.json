@@ -1,12 +1,14 @@
 {
   "schemaVersion": 1,
-  "contentHash": "a0c2aac5751e036846b55eda8f6169d33601aeebc855bc80ab7f297208edc866",
+  "contentHash": "fc396620e7046d8ef48eefedf82c5a28c0730bbaa430af131c6a413ae8490685",
   "rulesConstants": {
     "startingHandSize": 5,
     "heroArmor": 2,
     "heroHandLimit": 5,
     "deedDeckSize": 16,
     "tileRevealCost": 2,
+    "monasteryAaCost": 6,
+    "spellCost": 7,
     "terrainMoveCost": {
       "plains": {
         "day": 2,
@@ -424,6 +426,237 @@
           "id": "none"
         },
         "powered": null
+      }
+    },
+    "advanced:blood_rage": {
+      "id": "advanced:blood_rage",
+      "name": "Blood Rage",
+      "color": "red",
+      "poweredBy": "red",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 2,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "take_wound"
+                },
+                {
+                  "op": "gain_attack",
+                  "amount": 5,
+                  "combat_type": "melee",
+                  "element": "physical"
+                }
+              ]
+            }
+          ]
+        },
+        "powered": {
+          "op": "choice",
+          "options": [
+            {
+              "op": "gain_attack",
+              "amount": 4,
+              "combat_type": "melee",
+              "element": "physical"
+            },
+            {
+              "op": "compound",
+              "effects": [
+                {
+                  "op": "take_wound"
+                },
+                {
+                  "op": "gain_attack",
+                  "amount": 9,
+                  "combat_type": "melee",
+                  "element": "physical"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "advanced:intimidate": {
+      "id": "advanced:intimidate",
+      "name": "Intimidate",
+      "color": "red",
+      "poweredBy": "red",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "choice",
+              "options": [
+                {
+                  "op": "gain_influence",
+                  "amount": 4
+                },
+                {
+                  "op": "gain_attack",
+                  "amount": 3,
+                  "combat_type": "melee",
+                  "element": "physical"
+                }
+              ]
+            },
+            {
+              "op": "change_reputation",
+              "amount": -1
+            }
+          ]
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "choice",
+              "options": [
+                {
+                  "op": "gain_influence",
+                  "amount": 8
+                },
+                {
+                  "op": "gain_attack",
+                  "amount": 7,
+                  "combat_type": "melee",
+                  "element": "physical"
+                }
+              ]
+            },
+            {
+              "op": "change_reputation",
+              "amount": -2
+            }
+          ]
+        }
+      }
+    },
+    "advanced:fire_bolt": {
+      "id": "advanced:fire_bolt",
+      "name": "Fire Bolt",
+      "color": "red",
+      "poweredBy": "red",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "gain_crystal",
+          "color": "red"
+        },
+        "powered": {
+          "op": "gain_attack",
+          "amount": 3,
+          "combat_type": "ranged",
+          "element": "fire"
+        }
+      }
+    },
+    "advanced:ice_bolt": {
+      "id": "advanced:ice_bolt",
+      "name": "Ice Bolt",
+      "color": "blue",
+      "poweredBy": "blue",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "gain_crystal",
+          "color": "blue"
+        },
+        "powered": {
+          "op": "gain_attack",
+          "amount": 3,
+          "combat_type": "ranged",
+          "element": "ice"
+        }
+      }
+    },
+    "advanced:crushing_bolt": {
+      "id": "advanced:crushing_bolt",
+      "name": "Crushing Bolt",
+      "color": "green",
+      "poweredBy": "green",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "gain_crystal",
+          "color": "green"
+        },
+        "powered": {
+          "op": "gain_attack",
+          "amount": 3,
+          "combat_type": "siege",
+          "element": "physical"
+        }
+      }
+    },
+    "spell:fireball": {
+      "id": "spell:fireball",
+      "name": "Fireball",
+      "color": "red",
+      "poweredBy": "red",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "gain_attack",
+          "amount": 5,
+          "combat_type": "ranged",
+          "element": "fire"
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "take_wound"
+            },
+            {
+              "op": "gain_attack",
+              "amount": 8,
+              "combat_type": "siege",
+              "element": "fire"
+            }
+          ]
+        }
+      }
+    },
+    "spell:snowstorm": {
+      "id": "spell:snowstorm",
+      "name": "Snowstorm",
+      "color": "blue",
+      "poweredBy": "blue",
+      "sidewaysValue": 1,
+      "effects": {
+        "basic": {
+          "op": "gain_attack",
+          "amount": 5,
+          "combat_type": "ranged",
+          "element": "ice"
+        },
+        "powered": {
+          "op": "compound",
+          "effects": [
+            {
+              "op": "take_wound"
+            },
+            {
+              "op": "gain_attack",
+              "amount": 8,
+              "combat_type": "siege",
+              "element": "ice"
+            }
+          ]
+        }
       }
     }
   },
@@ -1110,7 +1343,21 @@
         "green",
         "blue"
       ]
-    }
+    },
+    "aaOffer": [
+      "advanced:blood_rage",
+      "advanced:intimidate",
+      "advanced:fire_bolt"
+    ],
+    "spellOffer": [
+      "spell:fireball",
+      "spell:snowstorm"
+    ],
+    "aaDeck": [
+      "advanced:ice_bolt",
+      "advanced:crushing_bolt"
+    ],
+    "spellDeck": []
   },
   "tactics": {
     "tactic:early_bird": {

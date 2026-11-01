@@ -852,4 +852,313 @@ describe("determinism and invariants", () => {
     expect(state.gameOver).toBe(true);
     expect(state.result).toMatchObject({ outcome: "defeat", reason: "round_limit" });
   });
+  it("sells an advanced action at a monastery and tops the offer up from the deck", () => {
+    const base = createFixtureContent();
+    const startTile = base.tiles["tile:start"];
+    if (startTile === undefined) {
+      throw new Error("fixture tile missing");
+    }
+    const content: ContentBundle = {
+      ...base,
+      cards: {
+        ...base.cards,
+        "advanced:test_rage": {
+          id: "advanced:test_rage",
+          name: "Test Rage",
+          color: "red",
+          poweredBy: "red",
+          sidewaysValue: 1,
+          effects: {
+            basic: { op: "gain_attack", amount: 2, combat_type: "melee", element: "physical" },
+            powered: null,
+          },
+        },
+        "advanced:test_guard": {
+          id: "advanced:test_guard",
+          name: "Test Guard",
+          color: "blue",
+          poweredBy: "blue",
+          sidewaysValue: 1,
+          effects: { basic: { op: "gain_block", amount: 2, element: "physical" }, powered: null },
+        },
+      },
+      sites: {
+        ...base.sites,
+        "site:monastery": {
+          id: "site:monastery",
+          name: "Monastery",
+          siteKind: "monastery",
+          fortified: false,
+          inhabited: true,
+          healing: { influencePerPoint: 2 },
+          interaction: [],
+        },
+      },
+      tiles: {
+        ...base.tiles,
+        "tile:start": {
+          ...startTile,
+          hexes: startTile.hexes.map((hex) =>
+            hex.q === 0 && hex.r === 0 ? { ...hex, site: null } : hex,
+          ),
+        },
+      },
+      scenario: {
+        ...base.scenario,
+        site: { siteId: "site:monastery", hex: { q: 0, r: 0 } },
+        aaOffer: ["advanced:test_rage"],
+        aaDeck: ["advanced:test_guard"],
+        spellOffer: [],
+        spellDeck: [],
+      },
+    };
+    let state = createGame({ seed: 3 }, content).state;
+    state = clone(state);
+    state.turn.influence = 6;
+    state = applyOk(state, { epoch: state.actionEpoch, type: "enterSite" }, content).state;
+    const buys = legalOfType(state, content, (action) => action.type === "buyAdvancedAction");
+    expect(buys).toHaveLength(1);
+    const outcome = applyOk(state, buys[0] as Action, content);
+    state = outcome.state;
+    expect(outcome.events).toContainEqual(
+      expect.objectContaining({ type: "cardGained", source: "monastery" }),
+    );
+    expect(state.offers.aa).toEqual(["advanced:test_guard"]);
+    expect(state.offers.aa).toHaveLength(1);
+    const top = state.players[0]?.deck[0];
+    expect(top).toBeDefined();
+    expect(String(state.cardInstances[top as CardInstanceId])).toBe("advanced:test_rage");
+    expect(state.turn.influence).toBe(0);
+  });
+
+  it("sells a spell at a tower site for influence plus one matching mana crystal", () => {
+    const base = createFixtureContent();
+    const startTile = base.tiles["tile:start"];
+    if (startTile === undefined) {
+      throw new Error("fixture tile missing");
+    }
+    const content: ContentBundle = {
+      ...base,
+      cards: {
+        ...base.cards,
+        "spell:test_fire": {
+          id: "spell:test_fire",
+          name: "Test Fire",
+          color: "red",
+          poweredBy: "red",
+          sidewaysValue: 1,
+          effects: {
+            basic: { op: "gain_attack", amount: 5, combat_type: "ranged", element: "fire" },
+            powered: null,
+          },
+        },
+      },
+      sites: {
+        ...base.sites,
+        "site:mage_tower": {
+          id: "site:mage_tower",
+          name: "Tower Site",
+          siteKind: "mage_tower",
+          fortified: true,
+          inhabited: true,
+          healing: null,
+          interaction: [],
+        },
+      },
+      tiles: {
+        ...base.tiles,
+        "tile:start": {
+          ...startTile,
+          hexes: startTile.hexes.map((hex) =>
+            hex.q === 0 && hex.r === 0 ? { ...hex, site: null } : hex,
+          ),
+        },
+      },
+      scenario: {
+        ...base.scenario,
+        site: { siteId: "site:mage_tower", hex: { q: 0, r: 0 } },
+        aaOffer: [],
+        aaDeck: [],
+        spellOffer: ["spell:test_fire"],
+        spellDeck: [],
+      },
+    };
+    let state = createGame({ seed: 4 }, content).state;
+    state = clone(state);
+    state.turn.influence = 7;
+    state.players[0] = {
+      ...state.players[0]!,
+      crystals: { ...state.players[0]!.crystals, red: 1 },
+    };
+    state = applyOk(state, { epoch: state.actionEpoch, type: "enterSite" }, content).state;
+    const buys = legalOfType(state, content, (action) => action.type === "buySpell");
+    expect(buys).toHaveLength(1);
+    const outcome = applyOk(state, buys[0] as Action, content);
+    state = outcome.state;
+    expect(outcome.events).toContainEqual(
+      expect.objectContaining({ type: "cardGained", source: "mage_tower" }),
+    );
+    expect(state.players[0]?.crystals.red).toBe(0);
+    expect(state.turn.influence).toBe(0);
+    expect(String(state.cardInstances[state.players[0]?.deck[0] as CardInstanceId])).toBe(
+      "spell:test_fire",
+    );
+  });
+
+  it("discards one wound on a magical glade without healing it", () => {
+    const base = createFixtureContent();
+    const startTile = base.tiles["tile:start"];
+    if (startTile === undefined) {
+      throw new Error("fixture tile missing");
+    }
+    const content: ContentBundle = {
+      ...base,
+      sites: {
+        ...base.sites,
+        "site:magical_glade": {
+          id: "site:magical_glade",
+          name: "Magical Glade",
+          siteKind: "special",
+          fortified: false,
+          inhabited: false,
+          healing: null,
+          interaction: [],
+        },
+      },
+      tiles: {
+        ...base.tiles,
+        "tile:start": {
+          ...startTile,
+          hexes: startTile.hexes.map((hex) =>
+            hex.q === 0 && hex.r === 0 ? { ...hex, site: null } : hex,
+          ),
+        },
+      },
+      scenario: {
+        ...base.scenario,
+        site: { siteId: "site:magical_glade", hex: { q: 0, r: 0 } },
+      },
+    };
+    let state = createGame({ seed: 5 }, content).state;
+    state = addWounds(state, 1).state;
+    const glade = legalOfType(state, content, (action) => action.type === "discardGladeWound");
+    expect(glade).toHaveLength(1);
+    const outcome = applyOk(state, glade[0] as Action, content);
+    state = outcome.state;
+    expect(outcome.events).toContainEqual({ type: "woundDiscarded", count: 1 });
+    const wounds = state.players[0]?.hand.filter(
+      (instance) => String(state.cardInstances[instance]) === "card:wound",
+    );
+    expect(wounds).toHaveLength(0);
+  });
+
+  it("yields one crystal when the turn ends on a crystal mine", () => {
+    const base = createFixtureContent();
+    const startTile = base.tiles["tile:start"];
+    if (startTile === undefined) {
+      throw new Error("fixture tile missing");
+    }
+    const content: ContentBundle = {
+      ...base,
+      tiles: {
+        ...base.tiles,
+        "tile:start": {
+          ...startTile,
+          hexes: startTile.hexes.map((hex) =>
+            hex.q === 0 && hex.r === 0 ? { ...hex, site: null, mine_color: "red" } : hex,
+          ),
+        },
+      },
+    };
+    let state = createGame({ seed: 6 }, content).state;
+    const redBefore = state.players[0]?.crystals.red ?? 0;
+    const outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
+    state = outcome.state;
+    expect(outcome.events).toContainEqual({ type: "crystalGained", color: "red" });
+    expect(state.players[0]?.crystals.red).toBe(redBefore + 1);
+  });
+
+  it("applies take_wound inside a combat card choice", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      cards: {
+        ...base.cards,
+        "advanced:test_blood": {
+          id: "advanced:test_blood",
+          name: "Test Blood",
+          color: "red",
+          poweredBy: "red",
+          sidewaysValue: 1,
+          effects: {
+            basic: {
+              op: "choice",
+              options: [
+                { op: "gain_attack", amount: 2, combat_type: "melee", element: "physical" },
+                {
+                  op: "compound",
+                  effects: [
+                    { op: "take_wound" },
+                    { op: "gain_attack", amount: 5, combat_type: "melee", element: "physical" },
+                  ],
+                },
+              ],
+            },
+            powered: null,
+          },
+        },
+      },
+    };
+    let state = createGame({ seed: 7 }, content).state;
+    state = clone(state);
+    const instance = "test:blood" as CardInstanceId;
+    state.cardInstances[instance] = "advanced:test_blood" as never;
+    state.players[0]?.hand.push(instance);
+    state.combat = {
+      phase: "attack",
+      enemies: [
+        {
+          instanceId: "enemy:test" as never,
+          defId: "enemy:test_brute",
+          blocked: false,
+          defeated: false,
+        },
+      ],
+      attackPool: [],
+      blockPool: [],
+      pendingDamage: [],
+    };
+    state.map.enemies.push({
+      instanceId: "enemy:test" as never,
+      defId: "enemy:test_brute",
+      hex: state.players[0]?.position ?? { q: 0, r: 0 },
+      alive: true,
+      kind: "rampaging",
+    });
+    const play = legalOfType(
+      state,
+      content,
+      (action) => action.type === "playCard" && "card" in action && action.card === instance,
+    );
+    expect(play).toHaveLength(1);
+    let outcome = applyOk(state, play[0] as Action, content);
+    expect(outcome.state.pending?.kind).toBe("effectChoice");
+    outcome = applyOk(
+      outcome.state,
+      {
+        epoch: outcome.state.actionEpoch,
+        type: "resolveChoice",
+        choiceId: outcome.state.pending?.choiceId ?? "",
+        optionIndex: 1,
+      },
+      content,
+    );
+    const events = outcome.events.map((event) => event.type);
+    expect(events).toContain("woundGained");
+    expect(outcome.state.combat?.attackPool).toContainEqual({
+      amount: 5,
+      element: "physical",
+      combatType: "melee",
+    });
+  });
 });

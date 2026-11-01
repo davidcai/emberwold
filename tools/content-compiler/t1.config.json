@@ -168,7 +168,8 @@
     "rule_override",
     "card_boost",
     "change_reputation",
-    "discard_cost"
+    "discard_cost",
+    "take_wound"
   ],
   "tacticIds": [
     "tactic:early_bird",
@@ -197,5 +198,18 @@
       "green",
       "blue"
     ]
-  }
+  },
+  "advancedActions": [
+    "advanced:blood_rage",
+    "advanced:intimidate",
+    "advanced:fire_bolt",
+    "advanced:ice_bolt",
+    "advanced:crushing_bolt"
+  ],
+  "spells": [
+    "spell:fireball",
+    "spell:snowstorm"
+  ],
+  "aaOfferSize": 3,
+  "spellOfferSize": 3
 }
