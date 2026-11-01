@@ -706,13 +706,17 @@ describe("determinism and invariants", () => {
       (candidate) => candidate.type === "moveTo" && candidate.target.q === 1,
     );
     state = applyOk(state, move as Action, content).state;
-    state = applyOk(
+    const assault = applyOk(
       state,
       getLegalActions(state, content).actions.find(
         (candidate) => candidate.type === "challengeRampaging",
       ) as Action,
       content,
-    ).state;
+    );
+    // Assaulting a fortified site costs 1 Reputation when combat begins (02 §7.1 / §13).
+    expect(assault.events).toContainEqual({ type: "reputationChanged", amount: -1 });
+    expect(assault.state.players[0]?.reputation).toBe(-1);
+    state = assault.state;
     while (state.combat !== null && state.combat.phase !== "assignDamage") {
       state = applyOk(
         state,
@@ -1261,6 +1265,64 @@ describe("determinism and invariants", () => {
     );
     expect(reward).toBeDefined();
     expect(state.offers.aa).toEqual(["advanced:test_next"]);
+  });
+
+  it("gains reputation for defeating rampaging green and brown enemies", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      enemies: {
+        ...base.enemies,
+        "enemy:test_brute": { ...base.enemies["enemy:test_brute"]!, color: "green" },
+        "enemy:test_dragon": {
+          id: "enemy:test_dragon",
+          name: "Test Dragon",
+          color: "brown",
+          attack: 4,
+          attackElement: "physical",
+          armor: 4,
+          fame: 5,
+          resistances: [],
+          abilities: [],
+        },
+      },
+    };
+    const defeat = (defId: string) => {
+      let state = createGame({ seed: 13 }, content).state;
+      state = clone(state);
+      state.map.enemies.push({
+        instanceId: "enemy:test:rep" as never,
+        defId,
+        hex: { q: 1, r: 0 },
+        alive: true,
+        kind: "rampaging",
+      });
+      state.combat = {
+        phase: "attack",
+        enemies: [
+          {
+            instanceId: "enemy:test:rep" as never,
+            defId,
+            blocked: false,
+            defeated: false,
+          },
+        ],
+        attackPool: [{ amount: 12, element: "physical", combatType: "melee" }],
+        blockPool: [],
+        pendingDamage: [],
+      };
+      return applyOk(
+        state,
+        { epoch: state.actionEpoch, type: "assignAttack", enemy: "enemy:test:rep" as never },
+        content,
+      );
+    };
+    const orc = defeat("enemy:test_brute");
+    expect(orc.events).toContainEqual({ type: "reputationChanged", amount: 1 });
+    expect(orc.state.players[0]?.reputation).toBe(1);
+    const dragon = defeat("enemy:test_dragon");
+    expect(dragon.events).toContainEqual({ type: "reputationChanged", amount: 2 });
+    expect(dragon.state.players[0]?.reputation).toBe(2);
   });
 
   it("uses the level table for hero armor when assigning damage", () => {

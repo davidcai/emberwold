@@ -40,6 +40,7 @@ listed in §8.
 | `0ec033a` | End-of-turn draw to the modified hand limit (02 §15.1) and `discardCard`; the missing draw deadlocked the 3-round game once the hand filled with unplayable cards. |
 | `8a7ee5c` | Site visibility fix (`map.sites` seeded only for revealed tiles and added on reveal), `expectedResult` golden-trace assertions, `050-victory.json` winning line. |
 | `61a83e1` | CI fuzz raised to 10,000 actions per push. |
+| (reputation increment) | Reputation events: city assault −1, defeating rampaging green/brown enemies +1/+2. |
 | (2nd-hero increment) | Second hero selectable: two heroes compiled with per-hero decks/crystals/skill decks, `GameConfig.heroId`, client hero selector, hero e2e test. |
 | (unit-wounds increment) | Unit damage assignment (armor absorption, Poison/Paralyze/Assassination), unit healing at sites, wounded units cannot activate; schemaVersion 2. |
 | `deb2f84` | Terrain-cost skill modifiers: `TerrainCostModifier` in the content contract, turn-scoped movement modifiers (Flight makes terrain cost 0/1), compiler collects nested modifier ops; bundle digest unchanged. |
@@ -61,7 +62,7 @@ pnpm build               # client production build (≈95 KB gzipped initial loa
 pnpm exec tsx tools/golden-traces/src/verify.ts   # explicit trace report
 ```
 
-At the time of writing: **81 tests**, contentHash
+At the time of writing: **82 tests**, contentHash
 `15c81fb0202e97c7c6b403d5f4e39f8fb909e0be3335ef38d37bf723db5d0bdd`, data validator
 `checks: 9662 errors: 0 warnings: 0`, CI fuzz 10,000 actions green.
 
@@ -109,6 +110,8 @@ The bundle contains 21 card definitions (12 basic + Wound + 5 Advanced Actions +
   restriction, site seeding only on revealed hexes, one combat per space per turn.
 - **Mana/economy:** Source roll with day/night special-die depletion (gold unusable at night,
   black by day), crystals, mana tokens, Influence, reputation modifier, tile-reveal cost 2.
+  Reputation moves on assaulting the city (−1) and defeating rampaging enemies (+1 green,
+  +2 brown), and feeds the interaction modifier once per site visit.
 - **Combat:** block/attack/damage phases, armored/fortified enemies, wounds, choice resolution,
   unit abilities, unit damage assignment (armor absorption; Poison/Paralyze/Assassination) and
   unit healing, city garrison assault.
@@ -148,8 +151,8 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
 - **Units:** wounds/damage assignment and site healing are implemented; unit resistance,
   unit-targeting heal effects from skills/abilities and unit banners are not (abilities are the
   mapped subset only).
-- **Sites:** keep/portal interactions, city purchase options, and fame→reputation events
-  (assault −1 / orc defeat +1) are deferred; healing and the six MVP site benefits are in.
+- **Sites:** keep/mage-tower garrisons and ownership, city colour purchase options and portal
+  removal are deferred; healing, the six MVP site benefits and conquest reputation are in.
 - **Content breadth:** 4 artifacts, 7 of 12 MVP Advanced Actions, 4 of 6 MVP spells and the
   Classic preset are not in the bundle yet (artifacts additionally need an authored acquisition
   path that does not invent rules).
@@ -202,7 +205,7 @@ Engineering follow-ups (allowed after T1 / as capacity allows):
 - 60 fps measurement on the baseline laptop; optional UI polish/accessibility pass.
 - T1 exit bookkeeping: record the exit decision (ADR) and update `11` DoD status as items close.
 - T1-d2 content debt: artifacts (acquisition path), remaining Advanced Actions/Spells,
-  keep/portal/city interactions, reputation events, dummy fidelity, tactic effects.
+  keep/mage-tower conquest, city colour options, dummy fidelity, tactic effects.
 - Scenario tuning pass (win rate ~50%, score weights) once the fun pass gives feedback.
 
 ## 9. Reproduce the evidence

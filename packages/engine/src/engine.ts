@@ -1640,6 +1640,13 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
         blockPool: [],
         pendingDamage: [],
       };
+      const assaultsCity = draft.map.enemies.some(
+        (enemy) => enemyIds.includes(enemy.instanceId) && enemy.kind === "city",
+      );
+      if (assaultsCity) {
+        player.reputation -= 1;
+        env.events.push({ type: "reputationChanged", amount: -1 });
+      }
       env.events.push({
         type: "combatStarted",
         enemies: enemyIds.map((id) => asEnemyInstanceId(id)),
@@ -1996,6 +2003,14 @@ function assignAttack(draft: Draft, enemy: EnemyInstanceId, env: Env): void {
   const player = draft.players[0];
   if (player !== undefined) {
     player.fame += def.fame;
+    const mapEnemy = draft.map.enemies.find((candidate) => candidate.instanceId === enemy);
+    if (mapEnemy?.kind === "rampaging") {
+      const reputation = def.color === "green" ? 1 : def.color === "brown" ? 2 : 0;
+      if (reputation > 0) {
+        player.reputation += reputation;
+        env.events.push({ type: "reputationChanged", amount: reputation });
+      }
+    }
   }
   let remaining = def.armor;
   const kept = [];

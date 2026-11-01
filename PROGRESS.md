@@ -244,23 +244,30 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     (new: armor absorption/leftover, poison/paralyze/assassination, heal + wounded-activation),
     6 e2e, all 7 traces re-recorded/rehashed and verified, fuzz 10k clean.
 
+31. **T1-d2d done — reputation events**: assaulting the city (fortified site) now costs 1
+    Reputation when combat begins, and defeating rampaging enemies gives Reputation by token
+    colour (+1 green, +2 brown); both emit `reputationChanged`. Defeated garrisons/other
+    colours give none. Reputation already feeds the interaction modifier. Evidence: 82 tests
+    (new: city assault −1, rampaging +1/+2), 7 traces re-recorded/rehashed and verified (020
+    and 030/040 now include the reputation event), 6 e2e, fuzz 10k clean.
+
 ## Next (ordered; first item is the exact next action)
 
 Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a
 PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap.md` M3–M4.
 
-1. **T1-d2d content increment (next)** — remaining Advanced Actions/Spells (interpreter ops
-   such as conditional/on_terrain/scaling), keep/portal/city interactions, fame→reputation
-   events, the 4 artifacts (acquisition rules still need an authored reward path), dummy
-   fidelity and tactic effects. Each increment:
+1. **T1-d2e content increment (next)** — remaining Advanced Actions/Spells (interpreter ops
+   such as conditional/on_terrain/scaling), keep/mage-tower garrisons and city colour options,
+   the 4 artifacts (acquisition rules still need an authored reward path), dummy fidelity and
+   tactic effects. Each increment:
    compiler + engine + tests + traces re-recorded, then a small commit.
 2. **T1 exit bookkeeping (done for engineering; owner gates open)** — ADR-011 records the
    engineering GO, `docs/design/t1-exit-report.md` v1.0 and roadmap/README/docs status are
    committed; the owner still owes the fun pass, T1 deviation sign-off, G2/G3 playtest, legal
    review, tutorial playthroughs and the 60 fps measurement.
 3. **Further T1/v1.0 content after those** — remaining Advanced Actions/Spells, hero skills,
-   city purchase options, keep/portal interactions, fame→reputation events (assault −1, orc
-   defeat +1), dummy fidelity and tactic effects. These are tracked as explicit T1 debt in the
+   city colour purchase options, keep/mage-tower garrison conquest, dummy fidelity and tactic
+   effects. These are tracked as explicit T1 debt in the
    exit report §6.
 4. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
    sign-off, external playtest (G2/G3), legal review, tutorial playthroughs, 60 fps measurement.
@@ -289,7 +296,7 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
-  lint + 81 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (6
+  lint + 82 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (6
   tests: hero select, 3 persistence, 2 full-scenario replays); `pnpm test` alone; data validator
   `.venv/bin/python tools/validate_data.py` (local) / `python3 tools/validate_data.py` (CI, stdlib).
 - Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…010**); T0 plan and steps in
