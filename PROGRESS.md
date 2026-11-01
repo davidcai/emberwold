@@ -59,6 +59,10 @@ spike report and decide go/no-go with the owner. Acceptance: G1 in
     16 deck instances / 12 card defs + synthetic Wound / 2 tiles / 3 enemies / village + portal;
     `contentHash 1d76a028...faa3`; `pnpm content:check` clean; tamper/op failures demonstrated;
     engine mutation test proves costs load from the bundle. `game-data/` untouched.
+13. **S5 done — C1 passed** (commit `4a9f148`): trace record/verify CLIs, interactive +
+    `--random` play-cli, fuzz harness; `000-smoke.json` (52 actions) replays; tampered trace
+    rejected; fuzz 1,000 actions over 24 games with 0 invariant/termination failures.
+    **Checkpoint C1: headless round loop replays deterministically.**
 
 ## Next (ordered; first item is the exact next action)
 
@@ -66,8 +70,8 @@ Execute the approved plan's remaining steps on branch `t0-spike`, recording each
 line in `docs/design/19-t0-spike-plan.md` before moving on. Stop at the plan's checkpoints/cut
 order; at C3 write `docs/design/spike-report.md` and decide go/no-go with the owner.
 
-1. **S4 — content compiler** (thin, Python validator single gate) + spike bundle, then S5 trace
-   harness/CLI/fuzz. Check: plan S4/S5 acceptance lines.
+1. **S6 — movement/explore/rest/end-turn traces**, then S7 combat and S8 village + full-round;
+   checkpoint C2 = assault trace green (plan S6–S8 acceptance lines).
 2. Then S6 movement/explore/rest/end-turn, S7 combat, S8 village+full-round, S9 UI, S10 report —
    in plan order with their acceptance checks.
 3. Push `t0-spike` after each step; open the PR when S10 is done (or ask the owner earlier).

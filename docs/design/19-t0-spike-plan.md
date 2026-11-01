@@ -1,6 +1,6 @@
 # 19 · T0 Spike Plan — two weeks to a playable round
 
-**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S4 done · branch `t0-spike`
+**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S5 done · branch `t0-spike`
 **Companions:** [`10-feasibility-analysis.md`](./10-feasibility-analysis.md) §6/§9 (G1),
 [`11-mvp-scope.md`](./11-mvp-scope.md) §2–§5/§10 (scope/content),
 [`12-architecture.md`](./12-architecture.md) §3.3/§5/§6/§10/§12.4/§12.6 (engine, pipeline,
@@ -11,7 +11,7 @@ tests, T0 slice), [`14-roadmap.md`](./14-roadmap.md) §0.1/§1/§5/§6 (tiers, M
 
 > **Gate status: APPROVED 2026-10-31 (ADR-009 in [`00-decisions.md`](./00-decisions.md)).**
 > The owner approved this plan and its proposed defaults. Execution is on branch `t0-spike`:
-> **S1–S4 are done** (evidence in each step); S5–S10 are not started. No T1/T2 work is
+> **S1–S5 are done** (checkpoint C1 passed: headless round replays); S6–S10 are not started. No T1/T2 work is
 > authorized by this plan.
 >
 > **Review record.** Two fresh-context reviewers checked this plan against the docs. Their
@@ -300,7 +300,7 @@ Commit-vs-build-artifact of the generated bundle is owner decision Q12 (default:
 
 ---
 
-### S5 — Trace harness, `play-cli`, random-legal bot
+### S5 — Trace harness, `play-cli`, random-legal bot · **done 2026-10-31 (C1)**
 
 **Do.** Trace format `{traceVersion, contentHash, engineVersion, rulesetId, seed, config,
 actions[], expectedHashes[], expectedOutcome}` committed under `tools/golden-traces/*.json`
@@ -317,7 +317,15 @@ budget is exhausted; asserts termination and prints an invariant summary.
    `terminationViolations: 0` (every game ended within the round/turn cap).
 4. `pnpm play --seed 1 --random` completes a run headlessly and writes a replayable trace.
 
-**Evidence:** commands + summary lines; trace file added.
+**Evidence (2026-10-31, branch `t0-spike`, commit `4a9f148`):**
+* `pnpm trace:record` → `tools/golden-traces/000-smoke.json` with 52 actions, round 10,
+  `gameOver=true`, contentHash `1d76a028…faa3`.
+* `pnpm trace:verify tools/golden-traces/000-smoke.json` → `trace verified … actions=52 … round=10`.
+* Tampered/truncated trace → exit 1 with `trace: outcome mismatch for gameOver`.
+* `pnpm fuzz --turns=1000 --seed=1` → `games=24 actions=1000 invariantFailures=0
+  terminationViolations=0`.
+* `pnpm play --seed=1 --random` → run completes (35 actions, game over) and writes a trace to
+  the OS temp dir; that trace replays with `trace:verify`. C1 passed.
 
 ---
 
