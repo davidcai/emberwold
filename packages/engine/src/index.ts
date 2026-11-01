@@ -1,8 +1,9 @@
-import { PACKAGE_NAME as SHARED_PACKAGE_NAME } from "@emberwold/shared";
+import { createRng, type RngState } from "@emberwold/shared";
 
 /** Pure, deterministic rules engine. S1 scaffold: the reducer lands in S3. */
 export const PACKAGE_NAME = "@emberwold/engine";
 
-export function describeEngine(): string {
-  return `${PACKAGE_NAME} (depends on ${SHARED_PACKAGE_NAME})`;
+/** Placeholder proving the engine can consume shared protocol primitives. */
+export function createEngineRng(seed: number): RngState {
+  return createRng(seed);
 }

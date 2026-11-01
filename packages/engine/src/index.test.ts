@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
 
-import { PACKAGE_NAME, describeEngine } from "./index";
+import { PACKAGE_NAME, createEngineRng } from "./index";
 
 describe("@emberwold/engine", () => {
-  it("identifies itself and its shared dependency", () => {
+  it("identifies itself", () => {
     expect(PACKAGE_NAME).toBe("@emberwold/engine");
-    expect(describeEngine()).toContain("@emberwold/shared");
+  });
+
+  it("consumes shared RNG primitives", () => {
+    const rng = createEngineRng(5);
+    expect(rng.seed).toBe(5);
+    expect(rng.counters.shuffle).toBe(0);
   });
 });

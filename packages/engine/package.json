@@ -8,5 +8,8 @@
   },
   "dependencies": {
     "@emberwold/shared": "workspace:*"
+  },
+  "scripts": {
+    "test": "vitest run --root ../.. packages/engine"
   }
 }
