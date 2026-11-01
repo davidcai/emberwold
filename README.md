@@ -19,8 +19,9 @@ Before writing game code, we answered three questions with evidence:
 3. **What do we build first?** — A deliberately reduced, shippable **First Conquest**:
    solo, 3 rounds, 4 tiles, 1 city, ~40 card definitions, 20–30 minutes, full combat rules.
 
-**Status: research + design complete; no game code yet.** The next step is a 2-week spike
-(`docs/design/14-roadmap.md` §5).
+**Status: research + design complete; T0 implementation spike in progress** (approved
+2026-10-31, [`ADR-009`](docs/design/00-decisions.md); execution plan:
+[`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md)).
 
 **For AI agents:** read [`AGENTS.md`](AGENTS.md) before changing anything — it contains the
 agent-specific rules (public-repo secret policy, clean-room constraints, data validation, git
@@ -74,9 +75,13 @@ docs/
   design/      feasibility, scope, architecture, AI, roadmap
   prompts/     original project prompt
 game-data/     machine-readable content (JSON + schema + effect DSL)
-tools/         data extraction/validation tooling
+packages/      engine, shared, content (generated), client - T0 spike (pnpm workspaces)
+tools/         data validation + content compiler, trace runner, play-cli
 reference/     gitignored: official PDFs + extracted text (see docs/research/08-sources.md)
 ```
+
+App commands (T0 spike): `pnpm install`, then `pnpm verify` (typecheck, lint, tests,
+dependency boundaries) or `pnpm test` for the tests alone.
 
 ## Reproducing the research
 

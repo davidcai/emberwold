@@ -47,15 +47,17 @@ history.** This rule is non-negotiable and overrides any convenience.
   rewrite public history yourself. The credential must be rotated first; history cleanup is a
   human decision.
 
-## 2. Current phase: pre-implementation (do not start the game)
+## 2. Current phase: T0 spike in progress (approved 2026-10-31)
 
-- `README.md` says research + design are complete and there is **no game code yet**. Unless the
-  human **explicitly** asks for implementation, do **not**: scaffold the app, add runtime
-  dependencies, create build config, or write game code.
-- The planned first implementation step is the T0 spike in
-  [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) §5. It requires explicit owner
-  approval; status and stack are in the ADRs and
-  [`docs/design/17-platform-analysis.md`](docs/design/17-platform-analysis.md).
+- The owner approved the T0 implementation spike (**ADR-009**, [`docs/design/00-decisions.md`](docs/design/00-decisions.md))
+  and its plan [`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md). Work on
+  branch `t0-spike`; follow the plan's steps, checkpoints and cut order.
+- **Scope is the plan, nothing more.** The spike is timeboxed to two weeks and must not grow
+  features, content or polish beyond its §2.2 scope without the owner's explicit approval.
+  T1/T2 work (full scenario, tactics, dummy player, skills, save/undo, city, etc.) stays
+  deferred to the milestones in [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md).
+- Anything **outside** the approved spike plan still follows the old rule: do not scaffold or
+  write game code for it without explicit owner approval.
 - Documentation, game data, art prompts, decision records and tooling fixes are in scope when
   asked — but still follow the rules below.
 
@@ -112,9 +114,11 @@ history.** This rule is non-negotiable and overrides any convenience.
 - `reference/` is local-only research material. Restore it with the commands in
   `docs/research/08-sources.md` §1. Never force-add it to git.
 - Do not add generated artifacts, caches, `.venv/`, `reference/`, `art/source/` or large binaries
-  to the repo. If a genuinely large asset must be tracked, ask the human first.
-- There are no application build/test commands yet. The only current executable check is the
-  data validator above.
+  to the repo. If a genuinely large asset must be tracked, ask the human first. The generated
+  `@emberwold/content` bundle is the one approved exception (plan §12 Q12; ADR-009).
+- The application workspace is the pnpm monorepo at the repo root: `pnpm verify` runs
+  typecheck, lint, unit tests and dependency-boundary checks (`pnpm test` alone runs the
+  tests). The data validator above stays the only `game-data/` gate.
 
 ## 7. Git and publishing
 
@@ -129,7 +133,7 @@ history.** This rule is non-negotiable and overrides any convenience.
 ## 8. Do-not list (quick reference)
 
 1. No secrets in the repo — ever (see §1).
-2. No game implementation or app scaffolding before explicit approval.
+2. No game code outside the approved T0 spike plan ([`docs/design/19-t0-spike-plan.md`](docs/design/19-t0-spike-plan.md)); no T1/T2 features before their milestone.
 3. No official art/PDFs/rulebook text, no copied upstream code/data.
 4. No public branding, domains, store pages or wordmarks before v1 (ADR-007); no repo renames without approval.
 5. No invented rules, citations, names or data values — mark uncertainty or ask.

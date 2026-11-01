@@ -1,6 +1,6 @@
 # 00 · Decision Log (ADRs)
 
-**Status:** living document · **Owner:** Lead · **Last updated:** 2026-10-24
+**Status:** living document · **Owner:** Lead · **Last updated:** 2026-10-31
 
 Decisions that change the plan. Each ADR records the choice, the reasoning, and the
 consequences so future work doesn't re-litigate them. Superseded ADRs stay in place.
@@ -251,6 +251,35 @@ committed.
 
 ---
 
+## ADR-009 — T0 implementation approved: the spike starts
+
+**Date:** 2026-10-31 · **Status:** accepted
+
+**Decision.** The owner lifted the pre-implementation hold (**P5**) and approved the T0 spike
+plan [`19-t0-spike-plan.md`](./19-t0-spike-plan.md) with its proposed defaults: hero
+`hero:goldyx` (16-card deck, 12 unique definitions), tiles `tile:starting_a` +
+`tile:countryside_1`, enemies prowlers/diggers/wolf_riders, the village site, Day-only rounds
+(cap 10), branch `t0-spike` with a PR, the minimal SVG/DOM UI included, the generated content
+bundle committed, spike selection in `tools/content-compiler/spike.config.json`, and the
+simplifications/waivers in plan §2.2 (including the M2-1 combat-fidelity waiver).
+
+**Context.** Implementation cannot start before explicit owner approval (`AGENTS.md` §2). The
+plan supplied the scope fence and 14 owner questions; the owner approved the proposed answers
+as a bundle rather than answering each question separately.
+
+**Consequences.**
+- Implementation may now start on branch `t0-spike`; `AGENTS.md` §2 and the `README.md` status
+  line reflect implementation-in-progress.
+- The spike stays timeboxed to two weeks and follows the plan's steps, checkpoints and cut
+  order. All §2.2 simplifications must appear in `docs/design/spike-report.md` and be restored
+  in T1.
+- This is **not** a public-release decision: the ADR-007/ADR-008 gates (public branding, name
+  screen) still apply, and the repository remains public-safe (no secrets, no publisher
+  content, `reference/` local).
+- Gate G1 (`10` §9) and "T0 done" (`12` §12.6) remain the acceptance criteria for the spike.
+
+---
+
 ## Pending decisions
 
 | # | Decision | Needed by | Default if no answer |
@@ -259,4 +288,4 @@ committed.
 | P2 | ~~Art budget cap~~ | — | **Decided: AI-generated art (ADR-006)** |
 | P3 | Public product branding + name screen (repo is already `emberwold`; internal wordmark committed, ADR-008) | before any public release | no public branding work until v1 (ADR-007) |
 | P4 | Whether the game will ever be shared publicly | before release | private/portfolio only until screened |
-| P5 | T0 implementation start (lift the pre-implementation hold?) | before any app scaffold or game code | stay pre-implementation (`AGENTS.md` §2) |
+| P5 | ~~T0 implementation start (lift the pre-implementation hold?)~~ | — | **Decided: approved 2026-10-31 (ADR-009)** |
