@@ -5,6 +5,7 @@
  * undo, save/resume and deterministic tests fall out of the same property.
  */
 export * from "./canonical";
+export * from "./content";
 export * from "./ids";
 export * from "./rng";
 export * from "./sha256";
