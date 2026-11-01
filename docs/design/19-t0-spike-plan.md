@@ -1,6 +1,6 @@
 # 19 · T0 Spike Plan — two weeks to a playable round
 
-**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S2 done · branch `t0-spike`
+**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S3 done · branch `t0-spike`
 **Companions:** [`10-feasibility-analysis.md`](./10-feasibility-analysis.md) §6/§9 (G1),
 [`11-mvp-scope.md`](./11-mvp-scope.md) §2–§5/§10 (scope/content),
 [`12-architecture.md`](./12-architecture.md) §3.3/§5/§6/§10/§12.4/§12.6 (engine, pipeline,
@@ -11,7 +11,7 @@ tests, T0 slice), [`14-roadmap.md`](./14-roadmap.md) §0.1/§1/§5/§6 (tiers, M
 
 > **Gate status: APPROVED 2026-10-31 (ADR-009 in [`00-decisions.md`](./00-decisions.md)).**
 > The owner approved this plan and its proposed defaults. Execution is on branch `t0-spike`:
-> **S1–S2 are done** (evidence in each step); S3–S10 are not started. No T1/T2 work is
+> **S1–S3 are done** (evidence in each step); S4–S10 are not started. No T1/T2 work is
 > authorized by this plan.
 >
 > **Review record.** Two fresh-context reviewers checked this plan against the docs. Their
@@ -223,7 +223,7 @@ Vitest config, `.github/workflows/ci.yml` (push/PR: setup Node 22 from `.nvmrc`,
 
 ---
 
-### S3 — `packages/engine`: state, reducer, legal actions, invariants
+### S3 — `packages/engine`: state, reducer, legal actions, invariants · **done 2026-10-31**
 
 **Do.** Spike subset of the [`12`](./12-architecture.md) §5.2/§5.4 model: `GameState`
 (schema version, content hash, seed, scenario, phase/round/time-of-day/turn, one player, map,
@@ -245,7 +245,14 @@ invariant module. Dev builds `deepFreeze` states. No `Math.random`/`Date.now` in
    one non-Wound + any Wounds to discard), slow recovery only when the hand is all Wounds
    (discard one Wound); both are tested, so a wound-only hand always has a legal turn.
 
-**Evidence:** test counts; `pnpm verify` output.
+**Evidence (2026-10-31, branch `t0-spike`, commit `1716ec2`):**
+* `pnpm --filter @emberwold/engine test` → `Tests 13 passed (13)`: setup, totality (every
+  legal action applies), no-illegals + stale epoch without mutation, basic play, powered play
+  paying a crystal, choice resolution, discard-cost resolution, standard/slow rest legality,
+  determinism (two replays → equal hashes), JSON round-trip, round cap / game end, invariants.
+* `pnpm verify` → typecheck ok, lint ok, `Tests 40 passed (40)` across 10 files, 0 dependency
+  violations (27 modules, 22 dependencies).
+* `combatMath.ts` holds the single block/resistance/wound implementation used by the reducer.
 
 ---
 

@@ -47,6 +47,12 @@ spike report and decide go/no-go with the owner. Acceptance: G1 in
     canonical sorted-key JSON + `hashState`. Evidence: `pnpm --filter @emberwold/shared test`
     → 22/22 (Appendix A RNG vectors, SHA-256 vectors incl. `emberwold`, stream independence);
     `pnpm verify` → 29/29 tests, 0 lint/boundary errors; Prettier clean.
+11. **S3 done — engine core** (commit `1716ec2`): `GameState`/`Action`/`GameEvent` types,
+    pure reducer with epoch guard, card effects + mana payment, choice/discard pendings,
+    standard + slow Recovery rest, movement/explore hooks, 4-phase combat state machine,
+    village healing, round loop and invariant checks; `combatMath.ts` is the single combat
+    arithmetic implementation. Evidence: `pnpm --filter @emberwold/engine test` → 13/13;
+    `pnpm verify` → 40/40 tests, 0 lint/boundary errors.
 
 ## Next (ordered; first item is the exact next action)
 
@@ -54,11 +60,10 @@ Execute the approved plan's remaining steps on branch `t0-spike`, recording each
 line in `docs/design/19-t0-spike-plan.md` before moving on. Stop at the plan's checkpoints/cut
 order; at C3 write `docs/design/spike-report.md` and decide go/no-go with the owner.
 
-1. **S3 — `packages/engine`**: state/reducer/legal actions/invariants + Rest. Check: property
-   and unit tests green (`pnpm --filter @emberwold/engine test`).
-2. **S4 — content compiler** (thin, Python validator single gate) + spike bundle. Then S5 trace
-   harness/CLI/fuzz, S6 movement/explore/rest/end-turn, S7 combat, S8 village+full-round,
-   S9 UI, S10 report — in plan order with their acceptance checks.
+1. **S4 — content compiler** (thin, Python validator single gate) + spike bundle, then S5 trace
+   harness/CLI/fuzz. Check: plan S4/S5 acceptance lines.
+2. Then S6 movement/explore/rest/end-turn, S7 combat, S8 village+full-round, S9 UI, S10 report —
+   in plan order with their acceptance checks.
 3. Push `t0-spike` after each step; open the PR when S10 is done (or ask the owner earlier).
 
 ## Open questions
