@@ -187,9 +187,11 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
 save/continue + undo, the full T1 surface, game-over debrief, and Playwright covering both a
 scripted trace replay and the complete winning scenario (`e2e/victory.spec.ts`, 78 actions,
 debrief assertions, no console errors). Production build: 328.47 kB JS (96.06 kB gzip) + 7.59
-kB CSS (2.08 kB gzip) ≈ 98 kB gzipped initial load, under the 5 MB budget. The 60 fps target
-still needs a manual measurement on the 2019-laptop baseline; the renderer is SVG/DOM with a
-4-tile board.
+kB CSS (2.08 kB gzip) ≈ 98 kB gzipped initial load, under the 5 MB budget. An indicative
+headless-Chromium probe of the started run measured 60.0 fps over 3 s (181 frames, p95 frame
+time 16.7 ms, no dropped frames, 226 DOM nodes, ~14 MB JS heap); the renderer is SVG/DOM with a
+4-tile board. The 60 fps target still needs the owner's manual measurement on the 2019-laptop
+baseline in a real browser.
 
 **11 §9 (v1.0 definition of done) at a glance:**
 
