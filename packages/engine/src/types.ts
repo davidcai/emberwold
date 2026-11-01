@@ -75,11 +75,15 @@ export interface MapEnemy {
   defId: string;
   hex: Hex;
   alive: boolean;
+  /** Where the token came from; city tokens win the scenario when cleared. */
+  kind?: "rampaging" | "city";
 }
 
 export interface MapSite {
   siteId: SiteDefId;
   hex: Hex;
+  /** True once the site has been conquered/used up (city, keep, burned monastery...). */
+  conquered?: boolean;
 }
 
 export interface MapState {
@@ -125,6 +129,13 @@ export interface PendingChoice {
   eligibleCards: CardInstanceId[];
 }
 
+export interface GameResult {
+  outcome: "victory" | "defeat";
+  score: number;
+  cityConquered: boolean;
+  reason: string;
+}
+
 export interface GameState {
   schemaVersion: 1;
   engineVersion: string;
@@ -145,6 +156,8 @@ export interface GameState {
   actionEpoch: number;
   rng: RngState;
   gameOver: boolean;
+  /** Filled when the scenario ends (victory or defeat); null while playing. */
+  result: GameResult | null;
 }
 
 type ActionPayload =
@@ -185,6 +198,7 @@ export type GameEvent =
   | { type: "tileRevealed"; tile: TileId; origin: Hex }
   | { type: "siteEntered"; site: SiteDefId }
   | { type: "influenceSpent"; amount: number }
+  | { type: "enemySpawned"; enemy: EnemyInstanceId; defId: string }
   | { type: "combatStarted"; enemies: EnemyInstanceId[] }
   | { type: "enemyBlocked"; enemy: EnemyInstanceId }
   | { type: "enemyDefeated"; enemy: EnemyInstanceId; fame: number }
@@ -192,7 +206,8 @@ export type GameEvent =
   | { type: "combatEnded" }
   | { type: "turnEnded"; player: PlayerId }
   | { type: "roundEnded"; round: number }
-  | { type: "gameEnded"; round: number };
+  | { type: "cityConquered"; site: SiteDefId; score: number }
+  | { type: "gameEnded"; round: number; outcome: "victory" | "defeat"; score: number };
 
 export interface LegalActionSet {
   epoch: number;

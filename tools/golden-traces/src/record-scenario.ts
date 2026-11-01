@@ -115,6 +115,14 @@ function handWounds(state: GameState): number {
     .length;
 }
 
+function nonWoundCards(state: GameState): number {
+  const player = state.players[0];
+  if (player === undefined) {
+    return 0;
+  }
+  return player.hand.filter((card) => state.cardInstances[card] !== bundle.woundCard.id).length;
+}
+
 function aliveEnemies(state: GameState) {
   return state.map.enemies.filter((enemy) => enemy.alive);
 }
@@ -124,6 +132,24 @@ function villageHex(state: GameState): Hex | null {
 }
 
 /** Static map graph from the bundle, for routing (only revealed hexes are walkable later). */
+function rotationOf(placement: { rotation?: number }): number {
+  return placement.rotation ?? 0;
+}
+
+function rotate(hex: Hex, steps: number): Hex {
+  let q = hex.q;
+  let r = hex.r;
+  const turns = ((steps % 6) + 6) % 6;
+  for (let i = 0; i < turns; i += 1) {
+    const z = r;
+    const x = q;
+    const y = -x - z;
+    q = -z;
+    r = -y;
+  }
+  return { q, r };
+}
+
 function globalTerrain(): Map<string, { hex: Hex; terrain: string }> {
   const map = new Map<string, { hex: Hex; terrain: string }>();
   for (const placement of bundle.scenario.tiles) {
@@ -132,7 +158,8 @@ function globalTerrain(): Map<string, { hex: Hex; terrain: string }> {
       continue;
     }
     for (const hex of tile.hexes) {
-      const global = { q: placement.origin.q + hex.q, r: placement.origin.r + hex.r };
+      const local = rotate({ q: hex.q, r: hex.r }, rotationOf(placement));
+      const global = { q: placement.origin.q + local.q, r: placement.origin.r + local.r };
       map.set(`${global.q},${global.r}`, { hex: global, terrain: hex.terrain });
     }
   }
@@ -278,15 +305,24 @@ export function combatFirstPolicy(state: GameState): Action | null {
   if (state.turn.rested) {
     return endTurn(state);
   }
-  if (state.map.tiles.some((tile) => !tile.revealed)) {
-    return moveRevealPolicy(state);
-  }
   const enemy = aliveEnemies(state)[0];
   if (enemy === undefined) {
+    return moveRevealPolicy(state);
+  }
+  const player = state.players[0];
+  if (player === undefined) {
     return null;
   }
-  if (sameHex(state.players[0]?.position ?? { q: 0, r: 0 }, enemy.hex)) {
-    return find(state, (action) => action.type === "challengeRampaging") ?? fallback(state);
+  const enemyDef = bundle.enemies[enemy.defId];
+  if (sameHex(player.position, enemy.hex)) {
+    if (state.turn.flags[`fought:${enemy.hex.q},${enemy.hex.r}`] === true) {
+      return rest(state) ?? endTurn(state) ?? fallback(state);
+    }
+    // Only assault when the hand can plausibly reach the armour (sideways attack = 1 each).
+    if (nonWoundCards(state) >= (enemyDef?.armor ?? 1) + 1) {
+      return find(state, (action) => action.type === "challengeRampaging") ?? fallback(state);
+    }
+    return rest(state) ?? endTurn(state) ?? fallback(state);
   }
   return approach(state, enemy.hex);
 }
@@ -301,24 +337,33 @@ export function healRunPolicy(state: GameState): Action | null {
   if (state.turn.rested) {
     return endTurn(state);
   }
-  if (state.map.tiles.some((tile) => !tile.revealed)) {
-    return moveRevealPolicy(state);
-  }
   const player = state.players[0];
   if (player === undefined) {
     return null;
   }
   const wounds = handWounds(state);
   const enemy = aliveEnemies(state)[0];
-  if (wounds === 0 && enemy !== undefined) {
+  const village = villageHex(state);
+  // One fight provides the Wound; afterwards the whole turn goes to the village.
+  if (wounds === 0) {
+    if (state.turn.flags["healed"] === true) {
+      return endTurn(state) ?? fallback(state);
+    }
+    if (enemy === undefined) {
+      return moveRevealPolicy(state);
+    }
     if (sameHex(player.position, enemy.hex)) {
-      return find(state, (action) => action.type === "challengeRampaging") ?? fallback(state);
+      const enemyDef = bundle.enemies[enemy.defId];
+      const armour = enemyDef?.armor ?? 1;
+      if (nonWoundCards(state) >= armour && state.turn.movePoints >= 0) {
+        return find(state, (action) => action.type === "challengeRampaging") ?? fallback(state);
+      }
+      return rest(state) ?? endTurn(state) ?? fallback(state);
     }
     return approach(state, enemy.hex);
   }
-  const village = villageHex(state);
   if (village === null) {
-    return null;
+    return moveRevealPolicy(state);
   }
   if (!sameHex(player.position, village)) {
     return approach(state, village);
@@ -327,24 +372,20 @@ export function healRunPolicy(state: GameState): Action | null {
   if (!entered) {
     return find(state, (action) => action.type === "enterSite") ?? fallback(state);
   }
-  if (wounds > 0) {
-    const heal = find(state, (action) => action.type === "buyHealing");
-    if (heal !== null) {
-      return heal;
-    }
-    const influence = state.turn.influence;
-    if (influence < 3) {
-      return (
-        playInfluence(state) ??
-        sideways(state, "influence") ??
-        endTurn(state) ??
-        rest(state) ??
-        fallback(state)
-      );
-    }
-    return endTurn(state) ?? fallback(state);
+  const heal = find(state, (action) => action.type === "buyHealing");
+  if (heal !== null) {
+    return heal;
   }
-  return endTurn(state) ?? null;
+  if (state.turn.influence < 3) {
+    return (
+      playInfluence(state) ??
+      sideways(state, "influence") ??
+      endTurn(state) ??
+      rest(state) ??
+      fallback(state)
+    );
+  }
+  return endTurn(state) ?? fallback(state);
 }
 
 type StopWhen = (eventTypes: readonly string[]) => boolean;
@@ -430,7 +471,7 @@ function main(): void {
       break;
     case "one-round":
       [policy, stopWhen] = [
-        (state) => healRunPolicy(state) ?? find(state, (action) => action.type === "endTurn"),
+        (state) => healRunPolicy(state),
         (types) => {
           const healed = types.lastIndexOf("healGained");
           return healHappened(types) && types.lastIndexOf("turnEnded") > healed;

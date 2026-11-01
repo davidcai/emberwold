@@ -114,6 +114,8 @@ export interface ScenarioTilePlacement {
   readonly tileId: string;
   /** Axial origin of the tile's (0,0) hex. */
   readonly origin: { readonly q: number; readonly r: number };
+  /** Tile rotation in 60-degree steps (0-5); defaults to 0. */
+  readonly rotation?: number;
 }
 
 export interface ScenarioSpawn {
@@ -126,6 +128,15 @@ export interface ScenarioSite {
   readonly hex: { readonly q: number; readonly r: number };
 }
 
+export interface ScenarioCity {
+  readonly siteId: string;
+  readonly hex: { readonly q: number; readonly r: number };
+  readonly level: number;
+  /** Enemy definitions standing in the city; defeated in one assault. */
+  readonly garrison: readonly string[];
+  readonly fame?: number;
+}
+
 export interface SpikeScenarioDef {
   readonly id: string;
   readonly roundCap: number;
@@ -135,6 +146,14 @@ export interface SpikeScenarioDef {
   readonly site: ScenarioSite | null;
   /** Hero starting hex on the starting tile. */
   readonly startHex: { readonly q: number; readonly r: number };
+  /** One entry per round; the length overrides roundCap (T1 day/night schedule). */
+  readonly timeOfDayPattern?: readonly ("day" | "night")[];
+  /** Additional authored site placements (T1 tiles carry their own sites too). */
+  readonly siteSeeds?: readonly ScenarioSite[];
+  /** The city to conquer (T1 climax); null for the T0 spike. */
+  readonly city?: ScenarioCity | null;
+  /** Human-readable scenario name for the UI. */
+  readonly name?: string;
 }
 
 export interface RulesConstants {

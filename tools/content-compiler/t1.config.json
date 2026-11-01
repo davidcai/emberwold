@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "scenarioId": "scenario:first-conquest",
+  "scenarioName": "First Conquest",
+  "hero": "hero:goldyx",
+  "roundCap": 3,
+  "timeOfDayPattern": [
+    "day",
+    "night",
+    "day"
+  ],
+  "tiles": [
+    {
+      "tileId": "tile:starting_a",
+      "origin": {
+        "q": 0,
+        "r": 0
+      },
+      "rotation": 0
+    },
+    {
+      "tileId": "tile:countryside_1",
+      "origin": {
+        "q": 2,
+        "r": 1
+      },
+      "rotation": 0
+    },
+    {
+      "tileId": "tile:countryside_2",
+      "origin": {
+        "q": -2,
+        "r": -1
+      },
+      "rotation": 0
+    },
+    {
+      "tileId": "tile:core_city_green",
+      "origin": {
+        "q": 4,
+        "r": 2
+      },
+      "rotation": 0
+    }
+  ],
+  "enemies": [
+    "enemy:cursed_hags",
+    "enemy:diggers",
+    "enemy:prowlers",
+    "enemy:wolf_riders",
+    "enemy:guardsmen",
+    "enemy:swordsmen",
+    "enemy:medusa",
+    "enemy:minotaur",
+    "enemy:monks",
+    "enemy:sorcerers",
+    "enemy:gunners",
+    "enemy:shocktroops"
+  ],
+  "sites": [
+    "site:village",
+    "site:monastery",
+    "site:keep",
+    "site:mage_tower",
+    "site:magical_glade",
+    "site:mine",
+    "site:city",
+    "site:portal"
+  ],
+  "siteSeeds": [
+    {
+      "siteId": "site:keep",
+      "hex": {
+        "q": 0,
+        "r": -1
+      }
+    },
+    {
+      "siteId": "site:monastery",
+      "hex": {
+        "q": 2,
+        "r": 2
+      }
+    },
+    {
+      "siteId": "site:mage_tower",
+      "hex": {
+        "q": -2,
+        "r": -2
+      }
+    }
+  ],
+  "spawns": [
+    {
+      "enemyId": "enemy:diggers",
+      "hex": {
+        "q": 1,
+        "r": 1
+      }
+    },
+    {
+      "enemyId": "enemy:prowlers",
+      "hex": {
+        "q": 3,
+        "r": 0
+      }
+    },
+    {
+      "enemyId": "enemy:cursed_hags",
+      "hex": {
+        "q": -2,
+        "r": -2
+      }
+    },
+    {
+      "enemyId": "enemy:wolf_riders",
+      "hex": {
+        "q": -1,
+        "r": -1
+      }
+    }
+  ],
+  "city": {
+    "siteId": "site:city",
+    "hex": {
+      "q": 4,
+      "r": 2
+    },
+    "level": 4,
+    "garrison": [
+      "enemy:guardsmen",
+      "enemy:swordsmen"
+    ],
+    "fame": 10
+  },
+  "startHex": {
+    "q": 0,
+    "r": 0
+  },
+  "woundCard": {
+    "id": "card:wound",
+    "name": "Wound",
+    "color": "white",
+    "poweredBy": null,
+    "sidewaysValue": 0,
+    "effects": {
+      "basic": {
+        "op": "special",
+        "id": "none"
+      },
+      "powered": null
+    }
+  },
+  "supportedOps": [
+    "choice",
+    "compound",
+    "gain_move",
+    "gain_influence",
+    "gain_attack",
+    "gain_block",
+    "gain_healing",
+    "draw_cards",
+    "gain_mana",
+    "gain_crystal",
+    "convert_mana_to_crystal",
+    "mana_draw_powered",
+    "apply_modifier",
+    "rule_override",
+    "card_boost",
+    "change_reputation",
+    "discard_cost"
+  ]
+}

@@ -7,8 +7,8 @@
 ## Goal
 
 Complete the **T1 First Conquest** core loop after the **T0 spike** (done 2026-10-31; spike
-report + ADR-010). T0 delivered a playable round, deterministic traces and a minimal UI;
-the verdict is provisional GO pending the owner's 10-turn playtest.
+report + ADR-010). T0 was merged to `main` (PR #1, `41c8a0f`) and its verdict is provisional
+GO pending the owner's 10-turn playtest. T1 work is on branch `t1-first-conquest`.
 T1 scope: [`docs/design/11-mvp-scope.md`](docs/design/11-mvp-scope.md) and
 [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) M3–M4. Acceptance: the T1 exit gates
 in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art) and
@@ -95,38 +95,50 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     owner actions), **ADR-010** (provisional GO, merge after green CI, T1 on `main`), roadmap
     M1/M2 marked done, README/docs index/AGENTS §2/PROGRESS moved to T1, rest golden trace
     `015-rest.json` added, `traces:check` + CI fuzz step added (`pnpm verify` 58 tests, 6 traces,
-    fuzz seed 1 clean). Remaining S10 action: commit/push, PR, merge (owner delegated the
-    last-mile decision via the overnight goal).
+    fuzz seed 1 clean). Committed `bd18cf2`, pushed, CI run
+    https://github.com/davidcai/emberwold/actions/runs/41272177812 green; PR #1 opened and
+    merged with a merge commit (`41c8a0f`); `main` checked out and synced. T0 is complete.
+
+19. **T1-a done — core rules increment on `t1-first-conquest`** (branch `t1-first-conquest`):
+    3-round Day/Night/Day scenario clock (`timeOfDayPattern`; night flips terrain costs and
+    depletes gold Source dice, day depletes black), round-end Wounds recycling restored
+    (02 §15.2: deck+discard+hand shuffle, draw to hand limit), 4-tile rotated map from the
+    authored First Conquest layout (`t1.config.json`: start + 2 countryside + city, site
+    seeds, city garrison), city assault → `cityConquered`/victory (`score = fame + 10`) or
+    round-limit defeat; one combat per space per turn (`fought:<hex>` flag); enemies only
+    spawn when their tile is revealed. Evidence: `pnpm verify` 63 tests (24 engine) green;
+    6 golden traces re-recorded and verify against contentHash
+    `aa736dd9fbfe3bb358e7bf2b0d0a5a0ece71444f6768d7fca982bbb3a52b4926`; fuzz seed 1 clean;
+    data validator still 9662/0/0.
+20. **T1-d (client half) done — autosave/continue + undo + e2e** (teammate `t1-ui`, same
+    branch): versioned localStorage save validated by contentHash, autosave after every action,
+    Continue/new-run boot screen, in-memory undo snapshot stack; `e2e/persistence.spec.ts`
+    (3 tests) plus the adapted `e2e/ui.spec.ts`; `pnpm test:e2e` 4/4 green. Engine untouched by
+    this work.
 
 ## Next (ordered; first item is the exact next action)
 
-**T0 is complete; T1 First Conquest starts after the `t0-spike` PR merges to `main`.**
-Work on `main` after merge. T1 scope: `docs/design/11-mvp-scope.md` + `docs/design/14-roadmap.md`
-M3–M4. Split into increments; each ends with tests, `pnpm verify` green, a small commit, and a
-PROGRESS update. Restore the T0 deviations first (spike report §6).
+**T1-a + T1-d(client) are done on `t1-first-conquest`; commit and open the T1 PR, then keep
+going on `main`.** Each increment ends with tests, `pnpm verify` green, a small commit and a
+PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap.md` M3–M4.
 
-0. Commit S10 (report/ADR/docs/CI/trace changes), push `t0-spike`, watch CI, open + merge PR.
-   Then `git checkout main && git pull` and delete nothing (keep the spike branch for the owner).
-1. **T1-a rules fidelity** — round/day-night loop (3 rounds Day/Night/Day, night mana source
-   rules, day/night card bonuses deferred until content needs them), restore wound recycling
-   (02 §15.2), tactics selection + simplified dummy player (blocking/wounds at turn end),
-   map rules (tile placement/rotation/adjacency, B5), city assault combat vs city level 4.
-2. **T1-b content bundle** — author `scenario:first-conquest` layout/site seeding in
-   `game-data/` (validator green, provenance markers); T1 compiler config: 4 tiles (start +
-   2 countryside + 1 city), 6 site types, 10 regular + 2 city enemies, advanced actions 12,
-   spells 6, artifacts 4, units 6, skills for 1 hero; keep `spike.config.json` for traces.
-3. **T1-c progression** — fame/level-ups (levels.json thresholds), skill offers, deck
-   acquisition (advanced action/spell/artifact via sites), unit recruiting + commands,
-   influence/reputation spending and healing rules.
-4. **T1-d save/undo** — engine serialize/replay (`saveGame`/`loadGame`), client localStorage
-   autosave, undo (snapshot stack in client; engine stays pure), plus resume tests.
-5. **T1-e UI** — full board/origins, site/offer/choice panels, level-up/unit UI, score/debrief
-   screen, tutorial prompts turns 1–3, placeholder art from `art/*.webp` where it exists.
-6. **T1-f verification + exit** — a full-game deterministic trace (3 rounds, city taken) or a
-   scripted full-game run, scoring/debrief check, longer fuzz in CI, performance sanity, docs
-   (`11` §9 DoD), README/roadmap status, then T1 exit and PR/merge decision.
-7. Owner actions left (cannot be done by the agent): 10-turn fun pass check, deviation
-   sign-off, merge of the `t0-spike` PR if not delegated.
+0. Commit the current T1 increment (engine/content/rules + client autosave/undo + e2e + docs),
+   push `t1-first-conquest`, watch CI (`t1-*` trigger added), open the PR and merge when green.
+1. **T1-a2 tactics + dummy player** — collect/choose tactics by fame (round-order token),
+   simplified dummy player: reveal/blocking behaviour, turn end and wounds from dummy assault,
+   start-of-round offers (unit/AA/spell) scaffolding in `GameState.offers`.
+2. **T1-b sites/offers** — 6 site interactions (village heal/recruit, monastery AA purchase,
+   keep influence, mage tower spell, magical glade wound discard, mine crystal), offers refresh,
+   influence/reputation spending, unit recruiting + command slots.
+3. **T1-c progression** — fame → level-up thresholds/level_stats (armor/hand/command), skill
+   tokens/offers, advanced actions/spells/artifacts acquisition, deck growth to 16+.
+4. **T1-e UI** — board origins, site/offer/choice panels, level-up/unit UI, score/debrief
+   screen, tutorial prompts turns 1–3, placeholder art where it exists.
+5. **T1-f verification + exit** — full-game deterministic trace (3 rounds, city taken) or a
+   scripted full game, scoring/debrief check, longer fuzz in CI, docs (`11` §9 DoD),
+   README/roadmap status, then T1 exit + PR/merge decision.
+6. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
+   sign-off.
 
 ## Open questions
 
@@ -141,16 +153,17 @@ PROGRESS update. Restore the T0 deviations first (spike report §6).
 
 ## Key facts
 
-- Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`; T0 work branch `t0-spike` is
-  merged (or pending merge) into `main`; **T1 work happens on `main`**.
+- Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`; T0 branch `t0-spike` is merged
+  into `main` (PR #1, `41c8a0f`); **T1 work is on `t1-first-conquest`** (merge after green CI).
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
-  lint + tests + dependency boundaries; `pnpm test` alone; data validator
+  lint + tests + dependency boundaries + golden traces; `pnpm test:e2e` = Playwright (4 tests);
+  `pnpm test` alone; data validator
   `.venv/bin/python tools/validate_data.py` (local) / `python3 tools/validate_data.py` (CI, stdlib).
-- Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…009**); T0 plan and steps in
+- Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…010**); T0 plan and steps in
   `docs/design/19-t0-spike-plan.md`; G1 in `10-feasibility-analysis.md` §9; MVP scope in
-  `11-mvp-scope.md`; architecture in `12-architecture.md`.
+  `11-mvp-scope.md`; architecture in `12-architecture.md`; T0 evidence in `spike-report.md`.
 - Art packaging: committed = WebP q90 at ≥2× display size (`art/*/*.webp`); full-res PNG masters
   are local-only (`art/<category>/*.png` ignored); wordmark in `art/branding/` is tracked; no font
   binaries are committed or embedded.
