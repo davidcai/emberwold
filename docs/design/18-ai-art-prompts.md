@@ -472,9 +472,11 @@ lettering is a poor basis for a trademark screen. The route is typography + vect
    flame-in-ring) as clean vector paths; no AI lettering.
 3. Palette: soot/bone wordmark with one ember accent; keep a one-colour and reversed
    version; test at 16 px and favicon size.
-4. Screen the public name first (`15` §11). Do **not** ship a wordmark until the name
-   screen and a quick trademark check are done. ADR-007 keeps public product branding deferred (the repository is named Emberwold)
-   until v1 is playable, so this slot is deliberately P2 — nothing public is named yet.
+4. Screen the public name first (`15` §11). A working wordmark is committed at
+   [`art/branding/`](../../art/branding/README.md) (ADR-008) and may be used in the local
+   build/title screen; **do not use it publicly** (store pages, marketing, public screenshots)
+   until the name screen and a quick trademark check are done and v1 is playable. ADR-007 still
+   governs public launch branding — the slot stays P2.
 5. Export SVG + PNG fallbacks. AI may be used *only* to explore abstract mark silhouettes
    (no letters), and any chosen shape must be redrawn as vector by hand.
 

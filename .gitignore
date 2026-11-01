@@ -69,8 +69,15 @@ reference/
 *.log
 # Art production: layered originals are large; manifest + web finals are committed
 art/source/
-# Committed art finals are WebP; full-resolution PNG masters stay local-only.
-art/*/*.png
+# Full-resolution PNG masters sit beside the committed WebP finals; keep them
+# local-only. Wordmark PNG fallbacks under art/branding/ are committed.
+art/hero/*.png
+art/enemy/*.png
+art/tile/*.png
+art/site/*.png
+art/card_motif/*.png
+art/city_plate/*.png
+art/key_art/*.png
 
 # Local-only style-lock reference images (large; tracked note in the same folder)
 art/brief/style-lock/*.png

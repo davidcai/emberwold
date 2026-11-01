@@ -35,4 +35,5 @@ art/
   source/             # layered originals + licence snapshots (gitignored)
   enemy/ hero/ tile/ site/ card_motif/ city_plate/ key_art/
                       # committed WebP finals (@2x.webp) + local-only PNG masters (@2x.png)
+  branding/           # wordmark + mark (SVG canonical, PNG fallbacks); release deferred by ADR-007
 ```

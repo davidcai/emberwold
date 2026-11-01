@@ -223,11 +223,39 @@ including existing third-party uses).
 
 ---
 
+## ADR-008 — Wordmark: internal asset committed ahead of v1
+
+**Date:** 2026-10-31 · **Status:** accepted
+
+**Decision.** A wordmark lockup for **Emberwold** is committed as an internal asset at
+[`art/branding/`](../../art/branding/README.md): "Emberwold" in Cinzel (outlined paths) with a
+hand-drawn flame-in-ring mark, soot/bone with one ember accent. The `logo` slot moves from
+`placeholder` to `final` for the asset itself. **Public release and public use of the wordmark
+remain deferred** — store pages, domains, marketing and public screenshots still wait for v1
+and for the `15` §11 name screen. ADR-007 still governs public launch branding.
+
+**Context.** ADR-007 deferred "wordmark" without saying whether the file may exist internally.
+The owner asked for a working wordmark, ran three hand-built candidates (2026-10-31) and chose
+the horizontal flame-in-ring lockup. Keeping it only in a scratch directory risks losing it and
+blocks the title-screen/key-art treatment. The asset is typography plus hand-authored vector
+paths — no AI lettering (ADR-006); Cinzel is SIL OFL 1.1 and no font binary is embedded or
+committed.
+
+**Consequences.**
+- `art/branding/` holds the canonical SVGs (`logo`, `logo_mono`, `logo_reversed`, `mark`), PNG
+  fallbacks, `fonts.md` and usage rules; `art/manifest.json` marks the `logo` slot `final`.
+- The wordmark may be used in the local build and title screen. It must not appear in public
+  marketing, store pages, domains or public screenshots before the `15` §11 screen.
+- ADR-007 is otherwise unchanged: name screen, domain, store page and public brand use still
+  gate on v1.
+
+---
+
 ## Pending decisions
 
 | # | Decision | Needed by | Default if no answer |
 |---|---|---|---|
 | P1 | ~~Stack: Godot vs web-native~~ | — | **Decided: web-native (ADR-003)** |
 | P2 | ~~Art budget cap~~ | — | **Decided: AI-generated art (ADR-006)** |
-| P3 | Public product branding + name screen (repo is already `emberwold`) | before any public release | no branding work until v1 (ADR-007) |
+| P3 | Public product branding + name screen (repo is already `emberwold`; internal wordmark committed, ADR-008) | before any public release | no public branding work until v1 (ADR-007) |
 | P4 | Whether the game will ever be shared publicly | before release | private/portfolio only until screened |

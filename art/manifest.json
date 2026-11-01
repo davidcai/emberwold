@@ -51,11 +51,12 @@
       "size_px": "vector",
       "format": "svg",
       "priority": "P2",
-      "status": "placeholder",
+      "status": "final",
       "placeholder": "procedural",
-      "art_ref": null,
-      "source": null,
-      "notes": "typography-led; designer"
+      "art_ref": "art/branding/logo.svg",
+      "source": "Hand-built vector wordmark (Cinzel OFL, outlined paths); selected from a 3-arm design run 2026-10-31",
+      "notes": "Typography-led; flame-in-ring mark; variants and PNG fallbacks in art/branding/. Public release deferred by ADR-007; run the 15 \u00a711 name screen before any public use.",
+      "reviewed": "owner, 2026-10-31 (selected option B of a 3-arm design run)"
     },
     {
       "id": "hero_emberdrinker",

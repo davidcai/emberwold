@@ -6,8 +6,9 @@ Knight while keeping its *mechanics* (which are not copyrightable). It is the so
 for names, tone and copy until a public name is screened.
 
 > **Name policy.** **Emberwold** is the project/repository name (renamed 2026-10-24, ADR-007).
-> It is **not yet cleared** for a public product launch: no store page, domain, wordmark or
-> marketing until v1 and until the screen in `06` §7 is done. Game-world strings follow this bible.
+> It is **not yet cleared** for a public product launch: no store page, domain, public wordmark
+> use or marketing until v1 and until the screen in `06` §7 is done. A working wordmark exists
+> internally (ADR-008) but is not public. Game-world strings follow this bible.
 
 ---
 
@@ -26,8 +27,8 @@ for names, tone and copy until a public name is screened.
 **Name: Emberwold** *(chosen 2026-10-24; the GitHub repo is `davidcai/emberwold`)*.
 Invented compound, pronounceable, no "Mage/Knight", and the world's name too. Candidates
 considered and not chosen: **The Ashen Vow** ("Ashen" is widely used) and **Gloamreach**
-(several existing software projects use it). No public product branding or wordmark until v1 —
-see §11 and ADR-007.
+(several existing software projects use it). No public product branding or wordmark use until v1 —
+see §11, ADR-007 and ADR-008 (internal wordmark committed 2026-10-31).
 
 **Premise (one paragraph).**
 The sun and the moon once shared the sky in a measured turning. That turning broke — nobody
