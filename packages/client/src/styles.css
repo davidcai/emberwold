@@ -250,3 +250,415 @@ button:disabled:hover {
   color: var(--muted);
   font-size: 13px;
 }
+
+/* T1-E: full First Conquest surface ---------------------------------------------------------- */
+
+main {
+  grid-template-columns: minmax(0, 1fr) 420px;
+}
+
+.status-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.status-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  color: var(--bone);
+  font-size: 14px;
+}
+
+.badge {
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge-ember {
+  border-color: var(--ember);
+  color: var(--ember);
+}
+
+.badge-ready {
+  border-color: var(--ember);
+  color: var(--bone);
+}
+
+.muted-line {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.fame-bar {
+  height: 6px;
+  border: 1px solid var(--line);
+  background: #0f0d0b;
+}
+
+.fame-fill {
+  height: 100%;
+  background: var(--ember);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3px 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stat-grid strong {
+  color: var(--bone);
+  font-weight: 600;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+}
+
+.chip-label {
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.mana-chip {
+  padding: 1px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 11px;
+  color: var(--bone);
+}
+
+.mana-chip[data-color="red"] {
+  border-color: #8c3b31;
+}
+
+.mana-chip[data-color="blue"] {
+  border-color: #34506f;
+}
+
+.mana-chip[data-color="green"] {
+  border-color: #3d6243;
+}
+
+.mana-chip[data-color="white"] {
+  border-color: #cfc6b2;
+}
+
+.mana-chip[data-color="gold"] {
+  border-color: #a5813d;
+}
+
+.mana-chip[data-color="black"] {
+  border-color: #4a3f52;
+}
+
+.color-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.color-dot[data-color="red"] {
+  background: #a5443a;
+}
+
+.color-dot[data-color="blue"] {
+  background: #3f6288;
+}
+
+.color-dot[data-color="green"] {
+  background: #4c7a52;
+}
+
+.color-dot[data-color="white"] {
+  background: #cfc6b2;
+}
+
+.color-dot[data-color="gold"] {
+  background: #c49a47;
+}
+
+.color-dot[data-color="black"] {
+  background: #5d4f66;
+}
+
+.action-group + .action-group {
+  margin-top: 8px;
+}
+
+.action-group h3 {
+  margin: 6px 0 5px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hand .card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.card-meta {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.card-effects {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.card-wound {
+  border-color: #6d3a34;
+}
+
+.combat-list {
+  margin: 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.combat-list strong {
+  color: var(--bone);
+}
+
+.offers {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.retinue-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.retinue-row {
+  padding-top: 6px;
+  border-top: 1px dashed var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.retinue-row:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.retinue-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.ability-list {
+  margin: 2px 0 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.ability-actions {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 6px;
+}
+
+.tutorial-panel {
+  border-color: #4a3d28;
+}
+
+.tutorial-panel p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.debrief-panel {
+  border-color: var(--ember);
+  background: linear-gradient(160deg, #24180f, var(--soot-2));
+}
+
+.debrief-kicker {
+  margin: 0;
+  color: var(--ember);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.debrief-outcome {
+  margin: 2px 0 4px;
+  color: var(--bone);
+  font-size: 26px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.debrief-summary {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.debrief-stats {
+  margin: 0 0 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 14px;
+}
+
+.debrief-stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.debrief-stats dt {
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.debrief-stats dd {
+  margin: 0;
+  color: var(--bone);
+  font-size: 15px;
+}
+
+.legend-panel summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.legend-panel dl {
+  margin: 8px 0 0;
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.legend-panel dl div {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+}
+
+.legend-panel dt {
+  color: var(--bone);
+}
+
+.legend-panel dd {
+  margin: 0;
+}
+
+.log-panel ul {
+  max-height: 180px;
+  overflow: auto;
+}
+
+.enemy-city {
+  fill: #7a2f35;
+}
+
+.site.conquered {
+  fill: var(--ember);
+  opacity: 0.75;
+}
+
+@media (max-width: 1000px) {
+  main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Keep the board viewport-sized and let the sidebar scroll on its own. */
+.app {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app > main {
+  flex: 1;
+  min-height: 0;
+}
+
+.board-panel {
+  min-height: 0;
+}
+
+.board {
+  height: 100%;
+  max-height: none;
+  display: block;
+}
+
+.sidebar {
+  min-height: 0;
+}
+
+@media (max-width: 1000px) {
+  .app {
+    height: auto;
+    overflow: visible;
+  }
+
+  .board-panel {
+    height: 70vh;
+  }
+}

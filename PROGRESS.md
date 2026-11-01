@@ -8,7 +8,9 @@
 
 Complete the **T1 First Conquest** core loop after the **T0 spike** (done 2026-10-31; spike
 report + ADR-010). T0 was merged to `main` (PR #1, `41c8a0f`) and its verdict is provisional
-GO pending the owner's 10-turn playtest. T1 work is on branch `t1-first-conquest`.
+GO pending the owner's 10-turn playtest. T1 continues on `main` after PR #2 (`606975c`), one
+small commit per increment; the engineering exit evidence is in
+[`docs/design/t1-exit-report.md`](docs/design/t1-exit-report.md).
 T1 scope: [`docs/design/11-mvp-scope.md`](docs/design/11-mvp-scope.md) and
 [`docs/design/14-roadmap.md`](docs/design/14-roadmap.md) M3–M4. Acceptance: the T1 exit gates
 in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art) and
@@ -197,28 +199,45 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     (13 games / 1,000 actions, 0 failures) clean; `pnpm test:e2e` 4/4. CI fuzz was raised to
     10,000 actions (seed 1: 127 games, 0 failures).
 
+27. **T1-e UI done — full First Conquest client surface** (teammate `t1-ui`, `packages/client`
+    + `e2e` only; engine untouched): readable round/day-night/tactics surface, grouped action
+    panels (move/fight/rest/end turn, site purchases, hand cards basic/powered/sideways/discard,
+    skills/units activation, choice and combat panels), status panel (fame/level bar, armor,
+    hand limit, command slots, crystals, Source dice, mana tokens, dummy deck), game-over
+    debrief from a new `result` field on `window.__EMBERWOLD__`, tutorial prompts for turns 1–3,
+    legend and event log; board is now state-driven (placed tiles, sites, enemies, hero).
+    Existing autosave/continue and undo preserved. New `e2e/victory.spec.ts` replays all 78
+    actions of `050-victory.json` through the real UI, checks every rendered button against the
+    legal set, then asserts the debrief (victory, score 17, round 3, fame 7, city conquered) and
+    no console errors. Evidence: `pnpm verify` green, 78 tests, `pnpm test:e2e` 5/5,
+    `pnpm build` = 315.37 kB JS (93.43 kB gzip) + 7.59 kB CSS (2.08 kB gzip) => ~95 KB gzipped
+    initial load, far under the 5 MB DoD budget. 60 fps still needs a manual measurement on the
+    target laptop.
+
+28. **Terrain-cost skill modifiers done** (commit `deb2f84`): the bundle carried
+    `apply_modifier(terrain_cost)` payloads (e.g. Goldyx Flight) that the shared `EffectOp`
+    type did not enumerate and the engine silently ignored. Added `TerrainCostModifier` to the
+    contract, a turn-scoped `turn.terrainModifier`, `terrainCost` now applies
+    replace/amount/minimum (Flight's options make all terrain cost 0 or 1), compiler collects
+    nested modifier ops and declares `terrain_cost`, and a test covers activation + turn reset.
+    Bundle digest unchanged (payload was already emitted); 78 tests green; e2e 5/5.
+
 ## Next (ordered; first item is the exact next action)
 
 Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a
 PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap.md` M3–M4.
 
-1. **T1-e UI** — round/day-night indicator + tactic picker display, board origins, site/offer
-   panels (buy AA/spell/heal/recruit, activate skills/units), level-up/unit UI, score/debrief
-   screen, tutorial prompts turns 1–3, placeholder art where it exists. The engine already
-   exposes every action; this is presentation + legibility (the current fallback renders some
-   actions as JSON).
-2. **T1-f exit docs + verification** — winning line is done (Done item 26: 050-victory, score
-   17, city conquered by round 3). Remaining: debrief/score surface in the client (part of
-   T1-e), docs status (`11` §9 DoD, README, roadmap M3/M4), the T1 exit report (deviations,
-   simplifications, T1 debt; CI fuzz already raised to 10,000 actions), then the T1 exit +
-   PR/merge decision.
-3. **T1-d2 remaining content (after the exit gates or as capacity allows)** — 4 artifacts (their
+1. **T1 exit bookkeeping** — final `pnpm verify` + `pnpm test:e2e` + fuzz + data validator on the
+   committed tree, then the T1 exit sign-off: `docs/design/t1-exit-report.md` is written (v1.0),
+   `14-roadmap` M3/M4 status and README/docs index updated; propose/record the T1 exit decision
+   (ADR) and hand the owner the open gates.
+2. **T1-d2 remaining content (after the exit gates or as capacity allows)** — 4 artifacts (their
    basic effect needs `gain_fame`; powered "endless mana" deferred), remaining Advanced
    Actions/Spells (conditional/on_terrain, scaling, in_combat…), remaining hero skills, unit
    wounds/damage assignment, city purchase options, keep/portal interactions, fame→reputation
    events (assault −1, orc defeat +1). These are tracked as explicit T1 debt in the exit report.
-4. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
-   sign-off.
+3. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
+   sign-off, external playtest (G2/G3), legal review, tutorial playthroughs, 60 fps measurement.
 
 ## Open questions
 
@@ -235,15 +254,17 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 
 - Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`. T0 merged (PR #1 `41c8a0f`);
   the T1-a/T1-d branch merged as PR #2 (`606975c`); **T1 continues on `main`** (ADR-010) with
-  small commits, CI on every push. T1 engine commits so far: `f49c7f1` (round clock/tactics/
-  dummy), `2134de2` (sites/offers/AA/spells), `14eb9d0` (leveling/skills), `3adc60a` (units),
-  `0ec033a` (end-of-turn draw + discard). Winning trace: `050-victory.json` seed 1, 78 actions,
-  victory score 17 at round 3 (contentHash `e79812be…`).
+  small commits, CI on every push. T1 commits: `f49c7f1` (round clock/tactics/dummy),
+  `2134de2` (sites/offers/AA/spells), `14eb9d0` (leveling/skills), `3adc60a` (units),
+  `0ec033a` (end-of-turn draw + discard), `8a7ee5c` (site visibility + winning trace),
+  `61a83e1` (CI fuzz 10k), `deb2f84` (terrain-cost skill modifiers), plus the T1-e UI commit.
+  Winning trace: `050-victory.json` seed 1, 78 actions, victory score 17 at round 3
+  (contentHash `e79812be…`).
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
-  lint + tests + dependency boundaries + golden traces; `pnpm test:e2e` = Playwright (4 tests);
-  `pnpm test` alone; data validator
+  lint + 78 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (5
+  tests: 3 persistence + 2 full-scenario replays); `pnpm test` alone; data validator
   `.venv/bin/python tools/validate_data.py` (local) / `python3 tools/validate_data.py` (CI, stdlib).
 - Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…010**); T0 plan and steps in
   `docs/design/19-t0-spike-plan.md`; G1 in `10-feasibility-analysis.md` §9; MVP scope in

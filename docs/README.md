@@ -29,6 +29,7 @@ This folder is the complete pre-production package for **Emberwold**. It is spli
 | `design/18-ai-art-prompts.md` | AI art prompt pack | ✅ v1 | art-prompt-writer | Tool/licence guidance, consistency workflow, 41 per-slot prompts |
 | `design/19-t0-spike-plan.md` | T0 spike plan | ✅ executed | Lead | Approved (ADR-009); S1–S10 done 2026-10-31 |
 | `design/spike-report.md` | T0 spike report | ✅ v1 | Lead | G1 evidence, deviations, data findings, GO recommendation (ADR-010) |
+| `design/t1-exit-report.md` | T1 First Conquest exit report | ✅ v1 | Lead | M3/M4 evidence, rules coverage, deviations/T1 debt, v1.0 DoD status, owner gates |
 
 Legend: ✅ complete · ⏳ in progress · ⚠️ has unverified parts (see the doc's own flags)
 

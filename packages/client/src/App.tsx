@@ -1,20 +1,49 @@
+/**
+ * App shell for the First Conquest client. Owns the run: creates games, applies legal actions,
+ * autosaves to localStorage, keeps an in-memory undo stack and exposes the state to Playwright
+ * through window.__EMBERWOLD__.
+ */
 import { bundle, contentHash } from "@emberwold/content";
-import { applyAction, createGame, getLegalActions } from "@emberwold/engine";
-import type { Action, GameEvent, GameState } from "@emberwold/engine";
+import {
+  applyAction,
+  createGame,
+  getLegalActions,
+  type Action,
+  type GameEvent,
+  type GameResult,
+  type GameState,
+} from "@emberwold/engine";
 import { useEffect, useMemo, useState } from "react";
 import type { ReactElement } from "react";
 
 import { Board } from "./board";
+import { groupActions } from "./groups";
+import {
+  ChoicePanel,
+  CombatPanel,
+  DebriefPanel,
+  EventsPanel,
+  FallbackPanel,
+  HandPanel,
+  LegendPanel,
+  RetinuePanel,
+  SitePanel,
+  StatusPanel,
+  TacticPanel,
+  TurnPanel,
+  TutorialPanel,
+} from "./panels";
 import { SAVE_VERSION, clearSave, loadSave, writeSave } from "./save";
+import { currentMapSite } from "./text";
 
 export interface EmberwoldDebug {
   readonly state: GameState;
   readonly legal: readonly Action[];
   readonly events: readonly GameEvent[];
   readonly seed: number;
+  readonly result: GameResult | null;
 }
 
-/** Everything that has to be snapshotted for undo and for the autosave. */
 interface Run {
   readonly seed: number;
   readonly state: GameState;
@@ -22,74 +51,31 @@ interface Run {
 }
 
 function createRun(seed: number): Run {
-  const created = createGame({ seed }, bundle);
-  return { seed, state: created.state, events: [] };
+  // Creation events are not part of a run's history; the event log starts with the first action.
+  return { seed, state: createGame({ seed }, bundle).state, events: [] };
 }
 
-function defFor(state: GameState, instance: string): { name: string } | undefined {
-  const defId = (state.cardInstances as Readonly<Record<string, string>>)[instance];
-  return defId === undefined ? undefined : bundle.cards[defId];
-}
-
-function actionLabel(action: Action, state: GameState): string {
-  switch (action.type) {
-    case "playCard": {
-      const def = defFor(state, action.card);
-      return `${action.mode} · ${def?.name ?? action.card}`;
-    }
-    case "playCardSideways": {
-      const def = defFor(state, action.card);
-      return `${action.as} · ${def?.name ?? action.card}`;
-    }
-    case "moveTo":
-      return `move to ${action.target.q},${action.target.r}`;
-    case "explore":
-      return "explore the frontier";
-    case "enterSite":
-      return "enter site";
-    case "challengeRampaging":
-      return "challenge enemies";
-    case "buyHealing":
-      return `buy ${action.points} healing`;
-    case "rest":
-      return `${action.kind} rest`;
-    case "resolveChoice":
-      return `choose option ${action.optionIndex + 1}`;
-    case "assignDamage":
-      return "assign damage";
-    case "assignAttack":
-      return "assign attack";
-    case "endCombatPhase":
-      return "end combat phase";
-    case "endTurn":
-      return "end turn";
-    default:
-      // A future engine action type must not blank the whole client; it just gets a dull label.
-      return "unknown action";
-  }
-}
-
-function cardActionsFor(legal: readonly Action[], state: GameState, card: string): Action[] {
-  return legal.filter(
-    (action) =>
-      (action.type === "playCard" || action.type === "playCardSideways") &&
-      action.card === card &&
-      (state.cardInstances as Readonly<Record<string, string>>)[card] !== undefined,
-  );
+function parseSeed(text: string): number {
+  const parsed = Number.parseInt(text, 10);
+  return Number.isFinite(parsed) ? parsed : 1;
 }
 
 export function App(): ReactElement {
-  // A save is restored only after the player asks for it, so the run on screen is never
-  // overwritten by the autosave before the "Continue" decision.
   const [bootSave] = useState(() => loadSave(contentHash));
-  const [resumeOffered, setResumeOffered] = useState(bootSave !== null);
+  const [resumeOffered, setResumeOffered] = useState<boolean>(bootSave !== null);
   const [seedText, setSeedText] = useState("1");
   const [run, setRun] = useState<Run>(() => createRun(1));
   const [undoStack, setUndoStack] = useState<readonly Run[]>([]);
-  const legal = useMemo(() => getLegalActions(run.state, bundle).actions, [run]);
+  const [tutorialDismissed, setTutorialDismissed] = useState(false);
 
-  // Declared before the debug bridge below: e2e reads window.__EMBERWOLD__ after every action
-  // and must never observe a state that has not reached localStorage yet.
+  const legal = useMemo(() => getLegalActions(run.state, bundle).actions, [run]);
+  const groups = useMemo(() => groupActions(run.state, legal), [run.state, legal]);
+  const heroTurn = useMemo(
+    () => 1 + run.events.filter((event) => event.type === "turnStarted").length,
+    [run.events],
+  );
+
+  // Autosave first, debug bridge second: a page reload must always find the current run saved.
   useEffect(() => {
     if (resumeOffered) {
       return;
@@ -107,16 +93,22 @@ export function App(): ReactElement {
     if (resumeOffered) {
       return;
     }
-    window.__EMBERWOLD__ = { state: run.state, legal, events: run.events, seed: run.seed };
+    window.__EMBERWOLD__ = {
+      state: run.state,
+      legal,
+      events: run.events,
+      seed: run.seed,
+      result: run.state.result,
+    };
   }, [run, legal, resumeOffered]);
 
   function newRun(): void {
-    const parsed = Number.parseInt(seedText, 10);
-    const nextSeed = Number.isFinite(parsed) ? parsed : 1;
+    const seed = parseSeed(seedText);
     clearSave();
     setResumeOffered(false);
-    setRun(createRun(nextSeed));
+    setRun(createRun(seed));
     setUndoStack([]);
+    setTutorialDismissed(false);
   }
 
   function continueRun(): void {
@@ -157,7 +149,7 @@ export function App(): ReactElement {
         <header className="topbar">
           <div>
             <h1>Emberwold</h1>
-            <p className="subtitle">T0 spike · placeholder art · no rules in the client</p>
+            <p className="subtitle">First Conquest · T1 vertical slice</p>
           </div>
         </header>
         <main className="resume-main">
@@ -166,6 +158,9 @@ export function App(): ReactElement {
             <p>
               seed {bootSave.seed} · round {bootSave.state.round} · action{" "}
               {bootSave.state.actionEpoch} · {bootSave.events.length} events
+            </p>
+            <p className="muted-line">
+              Continue where you left off, or start over. A new run discards this saved run.
             </p>
             <div className="actions">
               <button type="button" data-testid="continue" onClick={continueRun}>
@@ -181,34 +176,27 @@ export function App(): ReactElement {
     );
   }
 
-  const player = run.state.players[0];
-  const cardActionSet = legal.filter(
-    (action) => action.type === "playCard" || action.type === "playCardSideways",
-  );
-  const otherActions = legal.filter(
-    (action) => action.type !== "playCard" && action.type !== "playCardSideways",
-  );
-
-  const indexOf = (action: Action): number => legal.indexOf(action);
+  const site = currentMapSite(run.state);
+  const showSitePanel = site !== undefined || groups.site.length > 0;
 
   return (
     <div className="app">
       <header className="topbar">
         <div>
           <h1>Emberwold</h1>
-          <p className="subtitle">T0 spike · placeholder art · no rules in the client</p>
+          <p className="subtitle">First Conquest · T1 vertical slice</p>
         </div>
         <div className="controls">
           <label>
-            seed
+            seed{" "}
             <input
               data-testid="seed"
               value={seedText}
-              onChange={(event) => setSeedText(event.target.value)}
               inputMode="numeric"
+              onChange={(event) => setSeedText(event.target.value)}
             />
           </label>
-          <button type="button" data-testid="undo" onClick={undo} disabled={undoStack.length === 0}>
+          <button type="button" data-testid="undo" disabled={undoStack.length === 0} onClick={undo}>
             Undo
           </button>
           <button type="button" data-testid="new-run" onClick={newRun}>
@@ -217,96 +205,34 @@ export function App(): ReactElement {
           <span className="save-note">autosaves locally</span>
         </div>
       </header>
-
       <main>
         <section className="board-panel">
           <Board state={run.state} />
         </section>
-
         <aside className="sidebar">
-          <section className="status" data-testid="status">
-            <span>round {run.state.round}</span>
-            <span>move {run.state.turn.movePoints}</span>
-            <span>influence {run.state.turn.influence}</span>
-            <span>fame {player?.fame ?? 0}</span>
-            <span>hand {player?.hand.length ?? 0}</span>
-            {run.state.gameOver ? <strong>game over</strong> : null}
-          </section>
-
-          {run.state.combat !== null ? (
-            <section className="panel combat" data-testid="combat">
-              <h2>Combat · {run.state.combat.phase}</h2>
-              <ul>
-                {run.state.combat.enemies.map((enemy) => {
-                  const def = bundle.enemies[enemy.defId];
-                  return (
-                    <li key={enemy.instanceId}>
-                      {def?.name ?? enemy.defId} · attack {def?.attack} · armor {def?.armor}
-                      {enemy.blocked ? " · blocked" : ""}
-                      {enemy.defeated ? " · defeated" : ""}
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
+          <DebriefPanel state={run.state} />
+          {heroTurn > 3 || tutorialDismissed ? null : (
+            <TutorialPanel heroTurn={heroTurn} onDismiss={() => setTutorialDismissed(true)} />
+          )}
+          <StatusPanel state={run.state} />
+          {groups.tactic.length === 0 && run.state.tacticChoice === null ? null : (
+            <TacticPanel entries={groups.tactic} state={run.state} onAction={dispatch} />
+          )}
+          {groups.choice.length === 0 && run.state.pending === null ? null : (
+            <ChoicePanel entries={groups.choice} state={run.state} onAction={dispatch} />
+          )}
+          {groups.combat.length === 0 && run.state.combat === null ? null : (
+            <CombatPanel entries={groups.combat} state={run.state} onAction={dispatch} />
+          )}
+          <HandPanel entries={groups.hand} state={run.state} onAction={dispatch} />
+          <TurnPanel entries={groups.turn} state={run.state} onAction={dispatch} />
+          {showSitePanel ? (
+            <SitePanel entries={groups.site} state={run.state} onAction={dispatch} />
           ) : null}
-
-          <section className="panel">
-            <h2>Hand</h2>
-            <ul className="hand" data-testid="hand">
-              {(player?.hand ?? []).map((instance) => {
-                const def = defFor(run.state, instance);
-                const actions = cardActionsFor(cardActionSet, run.state, instance);
-                return (
-                  <li key={instance} className="card">
-                    <strong>{def?.name ?? instance}</strong>
-                    <div className="card-actions">
-                      {actions.map((action) => (
-                        <button
-                          type="button"
-                          key={`${action.type}-${indexOf(action)}`}
-                          data-testid="action"
-                          data-index={indexOf(action)}
-                          onClick={() => dispatch(action)}
-                        >
-                          {actionLabel(action, run.state)}
-                        </button>
-                      ))}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-
-          <section className="panel">
-            <h2>Actions</h2>
-            <div className="actions">
-              {otherActions.map((action) => (
-                <button
-                  type="button"
-                  key={`${action.type}-${indexOf(action)}`}
-                  data-testid="action"
-                  data-index={indexOf(action)}
-                  onClick={() => dispatch(action)}
-                >
-                  {actionLabel(action, run.state)}
-                </button>
-              ))}
-            </div>
-          </section>
-
-          <section className="panel log">
-            <h2>Events</h2>
-            <ul data-testid="events">
-              {run.events
-                .slice(-12)
-                .reverse()
-                .map((event, index) => (
-                  <li key={`${event.type}-${index}`}>{event.type}</li>
-                ))}
-            </ul>
-          </section>
+          <RetinuePanel entries={groups.retinue} state={run.state} onAction={dispatch} />
+          <FallbackPanel entries={groups.fallback} state={run.state} onAction={dispatch} />
+          <LegendPanel />
+          <EventsPanel state={run.state} events={run.events} />
         </aside>
       </main>
     </div>
