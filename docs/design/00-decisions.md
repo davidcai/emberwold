@@ -312,6 +312,40 @@ PR review or after the playtest.
 
 ---
 
+## ADR-011 — T1 First Conquest engineering exit: GO for the v1.0 content/ship phase
+
+**Date:** 2026-10-31 · **Status:** accepted (provisional; owner gates in Consequences)
+
+**Decision.** The owner's standing instruction (complete the game development with minimal
+intervention, best judgement) delegates the T1 engineering exit verdict to this session. The T1
+exit gates are evidenced in [`t1-exit-report.md`](./t1-exit-report.md): roadmap **M3 (headless
+complete game) is met** and **M4 (playable client) is engineering-met** — a seeded First
+Conquest game can be won (`050-victory.json`) or lost on the round limit, every commit is
+covered by 78 tests, 7 deterministic golden traces, 10,000-action CI fuzz and 5 Playwright
+tests including a full 78-action winning replay; the client ships ~95 KB gzipped. T1 work
+continues on `main`; the next phase is the remaining v1.0 content/DoD work (2nd hero, artifacts,
+remaining Advanced Actions/Spells, unit wounds, site interactions, dummy fidelity, scenario
+tuning) followed by the M5 ship-candidate gates.
+
+**Context.** ADR-010 approved the T1 phase provisionally. The agent can verify all engineering
+gates (tests, traces, fuzz, Playwright, invariants, CI, build) but cannot run the human gates:
+the 10-turn fun pass, the external playtest (G2/G3), the tutorial playthroughs, the legal
+review or a 60 fps measurement on the 2019-laptop baseline. Waiting for those would stall
+development with no engineering reason; the owner can reverse the verdict after the playtest.
+
+**Consequences.**
+- `main` is the T1 baseline; increments continue one small commit at a time with tests, traces
+  and CI green. The open simplifications and T1 debt are listed in the exit report §6 and must
+  not be silently kept at v1.0 ship time.
+- The v1.0 DoD checklist (`11` §9) stays authoritative: content breadth, tutorial validation,
+  measured performance, legal review and the external playtest are still open.
+- Public-release gates (ADR-002/007/008, `15` §11 name screen, `06` legal) are unchanged and
+  the repository stays public-safe.
+- The owner-facing gates remain in PROGRESS and the exit report §8 for sign-off.
+
+
+---
+
 ## Pending decisions
 
 | # | Decision | Needed by | Default if no answer |

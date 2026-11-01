@@ -227,16 +227,20 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
 Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a
 PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap.md` M3–M4.
 
-1. **T1 exit bookkeeping** — final `pnpm verify` + `pnpm test:e2e` + fuzz + data validator on the
-   committed tree, then the T1 exit sign-off: `docs/design/t1-exit-report.md` is written (v1.0),
-   `14-roadmap` M3/M4 status and README/docs index updated; propose/record the T1 exit decision
-   (ADR) and hand the owner the open gates.
-2. **T1-d2 remaining content (after the exit gates or as capacity allows)** — 4 artifacts (their
-   basic effect needs `gain_fame`; powered "endless mana" deferred), remaining Advanced
-   Actions/Spells (conditional/on_terrain, scaling, in_combat…), remaining hero skills, unit
-   wounds/damage assignment, city purchase options, keep/portal interactions, fame→reputation
-   events (assault −1, orc defeat +1). These are tracked as explicit T1 debt in the exit report.
-3. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
+1. **T1-d2 content increment (next)** — start with the 2nd hero and the 4 artifacts; then
+   remaining Advanced Actions/Spells, unit wounds/damage assignment, keep/portal/city
+   interactions, fame→reputation events, dummy fidelity and tactic effects. Each increment:
+   compiler + engine + tests + traces re-recorded, then a small commit.
+2. **T1 exit bookkeeping (done for engineering; owner gates open)** — ADR-011 records the
+   engineering GO, `docs/design/t1-exit-report.md` v1.0 and roadmap/README/docs status are
+   committed; the owner still owes the fun pass, T1 deviation sign-off, G2/G3 playtest, legal
+   review, tutorial playthroughs and the 60 fps measurement.
+3. **Further T1/v1.0 content after those** — remaining Advanced Actions/Spells
+   (conditional/on_terrain, scaling, in_combat…), remaining hero skills, unit wounds/damage
+   assignment, city purchase options, keep/portal interactions, fame→reputation events
+   (assault −1, orc defeat +1), dummy fidelity and tactic effects. These are tracked as
+   explicit T1 debt in the exit report §6.
+4. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
    sign-off, external playtest (G2/G3), legal review, tutorial playthroughs, 60 fps measurement.
 
 ## Open questions
