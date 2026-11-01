@@ -194,7 +194,8 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     tile reveal (`sitesOnRevealedHexes`, `seedSitesForRevealedTiles`). New engine test covers
     it. Evidence: 77 tests green; all 7 traces re-recorded and verify against contentHash
     `e79812bee30db56be46dd6dbb1f9436badcfcbbe4dae77d5d4ae097eab9d66df`; fuzz seed 1
-    (13 games / 1,000 actions, 0 failures) clean; `pnpm test:e2e` 4/4.
+    (13 games / 1,000 actions, 0 failures) clean; `pnpm test:e2e` 4/4. CI fuzz was raised to
+    10,000 actions (seed 1: 127 games, 0 failures).
 
 ## Next (ordered; first item is the exact next action)
 
@@ -209,7 +210,8 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 2. **T1-f exit docs + verification** — winning line is done (Done item 26: 050-victory, score
    17, city conquered by round 3). Remaining: debrief/score surface in the client (part of
    T1-e), docs status (`11` §9 DoD, README, roadmap M3/M4), the T1 exit report (deviations,
-   simplifications, T1 debt), longer fuzz in CI, then the T1 exit + PR/merge decision.
+   simplifications, T1 debt; CI fuzz already raised to 10,000 actions), then the T1 exit +
+   PR/merge decision.
 3. **T1-d2 remaining content (after the exit gates or as capacity allows)** — 4 artifacts (their
    basic effect needs `gain_fame`; powered "endless mana" deferred), remaining Advanced
    Actions/Spells (conditional/on_terrain, scaling, in_combat…), remaining hero skills, unit
