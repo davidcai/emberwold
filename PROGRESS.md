@@ -42,6 +42,11 @@ spike report and decide go/no-go with the owner. Acceptance: G1 in
    errors; `pnpm install --frozen-lockfile` ok; `python3 tools/validate_data.py` → `RESULT: OK`;
    CI run https://github.com/davidcai/emberwold/actions/runs/41265608826 green. `game-data/`
    untouched; validator still `9662 / 0 / 0`.
+10. **S2 done — shared primitives** (commit `db25ee6`): branded IDs + `Hex`/`hexKey`,
+    Mulberry32 with six salted streams and pure `nextU32`, dependency-free sync SHA-256,
+    canonical sorted-key JSON + `hashState`. Evidence: `pnpm --filter @emberwold/shared test`
+    → 22/22 (Appendix A RNG vectors, SHA-256 vectors incl. `emberwold`, stream independence);
+    `pnpm verify` → 29/29 tests, 0 lint/boundary errors; Prettier clean.
 
 ## Next (ordered; first item is the exact next action)
 
@@ -49,14 +54,12 @@ Execute the approved plan's remaining steps on branch `t0-spike`, recording each
 line in `docs/design/19-t0-spike-plan.md` before moving on. Stop at the plan's checkpoints/cut
 order; at C3 write `docs/design/spike-report.md` and decide go/no-go with the owner.
 
-1. **S2 — `packages/shared`**: branded IDs, Mulberry32 RNG with named streams, canonical
-   JSON + sync SHA-256, golden vectors from plan Appendix A. Check: shared tests + vectors.
-2. **S3 — `packages/engine`**: state/reducer/legal actions/invariants + Rest. Check: property
-   and unit tests green.
-3. **S4 — content compiler** (thin, Python validator single gate) + spike bundle. Then S5 trace
+1. **S3 — `packages/engine`**: state/reducer/legal actions/invariants + Rest. Check: property
+   and unit tests green (`pnpm --filter @emberwold/engine test`).
+2. **S4 — content compiler** (thin, Python validator single gate) + spike bundle. Then S5 trace
    harness/CLI/fuzz, S6 movement/explore/rest/end-turn, S7 combat, S8 village+full-round,
    S9 UI, S10 report — in plan order with their acceptance checks.
-4. Push `t0-spike` after each step; open the PR when S10 is done (or ask the owner earlier).
+3. Push `t0-spike` after each step; open the PR when S10 is done (or ask the owner earlier).
 
 ## Open questions
 

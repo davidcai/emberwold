@@ -1,6 +1,6 @@
 # 19 · T0 Spike Plan — two weeks to a playable round
 
-**Status:** approved (ADR-009) · execution started 2026-10-31 · S1 done · branch `t0-spike`
+**Status:** approved (ADR-009) · execution started 2026-10-31 · S1–S2 done · branch `t0-spike`
 **Companions:** [`10-feasibility-analysis.md`](./10-feasibility-analysis.md) §6/§9 (G1),
 [`11-mvp-scope.md`](./11-mvp-scope.md) §2–§5/§10 (scope/content),
 [`12-architecture.md`](./12-architecture.md) §3.3/§5/§6/§10/§12.4/§12.6 (engine, pipeline,
@@ -11,8 +11,8 @@ tests, T0 slice), [`14-roadmap.md`](./14-roadmap.md) §0.1/§1/§5/§6 (tiers, M
 
 > **Gate status: APPROVED 2026-10-31 (ADR-009 in [`00-decisions.md`](./00-decisions.md)).**
 > The owner approved this plan and its proposed defaults. Execution is on branch `t0-spike`:
-> **S1 is done** (evidence in S1); S2–S10 are not started. No T1/T2 work is authorized by
-> this plan.
+> **S1–S2 are done** (evidence in each step); S3–S10 are not started. No T1/T2 work is
+> authorized by this plan.
 >
 > **Review record.** Two fresh-context reviewers checked this plan against the docs. Their
 > verified blockers — wrong op count/def count, the G1 card count, explore-as-side-effect,
@@ -197,7 +197,7 @@ Vitest config, `.github/workflows/ci.yml` (push/PR: setup Node 22 from `.nvmrc`,
 
 ---
 
-### S2 — `packages/shared`: branded IDs, seeded RNG, canonical state hash
+### S2 — `packages/shared`: branded IDs, seeded RNG, canonical state hash · **done 2026-10-31**
 
 **Do.** Branded ID types (`PlayerId`, `CardInstanceId`, `EnemyInstanceId`, `TileId`, `Hex`…),
 `RngState` with named streams (`shuffle`, `sourceDice`, `enemyDraw`, `tileDraw`,
@@ -213,7 +213,13 @@ Vitest config, `.github/workflows/ci.yml` (push/PR: setup Node 22 from `.nvmrc`,
    whitespace permutations hash identically.
 4. ESLint `@typescript-eslint/no-explicit-any` reports zero violations in `shared`.
 
-**Evidence:** test counts; vector check output.
+**Evidence (2026-10-31, branch `t0-spike`, commit `db25ee6`):**
+* `pnpm --filter @emberwold/shared test` → `Test Files 4 passed (4)` / `Tests 22 passed (22)`:
+  Mulberry32 vectors for seeds 0/1/12345 match Appendix A exactly; SHA-256 vectors including
+  `emberwold`; canonical ordering/hash; stream independence; state immutability.
+* `pnpm verify` → typecheck ok, lint ok (`no-explicit-any` clean), full suite
+  `Tests 29 passed (29)`, `0 dependency violations (22 modules, 17 dependencies cruised)`.
+* Prettier clean; new state objects are JSON-round-trippable.
 
 ---
 
