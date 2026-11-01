@@ -200,19 +200,19 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     10,000 actions (seed 1: 127 games, 0 failures).
 
 27. **T1-e UI done — full First Conquest client surface** (teammate `t1-ui`, `packages/client`
-    + `e2e` only; engine untouched): readable round/day-night/tactics surface, grouped action
-    panels (move/fight/rest/end turn, site purchases, hand cards basic/powered/sideways/discard,
-    skills/units activation, choice and combat panels), status panel (fame/level bar, armor,
-    hand limit, command slots, crystals, Source dice, mana tokens, dummy deck), game-over
-    debrief from a new `result` field on `window.__EMBERWOLD__`, tutorial prompts for turns 1–3,
-    legend and event log; board is now state-driven (placed tiles, sites, enemies, hero).
-    Existing autosave/continue and undo preserved. New `e2e/victory.spec.ts` replays all 78
-    actions of `050-victory.json` through the real UI, checks every rendered button against the
-    legal set, then asserts the debrief (victory, score 17, round 3, fame 7, city conquered) and
-    no console errors. Evidence: `pnpm verify` green, 78 tests, `pnpm test:e2e` 5/5,
-    `pnpm build` = 315.37 kB JS (93.43 kB gzip) + 7.59 kB CSS (2.08 kB gzip) => ~95 KB gzipped
-    initial load, far under the 5 MB DoD budget. 60 fps still needs a manual measurement on the
-    target laptop.
+    - `e2e` only; engine untouched): readable round/day-night/tactics surface, grouped action
+      panels (move/fight/rest/end turn, site purchases, hand cards basic/powered/sideways/discard,
+      skills/units activation, choice and combat panels), status panel (fame/level bar, armor,
+      hand limit, command slots, crystals, Source dice, mana tokens, dummy deck), game-over
+      debrief from a new `result` field on `window.__EMBERWOLD__`, tutorial prompts for turns 1–3,
+      legend and event log; board is now state-driven (placed tiles, sites, enemies, hero).
+      Existing autosave/continue and undo preserved. New `e2e/victory.spec.ts` replays all 78
+      actions of `050-victory.json` through the real UI, checks every rendered button against the
+      legal set, then asserts the debrief (victory, score 17, round 3, fame 7, city conquered) and
+      no console errors. Evidence: `pnpm verify` green, 78 tests, `pnpm test:e2e` 5/5,
+      `pnpm build` = 315.37 kB JS (93.43 kB gzip) + 7.59 kB CSS (2.08 kB gzip) => ~95 KB gzipped
+      initial load, far under the 5 MB DoD budget. 60 fps still needs a manual measurement on the
+      target laptop.
 
 28. **Terrain-cost skill modifiers done** (commit `deb2f84`): the bundle carried
     `apply_modifier(terrain_cost)` payloads (e.g. Goldyx Flight) that the shared `EffectOp`
@@ -272,25 +272,32 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     modifiers. Bundle digest `a7655b65…`, cards 29, AA offer unchanged, AA deck 7; 85 tests,
     all 7 traces re-recorded/rehashed and verified, 6 e2e, fuzz 10k clean.
 
+34. **Final engineering audit (done)**: exit report refreshed to v1.1 with the full commit
+    trail (through `59c9883`), current contentHash `a7655b65…`, 85 tests, 7 verified traces,
+    6 e2e, fuzz seed 1 (127 games / 10,000 actions, 0 failures) and the production build
+    (328.47 kB JS / 96.06 kB gzip + 7.59 kB CSS ≈ 98 kB gzipped). Working tree clean, CI
+    green on `main`; ADR-011 records the T1 engineering GO.
+
 ## Next (ordered; first item is the exact next action)
 
 Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a
 PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap.md` M3–M4.
 
-1. **T1-d2h content increment (next)** — 2 Advanced Actions (blood_ritual: any-colour mana
-   choice; in_need: wound-total scaling needs an exact source rule), 4 Spells (restoration:
-   on-terrain + ready-units budget; whirlwind/expose: enemy targeting; cure: wound/disease
-   semantics), plus keep/mage-tower garrisons and city colour options, the 4 artifacts
-   (acquisition path), dummy fidelity and tactic effects. Each increment:
-   compiler + engine + tests + traces re-recorded, then a small commit.
+1. **No further safe content increment without an owner ruling (next)** — the remaining
+   T1-d2 debt cannot be implemented faithfully from the data/sources available: `blood_ritual`
+   (any-colour mana choice), `in_need` (wound-total scaling), `restoration`/`whirlwind`/
+   `expose` (enemy targeting + ready-unit budgets), `cure` (wound/disease semantics), the four
+   artifacts (acquisition path is not authored), keep/mage-tower garrisons and city colour
+   options (no authored garrisons/colours), dummy fidelity and tactic effects (data
+   placeholders). Implementing them now would invent rules; ask the owner for a ruling or wait
+   for the M5 content pass. The exact gaps are listed in `docs/design/t1-exit-report.md` §6.
 2. **T1 exit bookkeeping (done for engineering; owner gates open)** — ADR-011 records the
-   engineering GO, `docs/design/t1-exit-report.md` v1.0 and roadmap/README/docs status are
+   engineering GO, `docs/design/t1-exit-report.md` v1.1 and roadmap/README/docs status are
    committed; the owner still owes the fun pass, T1 deviation sign-off, G2/G3 playtest, legal
    review, tutorial playthroughs and the 60 fps measurement.
-3. **Further T1/v1.0 content after those** — remaining Advanced Actions/Spells, hero skills,
-   city colour purchase options, keep/mage-tower garrison conquest, dummy fidelity and tactic
-   effects. These are tracked as explicit T1 debt in the
-   exit report §6.
+3. **Further T1/v1.0 content after the ruling/playtest** — remaining Advanced Actions/Spells,
+   hero skills, city colour purchase options, keep/mage-tower garrison conquest, dummy
+   fidelity and tactic effects. These are tracked as explicit T1 debt in the exit report §6.
 4. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
    sign-off, external playtest (G2/G3), legal review, tutorial playthroughs, 60 fps measurement.
 
@@ -301,9 +308,14 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
    required?) is resolved: S9 is included.
 2. Public branding still gated by ADR-007/008: run the `15` §11 name screen before any public
    wordmark use.
-3. The 181.8 MB archive is on the same disk as the repo; an off-machine copy (iCloud/external)
+3. **T1-d2 content ruling (owner):** the remaining cards/sites cannot be implemented without
+   inventing rules (enemy targeting, cure/disease, ready-unit budgets, any-colour mana,
+   wound-total scaling, artifact acquisition, garrisons/tactic effects). Decide whether to
+   document them as M5 deferrals, approve explicit T1 simplifications, or provide rule text —
+   see `docs/design/t1-exit-report.md` §6 for the exact list.
+4. The 181.8 MB archive is on the same disk as the repo; an off-machine copy (iCloud/external)
    is still manual.
-4. Whether full-resolution PNG masters should ever be tracked in git (currently local-only).
+5. Whether full-resolution PNG masters should ever be tracked in git (currently local-only).
 
 ## Key facts
 
@@ -312,16 +324,18 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
   small commits, CI on every push. T1 commits: `f49c7f1` (round clock/tactics/dummy),
   `2134de2` (sites/offers/AA/spells), `14eb9d0` (leveling/skills), `3adc60a` (units),
   `0ec033a` (end-of-turn draw + discard), `8a7ee5c` (site visibility + winning trace),
-  `61a83e1` (CI fuzz 10k), `deb2f84` (terrain-cost skill modifiers), plus the T1-e UI commit.
-  Winning trace: `050-victory.json` seed 1, 78 actions, victory score 17 at round 3
-  (contentHash `15c81fb0…`).
+  `61a83e1` (CI fuzz 10k), `deb2f84` (terrain-cost skill modifiers), `b082bff` (T1-e UI),
+  `9fd28a2` (ADR-011), `6ed83fb` (second hero), `10ba128` (unit wounds/healing), `18473b1`
+  (reputation), `1c7a933` (conditional/scaling/terrain-specific ops + 3 AA) and `59c9883`
+  (Into the Heat/Steady Tempo, unit combat abilities). Winning trace: `050-victory.json` seed
+  1, 78 actions, victory score 17 at round 3 (contentHash `a7655b65…`).
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
   lint + 85 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (6
   tests: hero select, 3 persistence, 2 full-scenario replays); `pnpm test` alone; data validator
   `.venv/bin/python tools/validate_data.py` (local) / `python3 tools/validate_data.py` (CI, stdlib).
-- Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…010**); T0 plan and steps in
+- Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…011**); T0 plan and steps in
   `docs/design/19-t0-spike-plan.md`; G1 in `10-feasibility-analysis.md` §9; MVP scope in
   `11-mvp-scope.md`; architecture in `12-architecture.md`; T0 evidence in `spike-report.md`.
 - Art packaging: committed = WebP q90 at ≥2× display size (`art/*/*.webp`); full-res PNG masters
@@ -330,8 +344,7 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 - Image generation is owner-run in the ChatGPT desktop app; the agent never generates images.
 - **T1 simplifications still open** (documented, not bugs): tactic card effects are deferred
   (data placeholder); the dummy is count-only (no crystals/AA absorption/blocking figure yet);
-  only Advanced Actions/Spells whose full effect tree is implemented enter the bundle (5 AA +
-  2 spells now); Spell powered effects use the generic mana payment (no night/black-mana rule
+  only Advanced Actions/Spells whose full effect tree is implemented enter the bundle (10 AA + 2 spells now); Spell powered effects use the generic mana payment (no night/black-mana rule
   yet); combat fidelity waivers from the spike report §6 still apply until T1 exit.
 - Gotchas: (a) the harness sandbox blocks writes outside the workspace — iCloud/backup copies need
   approval or a manual step; (b) fontTools C extensions fail on this host (pure-Python works after

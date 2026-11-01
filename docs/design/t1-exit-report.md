@@ -1,6 +1,6 @@
 # T1 First Conquest — exit report (engineering)
 
-**Status:** v1.0 (2026-10-31) · **Owner:** Lead · **Companions:**
+**Status:** v1.1 (2026-10-31, final engineering audit) · **Owner:** Lead · **Companions:**
 [`11-mvp-scope.md`](./11-mvp-scope.md), [`14-roadmap.md`](./14-roadmap.md),
 [`spike-report.md`](./spike-report.md), [`00-decisions.md`](./00-decisions.md)
 
@@ -24,29 +24,30 @@ listed in §8.
 - **11 §9 (v1.0 definition of done) — partially met.** The game loop, scoring, save/undo and
   golden-trace requirements are met; content breadth (2nd hero, 4 artifacts, the rest of the
   MVP Advanced Actions/Spells), tutorial validation, measured performance and the legal
-  review remain M5/v1.0 work. This is expected: §9 defines the *ship candidate*, not the T1
+  review remain M5/v1.0 work. This is expected: §9 defines the _ship candidate_, not the T1
   engineering exit.
 - **No P0 bug known at exit; all known deviations and simplifications are listed in §6.**
   Fun/playtest claims are owner actions and are not made here.
 
 ## 2. What landed (commit trail on `main`)
 
-| Commit | Increment |
-|---|---|
-| `f49c7f1` | T1-a2 real round clock: tactics selection, simplified solo dummy (16 cards, 3 flips/turn, announces End of Round), round-prep pipeline (day/night flip, Source reroll, deck+discard+hand shuffle including Wounds, hand-limit draw, dummy refill, tactic pool refresh), deck-empty announcement. |
+| Commit    | Increment                                                                                                                                                                                                                                                                                                         |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `f49c7f1` | T1-a2 real round clock: tactics selection, simplified solo dummy (16 cards, 3 flips/turn, announces End of Round), round-prep pipeline (day/night flip, Source reroll, deck+discard+hand shuffle including Wounds, hand-limit draw, dummy refill, tactic pool refresh), deck-empty announcement.                  |
 | `2134de2` | T1-b1 sites and offers: Advanced Action and Spell definitions, AA/spell offers with decks and top-up, monastery AA purchase (6 Influence), mage tower spell purchase (7 Influence + matching mana), magical glade Wound discard, crystal-mine income, interaction reputation modifier, village/monastery healing. |
-| `14eb9d0` | T1-c leveling and skills: 10-level fame/stat table (armor, hand limit, command slots), level-up at end of turn, even-level skill token, level-up Advanced Action, skill activation with per-turn/per-round limits; content hash now digests the emitted bundle. |
-| `3adc60a` | T1-b2 units: 6 MVP unit definitions, unit offer/deck refresh, recruiting (entered inhabited site, Influence, free command slot), activation with mapped abilities and mana costs, round-start readying. |
-| `0ec033a` | End-of-turn draw to the modified hand limit (02 §15.1) and `discardCard`; the missing draw deadlocked the 3-round game once the hand filled with unplayable cards. |
-| `8a7ee5c` | Site visibility fix (`map.sites` seeded only for revealed tiles and added on reveal), `expectedResult` golden-trace assertions, `050-victory.json` winning line. |
-| `61a83e1` | CI fuzz raised to 10,000 actions per push. |
-| (effect-op increment) | `conditional`/`scaling`/`terrain_specific` ops + Counterattack, Frost Bridge, Refreshing Walk. |
-| (unit-bonus increment) | Into the Heat (unit combat bonus + no unit damage absorption), Steady Tempo (end-of-turn deck placement), and units can activate combat abilities during combat. |
-| (reputation increment) | Reputation events: city assault −1, defeating rampaging green/brown enemies +1/+2. |
-| (2nd-hero increment) | Second hero selectable: two heroes compiled with per-hero decks/crystals/skill decks, `GameConfig.heroId`, client hero selector, hero e2e test. |
-| (unit-wounds increment) | Unit damage assignment (armor absorption, Poison/Paralyze/Assassination), unit healing at sites, wounded units cannot activate; schemaVersion 2. |
-| `deb2f84` | Terrain-cost skill modifiers: `TerrainCostModifier` in the content contract, turn-scoped movement modifiers (Flight makes terrain cost 0/1), compiler collects nested modifier ops; bundle digest unchanged. |
-| (T1-e UI commit) | Full First Conquest client: status/tactics/choice/combat/hand/turn/site/retinue panels, state-driven board, game-over debrief, tutorial turns 1–3, legend + event log; `e2e/victory.spec.ts` replays `050-victory.json` through the UI. |
+| `14eb9d0` | T1-c leveling and skills: 10-level fame/stat table (armor, hand limit, command slots), level-up at end of turn, even-level skill token, level-up Advanced Action, skill activation with per-turn/per-round limits; content hash now digests the emitted bundle.                                                   |
+| `3adc60a` | T1-b2 units: 6 MVP unit definitions, unit offer/deck refresh, recruiting (entered inhabited site, Influence, free command slot), activation with mapped abilities and mana costs, round-start readying.                                                                                                           |
+| `0ec033a` | End-of-turn draw to the modified hand limit (02 §15.1) and `discardCard`; the missing draw deadlocked the 3-round game once the hand filled with unplayable cards.                                                                                                                                                |
+| `8a7ee5c` | Site visibility fix (`map.sites` seeded only for revealed tiles and added on reveal), `expectedResult` golden-trace assertions, `050-victory.json` winning line.                                                                                                                                                  |
+| `61a83e1` | CI fuzz raised to 10,000 actions per push.                                                                                                                                                                                                                                                                        |
+| `1c7a933` | `conditional`/`scaling`/`terrain_specific` ops + Counterattack, Frost Bridge, Refreshing Walk.                                                                                                                                                                                                                    |
+| `59c9883` | Into the Heat (unit combat bonus + no unit damage absorption), Steady Tempo (end-of-turn deck placement), and units can activate combat abilities during combat.                                                                                                                                                  |
+| `18473b1` | Reputation events: city assault −1, defeating rampaging green/brown enemies +1/+2.                                                                                                                                                                                                                                |
+| `6ed83fb` | Second hero selectable: two heroes compiled with per-hero decks/crystals/skill decks, `GameConfig.heroId`, client hero selector, hero e2e test.                                                                                                                                                                   |
+| `10ba128` | Unit damage assignment (armor absorption, Poison/Paralyze/Assassination), unit healing at sites, wounded units cannot activate; schemaVersion 2.                                                                                                                                                                  |
+| `deb2f84` | Terrain-cost skill modifiers: `TerrainCostModifier` in the content contract, turn-scoped movement modifiers (Flight makes terrain cost 0/1), compiler collects nested modifier ops.                                                                                                                               |
+| `b082bff` | Full First Conquest client: status/tactics/choice/combat/hand/turn/site/retinue panels, state-driven board, game-over debrief, tutorial turns 1–3, legend + event log; `e2e/victory.spec.ts` replays `050-victory.json` through the UI.                                                                           |
+| `9fd28a2` | ADR-011: T1 engineering GO, owner gates open; next-increment list.                                                                                                                                                                                                                                                |
 
 T1-a1/T1-d (round/combat rules increment, client autosave/continue + undo) shipped earlier as
 PR #2 (`606975c`).
@@ -65,43 +66,47 @@ pnpm exec tsx tools/golden-traces/src/verify.ts   # explicit trace report
 ```
 
 At the time of writing: **85 tests**, contentHash
-`15c81fb0202e97c7c6b403d5f4e39f8fb909e0be3335ef38d37bf723db5d0bdd`, data validator
-`checks: 9662 errors: 0 warnings: 0`, CI fuzz 10,000 actions green.
+`a7655b6581edbe3601fcc22860a8b6ae04f9dad3257387df1e06c1c6c5761dec`, data validator
+`checks: 9662 errors: 0 warnings: 0`, CI fuzz 10,000 actions green (seed 1: 127 games,
+0 invariant/termination failures), production build 328.47 kB JS (96.06 kB gzip) +
+7.59 kB CSS (2.08 kB gzip) ≈ 98 kB gzipped initial load.
 
 Golden traces (`tools/golden-traces/`, recorded against the contentHash above; `traces:check`
-replays every action and compares state hashes *and* the expected outcome/score where present):
+replays every action and compares state hashes _and_ the expected outcome/score where present):
 
-| Trace | Actions | What it proves |
-|---|---|---|
-| `000-smoke.json` | 103 | Random-legal loop reaches the round-limit defeat without soft-locking. |
-| `010-move-reveal.json` | 5 | Day terrain movement, explore, tile reveal, enemy spawn. |
-| `015-rest.json` | 3 | Standard rest, dummy flip, end-of-turn draw. |
-| `020-combat.json` | 19 | Combat phases, damage assignment, Wound gain, choice resolution, reward fame. |
-| `030-site-heal.json` | 30 | Village entry, Influence generation/spending, healing. |
-| `040-one-round.json` | 31 | A complete scripted turn/round boundary with all events. |
-| `050-victory.json` | 78 | Full game: seed 1, round 3, fame 7, score 17, city conquered (victory). |
+| Trace                  | Actions | What it proves                                                                |
+| ---------------------- | ------- | ----------------------------------------------------------------------------- |
+| `000-smoke.json`       | 103     | Random-legal loop reaches the round-limit defeat without soft-locking.        |
+| `010-move-reveal.json` | 5       | Day terrain movement, explore, tile reveal, enemy spawn.                      |
+| `015-rest.json`        | 3       | Standard rest, dummy flip, end-of-turn draw.                                  |
+| `020-combat.json`      | 19      | Combat phases, damage assignment, Wound gain, choice resolution, reward fame. |
+| `030-site-heal.json`   | 29      | Village entry, Influence generation/spending, healing.                        |
+| `040-one-round.json`   | 30      | A complete scripted turn/round boundary with all events.                      |
+| `050-victory.json`     | 78      | Full game: seed 1, round 3, fame 7, score 17, city conquered (victory).       |
 
 ## 4. Content coverage vs `11` §3
 
-| Category | v1.0 target | Shipped in T1 bundle | Status |
-|---|---|---|---|
-| Heroes | 1 at M1, 2 at v1.0 | 2 selectable heroes (`hero:goldyx`, `hero:arythea`) with their own decks, crystals and skill decks | done (child-playstyle differentiation is tuning work) |
-| Basic Actions | 1 full 16-instance deck per hero | 16 basic definitions across the two heroes (12 goldyx + 4 arythea-only, 16-instance decks) | done for both heroes |
-| Skills | ≈6 reachable per hero | 20 definitions (10 per hero), 10 in the hero's skill deck, fixed order | activation done; choice/shuffle deferred |
-| Advanced Actions | 12 | 10 (only those whose full effect tree is implemented) | remainder = T1 debt |
-| Spells | 6 | 2 | remainder = T1 debt |
-| Artifacts | 4 | 0 | T1 debt (`gain_fame` / endless-mana ops) |
-| Units | 6 | 6 | done, basic abilities only |
-| Enemies | 10 regular + 2 city | 12 (10 regular pools + 2 garrison) | done |
-| Sites | 6 types (+city) | 6 types + city + portal (8 records) | keep/portal interactions reduced |
-| Map tiles | 4 fixed | 4 (start + 2 countryside + city), rotation supported | authored wedge, no random placement |
-| Scenarios | 1 + Classic preset | 1 (First Conquest, 3 rounds Day/Night/Day, city level 4) | Classic preset deferred |
-| Tactics | 12 | 12 | definitions only, effects deferred |
-| Levels | 10 | 10 (official fame thresholds, stat bands) | done |
-| Keywords/abilities | ~20 | implemented subset used by the 12 enemies + units (fortify, poison, etc. as data) | unchanged from spike scope |
+| Category           | v1.0 target                      | Shipped in T1 bundle                                                                               | Status                                                |
+| ------------------ | -------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Heroes             | 1 at M1, 2 at v1.0               | 2 selectable heroes (`hero:goldyx`, `hero:arythea`) with their own decks, crystals and skill decks | done (child-playstyle differentiation is tuning work) |
+| Basic Actions      | 1 full 16-instance deck per hero | 16 basic definitions across the two heroes (12 goldyx + 4 arythea-only, 16-instance decks)         | done for both heroes                                  |
+| Skills             | ≈6 reachable per hero            | 20 definitions (10 per hero), 10 in the hero's skill deck, fixed order                             | activation done; choice/shuffle deferred              |
+| Advanced Actions   | 12                               | 10 (only those whose full effect tree is implemented)                                              | 2 outstanding (`blood_ritual`, `in_need`)             |
+| Spells             | 6                                | 2 (`fireball`, `ice_bolt`)                                                                         | 4 outstanding (targeting/ready-unit effects)          |
+| Artifacts          | 4                                | 0                                                                                                  | T1 debt (`gain_fame` / endless-mana ops)              |
+| Units              | 6                                | 6                                                                                                  | done, basic abilities only                            |
+| Enemies            | 10 regular + 2 city              | 12 (10 regular pools + 2 garrison)                                                                 | done                                                  |
+| Sites              | 6 types (+city)                  | 6 types + city + portal (8 records)                                                                | keep/portal interactions reduced                      |
+| Map tiles          | 4 fixed                          | 4 (start + 2 countryside + city), rotation supported                                               | authored wedge, no random placement                   |
+| Scenarios          | 1 + Classic preset               | 1 (First Conquest, 3 rounds Day/Night/Day, city level 4)                                           | Classic preset deferred                               |
+| Tactics            | 12                               | 12                                                                                                 | definitions only, effects deferred                    |
+| Levels             | 10                               | 10 (official fame thresholds, stat bands)                                                          | done                                                  |
+| Keywords/abilities | ~20                              | implemented subset used by the 12 enemies + units (fortify, poison, etc. as data)                  | unchanged from spike scope                            |
 
-The bundle contains 21 card definitions (12 basic + Wound + 5 Advanced Actions + 2 spells),
-12 enemies, 8 sites, 6 units, 20 skills, 10 levels, 12 tactics and 4 tiles.
+The bundle contains 29 card definitions (16 basic + Wound + 10 Advanced Actions + 2 spells),
+12 enemies, 8 sites, 6 units, 20 skills, 10 levels, 12 tactics, 4 tiles and 2 heroes. The
+Advanced Action offer is `blood_rage`/`intimidate`/`fire_bolt`; the AA deck holds the other
+seven, and the spell offer holds both spells.
 
 ## 5. Rules coverage highlights
 
@@ -119,6 +124,10 @@ The bundle contains 21 card definitions (12 basic + Wound + 5 Advanced Actions +
   unit healing, city garrison assault.
 - **Progression:** fame/levels, armor + hand limit + command slots from the level table,
   skills, level-up Advanced Action, Advanced Action/Spell purchases, healing, rest.
+- **Effect coverage:** conditional/scaling/terrain-specific effects, unit combat bonuses,
+  damage-absorption overrides, end-of-turn deck placement and turn-scoped terrain modifiers
+  are implemented and tested; unknown/ambiguous effect payloads stay uncompiled (visible as
+  missing cards) rather than being approximated.
 - **Scenario:** city conquest grants `fame + 10`, victory/debrief result object; round-limit
   defeat scores fame; all end states are terminal (no soft-lock path found by 10k-action fuzz).
 - **Client:** every legal action is exposed through a grouped panel (the grouping is total:
@@ -155,9 +164,11 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
   mapped subset only).
 - **Sites:** keep/mage-tower garrisons and ownership, city colour purchase options and portal
   removal are deferred; healing, the six MVP site benefits and conquest reputation are in.
-- **Content breadth:** 4 artifacts, 2 of 12 MVP Advanced Actions, 4 of 6 MVP spells and the
-  Classic preset are not in the bundle yet (artifacts additionally need an authored acquisition
-  path that does not invent rules).
+- **Content breadth:** 4 artifacts, 2 of 12 MVP Advanced Actions (`blood_ritual`, `in_need`),
+  4 of 6 MVP spells (`restoration`, `whirlwind`, `expose`, `cure`) and the Classic preset are
+  not in the bundle yet. Those cards need engine capabilities (any-colour mana, wound-total
+  scaling, enemy targeting, ready-unit budgets, cure/disease) that were not invented without a
+  rules ruling; artifacts additionally need an authored acquisition path.
 - **Scoring:** base fame + city bonus (10) is implemented; the tuned row/goal table in
   `game-data/scenarios.json` is still marked todo.
 - **Hidden-information save:** solo has no hidden information in the client surface; the save
@@ -166,31 +177,32 @@ Remaining known waivers/simplifications (explicit T1 debt, tracked for the exit 
 ## 7. Exit checks
 
 **M3 (headless complete game): met.**
+
 - Complete winnable/losable seeded game: yes (`050-victory.json` = win; `000-smoke.json` =
   round-limit defeat).
 - ≥5 golden traces including a city assault: 7 traces including a city-conquering full game.
-- Tests/fuzz: 77 tests, dependency boundaries, CI fuzz 10,000 actions.
+- Tests/fuzz: 85 tests, dependency boundaries, CI fuzz 10,000 actions.
 
 **M4 (playable client): engineering met.** Start→finish browser game with placeholder art,
 save/continue + undo, the full T1 surface, game-over debrief, and Playwright covering both a
 scripted trace replay and the complete winning scenario (`e2e/victory.spec.ts`, 78 actions,
-debrief assertions, no console errors). Production build: 315.37 kB JS (93.43 kB gzip) + 7.59
-kB CSS (2.08 kB gzip) ≈ 95 kB gzipped initial load, under the 5 MB budget. The 60 fps target
+debrief assertions, no console errors). Production build: 328.47 kB JS (96.06 kB gzip) + 7.59
+kB CSS (2.08 kB gzip) ≈ 98 kB gzipped initial load, under the 5 MB budget. The 60 fps target
 still needs a manual measurement on the 2019-laptop baseline; the renderer is SVG/DOM with a
 4-tile board.
 
 **11 §9 (v1.0 definition of done) at a glance:**
 
-| DoD item | Status |
-|---|---|
-| Both scenarios playable end-to-end, 2nd hero selectable | First Conquest + 2 heroes yes; Classic preset deferred to M5 |
-| Every manifest item implemented/tested/marked implemented | no — content breadth debt (§4) |
-| ≥1 full game per scenario replayed deterministically | yes for First Conquest (`050-victory`) |
-| Save/resume + undo verified | yes (client + e2e; full-state save) |
-| No P0/P1 bugs; no rule deviations in tests | no P0 known; deviations documented in §6 |
-| Tutorial playthrough by ≥3 unfamiliar people | owner action, not done |
-| Build < 5 MB gzipped; 60 fps on baseline laptop | build measured at ~95 KB gzipped (pass); 60 fps not measured yet |
-| Legal review of names/art/text complete | not done (owner/legal gate) |
+| DoD item                                                  | Status                                                           |
+| --------------------------------------------------------- | ---------------------------------------------------------------- |
+| Both scenarios playable end-to-end, 2nd hero selectable   | First Conquest + 2 heroes yes; Classic preset deferred to M5     |
+| Every manifest item implemented/tested/marked implemented | no — content breadth debt (§4)                                   |
+| ≥1 full game per scenario replayed deterministically      | yes for First Conquest (`050-victory`)                           |
+| Save/resume + undo verified                               | yes (client + e2e; full-state save)                              |
+| No P0/P1 bugs; no rule deviations in tests                | no P0 known; deviations documented in §6                         |
+| Tutorial playthrough by ≥3 unfamiliar people              | owner action, not done                                           |
+| Build < 5 MB gzipped; 60 fps on baseline laptop           | build measured at ~95 KB gzipped (pass); 60 fps not measured yet |
+| Legal review of names/art/text complete                   | not done (owner/legal gate)                                      |
 
 ## 8. Remaining work and owner actions
 
