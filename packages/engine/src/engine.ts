@@ -1102,6 +1102,13 @@ export function getLegalActions(state: GameState, content: ContentBundle): Legal
     actions.push({ epoch, type: "playCardSideways", card: instance, as: "influence" });
   }
 
+  // End-of-turn step 7 pre-draw discard (02 §15.1): any non-Wound card can be discarded.
+  for (const instance of player.hand) {
+    if (!isWound(content, cardOf(content, state.cardInstances, instance))) {
+      actions.push({ epoch, type: "discardCard", card: instance });
+    }
+  }
+
   for (const [key, cost] of reachableHexes(state, content)) {
     const [qText, rText] = key.split(",");
     if (cost <= state.turn.movePoints) {
@@ -1300,6 +1307,20 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
     case "playCard":
       playCard(draft, action.card, action.mode, action.mana, env);
       return;
+    case "discardCard": {
+      const index = player.hand.indexOf(action.card);
+      if (index < 0) {
+        throw new Error("card not in hand");
+      }
+      if (isWound(content, cardOf(content, draft.cardInstances, action.card))) {
+        throw new Error("wounds cannot be discarded this way");
+      }
+      player.hand.splice(index, 1);
+      player.discard.push(action.card);
+      draft.turn.playedOrDiscarded = true;
+      env.events.push({ type: "cardDiscarded", card: action.card });
+      return;
+    }
     case "playCardSideways":
       playCardSideways(draft, action.card, action.as, env);
       return;
@@ -2126,8 +2147,14 @@ function endTurn(draft: Draft, env: Env): void {
   env.events.push({ type: "turnEnded", player: player.id });
 
   if (draft.endOfRoundAnnounced) {
+    // The round's prepare step shuffles and draws; no extra draw on the final turn.
     finishRound(draft, env);
     return;
+  }
+  // End-of-turn step 7: draw up to the (modified) hand limit (02 §15.1).
+  const toDraw = heroHandLimit(env.content, player.level) - player.hand.length;
+  if (toDraw > 0) {
+    drawCards(draft, env, toDraw);
   }
   if (draft.dummy !== null) {
     dummyTurn(draft, env);

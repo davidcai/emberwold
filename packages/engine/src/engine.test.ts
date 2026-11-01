@@ -1491,4 +1491,54 @@ describe("determinism and invariants", () => {
     state = applyOk(state, recruits[0] as Action, content).state;
     expect(legalOfType(state, content, (action) => action.type === "recruitUnit")).toHaveLength(0);
   });
+  it("draws back up to the hand limit at the end of a non-final turn", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      scenario: {
+        ...base.scenario,
+        dummy: { deckSize: 4, cardsPerTurn: 3, crystals: ["green", "green", "blue"] },
+        timeOfDayPattern: ["day", "night", "day"],
+      },
+    };
+    let state = createGame({ seed: 13 }, content).state;
+    state = clone(state);
+    const player = state.players[0];
+    const discarded = player?.hand.pop();
+    if (discarded !== undefined) {
+      player?.discard.push(discarded);
+    }
+    expect(state.players[0]?.hand).toHaveLength(4);
+    const outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
+    expect(outcome.state.players[0]?.hand).toHaveLength(content.rulesConstants.startingHandSize);
+    expect(outcome.events).toContainEqual({ type: "cardDrawn", count: 1 });
+  });
+  it("discards a non-wound card before the end-of-turn draw", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      scenario: {
+        ...base.scenario,
+        dummy: { deckSize: 4, cardsPerTurn: 3, crystals: ["green", "green", "blue"] },
+      },
+    };
+    let state = createGame({ seed: 14 }, content).state;
+    state = clone(state);
+    const card = state.players[0]?.hand[0];
+    if (card === undefined) {
+      throw new Error("no hand card");
+    }
+    const discards = legalOfType(
+      state,
+      content,
+      (action) => action.type === "discardCard" && action.card === card,
+    );
+    expect(discards).toHaveLength(1);
+    let outcome = applyOk(state, discards[0] as Action, content);
+    state = outcome.state;
+    expect(outcome.events).toContainEqual({ type: "cardDiscarded", card });
+    expect(state.players[0]?.hand).toHaveLength(4);
+    outcome = applyOk(state, { epoch: state.actionEpoch, type: "endTurn" }, content);
+    expect(outcome.state.players[0]?.hand).toHaveLength(5);
+  });
 });

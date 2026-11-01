@@ -69,76 +69,47 @@
     },
     {
       "epoch": 10,
-      "type": "endTurn"
-    },
-    {
-      "epoch": 11,
-      "type": "endTurn"
-    },
-    {
-      "epoch": 12,
-      "type": "endTurn"
-    },
-    {
-      "epoch": 13,
-      "type": "endTurn"
-    },
-    {
-      "epoch": 14,
-      "type": "endTurn"
-    },
-    {
-      "epoch": 15,
-      "type": "endTurn"
-    },
-    {
-      "epoch": 16,
-      "type": "chooseTactic",
-      "tactic": "tactic:rethink"
-    },
-    {
-      "epoch": 17,
       "type": "challengeRampaging"
     },
     {
-      "epoch": 18,
+      "epoch": 11,
       "type": "endCombatPhase"
     },
     {
-      "epoch": 19,
+      "epoch": 12,
       "type": "endCombatPhase"
     },
     {
-      "epoch": 20,
+      "epoch": 13,
       "type": "assignDamage",
       "enemy": "enemy:spawn:0"
     },
     {
-      "epoch": 21,
+      "epoch": 14,
       "type": "playCard",
       "card": "p1:deck:1",
       "mode": "basic"
     },
     {
-      "epoch": 22,
+      "epoch": 15,
       "type": "resolveChoice",
-      "choiceId": "choice:22",
+      "choiceId": "choice:15",
       "optionIndex": 0
     },
     {
-      "epoch": 23,
+      "epoch": 16,
       "type": "playCard",
-      "card": "p1:deck:2",
+      "card": "p1:deck:0",
       "mode": "basic"
     },
     {
-      "epoch": 24,
+      "epoch": 17,
       "type": "resolveChoice",
-      "choiceId": "choice:24",
+      "choiceId": "choice:17",
       "optionIndex": 0
     },
     {
-      "epoch": 25,
+      "epoch": 18,
       "type": "assignAttack",
       "enemy": "enemy:spawn:0"
     }
@@ -153,26 +124,19 @@
     "0a7611fa51602dba759bd6dce1316a8449778da96b3c77b8cb307f47780307e5",
     "ef0f03fe586ba63b6b773599c4dc183547efe83ebff8aa8d5d72322df0aa8680",
     "b844b619b9787fbcf20b0608a39762ed3ef6bcbd5456efe840c43ebfaaed007d",
-    "59562608f521d7b4fa1afd7543bde950ef3bd4f31dee37f48ac2e2ac0833e6d5",
-    "ec5d3740723622a5a3c37bb2f5c1bf6aeb0b00199074650aff8cea751b4e772f",
-    "a88d77e772f11ae16b8bd293b9d28ff4de8e963ef2fb44bf28464bbc9f9b6f90",
-    "3286584030dfbb48e8321a2176b760d834201ffa6860f4e0b29e3510fad0116b",
-    "e2767848a88291affff2028090456be67f76e030833fdafcacee4269d22a003d",
-    "0a6ca7125d97d1a91eaf1017c1f1d661ce5733c4b03ca92213cb03aeece23c7e",
-    "4483e9e4736b5a408b6c2df72c0eb1a2f0a8dec06268b439847a9f8912067fac",
-    "ddc4e921d835d336e94cb184c133a19e0f2f83245ea3006b2826114e629bf9e5",
-    "afe0d93eb7a9eef0938aed07ce6f360739b2445c7fd590a553cf0b51e1c75d58",
-    "3144ad5f28f49e2e2c27ed320f1c45554ea52791f8b76f5a2c8864b928305b6e",
-    "b0518b360987ebd8ef57fa981318ab7b417f596871105e2d652383513e1e514c",
-    "ac4d244eb51e5f60097fda445e969040e52d7ed5a032dbb931b74f5a610e09c1",
-    "fd8d24016e6770f5c9b070968a7674da56961664e7c3edbcafc9a36851dc89e4",
-    "895c9a779052c4c6ce3a9fed633bd16cab789bbb1d933a047105822e62461ba9",
-    "92d5b31009a95128723eb68d5d62db57c5123420b3ef1be7d145c17d51164566",
-    "b5c8f72f3d1b4e6b16eee8fafcb05cf0e068a919eb285d5fa99a8205615aaef1",
-    "b7579f10e495804e435ac18ea640efc3ec3a32e37da8370fdef7baac273f430e"
+    "c0b16229054c2bb6111999c7f3bef2788b4b676a90f936caab44644079eb4c23",
+    "a2b2021b990773f2e5e26626ba7323dde6ef503a54a8bc7d37ee6f3c5130f51d",
+    "f406bfa6d4a5ae210503716d5d991d4931d1f502b8c27743818efd46bae2d3ac",
+    "2be1b9fe71a0c7df5fe80cf7ef3dc063f28627d9034809f1fa3a10efa875c489",
+    "30adc7dff4995500c28a91152490495e3aaf7b227de5734d1c452819a0a078c4",
+    "8a9d9adfd9ec1063a2604d250f272e21f56287a3a255e293516f8cc24561fcde",
+    "a0d991e76b925d7d7d9b1ab377e17e9d5d9789a2e52938116bca1cececd43d83",
+    "24d14e8cce74eead35bccbd60fccd6fd6662a96b63b96b596c419ec2bbd0882b",
+    "7db4d946b37461b2ae9e02a7dad543043caaa7a617b5cd19bd8853042925dc33",
+    "ee97d0c4a70922df25a4cc803f0ab4ea4a42b8d0c04f2465290197f15ca5beae"
   ],
   "expectedOutcome": {
-    "round": 2,
+    "round": 1,
     "gameOver": false,
     "fame": 2,
     "handSize": 4,

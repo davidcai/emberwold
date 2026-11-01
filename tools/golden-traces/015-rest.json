@@ -29,13 +29,13 @@
   "expectedHashes": [
     "b24dfd9714acfd6cdda91fe9b5487f80e3264314f1bd305283127d3d5fa42d7c",
     "16c7ae3581dad5caa306a2cbb331726fc41c1094b013add2413dd616e6cca53c",
-    "8ee495839a2c1ca3d9983167bd1b7a20edcebb4287b8d3186c7db1e1e5c2a2b7"
+    "2a5df891a4e6b57f663a62687d921c9e3d43e79d03062470d7cc5e54580b1c0b"
   ],
   "expectedOutcome": {
     "round": 1,
     "gameOver": false,
     "fame": 0,
-    "handSize": 4,
+    "handSize": 5,
     "wounds": 0,
     "defeatedEnemies": 0
   }

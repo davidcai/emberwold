@@ -239,6 +239,7 @@ type ActionPayload =
   | { type: "buySpell"; index: number; mana?: ManaPayment }
   | { type: "discardGladeWound" }
   | { type: "useSkill"; skill: string }
+  | { type: "discardCard"; card: CardInstanceId }
   | { type: "recruitUnit"; index: number }
   | { type: "activateUnit"; unit: UnitInstanceId; ability: number; mana?: ManaPayment }
   | { type: "assignDamage"; enemy: EnemyInstanceId }
@@ -265,6 +266,7 @@ export type GameEvent =
   | { type: "crystalGained"; color: BasicManaColor }
   | { type: "reputationChanged"; amount: number }
   | { type: "cardDrawn"; count: number }
+  | { type: "cardDiscarded"; card: CardInstanceId }
   | { type: "rested"; kind: "standard" | "slowRecovery" }
   | { type: "woundGained"; amount: number }
   | { type: "healGained"; points: number }

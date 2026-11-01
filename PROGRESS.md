@@ -170,14 +170,21 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     `e79812bee30db56be46dd6dbb1f9436badcfcbbe4dae77d5d4ae097eab9d66df`; 6 traces re-recorded and
     verify; fuzz seed 1 clean; e2e 4/4.
 
+25. **T1 end-of-turn draw + discard done**: the official end-of-turn sequence (02 §15.1) was
+    missing the draw back up to the modified hand limit, which deadlocked the 3-round game
+    (hand filled with unplayable cards, nothing to draw). `endTurn` now draws
+    `heroHandLimit(level) - hand.length` after `turnEnded` on non-final turns (the final turn
+    skips it; round-prep still shuffles and draws). New `discardCard` action moves a non-Wound
+    hand card to the discard pile outside combat (event `cardDiscarded`), so the bot/player can
+    cycle dead cards before the end-of-turn draw. Two tests added (draw to limit; discard then
+    draw). Evidence: 76 tests green; all 6 traces re-recorded and verify; fuzz seed 1
+    (13 games / 1,000 actions, 0 invariant/termination failures); `pnpm test:e2e` 4/4.
+
 ## Next (ordered; first item is the exact next action)
 
-**T1-a + T1-d(client) are done on `t1-first-conquest`; commit and open the T1 PR, then keep
-going on `main`.** Each increment ends with tests, `pnpm verify` green, a small commit and a
+Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a
 PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap.md` M3–M4.
 
-0. Commit the current T1 increment (engine/content/rules + client autosave/undo + e2e + docs),
-   push `t1-first-conquest`, watch CI (`t1-*` trigger added), open the PR and merge when green.
 1. **T1-e UI** — round/day-night indicator + tactic picker display, board origins, site/offer
    panels (buy AA/spell/heal/recruit, activate skills/units), level-up/unit UI, score/debrief
    screen, tutorial prompts turns 1–3, placeholder art where it exists. The engine already
@@ -186,16 +193,14 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 2. **T1-f winning line + exit** — find/author a deterministic full-game trace that wins the city
    within 3 rounds (scripted policy/search over the existing actions, unit recruiting and
    level-ups included), score/debrief check, longer fuzz in CI, docs (`11` §9 DoD status),
-   README/roadmap status, then T1 exit + PR/merge decision.
+   README/roadmap status, then T1 exit + PR/merge decision. (The greedy bot and beam search in
+   `/tmp/emberwold-scratch/` currently fail to win; needs a shopping/assault strategy.)
 3. **T1-d2 remaining content (after the exit gates or as capacity allows)** — 4 artifacts (their
    basic effect needs `gain_fame`; powered "endless mana" deferred), remaining Advanced
    Actions/Spells (conditional/on_terrain, scaling, in_combat…), remaining hero skills, unit
    wounds/damage assignment, city purchase options, keep/portal interactions, fame→reputation
    events (assault −1, orc defeat +1). These are tracked as explicit T1 debt in the exit report.
-4. **T1-f verification + exit** — a full-game deterministic trace that actually wins (city
-   assault inside 3 rounds) or a scripted full game, scoring/debrief check, longer fuzz in CI,
-   docs (`11` §9 DoD), README/roadmap status, then T1 exit + PR/merge decision.
-5. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
+4. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
    sign-off.
 
 ## Open questions
