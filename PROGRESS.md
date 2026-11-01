@@ -2,7 +2,7 @@
 
 > **Temporary session handoff.** Delete this file once the goal's acceptance check passes.
 > Fresh context: read this file and `git log -5`, run the baseline checks in **Done** item 1,
-> then do the first item in **Next**.
+> then do the first item in **Next** (it is an owner-approval gate — do not write code first).
 
 ## Goal
 
@@ -15,18 +15,21 @@ Blocked until the owner lifts the pre-implementation hold (`AGENTS.md` §2).
 ## Done (verified 2026-10-31)
 
 1. Pre-production package (research, rules, legal, design, `game-data/`, tooling) is committed
-   on `main`. Baseline check: `git status -sb` → clean `## main...origin/main`; `git log --oneline -5`
-   shows HEAD `419bdb5`.
+   on `main`. Baseline check: `git status -sb` → clean `## main...origin/main`; `git log --oneline -1`
+   shows the commit that added this file. Do not pin a hash here — confirm with git.
 2. Data validator green. `.venv/bin/python tools/validate_data.py` →
    `checks: 9662  errors: 0  warnings: 0` / `RESULT: OK`.
-3. Art complete: 40 AI-generated slots + 12 motif icons committed as WebP (52 files, 4.3 MB);
+3. Art complete: 40 slot WebP + 12 icon WebP = 52 files (4.3 MB). The 12 icons are
+   `icon_ref` derivatives, not extra slots;
    `git ls-files 'art/**/*.webp' | wc -l` → 52; `art/manifest.json` has 40 art slots `final`.
 4. Wordmark committed with **ADR-008**. `xmllint --noout art/branding/*.svg` → exit 0;
    manifest `logo` → `art/branding/logo.svg`, status `final`; `git show --stat 419bdb5`.
 5. Local-only art (181.8 MB: sources + PNG masters + style refs) is backed up at
    `~/dev/backup/emberwold/emberwold-local-art-2026-10-31.tar.gz` (175,796,673 B,
    sha256 `31c21825d9caed2113ffa224927715a14a57ffea6f9099e3e9b1ab69fae5a0fe`); `/tmp` copies deleted.
-6. Tree clean and synced: `main` = `origin/main` at `419bdb5`.
+6. Tree clean and synced: `main` = `origin/main` (confirm with `git status -sb`).
+7. Fresh-context verifier reproduced every baseline check (all PASS) and caught the earlier
+   stale HEAD claim, now fixed; its only remaining blocker is owner approval for T0.
 
 ## Next (ordered; first item is the exact next action)
 
@@ -56,7 +59,8 @@ Blocked until the owner lifts the pre-implementation hold (`AGENTS.md` §2).
 ## Key facts
 
 - Repo: `~/dev/emberwold`; public remote `davidcai/emberwold`; branch `main`; all work pushed.
-- HEAD at handoff: `419bdb5` ("Add Emberwold wordmark and record ADR-008").
+- History: the wordmark/ADR-008 commit is `419bdb5`; this handoff file was committed on top.
+  Do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and `git status -sb`.
 - Toolchain: Node and pnpm paths come from the harness `load_workspace_dependencies`; the data
   validator runs with `.venv/bin/python tools/validate_data.py`. There are no app build/test
   commands yet.

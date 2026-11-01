@@ -259,3 +259,4 @@ committed.
 | P2 | ~~Art budget cap~~ | — | **Decided: AI-generated art (ADR-006)** |
 | P3 | Public product branding + name screen (repo is already `emberwold`; internal wordmark committed, ADR-008) | before any public release | no public branding work until v1 (ADR-007) |
 | P4 | Whether the game will ever be shared publicly | before release | private/portfolio only until screened |
+| P5 | T0 implementation start (lift the pre-implementation hold?) | before any app scaffold or game code | stay pre-implementation (`AGENTS.md` §2) |
