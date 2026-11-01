@@ -47,7 +47,7 @@ are the plan's scope decision and need owner sign-off.
 | Map | 2 tiles: `tile:starting_a` + `tile:countryside_1`, one authored placement, one explore reveal |
 | Enemies | 3 definitions: `enemy:prowlers`, `enemy:diggers`, `enemy:wolf_riders` (plain, fortified, swift); 2 tokens spawned for the assault |
 | Site | `site:village` — influence → healing purchase (3 influence per point, from site data) |
-| Round | 1 Day round: setup (source dice) → player turns → end turn / round end |
+| Round | 1 Day round: setup (source dice) → player turns (including standard Rest) → end turn / round end |
 | Engine | pure reducer, seeded RNG, event log, legal actions, state hash, invariants; mana payment for powered cards |
 | Content | `game-data/` → typed bundle via a compiler; no hand-edited generated content |
 | CLI | `play-cli` (interactive + random-legal bot), trace record/verify, fuzz harness |
@@ -59,6 +59,10 @@ are the plan's scope decision and need owner sign-off.
 * Tactics selection and the **dummy player** — T0 rounds are player-turns-only, marked as a
   simplification in the spike report ([`12`](./12-architecture.md) §8.1 puts the dummy in the
   T1 core loop).
+* Other turn/end-of-turn sub-rules: **slow recovery** (resting with only Wounds in hand),
+  forced withdrawal, end-of-turn space benefits (glade/mine), combat-reward claiming and
+  level-up, and the optional pre-draw discard. T0 keeps the ordering that matters for the
+  seam: dice return → clear play area → draw to hand limit.
 * Skills, levels/level-up, Advanced Actions, Spells, Artifacts, Units, reputation effects,
   achievements, scoring, city, dungeon/tomb, night turns, save/undo (engine or UI), audio,
   animation.
@@ -196,7 +200,8 @@ status line in [`README.md`](../../README.md).
 source, combat, pending, `actionEpoch`, `rng`), `Action` families used by T0 (`playCard` with
 mana payment, `playCardSideways`, `moveTo`, `explore`, `enterSite`, `challengeRampaging`,
 `declareBlock`/`assignBlock`/`declareAttack`/`assignAttack`/`assignDamage`/`endCombatPhase`,
-`resolveChoice`, `endTurn`), `GameEvent` subset, `createGame`, `applyAction` with typed
+`resolveChoice`, `endTurn`, `rest` (standard: discard one non-Wound card and any number of
+Wounds)), `GameEvent` subset, `createGame`, `applyAction` with typed
 `ApplyError` (`staleEpoch`, `notLegal`, `invalidState`), `getLegalActions`, `hashState`, and
 the invariant module. Include the **effect registry** for the ops the 16-card deck uses:
 `choice`, `compound`, `gain_move`, `gain_attack`, `gain_block`, `gain_heal`,
@@ -214,6 +219,9 @@ the invariant module. Include the **effect registry** for the ops the 16-card de
 3. Every one of the 17 deck ops has a handler and a test; a powered card without a legal mana
    payment is not offered and is rejected with `notLegal`.
 4. A boundary check fails if `engine` imports `react`/`node:*`/DOM types.
+5. `rest` discards exactly one non-Wound card plus any number of Wounds (to discard, not
+   healed), is a turn-legal choice, and Wound cards themselves are unplayable with no sideways
+   value; asserted by unit tests.
 
 **Evidence:** test counts; `pnpm verify` output.
 
@@ -224,7 +232,9 @@ the invariant module. Include the **effect registry** for the ops the 16-card de
 **Do.** `tools/content-compiler`: read `game-data/*.json` **read-only**, validate with Zod
 schemas (envelope, enums from `keywords.json`, referential integrity), build
 `packages/content` (`bundle.generated.ts` + plain JSON) for the spike selection (Appendix B),
-compute `contentHash = SHA-256(schemaVersion + sorted(manifest file hashes))`, emit stats
+compute `contentHash = SHA-256(schemaVersion + sorted(full file hashes))` (the manifest
+`sha256` fields are 16-hex prefixes: the compiler verifies each prefix against the file, then
+hashes the full file bytes), emit stats
 (counts, ops used, ids), and run the Python validator as a subprocess gate. Maintain the
 explicit `dataOp → engineHandler` map; unmapped ops used by the spike fail the build. The spike
 selection lives in `tools/content-compiler/spike.config.json` (ids + tile placement + spawns),
@@ -270,9 +280,12 @@ Axial hex geometry and neighbours; movement cost from
 `content.rulesConstants.terrainMoveCost` (Day values; `lake`/`mountain` null = impassable);
 `moveTo` legal-action enumeration with reachability by movement points; tile reveal when a move
 enters the frontier of an unrevealed tile (`tileRevealCost` from data); `explore` event + undo
-barrier; turn phases (`turnStart → movement → action → endOfTurn`), `endTurn` pipeline (mana
-token expiry, draw to hand limit, turn advance, round end when no turns remain); round/day-night
-fields carried in state.
+barrier; turn phases (`turnStart → movement → action → endOfTurn`). `endTurn` implements the
+T0 subset of the fixed end-of-turn pipeline **in order**: return/expire mana tokens → clear the
+play area (played cards to discard) → draw to hand limit; then turn advance, round end when no
+turns remain. Turn-submission legality enforces MKUE Rulebook p.6 §5a: at least one card must
+have been played or discarded, except when the hand was empty but the deck was not; a Rest turn
+satisfies it. Round/day-night fields are carried in state.
 
 **Acceptance.**
 1. `pnpm --filter @emberwold/engine test` includes table-driven movement-cost tests using the
@@ -284,8 +297,9 @@ fields carried in state.
    runs); mana tokens expire at end of turn (unit test).
 4. Illegal moves (lake/mountain/too-far) are absent from legal actions and rejected by
    `applyAction` with `notLegal`.
-5. `endTurn` with an empty hand is rejected unless the deck/discard is empty (rules: at least
-   one card must be played/discarded), covered by a unit test.
+5. Turn-submission legality: `endTurn` is rejected when nothing was played/discarded and the
+   hand was not empty, accepted after a standard `rest`, and the pipeline order is asserted by
+   events (dice returned → play area cleared → cards drawn).
 
 **Evidence:** trace summary; event dump at final action.
 
@@ -314,6 +328,9 @@ arithmetic implementation (no duplication in the UI).
    melee card in the ranged phase is not a legal action.
 4. The reducer has one combat-math function per rule; `grep` shows no arithmetic duplicated in
    `packages/client`.
+5. Wound cards are real state: each wound puts one Wound card into hand (unplayable, no
+   sideways value), moved to discard by Rest or healing and never discarded at turn end; a
+   flow test covers wound → hand → discard → round-end recycle (recycle itself is T1).
 
 **Evidence:** test list; trace summary + expected vs actual.
 
@@ -465,6 +482,8 @@ Found while planning; each becomes a line in the spike report and a T1 data task
 | B4 | `tiles`/`enemies` are `status: placeholder`, `confidence: upstream-only`; walkthrough example enemies do not match data (e.g. golems Armor 5 vs 3) | Combat arithmetic is verified in unit tests; trace expectations are hand-computed, not "official" |
 | B5 | `scenario:first-conquest` has `layout_status: "todo"` (no authored placement/site seeding) | T0 uses its own 2-tile placement; T1 authors the real 4-tile layout (Lead decision) |
 | B6 | No `.github/` workflows exist; first CI run needs a push (owner controls branch strategy) | S1 creates the workflow; first green run recorded in the report |
+| B7 | No **Wound card** definition exists in `game-data` (`basic-actions.json` has no Wound item, yet Wounds are a card type required by combat/rest rules) | T0 synthesises the rules-defined Wound card in the spike content (no effect, unplayable, no sideways value, MKUE p.11 §1); T1 adds a proper card domain, provenance and validator coverage |
+| B8 | `manifest.json` stores 16-hex **prefixes** of file SHA-256, not full digests | S4 verifies prefixes against actual files and hashes full bytes for `contentHash`; no data change needed |
 
 ## 12. Questions for the owner (approval bundle)
 
@@ -484,6 +503,10 @@ Found while planning; each becomes a line in the spike report and a T1 data task
    only at C3?
 8. The plan boxes 9.5 dev-days inside the 2-week T0; if the first checkpoint (C1) slips by
    more than one day, do you want a re-scope check then rather than at C2?
+9. **Publishing code:** T0 would put TypeScript code in the public repo, which currently has
+   no `LICENSE` and describes contents as "internal research use" ([`README.md`](../../README.md)
+   §Licence). Is pushing a `t0-spike` branch/PR publicly acceptable, or should code stay local
+   until a licence decision?
 
 ## Appendix A — Golden vectors (independent derivation, checked 2026-10-31)
 
@@ -511,6 +534,7 @@ implementation, not the other way round.
 | Tiles | `tile:starting_a`, `tile:countryside_1` |
 | Enemies | `enemy:prowlers` (no ability), `enemy:diggers` (fortified), `enemy:wolf_riders` (swift) |
 | Site | `site:village` (healing 3 influence/point; no entry combat) |
+| Wound card | rules-defined synthetic def (no effect, unplayable, no sideways value; MKUE p.11 §1), added to `game-data` in the T1 data pass (B7) |
 | Rules constants | `game-data/keywords.json → rules_constants`: hand 5, deed deck 16, armor 2, hero hand limit 5, terrain Day costs, tile reveal cost 2 |
 | Tiles placement / spawns | authored in `tools/content-compiler/spike.config.json` (design decision, reviewable in one file) |
 
