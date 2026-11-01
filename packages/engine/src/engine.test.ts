@@ -10,6 +10,7 @@ import {
   hashState,
 } from "./engine";
 import type { Action, ApplyOutcome, GameState } from "./types";
+import { hexKey as hexKeyFor } from "@emberwold/shared";
 import type { CardInstanceId, ContentBundle } from "@emberwold/shared";
 
 function setup(seed = 1): { content: ContentBundle; state: GameState } {
@@ -51,6 +52,41 @@ function giveCard(state: GameState, defId: string): { state: GameState; instance
   player.discard = player.discard.filter((candidate) => candidate !== instance);
   player.hand.push(instance);
   return { state: draft, instance };
+}
+
+function giveDeckCard(state: GameState, defId: string): GameState {
+  const draft = clone(state);
+  const player = draft.players[0];
+  if (player === undefined) {
+    throw new Error("no player");
+  }
+  const instance = [...player.deck, ...player.discard].find(
+    (candidate) => String(draft.cardInstances[candidate]) === defId,
+  );
+  if (instance === undefined) {
+    throw new Error(`fixture is missing a ${defId} instance`);
+  }
+  player.deck = player.deck.filter((candidate) => candidate !== instance);
+  player.discard = player.discard.filter((candidate) => candidate !== instance);
+  player.hand.push(instance);
+  return draft;
+}
+
+function playMarch(
+  state: GameState,
+  content: ContentBundle,
+): { state: GameState; instance: CardInstanceId } {
+  const legal = getLegalActions(state, content).actions;
+  const march = legal.find((candidate) => {
+    if (candidate.type !== "playCard" || !("card" in candidate)) {
+      return false;
+    }
+    return String(state.cardInstances[candidate.card]) === "basic:march";
+  });
+  if (march === undefined || !("card" in march)) {
+    throw new Error("no march playable");
+  }
+  return { state: applyOk(state, march, content).state, instance: march.card };
 }
 
 function addWounds(
@@ -426,7 +462,7 @@ describe("determinism and invariants", () => {
     expect(tokens).toBeGreaterThanOrEqual(0);
   });
 
-  it("keeps wounds in hand across turns (T0 deviation, documented)", () => {
+  it("recycles hand, discard and deck (including Wounds) at the end of a round", () => {
     const { content, state } = setup();
     const given = giveCard(state, "basic:march");
     const play = legalOfType(
@@ -443,9 +479,67 @@ describe("determinism and invariants", () => {
       content,
     );
     const player = ended.state.players[0];
-    expect(player?.hand.some((card) => ended.state.cardInstances[card] === "card:wound")).toBe(
-      true,
+    if (player === undefined) {
+      throw new Error("no player");
+    }
+    const cards = [...player.deck, ...player.discard, ...player.hand];
+    expect(cards).toHaveLength(content.rulesConstants.deedDeckSize + 1);
+    expect(player.hand).toHaveLength(content.rulesConstants.startingHandSize);
+    // 02 §15.2: the Wound went back into the deed deck cycle, not lost and not stuck in hand.
+    expect(cards).toContain(wounded.wounds[0]);
+    expect(ended.state.round).toBe(2);
+  });
+
+  it("flips day/night per scenario pattern and uses night terrain costs", () => {
+    const content = createFixtureContent();
+    const scenario = { ...content.scenario, timeOfDayPattern: ["day", "night", "day"] as const };
+    const patched: ContentBundle = { ...content, scenario };
+    const { state } = createGame({ seed: 1 }, patched);
+    expect(state.timeOfDay).toBe("day");
+    // A turn needs at least one played/discarded card before it can be ended.
+    const given = giveCard(state, "basic:march");
+    const play = legalOfType(
+      given.state,
+      patched,
+      (action) =>
+        action.type === "playCard" && action.card === given.instance && action.mode === "basic",
+    )[0] as Action;
+    const played = applyOk(given.state, play, patched);
+    const ended = applyOk(
+      played.state,
+      { epoch: played.state.actionEpoch, type: "endTurn" } as Action,
+      patched,
     );
+    expect(ended.state.round).toBe(2);
+    expect(ended.state.timeOfDay).toBe("night");
+
+    // Fixture: forest costs 3 by day and 5 by night. Start (0,0) -> forest (0,1).
+    const byDay = { ...ended.state, timeOfDay: "day" as const };
+    byDay.turn = { ...byDay.turn, movePoints: 4 };
+    const byNight = { ...ended.state, timeOfDay: "night" as const };
+    byNight.turn = { ...byNight.turn, movePoints: 4 };
+    expect(getReachableHexes(byDay, patched).has(hexKeyFor({ q: 0, r: 1 }))).toBe(true);
+    expect(getReachableHexes(byNight, patched).has(hexKeyFor({ q: 0, r: 1 }))).toBe(false);
+  });
+
+  it("places the city garrison once the city tile is revealed", () => {
+    const content = createFixtureContent();
+    const scenario = {
+      ...content.scenario,
+      city: {
+        siteId: "site:city",
+        hex: { q: 0, r: 0 },
+        level: 4,
+        garrison: ["enemy:test_brute"],
+        fame: 10,
+      },
+    };
+    const patched: ContentBundle = { ...content, scenario };
+    const { state } = createGame({ seed: 1 }, patched);
+    expect(state.result).toBeNull();
+    const garrison = state.map.enemies.filter((enemy) => enemy.kind === "city");
+    expect(garrison).toHaveLength(1);
+    expect(state.map.sites.some((site) => (site.siteId as string) === "site:city")).toBe(true);
   });
 
   it("round-trips through JSON with an identical hash", () => {
@@ -476,6 +570,209 @@ describe("determinism and invariants", () => {
       state = outcome.result.state;
     }
     expect(state.gameOver).toBe(true);
-    expect(state.players[0]?.hand.length).toBeGreaterThan(0);
+    expect(state.result?.outcome).toBe("defeat");
+    // The final round has no next prepare, so no fresh hand is drawn.
+    expect(state.players[0]?.hand).toHaveLength(0);
+  });
+  it("allows only one combat per space per turn", () => {
+    const setupResult = setup(3);
+    const content = setupResult.content;
+    let state = setupResult.state;
+    for (let index = 0; index < 4; index += 1) {
+      state = giveDeckCard(state, "basic:march");
+    }
+    const playLegal = (candidate: Action) => {
+      state = applyOk(state, candidate, content).state;
+    };
+    // Step off the start tile, then reveal the countryside adjacent to (1,0).
+    state = playMarch(state, content).state;
+    const walkTo = (target: { q: number; r: number }) =>
+      getLegalActions(state, content).actions.find(
+        (candidate) =>
+          candidate.type === "moveTo" &&
+          candidate.target.q === target.q &&
+          candidate.target.r === target.r,
+      );
+    playLegal(walkTo({ q: 1, r: 0 }) as Action);
+    state = playMarch(state, content).state;
+    const exploreAction = getLegalActions(state, content).actions.find(
+      (candidate) => candidate.type === "explore",
+    );
+    expect(exploreAction).toBeDefined();
+    playLegal(exploreAction as Action);
+    expect(state.map.enemies).toHaveLength(2);
+
+    // Walk onto the hills hex holding the first enemy and assault it.
+    for (let index = 0; index < 2; index += 1) {
+      state = playMarch(state, content).state;
+    }
+    playLegal(walkTo({ q: 2, r: 0 }) as Action);
+    expect(state.map.enemies.some((enemy) => enemy.alive)).toBe(true);
+
+    const challenge = getLegalActions(state, content).actions.find(
+      (candidate) => candidate.type === "challengeRampaging",
+    );
+    expect(challenge).toBeDefined();
+    playLegal(challenge as Action);
+    expect(state.combat).not.toBeNull();
+    // Run the phases to the attack step, then withdraw without defeating the enemy.
+    while (state.combat !== null && state.combat.phase !== "attack") {
+      const legal = getLegalActions(state, content).actions;
+      const next =
+        legal.find((candidate) => candidate.type === "assignDamage") ??
+        legal.find((candidate) => candidate.type === "endCombatPhase");
+      expect(next).toBeDefined();
+      playLegal(next as Action);
+    }
+    playLegal(
+      getLegalActions(state, content).actions.find(
+        (candidate) => candidate.type === "endCombatPhase",
+      ) as Action,
+    );
+    expect(state.combat).toBeNull();
+    expect(
+      getLegalActions(state, content).actions.some(
+        (candidate) => candidate.type === "challengeRampaging",
+      ),
+    ).toBe(false);
+    // The flag clears with the turn: next round the same space may be assaulted again.
+    playLegal(
+      getLegalActions(state, content).actions.find(
+        (candidate) => candidate.type === "endTurn",
+      ) as Action,
+    );
+    expect(state.round).toBe(2);
+    expect(
+      getLegalActions(state, content).actions.some(
+        (candidate) => candidate.type === "challengeRampaging",
+      ),
+    ).toBe(true);
+  });
+
+  it("conquers the city when the whole garrison is defeated", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      sites: {
+        ...base.sites,
+        "site:city": {
+          id: "site:city",
+          name: "City",
+          siteKind: "city",
+          fortified: true,
+          inhabited: true,
+          healing: null,
+          interaction: [],
+        },
+      },
+      scenario: {
+        ...base.scenario,
+        city: {
+          siteId: "site:city",
+          hex: { q: 1, r: 0 },
+          level: 4,
+          garrison: ["enemy:test_brute", "enemy:test_brute"],
+          fame: 10,
+        },
+      },
+    };
+    let state = createGame({ seed: 1 }, content).state;
+    const garrison = state.map.enemies.filter((enemy) => enemy.kind === "city");
+    expect(garrison).toHaveLength(2);
+    state = giveCard(state, "basic:march").state;
+    state = playMarch(state, content).state;
+    const move = getLegalActions(state, content).actions.find(
+      (candidate) => candidate.type === "moveTo" && candidate.target.q === 1,
+    );
+    state = applyOk(state, move as Action, content).state;
+    state = applyOk(
+      state,
+      getLegalActions(state, content).actions.find(
+        (candidate) => candidate.type === "challengeRampaging",
+      ) as Action,
+      content,
+    ).state;
+    while (state.combat !== null && state.combat.phase !== "assignDamage") {
+      state = applyOk(
+        state,
+        getLegalActions(state, content).actions.find(
+          (candidate) => candidate.type === "endCombatPhase",
+        ) as Action,
+        content,
+      ).state;
+    }
+    while (
+      state.combat !== null &&
+      state.combat.phase === "assignDamage" &&
+      state.combat.pendingDamage.length > 0
+    ) {
+      state = applyOk(
+        state,
+        getLegalActions(state, content).actions.find(
+          (candidate) => candidate.type === "assignDamage",
+        ) as Action,
+        content,
+      ).state;
+    }
+    // Give the hero enough attack to wipe the garrison; each assignment consumes its attack.
+    for (let index = 0; index < 2; index += 1) {
+      const armed = clone(state);
+      if (armed.combat === null) {
+        break;
+      }
+      const target = armed.combat.enemies.find((enemy) => !enemy.defeated);
+      if (target === undefined) {
+        break;
+      }
+      armed.combat.attackPool.push({ amount: 12, element: "physical", combatType: "melee" });
+      state = armed;
+      state = applyOk(
+        state,
+        { epoch: state.actionEpoch, type: "assignAttack", enemy: target.instanceId },
+        content,
+      ).state;
+    }
+    expect(state.gameOver).toBe(true);
+    expect(state.result).toMatchObject({
+      outcome: "victory",
+      cityConquered: true,
+      reason: "city_conquered",
+    });
+    expect(state.result?.score).toBe((state.players[0]?.fame ?? 0) + 10);
+    expect(state.map.sites.find((site) => (site.siteId as string) === "site:city")?.conquered).toBe(
+      true,
+    );
+  });
+
+  it("depletes gold source dice at night and black dice by day", () => {
+    const base = createFixtureContent();
+    const nightContent: ContentBundle = {
+      ...base,
+      scenario: { ...base.scenario, timeOfDayPattern: ["night", "day"] },
+    };
+    const nightState = createGame({ seed: 1 }, nightContent).state;
+    expect(nightState.timeOfDay).toBe("night");
+    for (const die of nightState.source) {
+      if (die.color === "gold") {
+        expect(die).toMatchObject({ used: true });
+      }
+      if (die.color === "black") {
+        expect(die.used).toBe(false);
+      }
+    }
+    const dayContent: ContentBundle = {
+      ...base,
+      scenario: { ...base.scenario, timeOfDayPattern: ["day", "night"] },
+    };
+    const dayState = createGame({ seed: 1 }, dayContent).state;
+    expect(dayState.timeOfDay).toBe("day");
+    for (const die of dayState.source) {
+      if (die.color === "black") {
+        expect(die).toMatchObject({ used: true });
+      }
+      if (die.color === "gold") {
+        expect(die.used).toBe(false);
+      }
+    }
   });
 });

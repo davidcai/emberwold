@@ -86,6 +86,22 @@ function hexesEqual(a: Hex, b: Hex): boolean {
   return a.q === b.q && a.r === b.r;
 }
 
+/** Rotate axial coordinates by `steps` * 60 degrees (cube rotation). */
+function rotateHex(hex: Hex, steps: number): Hex {
+  let q = hex.q;
+  let r = hex.r;
+  const turns = ((steps % 6) + 6) % 6;
+  for (let i = 0; i < turns; i += 1) {
+    const z = r;
+    const x = q;
+    const y = -x - z;
+    // 60-degree rotation: (x, y, z) -> (-z, -x, -y)
+    q = -z;
+    r = -y;
+  }
+  return { q, r };
+}
+
 const NEIGHBORS: readonly Hex[] = [
   { q: 1, r: 0 },
   { q: 1, r: -1 },
@@ -140,7 +156,11 @@ function rollSource(draft: Draft): void {
     rng = next;
     const color = SOURCE_COLORS[value % SOURCE_COLORS.length];
     if (color !== undefined) {
-      dice.push({ color, used: false });
+      // 02 §8.2: the "wrong" special colour is depleted (unusable) on the round reset.
+      const depleted =
+        (draft.timeOfDay === "day" && color === "black") ||
+        (draft.timeOfDay === "night" && color === "gold");
+      dice.push({ color, used: depleted });
     }
   }
   draft.rng = rng;
@@ -200,6 +220,59 @@ function nextWoundInstance(draft: Draft, env: Env): CardInstanceId {
 // Create game
 // ---------------------------------------------------------------------------
 
+function seedEnemiesForRevealedTiles(
+  draft: Draft,
+  content: ContentBundle,
+  events: GameEvent[],
+): void {
+  const scenario = content.scenario;
+  const revealed = new Set<string>();
+  for (const tile of draft.map.tiles) {
+    if (!tile.revealed) {
+      continue;
+    }
+    for (const info of tileHexInfos(tile, content)) {
+      revealed.add(hexKey(info.hex));
+    }
+  }
+  const existing = new Set(draft.map.enemies.map((enemy) => enemy.instanceId as string));
+  scenario.spawns.forEach((spawn, index) => {
+    const instanceId = `enemy:spawn:${index}`;
+    if (existing.has(instanceId) || !revealed.has(hexKey(spawn.hex))) {
+      return;
+    }
+    draft.map.enemies.push({
+      instanceId: asEnemyInstanceId(instanceId),
+      defId: spawn.enemyId,
+      hex: spawn.hex,
+      alive: true,
+      kind: "rampaging",
+    });
+    events.push({
+      type: "enemySpawned",
+      enemy: asEnemyInstanceId(instanceId),
+      defId: spawn.enemyId,
+    });
+  });
+  const city = scenario.city ?? null;
+  if (city !== null) {
+    city.garrison.forEach((defId, index) => {
+      const instanceId = `enemy:city:${index}`;
+      if (existing.has(instanceId) || !revealed.has(hexKey(city.hex))) {
+        return;
+      }
+      draft.map.enemies.push({
+        instanceId: asEnemyInstanceId(instanceId),
+        defId,
+        hex: city.hex,
+        alive: true,
+        kind: "city",
+      });
+      events.push({ type: "enemySpawned", enemy: asEnemyInstanceId(instanceId), defId });
+    });
+  }
+}
+
 export function createGame(
   config: GameConfig,
   content: ContentBundle,
@@ -246,52 +319,39 @@ export function createGame(
     if (tile === undefined) {
       throw new Error(`content: unknown tile ${placement.tileId}`);
     }
+    const rotation = placement.rotation ?? 0;
     const containsStart = tile.hexes.some((hex) =>
-      hexesEqual(addHex(placement.origin, hex), scenario.startHex),
+      hexesEqual(
+        addHex(placement.origin, rotateHex({ q: hex.q, r: hex.r }, rotation)),
+        scenario.startHex,
+      ),
     );
     return {
       tileId: asTileId(placement.tileId),
       origin: placement.origin,
       revealed: containsStart || index === 0,
-      rotation: 0,
+      rotation,
     };
   });
 
   const sites: { siteId: string; hex: Hex }[] = [];
   for (const tilePlacement of placed) {
-    const tile = content.tiles[tilePlacement.tileId];
-    if (tile === undefined) {
-      continue;
-    }
-    for (const hex of tile.hexes) {
-      if (hex.site !== null) {
-        sites.push({ siteId: `site:${hex.site}`, hex: addHex(tilePlacement.origin, hex) });
+    for (const info of tileHexInfos(tilePlacement, content)) {
+      if (info.site !== undefined && info.site !== null) {
+        sites.push({ siteId: `site:${info.site}`, hex: info.hex });
       }
     }
   }
   if (scenario.site !== null) {
     sites.push({ siteId: scenario.site.siteId, hex: scenario.site.hex });
   }
-
-  const enemies: { instanceId: string; defId: string; hex: Hex; alive: boolean }[] = [];
-  for (const spawn of scenario.spawns) {
-    const tile = placed.find((candidate) => {
-      const def = content.tiles[candidate.tileId];
-      return (
-        def?.hexes.some((hex) => hexesEqual(addHex(candidate.origin, hex), spawn.hex)) ?? false
-      );
-    });
-    if (tile?.revealed === true) {
-      enemies.push({
-        instanceId: `enemy:${enemies.length}`,
-        defId: spawn.enemyId,
-        hex: spawn.hex,
-        alive: true,
-      });
-    }
+  for (const seedSite of scenario.siteSeeds ?? []) {
+    sites.push({ siteId: seedSite.siteId, hex: seedSite.hex });
+  }
+  if (scenario.city !== undefined && scenario.city !== null) {
+    sites.push({ siteId: scenario.city.siteId, hex: scenario.city.hex });
   }
 
-  const rng = shuffled.rng;
   const turn: TurnState = {
     number: 1,
     step: "movement",
@@ -306,6 +366,7 @@ export function createGame(
     flags: {},
   };
 
+  const timeOfDay = scenario.timeOfDayPattern?.[0] ?? "day";
   const state: GameState = {
     schemaVersion: SCHEMA_VERSION,
     engineVersion: ENGINE_VERSION,
@@ -313,18 +374,13 @@ export function createGame(
     contentHash: content.contentHash,
     seed: config.seed,
     round: 1,
-    timeOfDay: "day",
+    timeOfDay,
     activePlayer: player.id,
     turn,
     players: [player],
     map: {
       tiles: placed,
-      enemies: enemies.map((e) => ({
-        instanceId: asEnemyInstanceId(e.instanceId),
-        defId: e.defId,
-        hex: e.hex,
-        alive: e.alive,
-      })),
+      enemies: [],
       sites: sites.map((site) => ({ siteId: asSiteDefId(site.siteId), hex: site.hex })),
     },
     source: [],
@@ -333,10 +389,12 @@ export function createGame(
     cardInstances,
     woundCounter: 0,
     actionEpoch: 0,
-    rng,
+    rng: shuffled.rng,
     gameOver: false,
+    result: null,
   };
   const draft = cloneState(state);
+  seedEnemiesForRevealedTiles(draft, content, events);
   rollSource(draft);
   draft.turn.handWasEmptyAtStart = true;
   drawCards(draft, { content, events }, content.rulesConstants.startingHandSize);
@@ -728,7 +786,7 @@ function tileHexInfos(tile: PlacedTile, content: ContentBundle): HexInfo[] {
     return [];
   }
   return def.hexes.map((hex) => ({
-    hex: addHex(tile.origin, hex),
+    hex: addHex(tile.origin, rotateHex({ q: hex.q, r: hex.r }, tile.rotation)),
     terrain: hex.terrain,
     site: hex.site,
   }));
@@ -747,11 +805,11 @@ function revealedHexes(state: GameState, content: ContentBundle): Map<string, He
   return map;
 }
 
-function terrainCost(content: ContentBundle, terrain: string): number | null {
-  const entry = (content.rulesConstants.terrainMoveCost as Record<string, { day: number } | null>)[
-    terrain
-  ];
-  return entry === null || entry === undefined ? null : entry.day;
+function terrainCost(state: GameState, content: ContentBundle, terrain: string): number | null {
+  const entry = (
+    content.rulesConstants.terrainMoveCost as Record<string, { day: number; night: number } | null>
+  )[terrain];
+  return entry === null || entry === undefined ? null : entry[state.timeOfDay];
 }
 
 function reachableHexes(state: GameState, content: ContentBundle): Map<string, number> {
@@ -779,7 +837,7 @@ function reachableHexes(state: GameState, content: ContentBundle): Map<string, n
       if (info === undefined) {
         continue;
       }
-      const step = terrainCost(content, info.terrain);
+      const step = terrainCost(state, content, info.terrain);
       if (step === null) {
         continue;
       }
@@ -798,17 +856,25 @@ function reachableHexes(state: GameState, content: ContentBundle): Map<string, n
   return costs;
 }
 
-function canExplore(state: GameState, content: ContentBundle): boolean {
+function adjacentHiddenTile(state: GameState, content: ContentBundle): PlacedTile | undefined {
   const player = state.players[0];
   if (player === undefined) {
+    return undefined;
+  }
+  const playerNeighbors = new Set(neighbors(player.position).map((hex) => hexKey(hex)));
+  return state.map.tiles.find((tile) => {
+    if (tile.revealed) {
+      return false;
+    }
+    return tileHexInfos(tile, content).some((info) => playerNeighbors.has(hexKey(info.hex)));
+  });
+}
+
+function canExplore(state: GameState, content: ContentBundle): boolean {
+  if (state.turn.movePoints < content.rulesConstants.tileRevealCost) {
     return false;
   }
-  const hidden = state.map.tiles.find((tile) => !tile.revealed);
-  if (hidden === undefined || state.turn.movePoints < content.rulesConstants.tileRevealCost) {
-    return false;
-  }
-  const hiddenKeys = new Set(tileHexInfos(hidden, content).map((info) => hexKey(info.hex)));
-  return neighbors(player.position).some((hex) => hiddenKeys.has(hexKey(hex)));
+  return adjacentHiddenTile(state, content) !== undefined;
 }
 
 function siteAt(state: GameState, hex: Hex): { siteId: string; hex: Hex } | null {
@@ -994,7 +1060,10 @@ export function getLegalActions(state: GameState, content: ContentBundle): Legal
   if (canExplore(state, content)) {
     actions.push({ epoch, type: "explore" });
   }
-  if (enemiesAt(state, player.position).length > 0) {
+  if (
+    enemiesAt(state, player.position).length > 0 &&
+    state.turn.flags[`fought:${hexKey(player.position)}`] !== true
+  ) {
     actions.push({ epoch, type: "challengeRampaging" });
   }
   const site = siteAt(state, player.position);
@@ -1127,31 +1196,14 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
       return;
     }
     case "explore": {
-      const hidden = draft.map.tiles.find((tile) => !tile.revealed);
+      const hidden = adjacentHiddenTile(draft, content);
       if (hidden === undefined) {
         throw new Error("nothing to reveal");
       }
       hidden.revealed = true;
       draft.turn.movePoints -= content.rulesConstants.tileRevealCost;
       env.events.push({ type: "tileRevealed", tile: hidden.tileId, origin: hidden.origin });
-      for (const spawn of content.scenario.spawns) {
-        const tileDef = content.tiles[hidden.tileId];
-        const onTile =
-          tileDef?.hexes.some((hex) => hexesEqual(addHex(hidden.origin, hex), spawn.hex)) ?? false;
-        if (
-          onTile &&
-          !draft.map.enemies.some(
-            (enemy) => hexesEqual(enemy.hex, spawn.hex) && enemy.defId === spawn.enemyId,
-          )
-        ) {
-          draft.map.enemies.push({
-            instanceId: asEnemyInstanceId(`enemy:${draft.map.enemies.length}`),
-            defId: spawn.enemyId,
-            hex: spawn.hex,
-            alive: true,
-          });
-        }
-      }
+      seedEnemiesForRevealedTiles(draft, content, env.events);
       return;
     }
     case "enterSite": {
@@ -1171,6 +1223,7 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
       }
       const cost = action.points * def.healing.influencePerPoint;
       draft.turn.influence -= cost;
+      draft.turn.flags["healed"] = true;
       let healed = 0;
       for (let i = player.hand.length - 1; i >= 0 && healed < action.points; i -= 1) {
         const instance = player.hand[i];
@@ -1191,6 +1244,8 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
       if (enemyIds.length === 0) {
         throw new Error("no enemies here");
       }
+      // One combat per space per turn (02 §11); a failed assault waits for the next turn.
+      draft.turn.flags[`fought:${hexKey(player.position)}`] = true;
       draft.combat = {
         phase: "rangedSiege",
         enemies: enemyIds.map((instanceId) => ({
@@ -1422,6 +1477,7 @@ function advanceCombat(draft: Draft, env: Env): void {
   }
   draft.combat = null;
   env.events.push({ type: "combatEnded" });
+  resolveCityConquest(draft, env);
 }
 
 function assignDamage(draft: Draft, enemy: EnemyInstanceId, env: Env): void {
@@ -1493,11 +1549,47 @@ function assignAttack(draft: Draft, enemy: EnemyInstanceId, env: Env): void {
   if (combat.enemies.every((candidate) => candidate.defeated)) {
     draft.combat = null;
     env.events.push({ type: "combatEnded" });
+    resolveCityConquest(draft, env);
   }
+}
+
+/** If the last city soldier has fallen, the scenario is won (T1 scoring: fame + city fame). */
+function resolveCityConquest(draft: Draft, env: Env): void {
+  const city = env.content.scenario.city ?? null;
+  if (city === null || draft.gameOver) {
+    return;
+  }
+  const site = draft.map.sites.find(
+    (candidate) =>
+      (candidate.siteId as string) === city.siteId && hexesEqual(candidate.hex, city.hex),
+  );
+  if (site === undefined || site.conquered === true) {
+    return;
+  }
+  const garrison = draft.map.enemies.filter(
+    (enemy) => enemy.kind === "city" && hexesEqual(enemy.hex, city.hex),
+  );
+  if (garrison.length === 0 || garrison.some((enemy) => enemy.alive)) {
+    return;
+  }
+  site.conquered = true;
+  const player = draft.players[0];
+  const bonus = city.fame ?? 10;
+  const score = (player?.fame ?? 0) + bonus;
+  draft.gameOver = true;
+  draft.result = {
+    outcome: "victory",
+    score,
+    cityConquered: true,
+    reason: "city_conquered",
+  };
+  env.events.push({ type: "cityConquered", site: asSiteDefId(city.siteId), score });
+  env.events.push({ type: "gameEnded", round: draft.round, outcome: "victory", score });
 }
 
 function endTurn(draft: Draft, env: Env): void {
   const { content } = env;
+  const scenario = content.scenario;
   const player = draft.players[0];
   if (player === undefined) {
     return;
@@ -1511,26 +1603,35 @@ function endTurn(draft: Draft, env: Env): void {
   draft.turn.cardBoost = 0;
   env.events.push({ type: "turnEnded", player: player.id });
 
-  // End-of-turn draw (02 §15.1 step 7).
-  const handLimit = content.rulesConstants.heroHandLimit;
-  const missing = Math.max(0, handLimit - player.hand.length);
-  drawCards(draft, env, missing);
-
-  // T0 deviation: wounds stay in hand across turns so a multi-turn combat -> travel -> heal
-  // sequence is testable; T1 restores the 02 §15.2 round-end recycle into the deed deck.
-  const shuffled = shuffleWithRng([...player.deck, ...player.discard], draft.rng);
+  // End of round (02 §3.4 / §15.2): every hand card (including Wounds), the discard pile and
+  // the deck are shuffled into a new deed deck, then a fresh hand is drawn. The solo scenario
+  // has one hero turn per round, so turn end and round end share this pipeline.
+  const shuffled = shuffleWithRng([...player.deck, ...player.discard, ...player.hand], draft.rng);
   draft.rng = shuffled.rng;
   player.deck = shuffled.items;
   player.discard = [];
+  player.hand = [];
   env.events.push({ type: "roundEnded", round: draft.round });
 
-  if (draft.round >= content.scenario.roundCap) {
+  const pattern = scenario.timeOfDayPattern ?? null;
+  const roundLimit = pattern === null ? scenario.roundCap : pattern.length;
+  if (draft.round >= roundLimit) {
     draft.gameOver = true;
-    env.events.push({ type: "gameEnded", round: draft.round });
+    const score = player.fame;
+    draft.result = { outcome: "defeat", score, cityConquered: false, reason: "round_limit" };
+    env.events.push({
+      type: "gameEnded",
+      round: draft.round,
+      outcome: "defeat",
+      score,
+    });
     return;
   }
 
   draft.round += 1;
+  if (pattern !== null) {
+    draft.timeOfDay = pattern[draft.round - 1] ?? draft.timeOfDay;
+  }
   draft.turn = {
     number: 1,
     step: "movement",
@@ -1545,6 +1646,7 @@ function endTurn(draft: Draft, env: Env): void {
     flags: {},
   };
   rollSource(draft);
+  drawCards(draft, env, content.rulesConstants.startingHandSize);
   env.events.push({ type: "roundStarted", round: draft.round });
   env.events.push({ type: "sourceRolled", dice: draft.source.map((die) => die.color) });
   env.events.push({ type: "turnStarted", player: player.id });

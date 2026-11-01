@@ -1,6 +1,6 @@
 {
   "traceVersion": 1,
-  "contentHash": "cfcf9db281e7b43dac922b8775d4fcb3330e3e18d7cf805d0b85282dccf4f122",
+  "contentHash": "aa736dd9fbfe3bb358e7bf2b0d0a5a0ece71444f6768d7fca982bbb3a52b4926",
   "engineVersion": "0.1.0-spike",
   "rulesetId": "emberwold-spike",
   "seed": 1,
@@ -22,8 +22,8 @@
     }
   ],
   "expectedHashes": [
-    "2056690346c0e15733bc8581851bd98686e0a30075df5c7d5ccc8684349358cd",
-    "8b538179e96724117232aeede652abdaa199522f193e3e5a40bc9e56c5ba3366"
+    "6a3392bdb014b128cb903de75b1c6fe18652eae81e85611dff446d3227ae7a2c",
+    "8e61749ad50e3345aa1b323bf093a904821b2663d5a504fc9fd4eb03c6e22773"
   ],
   "expectedOutcome": {
     "round": 2,

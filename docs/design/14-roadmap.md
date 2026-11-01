@@ -59,7 +59,7 @@ end turn; deterministic replay of the trace; one human can play it via CLI witho
 **Exit (G1):** a stranger can take 10 turns unaided and wants another turn. **If not: stop,
 re-scope to T0.5 (smaller) or abandon — this is the cheapest place to quit.**
 
-### M3 — Core solo loop (T1, weeks 3–7)
+### M3 — Core solo loop (T1, weeks 3–7) — **in progress**
 
 Round/day-night loop, turn phases, movement/explore, core sites (6 types), combat, wounds/
 rest/heal, level-up + skills, dummy player, mana economy, scenario end + scoring, ~16 basic
@@ -68,7 +68,7 @@ city assault. *(Maps to `12` Phases 1–2, reduced content.)*
 
 **Exit:** a complete winnable/losable game exists headless. No UI required.
 
-### M4 — Playable client (T1, weeks 8–12)
+### M4 — Playable client (T1, weeks 8–12) — **in progress** (autosave/continue + undo landed)
 
 Board/cards/HUD, offers, level-up UI, combat overlay with phase rail and previews, site
 panels, save/load, undo, settings, basic tutorial for the first three rounds.

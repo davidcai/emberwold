@@ -24,7 +24,18 @@ import type {
 } from "@emberwold/shared";
 
 const ROOT = process.cwd();
-const CONFIG_PATH = join(ROOT, "tools/content-compiler/spike.config.json");
+const CONFIG_PATH = (() => {
+  const index = process.argv.indexOf("--config");
+  if (index >= 0) {
+    const value = process.argv[index + 1];
+    if (value === undefined) {
+      console.error("content-compiler: --config needs a path");
+      process.exit(1);
+    }
+    return resolve(value);
+  }
+  return join(ROOT, "tools/content-compiler/t1.config.json");
+})();
 const CONTENT_DIR = join(ROOT, "packages/content/src");
 const dataDirArg = process.argv.indexOf("--data-dir");
 const DATA_DIR =
@@ -33,12 +44,30 @@ const DATA_DIR =
 interface SpikeConfig {
   readonly schemaVersion: number;
   readonly hero: string;
-  readonly tiles: readonly { readonly tileId: string; readonly origin: { q: number; r: number } }[];
+  readonly scenarioId?: string;
+  readonly scenarioName?: string;
+  readonly tiles: readonly {
+    readonly tileId: string;
+    readonly origin: { q: number; r: number };
+    readonly rotation?: number;
+  }[];
   readonly enemies: readonly string[];
   readonly sites: readonly string[];
   readonly spawns: readonly { readonly enemyId: string; readonly hex: { q: number; r: number } }[];
   readonly roundCap: number;
   readonly startHex: { q: number; r: number };
+  readonly timeOfDayPattern?: readonly ("day" | "night")[];
+  readonly city?: {
+    readonly siteId: string;
+    readonly hex: { q: number; r: number };
+    readonly level: number;
+    readonly garrison: readonly string[];
+    readonly fame?: number;
+  } | null;
+  readonly siteSeeds?: readonly {
+    readonly siteId: string;
+    readonly hex: { q: number; r: number };
+  }[];
   readonly woundCard: CardDef;
   readonly supportedOps: readonly string[];
 }
@@ -166,6 +195,20 @@ function mapRulesConstants(item: RulesConstantsItem): RulesConstants {
   };
 }
 
+function rotateHex(hex: { q: number; r: number }, steps: number): { q: number; r: number } {
+  let q = hex.q;
+  let r = hex.r;
+  const turns = ((steps % 6) + 6) % 6;
+  for (let i = 0; i < turns; i += 1) {
+    const z = r;
+    const x = q;
+    const y = -x - z;
+    q = -z;
+    r = -y;
+  }
+  return { q, r };
+}
+
 function main(): void {
   const config = readJson<SpikeConfig>(CONFIG_PATH);
 
@@ -276,7 +319,8 @@ function main(): void {
       fail(`tile not mapped: ${placement.tileId}`);
     }
     for (const hex of def.hexes) {
-      const key = `${placement.origin.q + hex.q},${placement.origin.r + hex.r}`;
+      const rotated = rotateHex({ q: hex.q, r: hex.r }, placement.rotation ?? 0);
+      const key = `${placement.origin.q + rotated.q},${placement.origin.r + rotated.r}`;
       const owner = occupied.get(key);
       if (owner !== undefined) {
         fail(`tile placement overlap at ${key}: ${owner} and ${placement.tileId}`);
@@ -332,13 +376,17 @@ function main(): void {
     enemies: enemyDefs,
     sites: siteDefs,
     scenario: {
-      id: "scenario:spike",
+      id: config.scenarioId ?? "scenario:spike",
+      name: config.scenarioName ?? "Spike",
       roundCap: config.roundCap,
       heroId: hero.id,
       tiles: config.tiles,
       spawns: config.spawns,
       site: null,
       startHex: config.startHex,
+      timeOfDayPattern: config.timeOfDayPattern,
+      siteSeeds: config.siteSeeds,
+      city: config.city ?? null,
     },
     woundCard: config.woundCard,
   };
