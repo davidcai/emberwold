@@ -400,8 +400,12 @@ export function actionLabel(action: Action, state: GameState): string {
       const mana = action.mana === undefined ? "" : ` · ${paymentLabel(action.mana, state)}`;
       return `activate ${unit}${mana}`;
     }
-    case "assignDamage":
-      return `take the damage from ${enemyNameByInstance(state, action.enemy)}`;
+    case "assignDamage": {
+      const target = action.unit === undefined ? "hero" : unitNameByInstance(state, action.unit);
+      return `assign ${enemyNameByInstance(state, action.enemy)} damage to ${target}`;
+    }
+    case "healUnit":
+      return `heal ${unitNameByInstance(state, action.unit)}`;
     case "assignAttack":
       return `defeat ${enemyNameByInstance(state, action.enemy)}`;
     case "endCombatPhase":
@@ -479,6 +483,12 @@ export function eventLabel(event: GameEvent, state: GameState): string {
       return `recruited ${unitNameById(event.defId)}`;
     case "unitActivated":
       return `activated ${unitNameByInstance(state, event.unit)}`;
+    case "unitWounded":
+      return `${unitNameByInstance(state, event.unit)} wounded (${event.wounds})`;
+    case "unitDestroyed":
+      return `${unitNameByInstance(state, event.unit)} destroyed`;
+    case "unitHealed":
+      return `${unitNameByInstance(state, event.unit)} healed (${event.wounds} left)`;
     case "woundDiscarded":
       return `discarded ${plural(event.count, "wound")}`;
     case "enemySpawned":

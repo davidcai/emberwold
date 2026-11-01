@@ -51,7 +51,7 @@ export function parseSave(raw: string | null, expectedContentHash: string): Save
   if (!isRecord(state)) {
     return null;
   }
-  if (state.schemaVersion !== 1 || state.contentHash !== expectedContentHash) {
+  if (state.schemaVersion !== 2 || state.contentHash !== expectedContentHash) {
     return null;
   }
   if (!Array.isArray(state.players) || state.players.length === 0) {

@@ -234,24 +234,34 @@ in `14-roadmap` (M3 headless complete game, M4 browser game with placeholder art
     verified against contentHash `15c81fb0202e97c7c6b403d5f4e39f8fb909e0be3335ef38d37bf723db5d0bdd`,
     fuzz 10k seed 1 clean, `pnpm build` still ~95 KB gzipped.
 
+30. **T1-d2c done — unit damage assignment and unit healing**: combat damage can now be assigned
+    to unwounded units (`assignDamage` gains an optional `unit`), one Wound per assignment then
+    the unit's Armor absorbs the rest (leftover stays pending for the hero/another unit);
+    Poison wounds twice, Paralyze destroys the unit, Assassination forbids unit assignment;
+    wounded units cannot activate. Healing sites can heal a unit for its level in healing points
+    (new `healUnit` action/event), and unit wounds are shown in the client (wounds badge + heal
+    button; engine schemaVersion bumped to 2, old saves rejected by schema). Evidence: 81 tests
+    (new: armor absorption/leftover, poison/paralyze/assassination, heal + wounded-activation),
+    6 e2e, all 7 traces re-recorded/rehashed and verified, fuzz 10k clean.
+
 ## Next (ordered; first item is the exact next action)
 
 Each increment ends with tests, `pnpm verify` green, traces re-recorded, a small commit and a
 PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap.md` M3–M4.
 
-1. **T1-d2b content increment (next)** — the 4 artifacts (basic `gain_fame`, powered endless
-   mana), then remaining Advanced Actions/Spells, unit wounds/damage assignment,
-   keep/portal/city interactions, fame→reputation events, dummy fidelity and tactic effects. Each increment:
+1. **T1-d2d content increment (next)** — remaining Advanced Actions/Spells (interpreter ops
+   such as conditional/on_terrain/scaling), keep/portal/city interactions, fame→reputation
+   events, the 4 artifacts (acquisition rules still need an authored reward path), dummy
+   fidelity and tactic effects. Each increment:
    compiler + engine + tests + traces re-recorded, then a small commit.
 2. **T1 exit bookkeeping (done for engineering; owner gates open)** — ADR-011 records the
    engineering GO, `docs/design/t1-exit-report.md` v1.0 and roadmap/README/docs status are
    committed; the owner still owes the fun pass, T1 deviation sign-off, G2/G3 playtest, legal
    review, tutorial playthroughs and the 60 fps measurement.
-3. **Further T1/v1.0 content after those** — remaining Advanced Actions/Spells
-   (conditional/on_terrain, scaling, in_combat…), remaining hero skills, unit wounds/damage
-   assignment, city purchase options, keep/portal interactions, fame→reputation events
-   (assault −1, orc defeat +1), dummy fidelity and tactic effects. These are tracked as
-   explicit T1 debt in the exit report §6.
+3. **Further T1/v1.0 content after those** — remaining Advanced Actions/Spells, hero skills,
+   city purchase options, keep/portal interactions, fame→reputation events (assault −1, orc
+   defeat +1), dummy fidelity and tactic effects. These are tracked as explicit T1 debt in the
+   exit report §6.
 4. Owner actions left (cannot be done by the agent): 10-turn fun pass check, T0 deviation
    sign-off, external playtest (G2/G3), legal review, tutorial playthroughs, 60 fps measurement.
 
@@ -279,7 +289,7 @@ PROGRESS update. Remaining T1 scope: `docs/design/11-mvp-scope.md` + `14-roadmap
 - History: do not trust a pinned hash for "current HEAD" — run `git log --oneline -1` and
   `git status -sb`.
 - Toolchain: Node 24.22.1, pnpm 12.15.0 (pinned in `package.json`); `pnpm verify` = typecheck +
-  lint + 79 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (6
+  lint + 81 tests + dependency boundaries + 7 golden traces; `pnpm test:e2e` = Playwright (6
   tests: hero select, 3 persistence, 2 full-scenario replays); `pnpm test` alone; data validator
   `.venv/bin/python tools/validate_data.py` (local) / `python3 tools/validate_data.py` (CI, stdlib).
 - Source of truth docs: `docs/design/00-decisions.md` (**ADR-001…010**); T0 plan and steps in

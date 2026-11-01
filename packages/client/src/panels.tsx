@@ -775,8 +775,13 @@ export function RetinuePanel({ entries, state, onAction }: EntriesProps): ReactE
             const def = unitDefById(unit.defId);
             const unitEntries = entries.filter(
               (entry) =>
-                entry.action.type === "activateUnit" && entry.action.unit === unit.instanceId,
+                (entry.action.type === "activateUnit" || entry.action.type === "healUnit") &&
+                entry.action.unit === unit.instanceId,
             );
+            const healEntries = unitEntries.filter((entry) => entry.action.type === "healUnit");
+            for (const entry of healEntries) {
+              matched.add(entry.index);
+            }
             return (
               <li key={unit.instanceId} className="retinue-row">
                 <div className="retinue-head">
@@ -784,10 +789,27 @@ export function RetinuePanel({ entries, state, onAction }: EntriesProps): ReactE
                   <span className={unit.ready ? "badge badge-ready" : "badge"}>
                     {unit.ready ? "ready" : "spent"}
                   </span>
+                  {unit.wounds > 0 ? (
+                    <span className="badge badge-wounded">
+                      {unit.wounds === 1 ? "1 wound" : `${unit.wounds} wounds`}
+                    </span>
+                  ) : null}
                 </div>
                 <p className="muted-line">
                   level {def?.level ?? "?"} · armor {def?.armor ?? "?"}
                 </p>
+                {healEntries.length === 0 ? null : (
+                  <p className="ability-actions">
+                    {healEntries.map((entry) => (
+                      <ActionButton
+                        key={entry.index}
+                        entry={entry}
+                        label="heal unit"
+                        onAction={onAction}
+                      />
+                    ))}
+                  </p>
+                )}
                 {def === undefined ? null : (
                   <ul className="ability-list">
                     {def.abilities.map((ability, abilityIndex) => {

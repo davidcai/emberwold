@@ -1299,6 +1299,199 @@ describe("determinism and invariants", () => {
       wounds: 1,
     });
   });
+  it("lets unwounded units absorb damage with their armor", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      units: {
+        "unit:test_wall": {
+          id: "unit:test_wall",
+          name: "Test Wall",
+          level: 1,
+          influenceCost: 3,
+          armor: 3,
+          recruitSites: ["village"],
+          abilities: [],
+        },
+      },
+    };
+    let state = createGame({ seed: 9 }, content).state;
+    state = clone(state);
+    state.players[0]!.units = [
+      { instanceId: "unit:test" as never, defId: "unit:test_wall", ready: true, wounds: 0 },
+    ];
+    state.combat = {
+      phase: "assignDamage",
+      enemies: [
+        {
+          instanceId: "enemy:test" as never,
+          defId: "enemy:test_brute",
+          blocked: false,
+          defeated: false,
+        },
+      ],
+      attackPool: [],
+      blockPool: [],
+      pendingDamage: [{ enemyInstanceId: "enemy:test" as never, amount: 5 }],
+    };
+    const legal = legalOfType(state, content, (action) => action.type === "assignDamage");
+    expect(legal).toHaveLength(2);
+    const unitAction = legal.find((action) => (action as { unit?: string }).unit === "unit:test");
+    expect(unitAction).toBeDefined();
+    const outcome = applyOk(state, unitAction as Action, content);
+    expect(outcome.events).toContainEqual({
+      type: "unitWounded",
+      unit: "unit:test",
+      wounds: 1,
+    });
+    expect(outcome.events).toContainEqual({
+      type: "damageAssigned",
+      enemy: "enemy:test",
+      wounds: 1,
+    });
+    // 5 damage: one wound regardless, then 3 armor absorbs 3, 2 remain for the hero.
+    expect(outcome.state.combat?.pendingDamage).toEqual([
+      { enemyInstanceId: "enemy:test", amount: 2 },
+    ]);
+    expect(outcome.state.players[0]?.units[0]?.wounds).toBe(1);
+    const after = getLegalActions(outcome.state, content).actions;
+    expect(
+      after.some((action) => action.type === "assignDamage" && action.unit !== undefined),
+    ).toBe(false);
+  });
+
+  it("applies poison, paralyze, assassination and unit healing", () => {
+    const base = createFixtureContent();
+    const content: ContentBundle = {
+      ...base,
+      units: {
+        "unit:test_wall": {
+          id: "unit:test_wall",
+          name: "Test Wall",
+          level: 1,
+          influenceCost: 3,
+          armor: 1,
+          recruitSites: ["village"],
+          abilities: [{ manaCost: null, effect: { op: "gain_influence", amount: 1 }, text: "+1" }],
+        },
+      },
+      enemies: {
+        ...base.enemies,
+        "enemy:poisoner": {
+          id: "enemy:poisoner",
+          name: "Poisoner",
+          color: "green",
+          attack: 3,
+          attackElement: "physical",
+          armor: 3,
+          fame: 1,
+          resistances: [],
+          abilities: ["poison"],
+        },
+        "enemy:paralyzer": {
+          id: "enemy:paralyzer",
+          name: "Paralyzer",
+          color: "green",
+          attack: 3,
+          attackElement: "physical",
+          armor: 3,
+          fame: 1,
+          resistances: [],
+          abilities: ["paralyze"],
+        },
+        "enemy:assassin": {
+          id: "enemy:assassin",
+          name: "Assassin",
+          color: "green",
+          attack: 3,
+          attackElement: "physical",
+          armor: 3,
+          fame: 1,
+          resistances: [],
+          abilities: ["assassination"],
+        },
+      },
+    };
+    const fight = (defId: string) => {
+      let state = createGame({ seed: 9 }, content).state;
+      state = clone(state);
+      state.players[0]!.units = [
+        { instanceId: "unit:test" as never, defId: "unit:test_wall", ready: true, wounds: 0 },
+      ];
+      state.combat = {
+        phase: "assignDamage",
+        enemies: [
+          {
+            instanceId: "enemy:test" as never,
+            defId,
+            blocked: false,
+            defeated: false,
+          },
+        ],
+        attackPool: [],
+        blockPool: [],
+        pendingDamage: [{ enemyInstanceId: "enemy:test" as never, amount: 2 }],
+      };
+      return state;
+    };
+    const poisonState = fight("enemy:poisoner");
+    const poisonUnit = legalOfType(
+      poisonState,
+      content,
+      (action) => action.type === "assignDamage" && action.unit !== undefined,
+    );
+    expect(poisonUnit).toHaveLength(1);
+    const poisonOutcome = applyOk(poisonState, poisonUnit[0] as Action, content);
+    expect(poisonOutcome.state.players[0]?.units[0]?.wounds).toBe(2);
+
+    const paralyzeState = fight("enemy:paralyzer");
+    const paralyzeUnit = legalOfType(
+      paralyzeState,
+      content,
+      (action) => action.type === "assignDamage" && action.unit !== undefined,
+    );
+    const paralyzeOutcome = applyOk(paralyzeState, paralyzeUnit[0] as Action, content);
+    expect(paralyzeOutcome.state.players[0]?.units).toHaveLength(0);
+    expect(paralyzeOutcome.events).toContainEqual({
+      type: "unitDestroyed",
+      unit: "unit:test",
+    });
+
+    const assassinationState = fight("enemy:assassin");
+    expect(
+      legalOfType(
+        assassinationState,
+        content,
+        (action) => action.type === "assignDamage" && action.unit !== undefined,
+      ),
+    ).toHaveLength(0);
+
+    // Healing a wounded unit at a village costs its level in healing points.
+    let healState = createGame({ seed: 9 }, base).state;
+    healState = clone(healState);
+    healState.map.sites.push({ siteId: "site:village" as never, hex: { q: 1, r: 0 } });
+    healState.players[0]!.position = { q: 1, r: 0 };
+    healState.turn.flags["enteredSite:1,0"] = true;
+    healState.turn.influence = 3;
+    healState.players[0]!.units = [
+      { instanceId: "unit:test" as never, defId: "unit:test_wall", ready: true, wounds: 1 },
+    ];
+    const healContent: ContentBundle = { ...base, units: content.units };
+    const healAction = legalOfType(healState, healContent, (action) => action.type === "healUnit");
+    expect(healAction).toHaveLength(1);
+    const healed = applyOk(healState, healAction[0] as Action, healContent);
+    expect(healed.state.players[0]?.units[0]?.wounds).toBe(0);
+    expect(healed.state.turn.influence).toBe(0);
+    // Wounded units cannot activate.
+    const woundedState = clone(healed.state);
+    woundedState.players[0]!.units[0]!.wounds = 1;
+    expect(
+      getLegalActions(woundedState, healContent).actions.some(
+        (action) => action.type === "activateUnit",
+      ),
+    ).toBe(false);
+  });
+
   it("activates gained skills with per-turn and per-round usage limits", () => {
     const base = createFixtureContent();
     const content: ContentBundle = {

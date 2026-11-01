@@ -18,6 +18,7 @@ import {
   type Hex,
   type ManaColor,
   type RngState,
+  type UnitInstanceId,
 } from "@emberwold/shared";
 
 import {
@@ -45,7 +46,7 @@ import type {
 
 export const ENGINE_VERSION = "0.1.0-spike";
 export const RULESET_ID = "emberwold-spike" as const;
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
 const SOURCE_DICE = 3;
 const SOURCE_COLORS: readonly ManaColor[] = ["red", "blue", "green", "white", "gold", "black"];
 const BASIC_COLORS: readonly BasicManaColor[] = ["green", "blue", "red", "white"];
@@ -1070,6 +1071,26 @@ function combatLegality(state: GameState, content: ContentBundle): Action[] {
         type: "assignDamage",
         enemy: pending.enemyInstanceId,
       });
+      const enemy = combat.enemies.find(
+        (candidate) => candidate.instanceId === pending.enemyInstanceId,
+      );
+      const enemyDef = enemy === undefined ? undefined : enemyOf(content, enemy.defId);
+      if (
+        pending.amount > 0 &&
+        enemyDef !== undefined &&
+        !enemyDef.abilities.includes("assassination")
+      ) {
+        for (const unit of player.units) {
+          if (unit.wounds === 0) {
+            actions.push({
+              epoch: actionEpoch(state),
+              type: "assignDamage",
+              enemy: pending.enemyInstanceId,
+              unit: unit.instanceId,
+            });
+          }
+        }
+      }
     }
   }
   if (combat.phase === "attack") {
@@ -1206,6 +1227,16 @@ export function getLegalActions(state: GameState, content: ContentBundle): Legal
     if (points >= 1) {
       actions.push({ epoch, type: "buyHealing", points });
     }
+    for (const unit of player.units) {
+      const unitDef = content.units?.[unit.defId];
+      if (
+        unit.wounds > 0 &&
+        unitDef !== undefined &&
+        unitDef.level * siteDef.healing.influencePerPoint <= state.turn.influence
+      ) {
+        actions.push({ epoch, type: "healUnit", unit: unit.instanceId });
+      }
+    }
   }
   const enteredSite =
     siteDef !== undefined && state.turn.flags[`enteredSite:${hexKey(player.position)}`] === true;
@@ -1264,7 +1295,7 @@ export function getLegalActions(state: GameState, content: ContentBundle): Legal
   }
   for (const unit of player.units) {
     const unitDef = content.units?.[unit.defId];
-    if (!unit.ready || unitDef === undefined) {
+    if (!unit.ready || unit.wounds > 0 || unitDef === undefined) {
       continue;
     }
     unitDef.abilities.forEach((ability, abilityIndex) => {
@@ -1560,7 +1591,7 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
       draft.turn.influence -= unitDef.influenceCost;
       draft.offers.unit.splice(action.index, 1);
       const instance = asUnitInstanceId(`p1:unit:${draft.actionEpoch}:${unitId}`);
-      player.units.push({ instanceId: instance, defId: unitId, ready: true });
+      player.units.push({ instanceId: instance, defId: unitId, ready: true, wounds: 0 });
       env.events.push({ type: "influenceSpent", amount: unitDef.influenceCost });
       env.events.push({ type: "unitRecruited", unit: instance, defId: unitId });
       return;
@@ -1619,8 +1650,33 @@ function dispatch(draft: Draft, action: Action, env: Env): void {
       advanceCombat(draft, env);
       return;
     case "assignDamage":
-      assignDamage(draft, action.enemy, env);
+      assignDamage(draft, action.enemy, env, action.unit);
       return;
+    case "healUnit": {
+      const site = siteAt(draft, player.position);
+      const def = site === null ? undefined : content.sites[site.siteId];
+      if (def === undefined || def.healing === null) {
+        throw new Error("no healing here");
+      }
+      if (draft.turn.flags[`enteredSite:${hexKey(player.position)}`] !== true) {
+        throw new Error("interact first");
+      }
+      const unit = player.units.find((candidate) => candidate.instanceId === action.unit);
+      const unitDef = unit === undefined ? undefined : content.units?.[unit.defId];
+      if (unit === undefined || unitDef === undefined || unit.wounds <= 0) {
+        throw new Error("no wounded unit");
+      }
+      const cost = unitDef.level * def.healing.influencePerPoint;
+      if (draft.turn.influence < cost) {
+        throw new Error("not enough influence");
+      }
+      draft.turn.influence -= cost;
+      draft.turn.flags["healed"] = true;
+      unit.wounds -= 1;
+      env.events.push({ type: "influenceSpent", amount: cost });
+      env.events.push({ type: "unitHealed", unit: unit.instanceId, wounds: unit.wounds });
+      return;
+    }
     case "assignAttack":
       assignAttack(draft, action.enemy, env);
       return;
@@ -1848,7 +1904,12 @@ function advanceCombat(draft: Draft, env: Env): void {
   resolveCityConquest(draft, env);
 }
 
-function assignDamage(draft: Draft, enemy: EnemyInstanceId, env: Env): void {
+function assignDamage(
+  draft: Draft,
+  enemy: EnemyInstanceId,
+  env: Env,
+  unitInstanceId?: UnitInstanceId,
+): void {
   const combat = draft.combat;
   if (combat === null) {
     return;
@@ -1860,6 +1921,44 @@ function assignDamage(draft: Draft, enemy: EnemyInstanceId, env: Env): void {
   }
   const player = draft.players[0];
   if (player === undefined) {
+    return;
+  }
+  if (unitInstanceId !== undefined) {
+    const unit = player.units.find((candidate) => candidate.instanceId === unitInstanceId);
+    const unitDef = unit === undefined ? undefined : env.content.units?.[unit.defId];
+    const enemyInstance = combat.enemies.find(
+      (candidate) => candidate.instanceId === entry.enemyInstanceId,
+    );
+    const enemyDef =
+      enemyInstance === undefined ? undefined : enemyOf(env.content, enemyInstance.defId);
+    if (unit === undefined || unitDef === undefined) {
+      throw new Error("no such unit");
+    }
+    if (unit.wounds > 0) {
+      throw new Error("unit already wounded");
+    }
+    if (enemyDef === undefined) {
+      throw new Error("no such enemy");
+    }
+    const poison = enemyDef.abilities.includes("poison");
+    const paralyze = enemyDef.abilities.includes("paralyze");
+    const woundsPlaced = poison ? 2 : 1;
+    if (paralyze) {
+      player.units = player.units.filter((candidate) => candidate.instanceId !== unitInstanceId);
+      env.events.push({ type: "unitDestroyed", unit: unitInstanceId });
+    } else {
+      unit.wounds = Math.min(2, unit.wounds + woundsPlaced);
+      env.events.push({ type: "unitWounded", unit: unitInstanceId, wounds: unit.wounds });
+    }
+    const remaining = Math.max(0, entry.amount - unitDef.armor);
+    entry.amount = remaining;
+    env.events.push({ type: "damageAssigned", enemy, wounds: woundsPlaced });
+    if (remaining <= 0) {
+      combat.pendingDamage.splice(index, 1);
+    }
+    if (combat.pendingDamage.length === 0) {
+      combat.phase = "attack";
+    }
     return;
   }
   const wounds = woundsFromDamage(entry.amount, heroArmor(env.content, player.level));
@@ -2275,6 +2374,14 @@ export function checkInvariants(state: GameState, content: ContentBundle): reado
   }
   if (state.pending !== null && state.pending.choiceId.length === 0) {
     problems.push("pending choice without id");
+  }
+  for (const unit of player.units) {
+    if (content.units?.[unit.defId] === undefined) {
+      problems.push(`unknown unit ${unit.defId}`);
+    }
+    if (unit.wounds < 0 || unit.wounds > 2) {
+      problems.push(`unit ${unit.instanceId} has ${unit.wounds} wounds`);
+    }
   }
   for (const enemy of state.map.enemies) {
     if (content.enemies[enemy.defId] === undefined) {

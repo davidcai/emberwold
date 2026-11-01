@@ -84,6 +84,7 @@ export function groupActions(state: GameState, legal: readonly Action[]): Action
         break;
       case "useSkill":
       case "activateUnit":
+      case "healUnit":
         groups.retinue.push(entry);
         break;
       default:

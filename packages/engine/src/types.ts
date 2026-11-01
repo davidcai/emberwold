@@ -55,6 +55,8 @@ export interface UnitState {
   instanceId: UnitInstanceId;
   defId: string;
   ready: boolean;
+  /** Wound cards on the unit (0, 1 or 2 with Poison); wounded units cannot activate. */
+  wounds: number;
 }
 
 export interface PlayerState {
@@ -160,7 +162,7 @@ export interface GameResult {
 }
 
 export interface GameState {
-  schemaVersion: 1;
+  schemaVersion: 2;
   engineVersion: string;
   rulesetId: RulesetId;
   contentHash: string;
@@ -244,8 +246,9 @@ type ActionPayload =
   | { type: "useSkill"; skill: string }
   | { type: "discardCard"; card: CardInstanceId }
   | { type: "recruitUnit"; index: number }
+  | { type: "healUnit"; unit: UnitInstanceId }
   | { type: "activateUnit"; unit: UnitInstanceId; ability: number; mana?: ManaPayment }
-  | { type: "assignDamage"; enemy: EnemyInstanceId }
+  | { type: "assignDamage"; enemy: EnemyInstanceId; unit?: UnitInstanceId }
   | { type: "assignAttack"; enemy: EnemyInstanceId }
   | { type: "endCombatPhase" }
   | { type: "endTurn" };
@@ -288,6 +291,9 @@ export type GameEvent =
   | { type: "skillUsed"; skill: string }
   | { type: "unitRecruited"; unit: UnitInstanceId; defId: string }
   | { type: "unitActivated"; unit: UnitInstanceId; ability: number }
+  | { type: "unitWounded"; unit: UnitInstanceId; wounds: number }
+  | { type: "unitDestroyed"; unit: UnitInstanceId }
+  | { type: "unitHealed"; unit: UnitInstanceId; wounds: number }
   | { type: "woundDiscarded"; count: number }
   | { type: "enemySpawned"; enemy: EnemyInstanceId; defId: string }
   | { type: "combatStarted"; enemies: EnemyInstanceId[] }
